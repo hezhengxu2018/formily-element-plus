@@ -1,23 +1,21 @@
-import type { DefineComponent } from 'vue'
+import type { DefineComponent, InjectionKey, Ref } from 'vue'
 import {
   defineComponent,
-  provide,
   inject,
+  provide,
   readonly,
-  InjectionKey,
   ref,
-  Ref,
   toRef,
 } from 'vue'
 
-export type CreateContext<T> = {
+export interface CreateContext<T> {
   Provider?: DefineComponent
   Consumer?: DefineComponent
   injectKey: InjectionKey<Ref<T>>
 }
 
-export const createContext = <T>(defaultValue?: T): CreateContext<T> => {
-  const injectKey: InjectionKey<Ref<T>> = Symbol()
+export function createContext<T>(defaultValue?: T): CreateContext<T> {
+  const injectKey: InjectionKey<Ref<T>> = Symbol('formilyContext')
 
   return {
     Provider: defineComponent({
@@ -47,7 +45,7 @@ export const createContext = <T>(defaultValue?: T): CreateContext<T> => {
   }
 }
 
-export const useContext = <T>(context: CreateContext<T>) => {
+export function useContext<T>(context: CreateContext<T>) {
   const key = context.injectKey
   return inject(key, ref())
 }

@@ -1,4 +1,4 @@
-import { type Component, type VNode } from 'vue'
+import type { Component, VNode } from 'vue'
 
 export type SlotTypes =
   | Component

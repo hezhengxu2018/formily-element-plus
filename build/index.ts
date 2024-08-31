@@ -1,6 +1,6 @@
 import path from 'node:path'
 // import fs from 'fs-extra'
-// import glob from 'glob'
+// import glob from 'fast-glob'
 import { rimraf } from 'rimraf'
 // import { execa } from 'execa'
 // import { cwd } from './constants'
@@ -14,7 +14,7 @@ async function cleanupPackage(pattern: string) {
   return await rimraf(path.resolve(`${pattern}/{esm,lib,dist}`))
 }
 
-const buildPackage = async () => {
+async function buildPackage() {
   await buildRootStyle()
   await copyStyleFiles()
   await buildLibrary()
@@ -22,11 +22,11 @@ const buildPackage = async () => {
   // await fixDepsPaths()
 }
 
-const buildPackages = async () => {
+async function buildPackages() {
   await buildPackage()
 }
 
-export const build = async () => {
+export async function build() {
   await cleanupPackage('.')
   await buildPackages()
 }

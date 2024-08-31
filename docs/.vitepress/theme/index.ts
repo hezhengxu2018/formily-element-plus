@@ -1,14 +1,24 @@
-// https://vitepress.dev/guide/custom-theme
-import { h } from 'vue'
+import ElementPlus, {
+  ID_INJECTION_KEY,
+  ZINDEX_INJECTION_KEY,
+} from 'element-plus'
+
 import type { Theme } from 'vitepress'
-import DefaultTheme from 'vitepress/theme'
+import VPApp, { NotFound, globals } from '../vitepress'
+import { define } from '../utils/types'
+import 'uno.css'
 import './style.css'
 
-export default {
-  extends: DefaultTheme,
-  Layout: () => {
-    return h(DefaultTheme.Layout, undefined, {
-      // https://vitepress.dev/guide/extending-default-theme#layout-slots
-    })
+export default define<Theme>({
+  NotFound,
+  Layout: VPApp,
+  enhanceApp: ({ app }) => {
+    app.use(ElementPlus)
+    app.provide(ID_INJECTION_KEY, { prefix: 1024, current: 0 })
+    app.provide(ZINDEX_INJECTION_KEY, { current: 0 })
+
+    for (const [name, Comp] of globals) {
+      app.component(name, Comp)
+    }
   },
-} satisfies Theme
+})

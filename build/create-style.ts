@@ -1,6 +1,6 @@
-import { glob } from 'glob'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { glob } from 'glob'
 import fs from 'fs-extra'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -14,9 +14,9 @@ fs.writeFile(
   path.resolve(__dirname, '../src/style.ts'),
   `// auto generated code
 ${files
-  .map((path) => {
-    return `import '${path}'\n`
-  })
-  .join('')}`,
+    .map((path) => {
+      return `import '${path}'\n`
+    })
+    .join('')}`,
   'utf8',
 )

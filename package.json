@@ -1,51 +1,22 @@
 {
   "name": "@sliver/formily-element-plus",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
+  "author": "hezhengxu",
+  "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
-  "type": "module",
   "scripts": {
     "create:style": "tsx build/create-style",
     "build": "tsx build/index.ts",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "commit": "czg",
     "lint-staged": "lint-staged"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-git"
-    }
-  },
-  "lint-staged": {
-    "*.{vue,js,ts,jsx,tsx,md,json}": "eslint --fix"
-  },
-  "author": "hezhengxu",
-  "license": "MIT",
-  "devDependencies": {
-    "@commitlint/cli": "^19.4.0",
-    "@commitlint/config-conventional": "^19.2.2",
-    "@eslint/js": "^9.9.0",
-    "@types/node": "20",
-    "cz-git": "^1.9.4",
-    "czg": "^1.9.4",
-    "eslint": "^9.9.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-unicorn": "^55.0.0",
-    "execa": "^9.3.1",
-    "fs-extra": "^11.2.0",
-    "glob": "^11.0.0",
-    "globals": "^15.9.0",
-    "lint-staged": "^15.2.9",
-    "prettier": "^3.3.3",
-    "rimraf": "^6.0.1",
-    "tsx": "^4.17.0",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^8.2.0",
-    "vitepress": "^1.3.3"
   },
   "peerDependencies": {
     "@formily/core": "^2.3.2",
@@ -61,5 +32,60 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "vuedraggable": "^2.24.3"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^3.0.0",
+    "@commitlint/cli": "^19.4.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@eslint/js": "^9.9.0",
+    "@eslint/markdown": "^6.0.0",
+    "@iconify-json/ri": "^1.1.22",
+    "@mdit-vue/shared": "^2.1.3",
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "20",
+    "@vitejs/plugin-vue-jsx": "^4.0.1",
+    "@vue/shared": "^3.4.38",
+    "@vueuse/core": "^11.0.3",
+    "clipboard-copy": "^4.0.1",
+    "cz-git": "^1.9.4",
+    "czg": "^1.9.4",
+    "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-unicorn": "^55.0.0",
+    "eslint-plugin-vue": "^9.27.0",
+    "execa": "^9.3.1",
+    "fast-glob": "^3.3.2",
+    "fs-extra": "^11.2.0",
+    "glob": "^11.0.0",
+    "globals": "^15.9.0",
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.9",
+    "markdown-it": "^14.1.0",
+    "markdown-it-container": "^4.0.0",
+    "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "sass-embedded": "^1.77.8",
+    "tsx": "^4.17.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.2.0",
+    "unocss": "^0.62.3",
+    "unplugin-icons": "^0.19.2",
+    "unplugin-vue-components": "^0.27.4",
+    "unplugin-vue-macros": "^2.11.6",
+    "vite": "^5.4.2",
+    "vitepress": "^1.3.3",
+    "vitepress-sidebar": "^1.25.0",
+    "vue-eslint-parser": "^9.4.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-git"
+    }
+  },
+  "lint-staged": {
+    "*.{vue,js,ts,jsx,tsx,md,json}": "eslint --fix"
   }
 }

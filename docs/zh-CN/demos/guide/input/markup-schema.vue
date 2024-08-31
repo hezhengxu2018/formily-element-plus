@@ -1,0 +1,39 @@
+<script lang="ts" setup>
+import { createForm } from '@formily/core'
+import { FormProvider, createSchemaField } from '@formily/vue'
+import { FormItem, Input, Submit } from '@sliver/formily-element-plus'
+
+const form = createForm()
+const { SchemaField, SchemaStringField } = createSchemaField({
+  components: {
+    FormItem,
+    Input,
+  },
+})
+
+function log(value) {
+  console.log(value)
+}
+</script>
+
+<template>
+  <FormProvider :form="form">
+    <SchemaField>
+      <SchemaStringField
+        name="input"
+        title="输入框"
+        x-decorator="FormItem"
+        x-component="Input"
+      />
+      <SchemaStringField
+        name="textarea"
+        title="文本框"
+        x-decorator="FormItem"
+        x-component="Input.TextArea"
+      />
+    </SchemaField>
+    <Submit @submit="log">
+      提交
+    </Submit>
+  </FormProvider>
+</template>

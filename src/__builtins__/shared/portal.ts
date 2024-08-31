@@ -1,12 +1,13 @@
 import { defineComponent, onBeforeUnmount } from 'vue'
-import { h, Fragment } from '@formily/vue'
+import { Fragment, h } from '@formily/vue'
+
 export interface IPortalProps {
   id?: string | symbol
 }
 
 const PortalMap = new Map<string | symbol, any>()
 
-export const createPortalProvider = (id: string | symbol) => {
+export function createPortalProvider(id: string | symbol) {
   const Portal = defineComponent({
     name: 'PortalProvider',
     props: {

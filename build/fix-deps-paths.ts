@@ -1,9 +1,9 @@
-import fs from 'fs-extra'
 import path from 'node:path'
+import fs from 'fs-extra'
 import { glob } from 'glob'
-import { cwd, builderConfigs } from './constants'
+import { builderConfigs, cwd } from './constants'
 
-const cjsToEs = (contents: string) => {
+function cjsToEs(contents: string) {
   return contents.replaceAll(
     new RegExp(
       `${builderConfigs.targetLibName}\\/${builderConfigs.targetLibCjsDir}\\/`,
@@ -13,7 +13,7 @@ const cjsToEs = (contents: string) => {
   )
 }
 
-const esToCjs = (contents: string) => {
+function esToCjs(contents: string) {
   return contents.replaceAll(
     new RegExp(
       `${builderConfigs.targetLibName}\\/${builderConfigs.targetLibEsDir}\\/`,
@@ -23,13 +23,14 @@ const esToCjs = (contents: string) => {
   )
 }
 
-export const fixDepsPaths = async () => {
+export async function fixDepsPaths() {
   if (
-    !builderConfigs.targetLibName ||
-    !builderConfigs.targetLibCjsDir ||
-    !builderConfigs.targetLibEsDir
-  )
+    !builderConfigs.targetLibName
+    || !builderConfigs.targetLibCjsDir
+    || !builderConfigs.targetLibEsDir
+  ) {
     return
+  }
   return new Promise((resolve, reject) => {
     glob('{esm,lib}/**/*.{js,ts,less,scss}', { cwd })
       .then((files) => {

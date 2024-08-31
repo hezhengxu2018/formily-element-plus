@@ -1,3 +1,4 @@
+import path from 'node:path'
 import typescript from 'rollup-plugin-typescript2'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
@@ -8,14 +9,14 @@ import ignoreImport from 'rollup-plugin-ignore-import'
 import externalGlobals from 'rollup-plugin-external-globals'
 import dts from 'rollup-plugin-dts'
 import css from 'rollup-plugin-import-css'
-import { OutputOptions, rollup, RollupOptions } from 'rollup'
+import type { OutputOptions, RollupOptions } from 'rollup'
+import { rollup } from 'rollup'
 import { terser } from 'rollup-plugin-terser'
 import { paramCase } from 'param-case'
 import { pascalCase } from 'pascal-case'
-import { cwd, pkg, builderConfigs } from '../constants'
-import path from 'node:path'
+import { builderConfigs, cwd, pkg } from '../constants'
 
-const parseName = () => {
+function parseName() {
   const name = String(pkg?.name || '')
   const scope = paramCase(name.match(/@([^/]+)\//)?.[1])
   const moduleName = paramCase(name.replace(/@[^/]+\//, ''))
@@ -26,7 +27,7 @@ const parseName = () => {
   return { name, filename, scope, moduleName, rootName }
 }
 
-const buildAll = async (inputs: RollupOptions[]) => {
+async function buildAll(inputs: RollupOptions[]) {
   for (const input of inputs) {
     const { output, ...options } = input
     const bundle = await rollup(options)
@@ -34,12 +35,12 @@ const buildAll = async (inputs: RollupOptions[]) => {
   }
 }
 
-const presets = () => {
+function presets() {
   const externals = {
-    antd: 'Antd',
-    vue: 'Vue',
-    react: 'React',
-    moment: 'moment',
+    'antd': 'Antd',
+    'vue': 'Vue',
+    'react': 'React',
+    'moment': 'moment',
     'react-is': 'ReactIs',
     '@alifd/next': 'Next',
     'react-dom': 'ReactDOM',
@@ -75,7 +76,7 @@ const presets = () => {
   ]
 }
 
-const createEnvPlugin = (env = 'development') => {
+function createEnvPlugin(env = 'development') {
   return injectProcessEnv(
     {
       NODE_ENV: env,
@@ -87,7 +88,7 @@ const createEnvPlugin = (env = 'development') => {
   )
 }
 
-export const buildUmd = async () => {
+export async function buildUmd() {
   const { name, filename, moduleName, rootName } = parseName()
   const configs: RollupOptions[] = [
     {

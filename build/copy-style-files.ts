@@ -1,9 +1,9 @@
-import { glob } from 'glob'
 import path from 'node:path'
+import { glob } from 'glob'
 import fs from 'fs-extra'
 import { cwd } from './constants'
 
-export const copyStyleFiles = () => {
+export function copyStyleFiles() {
   return new Promise((resolve, reject) => {
     glob('src/**/*.{less,scss,sass,css}')
       .then((files) => {

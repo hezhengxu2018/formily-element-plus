@@ -1,9 +1,6 @@
 import { ElLoading } from 'element-plus'
 
-export const loading = async (
-  loadingText = 'Loading...',
-  processor: () => Promise<any>,
-) => {
+export async function loading(loadingText = 'Loading...', processor: () => Promise<any>) {
   let loadingInstance
   const loading = setTimeout(() => {
     loadingInstance = ElLoading.service({
@@ -13,7 +10,8 @@ export const loading = async (
   }, 100)
   try {
     return await processor()
-  } finally {
+  }
+  finally {
     loadingInstance?.close()
     clearTimeout(loading)
   }

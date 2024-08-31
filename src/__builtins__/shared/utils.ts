@@ -1,29 +1,29 @@
 export function isValidElement(element) {
   return (
-    isVueOptions(element) ||
-    (element &&
-      typeof element === 'object' &&
-      'componentOptions' in element &&
-      'context' in element &&
-      element.tag !== undefined)
+    isVueOptions(element)
+    || (element
+    && typeof element === 'object'
+    && 'componentOptions' in element
+    && 'context' in element
+    && element.tag !== undefined)
   ) // remove text node
 }
 
 export function isVnode(element: any): boolean {
   return (
-    element &&
-    typeof element === 'object' &&
-    'componentOptions' in element &&
-    'context' in element &&
-    element.tag !== undefined
+    element
+    && typeof element === 'object'
+    && 'componentOptions' in element
+    && 'context' in element
+    && element.tag !== undefined
   )
 }
 
 export function isVueOptions(options: any) {
   return (
-    options &&
-    (typeof options.template === 'string' ||
-      typeof options.render === 'function')
+    options
+    && (typeof options.template === 'string'
+    || typeof options.render === 'function')
   )
 }
 

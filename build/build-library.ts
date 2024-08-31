@@ -1,18 +1,20 @@
-import fs from 'fs-extra'
 import path from 'node:path'
+import process from 'node:process'
+import fs from 'fs-extra'
 import { execa } from 'execa'
 import { cwd } from './constants'
 
-const hasBuildConfig = async () => {
+async function hasBuildConfig() {
   try {
     await fs.access(path.resolve(cwd, 'tsconfig.build.json'))
     return true
-  } catch {
+  }
+  catch {
     return false
   }
 }
 
-const buildDefault = async (params: string[] = []) => {
+async function buildDefault(params: string[] = []) {
   const hasProjects = await hasBuildConfig()
   if (hasProjects) {
     params.push('--project', 'tsconfig.build.json', '--sourceRoot', 'lib')
@@ -20,7 +22,7 @@ const buildDefault = async (params: string[] = []) => {
   execa('tsc', params).stdout.pipe(process.stdout)
 }
 
-const buildEsm = async () => {
+async function buildEsm() {
   await buildDefault([
     '--module',
     'es2015',
@@ -31,7 +33,7 @@ const buildEsm = async () => {
   ])
 }
 
-export const buildLibrary = async () => {
+export async function buildLibrary() {
   await buildDefault()
   await buildEsm()
 }
