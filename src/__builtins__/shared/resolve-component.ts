@@ -1,4 +1,4 @@
-import type { DefineComponent, type VNode, h, isVNode, toRaw } from 'vue'
+import { type DefineComponent, type VNode, h, isVNode, toRaw } from 'vue'
 import type { SlotTypes } from '.'
 
 export function resolveComponent(child?: SlotTypes, props?: Record<string, any>) {

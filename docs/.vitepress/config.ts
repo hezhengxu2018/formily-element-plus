@@ -1,5 +1,4 @@
 import { defineConfig } from 'vitepress'
-import { generateSidebar } from 'vitepress-sidebar'
 import mdContainer from 'markdown-it-container'
 import type MarkdownIt from 'markdown-it'
 import externalLinkIcon from './plugins/external-link-icon'
@@ -7,6 +6,7 @@ import tableWrapper from './plugins/table-wrapper'
 import tooltip from './plugins/tooltip'
 import tag from './plugins/tag'
 import headers from './plugins/headers'
+import { sidebars } from './config/sidebar'
 import createDemoContainer from './plugins/demo'
 import { ApiTableContainer } from './plugins/api-table'
 
@@ -31,15 +31,7 @@ export default defineConfig({
       { text: 'Examples', link: '/markdown-examples' },
     ],
 
-    sidebar: generateSidebar({
-      documentRootPath: 'docs',
-      scanStartPath: './zh-CN/guide/',
-      resolvePath: '/zh-CN/guide/',
-      rootGroupLink: '/zh-CN/guide/',
-      rootGroupText: 'Guide',
-      includeFolderIndexFile: true,
-      useTitleFromFileHeading: true,
-    }),
+    sidebars,
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },

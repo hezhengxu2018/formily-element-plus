@@ -16,12 +16,12 @@ export function useSidebar() {
   const sidebars = computed(() => {
     if (page.value.frontmatter.sidebar === false)
       return []
-    return theme.value.sidebar
+    return theme.value.sidebars
   })
 
   return {
-    sidebars,
-    hasSidebar: sidebars.value.length > 0,
+    sidebars: sidebars.value['/guide/'],
+    hasSidebar: sidebars.value,
   }
 }
 

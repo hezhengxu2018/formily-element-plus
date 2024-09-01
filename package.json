@@ -5,8 +5,8 @@
   "description": "",
   "author": "hezhengxu",
   "license": "MIT",
-  "main": "lib",
-  "types": "lib/index.d.ts",
+  "main": "esm",
+  "types": "esm/index.d.ts",
   "scripts": {
     "create:style": "tsx build/create-style",
     "build": "tsx build/index.ts",
