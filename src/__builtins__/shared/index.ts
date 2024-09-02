@@ -1,6 +1,7 @@
 export * from './transform-component'
 export * from './resolve-component'
 export * from './create-context'
+export * from './load-config-provider'
 export * from './utils'
 export * from './portal'
 export * from './loading'

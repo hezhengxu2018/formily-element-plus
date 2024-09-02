@@ -34,6 +34,5 @@ async function buildEsm() {
 }
 
 export async function buildLibrary() {
-  await buildDefault()
   await buildEsm()
 }
