@@ -9,13 +9,13 @@ import overviewIcons from '~/components/overview-icons'
 
 const lang = useLang()
 const router = useRouter()
-const { sidebars } = useSidebar()
+const { sidebar } = useSidebar()
 
 const query = ref('')
 
 const locale = computed(() => overviewLocale[lang.value])
-const filteredSidebars = computed(() =>
-  sidebars.value
+const filteredsidebar = computed(() =>
+  sidebar.value
     .slice(1)
     .map(group => ({
       ...group,
@@ -54,7 +54,7 @@ function getIcon(link: string) {
 
     <div class="main-content">
       <div
-        v-for="(group, groupIndex) in filteredSidebars"
+        v-for="(group, groupIndex) in filteredsidebar"
         :key="groupIndex"
         class="component-group"
       >
@@ -91,7 +91,7 @@ function getIcon(link: string) {
       </div>
 
       <el-empty
-        v-if="!filteredSidebars.length"
+        v-if="!filteredsidebar.length"
         :description="locale['empty-description']"
       />
 

@@ -4,41 +4,73 @@
 
 ## Markup Schema 案例
 
-<dumi-previewer demoPath="guide/form-item/markup-schema" />
+:::demo
+
+form-item/markup-schema
+
+:::
 
 ## JSON Schema 案例
 
-<dumi-previewer demoPath="guide/form-item/json-schema" />
+:::demo
+
+form-item/json-schema
+
+:::
 
 ## Template 案例
 
-<dumi-previewer demoPath="guide/form-item/template" />
+:::demo
+
+form-item/template
+
+:::
 
 ## 常用属性案例
 
-<dumi-previewer demoPath="guide/form-item/common" />
+:::demo
+
+form-item/common
+
+:::
 
 ## 无边框案例
 
 设置去除组件边框
 
-<dumi-previewer demoPath="guide/form-item/bordered-none" />
+:::demo
+
+form-item/bordered-none
+
+:::
 
 ## 内嵌模式案例
 
 设置表单组件为内嵌模式
 
-<dumi-previewer demoPath="guide/form-item/inset" />
+:::demo
+
+form-item/inset
+
+:::
 
 ## 反馈信息定制案例
 
 可通过 `feedbackIcon` 传入指定反馈的按钮
 
-<dumi-previewer demoPath="guide/form-item/feedback" />
+:::demo
+
+form-item/feedback
+
+:::
 
 ## 尺寸控制案例
 
-<dumi-previewer demoPath="guide/form-item/size" />
+:::demo
+
+form-item/size
+
+:::
 
 ## API
 

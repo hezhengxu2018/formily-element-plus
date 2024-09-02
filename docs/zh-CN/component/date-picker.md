@@ -4,15 +4,27 @@
 
 ## Markup Schema 案例
 
-<dumi-previewer demoPath="guide/date-picker/markup-schema" />
+:::demo
+
+date-picker/markup-schema
+
+:::
 
 ## JSON Schema 案例
 
-<dumi-previewer demoPath="guide/date-picker/json-schema" />
+:::demo
+
+date-picker/json-schema
+
+:::
 
 ## Template 案例
 
-<dumi-previewer demoPath="guide/date-picker/template" />
+:::demo
+
+date-picker/template
+
+:::
 
 ## API
 

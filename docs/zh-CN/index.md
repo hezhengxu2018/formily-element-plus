@@ -34,4 +34,8 @@ $ npm install --save @formily/core @formily/vue @formily/element-plus
 
 ## 快速开始
 
-<dumi-previewer demoPath="index" :collapsed="false" />
+:::demo
+
+index
+
+:::

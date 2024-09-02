@@ -11,7 +11,7 @@ import {
   InputNumber,
   Select,
   TimePicker,
-} from '../../../index'
+} from '@sliver/formily-element-plus'
 
 function SuccessIcon() {
   return h('i', {

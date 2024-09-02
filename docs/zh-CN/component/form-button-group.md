@@ -4,7 +4,11 @@
 
 ## 使用案例
 
-<dumi-previewer demoPath="guide/form-button-group" />
+:::demo
+
+form-button-group
+
+:::
 
 ## API
 

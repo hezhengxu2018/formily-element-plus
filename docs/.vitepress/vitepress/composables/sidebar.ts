@@ -9,19 +9,19 @@ export function useSidebar() {
   // const lang = useLang()
   if (!page.value) {
     return {
-      sidebars: computed(() => []),
+      sidebar: computed(() => []),
       hasSidebar: computed(() => false),
     }
   }
-  const sidebars = computed(() => {
+  const sidebar = computed(() => {
     if (page.value.frontmatter.sidebar === false)
       return []
-    return theme.value.sidebars
+    return theme.value.sidebar
   })
 
   return {
-    sidebars: sidebars.value['/guide/'],
-    hasSidebar: sidebars.value,
+    sidebar: sidebar.value['/guide/'],
+    hasSidebar: sidebar.value,
   }
 }
 

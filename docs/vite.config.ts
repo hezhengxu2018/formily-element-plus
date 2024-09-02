@@ -17,6 +17,10 @@ const alias: Alias[] = [
     find: '~/',
     replacement: `${path.resolve(__dirname, './.vitepress/vitepress')}/`,
   },
+  {
+    find: '@sliver/formily-element-plus',
+    replacement: `${path.resolve(__dirname, '../src')}/`,
+  },
 ]
 
 export default defineConfig(async () => {

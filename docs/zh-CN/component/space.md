@@ -4,15 +4,27 @@
 
 ## Markup Schema 案例
 
-<dumi-previewer demoPath="guide/space/markup-schema" />
+:::demo
+
+space/markup-schema
+
+:::
 
 ## JSON Schema 案例
 
-<dumi-previewer demoPath="guide/space/json-schema" />
+:::demo
+
+space/json-schema
+
+:::
 
 ## Template 案例
 
-<dumi-previewer demoPath="guide/space/template" />
+:::demo
+
+space/template
+
+:::
 
 ## API
 

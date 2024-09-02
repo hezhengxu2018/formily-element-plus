@@ -6,15 +6,27 @@
 
 ## Markup Schema 案例
 
-<dumi-previewer demoPath="guide/upload/markup-schema" />
+:::demo
+
+upload/markup-schema
+
+:::
 
 ## JSON Schema 案例
 
-<dumi-previewer demoPath="guide/upload/json-schema" />
+:::demo
+
+upload/json-schema
+
+:::
 
 ## Template 案例
 
-<dumi-previewer demoPath="guide/upload/template" />
+:::demo
+
+upload/template
+
+:::
 
 ## API
 

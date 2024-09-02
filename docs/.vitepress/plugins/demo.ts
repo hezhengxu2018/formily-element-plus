@@ -1,8 +1,8 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import type MarkdownIt from 'markdown-it'
-import type Token from 'markdown-it/lib/token'
-import type Renderer from 'markdown-it/lib/renderer'
+import type Token from 'markdown-it/lib/token.mjs'
+import type Renderer from 'markdown-it/lib/renderer.mjs'
 
 interface ContainerOpts {
   marker?: string | undefined
@@ -29,10 +29,9 @@ function createDemoContainer(md: MarkdownIt): ContainerOpts {
         const sourceFileToken = tokens[idx + 2]
         let source = ''
         const sourceFile = sourceFileToken.children?.[0].content ?? ''
-
         if (sourceFileToken.type === 'inline') {
           source = fs.readFileSync(
-            path.resolve('./docs/zh-CN/demos', 'guide', `${sourceFile}.vue`),
+            path.resolve('./docs/zh-CN/demos', `${sourceFile}.vue`),
             'utf8',
           )
         }
@@ -44,7 +43,7 @@ function createDemoContainer(md: MarkdownIt): ContainerOpts {
         )}" path="${sourceFile}" raw-source="${encodeURIComponent(
           source,
         )}" description="${encodeURIComponent(md.render(description))}">
-  <template #source><ep-${sourceFile.replaceAll('/', '-')}/></template>`
+  <template #source><formily-ep-${sourceFile.replaceAll('/', '-')}/></template>`
       }
       else {
         return '</Demo>\n'

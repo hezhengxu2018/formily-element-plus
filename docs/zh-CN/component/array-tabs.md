@@ -6,11 +6,19 @@
 
 ## Markup Schema 案例
 
-<dumi-previewer demoPath="guide/array-tabs/markup-schema" />
+:::demo
+
+array-tabs/markup-schema
+
+:::
 
 ## JSON Schema 案例
 
-<dumi-previewer demoPath="guide/array-tabs/json-schema" />
+:::demo
+
+array-tabs/json-schema
+
+:::
 
 ## API
 

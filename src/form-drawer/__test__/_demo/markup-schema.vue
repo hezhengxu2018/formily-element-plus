@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { ElButton } from 'element-plus'
 import { createSchemaField } from '@formily/vue'
-import { FormDrawer, FormItem, FormLayout, Input } from '../../../index'
+import { FormDrawer, FormItem, FormLayout, Input } from '@sliver/formily-element-plus'
 
 const { SchemaField } = createSchemaField({
   components: {

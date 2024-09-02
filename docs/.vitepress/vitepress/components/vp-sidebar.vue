@@ -14,7 +14,7 @@ const { hasSidebar } = useSidebar()
 const lang = useLang()
 
 const sidebar = getSidebarConfig(
-  theme.value.sidebars,
+  theme.value.sidebar,
   page.value.relativePath,
   lang.value,
 )

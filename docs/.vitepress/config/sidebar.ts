@@ -22,7 +22,7 @@ function getComponentsSideBar() {
 
 // return sidebar with language configs.
 // this might create duplicated data but the overhead is ignorable
-function getSidebars() {
+function getsidebar() {
   return {
     '/guide/': getGuideSidebar(),
     '/component/': getComponentsSideBar(),
@@ -48,4 +48,4 @@ function mapPrefix(item: Item, lang: string, prefix = '') {
   }
 }
 
-export const sidebars = getSidebars()
+export const sidebar = getsidebar()

@@ -4,7 +4,11 @@
 
 ## 使用案例
 
-<dumi-previewer demoPath="guide/form" />
+:::demo
+
+form
+
+:::
 
 > 注意：想要实现回车提交，我们在使用 Submit 组件的时候不能给其传 submit 事件，否则回车提交会失效，这样做的目的是为了防止用户同时在多处写 submit 事件监听器，处理逻辑不一致的话，提交时很难定位问题。
 

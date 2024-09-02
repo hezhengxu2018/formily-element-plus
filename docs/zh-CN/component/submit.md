@@ -4,11 +4,19 @@
 
 ## 普通提交
 
-<dumi-previewer demoPath="guide/submit/base" />
+:::demo
+
+submit/base
+
+:::
 
 ## 防重提交
 
-<dumi-previewer demoPath="guide/submit/loading" />
+:::demo
+
+submit/loading
+
+:::
 
 ## API
 

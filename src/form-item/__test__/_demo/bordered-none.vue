@@ -10,7 +10,7 @@ import {
   InputNumber,
   Select,
   Switch,
-} from '../../../index'
+} from '@sliver/formily-element-plus'
 
 const form = createForm()
 const { SchemaField, SchemaStringField, SchemaBooleanField }

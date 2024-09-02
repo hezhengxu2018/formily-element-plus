@@ -11,15 +11,27 @@
 - 渲染函数内可以响应式能力
 - 上下文共享能力
 
-<dumi-previewer demoPath="guide/form-dialog/markup-schema" />
+:::demo
+
+form-dialog/markup-schema
+
+:::
 
 ## JSON Schema 案例
 
-<dumi-previewer demoPath="guide/form-dialog/json-schema" />
+:::demo
+
+form-dialog/json-schema
+
+:::
 
 ## Template 案例
 
-<dumi-previewer demoPath="guide/form-dialog/template" />
+:::demo
+
+form-dialog/template
+
+:::
 
 ## API
 

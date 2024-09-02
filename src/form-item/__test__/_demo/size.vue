@@ -12,7 +12,7 @@ import {
   Radio,
   Select,
   Switch,
-} from '../../../index'
+} from '@sliver/formily-element-plus'
 
 function Div(props, { slots }) {
   return <div {...props}>{slots?.default()}</div>

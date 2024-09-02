@@ -4,35 +4,67 @@
 
 ## Markup Schema 同步数据源案例
 
-<dumi-previewer demoPath="guide/select/markup-schema-sync" />
+:::demo
+
+select/markup-schema-sync
+
+:::
 
 ## Markup Schema 异步搜索案例
 
-<dumi-previewer demoPath="guide/select/markup-schema-async-search" />
+:::demo
+
+select/markup-schema-async-search
+
+:::
 
 ## Markup Schema 异步联动数据源案例
 
-<dumi-previewer demoPath="guide/select/markup-schema-async" />
+:::demo
+
+select/markup-schema-async
+
+:::
 
 ## JSON Schema 同步数据源案例
 
-<dumi-previewer demoPath="guide/select/json-schema-sync" />
+:::demo
+
+select/json-schema-sync
+
+:::
 
 ## JSON Schema 异步联动数据源案例
 
-<dumi-previewer demoPath="guide/select/json-schema-async" />
+:::demo
+
+select/json-schema-async
+
+:::
 
 ## Template 同步数据源案例
 
-<dumi-previewer demoPath="guide/select/template-sync" />
+:::demo
+
+select/template-sync
+
+:::
 
 ## Template 异步联动数据源案例
 
-<dumi-previewer demoPath="guide/select/template-async" />
+:::demo
+
+select/template-async
+
+:::
 
 ## Template 作用域插槽
 
-<dumi-previewer demoPath="guide/select/scope-slot" />
+:::demo
+
+select/scope-slot
+
+:::
 
 ## API
 

@@ -4,19 +4,35 @@
 
 ## Markup Schema 案例
 
-<dumi-previewer demoPath="guide/form-grid/markup-schema" />
+:::demo
+
+form-grid/markup-schema
+
+:::
 
 ## JSON Schema 案例
 
-<dumi-previewer demoPath="guide/form-grid/json-schema" />
+:::demo
+
+form-grid/json-schema
+
+:::
 
 ## 原生案例
 
-<dumi-previewer demoPath="guide/form-grid/native" />
+:::demo
+
+form-grid/native
+
+:::
 
 ## 查询表单实现案例
 
-<dumi-previewer demoPath="guide/form-grid/form" />
+:::demo
+
+form-grid/form
+
+:::
 
 ## API
 

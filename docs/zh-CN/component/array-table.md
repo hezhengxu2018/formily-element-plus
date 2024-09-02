@@ -6,19 +6,35 @@
 
 ## Markup Schema 案例
 
-<dumi-previewer demoPath="guide/array-table/markup-schema" />
+:::demo
+
+array-table/markup-schema
+
+:::
 
 ## JSON Schema 案例
 
-<dumi-previewer demoPath="guide/array-table/json-schema" />
+:::demo
+
+array-table/json-schema
+
+:::
 
 ## Effects 联动案例
 
-<dumi-previewer demoPath="guide/array-table/effects-markup-schema" />
+:::demo
+
+array-table/effects-markup-schema
+
+:::
 
 ## JSON Schema 联动案例
 
-<dumi-previewer demoPath="guide/array-table/effects-json-schema" />
+:::demo
+
+array-table/effects-json-schema
+
+:::
 
 ## API
 

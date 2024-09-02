@@ -1,10 +1,10 @@
-import type { Ref } from 'vue'
 import { computed, defineComponent, h, toRef } from 'vue'
-import type { Field } from '@formily/core'
 import { observer } from '@formily/reactive-vue'
 import { useField } from '@formily/vue'
 import { isArr, isValid } from '@formily/shared'
 import { ElTag } from 'element-plus'
+import type { Field } from '@formily/core'
+import type { Ref } from 'vue'
 import {
   composeExport,
   createContext,

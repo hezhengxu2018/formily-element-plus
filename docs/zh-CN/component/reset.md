@@ -6,15 +6,27 @@
 
 > 有默认值的控件无法清空
 
-<dumi-previewer demoPath="guide/reset/base" />
+:::demo
+
+reset/base
+
+:::
 
 ## 强制清空重置
 
-<dumi-previewer demoPath="guide/reset/force" />
+:::demo
+
+reset/force
+
+:::
 
 ## 强制清空重置并校验
 
-<dumi-previewer demoPath="guide/reset/validate" />
+:::demo
+
+reset/validate
+
+:::
 
 ## API
 

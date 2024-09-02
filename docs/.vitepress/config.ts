@@ -1,25 +1,6 @@
 import { defineConfig } from 'vitepress'
-import mdContainer from 'markdown-it-container'
-import type MarkdownIt from 'markdown-it'
-import externalLinkIcon from './plugins/external-link-icon'
-import tableWrapper from './plugins/table-wrapper'
-import tooltip from './plugins/tooltip'
-import tag from './plugins/tag'
-import headers from './plugins/headers'
-import { sidebars } from './config/sidebar'
-import createDemoContainer from './plugins/demo'
-import { ApiTableContainer } from './plugins/api-table'
-
-export function mdPlugin(md: MarkdownIt) {
-  md.use(headers)
-  md.use(externalLinkIcon)
-  md.use(tableWrapper)
-  md.use(tooltip)
-  md.use(tag)
-  md.use(mdContainer, 'demo', createDemoContainer(md))
-  md.use(ApiTableContainer)
-}
-
+import { sidebar } from './config/sidebar'
+import { mdPlugin } from './config/markdown-plugin'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Formily Element Plus',
@@ -30,9 +11,7 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'Examples', link: '/markdown-examples' },
     ],
-
-    sidebars,
-
+    sidebar,
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
     ],

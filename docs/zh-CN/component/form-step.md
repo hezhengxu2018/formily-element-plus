@@ -6,11 +6,19 @@
 
 ## Markup Schema 案例
 
-<dumi-previewer demoPath="guide/form-step/markup-schema" />
+:::demo
+
+form-step/markup-schema
+
+:::
 
 ## JSON Schema 案例
 
-<dumi-previewer demoPath="guide/form-step/json-schema" />
+:::demo
+
+form-step/json-schema
+
+:::
 
 ## API
 

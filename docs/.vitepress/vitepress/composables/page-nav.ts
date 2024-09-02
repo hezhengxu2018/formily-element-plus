@@ -10,7 +10,7 @@ export function usePageNav() {
 
   const candidates = computed(() => {
     const config = getSidebarConfig(
-      theme.value.sidebars,
+      theme.value.sidebar,
       page.value.relativePath,
       lang.value,
     )

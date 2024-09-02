@@ -4,15 +4,27 @@
 
 ## Markup Schema 案例
 
-<dumi-previewer demoPath="guide/password/markup-schema" />
+:::demo
+
+password/markup-schema
+
+:::
 
 ## JSON Schema 案例
 
-<dumi-previewer demoPath="guide/password/json-schema" />
+:::demo
+
+password/json-schema
+
+:::
 
 ## Template 案例
 
-<dumi-previewer demoPath="guide/password/template" />
+:::demo
+
+password/template
+
+:::
 
 ## API
 

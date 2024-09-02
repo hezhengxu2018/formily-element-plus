@@ -9,7 +9,7 @@ import {
   FormLayout,
   Input,
   Submit,
-} from '../../../index'
+} from '@sliver/formily-element-plus'
 
 const { SchemaField } = createSchemaField({
   components: {

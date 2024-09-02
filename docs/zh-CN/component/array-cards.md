@@ -6,8 +6,7 @@
 
 ## Markup Schema 案例
 
-<!-- <dumi-previewer demoPath="guide/array-cards/markup-schema" /> -->
-:::demo At last, this is an example with both icon and description.
+:::demo
 
 array-cards/markup-schema
 
@@ -15,15 +14,27 @@ array-cards/markup-schema
 
 ## JSON Schema 案例
 
-<dumi-previewer demoPath="guide/array-cards/json-schema" />
+:::demo
+
+array-cards/json-schema
+
+:::
 
 ## Effects 联动案例
 
-<dumi-previewer demoPath="guide/array-cards/effects-markup-schema" />
+:::demo
+
+array-cards/effects-markup-schema
+
+:::
 
 ## JSON Schema 联动案例
 
-<dumi-previewer demoPath="guide/array-cards/effects-json-schema" />
+:::demo
+
+array-cards/effects-json-schema
+
+:::
 
 ## API
 

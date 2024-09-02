@@ -133,18 +133,13 @@ function transformComponentMarkdown(id: string, componentId: string, code: strin
 
 ${linksText}`
 
-  const contributorsSection = `
-## ${footerLocale[lang].contributors}
-
-<Contributors id="${componentId}" />`
-
-  append.footers.push(sourceSection, isComponent ? contributorsSection : '')
+  append.footers.push(sourceSection)
 
   return code
 }
 
 function getExampleImports(componentId: string) {
-  const examplePath = path.resolve(docRoot, 'examples', componentId)
+  const examplePath = path.resolve(docRoot, 'zh-CN/demos/', componentId)
   if (!fs.existsSync(examplePath))
     return []
   const files = fs.readdirSync(examplePath)
@@ -154,10 +149,10 @@ function getExampleImports(componentId: string) {
     if (!/\.vue$/.test(item))
       continue
     const file = item.replace(/\.vue$/, '')
-    const name = camelize(`Ep-${componentId}-${file}`)
+    const name = camelize(`formily-ep-${componentId}-${file}`)
 
     imports.push(
-      `import ${name} from '../../examples/${componentId}/${file}.vue'`,
+      `import ${name} from '../demos/${componentId}/${file}.vue'`,
     )
   }
 

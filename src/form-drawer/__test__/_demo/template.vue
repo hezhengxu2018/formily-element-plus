@@ -7,7 +7,7 @@ import {
   FormItem,
   FormLayout,
   Input,
-} from '../../../index'
+} from '@sliver/formily-element-plus'
 
 async function handleOpen() {
   await FormDrawer({ title: '抽屉表单', size: '80%' }, () => (

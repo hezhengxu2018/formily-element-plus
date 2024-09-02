@@ -4,15 +4,27 @@
 
 ## Markup Schema 案例
 
-<dumi-previewer demoPath="guide/cascader/markup-schema" />
+:::demo
+
+cascader/markup-schema
+
+:::
 
 ## JSON Schema 案例
 
-<dumi-previewer demoPath="guide/cascader/json-schema" />
+:::demo
+
+cascader/json-schema
+
+:::
 
 ## Template 案例
 
-<dumi-previewer demoPath="guide/cascader/template" />
+:::demo
+
+cascader/template
+
+:::
 
 ## API
 

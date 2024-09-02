@@ -4,11 +4,19 @@
 
 ## 简单案例
 
-<dumi-previewer demoPath="guide/preview-text/base" />
+:::demo
+
+preview-text/base
+
+:::
 
 ## 扩展案例
 
-<dumi-previewer demoPath="guide/preview-text/extend" />
+:::demo
+
+preview-text/extend
+
+:::
 
 ## API
 
