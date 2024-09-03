@@ -1,6 +1,6 @@
 import path from 'node:path'
 import fs from 'fs-extra'
-import { glob } from 'glob'
+import glob from 'fast-glob'
 import { builderConfigs, cwd } from './constants'
 
 function cjsToEs(contents: string) {

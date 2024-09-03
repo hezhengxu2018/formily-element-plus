@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { glob } from 'glob'
+import glob from 'fast-glob'
 import fs from 'fs-extra'
 
 const __filename = fileURLToPath(import.meta.url)

@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { glob } from 'glob'
+import glob from 'fast-glob'
 import fs from 'fs-extra'
 import { cwd } from './constants'
 

@@ -172,5 +172,3 @@ function log(values) {
     </FormButtonGroup>
   </FormProvider>
 </template>
-
-<style lang="scss" scoped></style>
