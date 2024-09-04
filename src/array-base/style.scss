@@ -4,6 +4,10 @@ $array-base-prefix-cls: '#{$formily-prefix}-array-base';
 
 .#{$array-base-prefix-cls}-addition {
   transition: var(--el-transition-duration);
+
+  .el-icon + .el-link__inner {
+    margin-left: 8px;
+  }
 }
 
 .#{$array-base-prefix-cls}-remove {

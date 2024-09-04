@@ -15,20 +15,13 @@ import {
 import { FragmentComponent, useField, useFieldSchema } from '@formily/vue'
 import { clone, isValid, uid } from '@formily/shared'
 import type { ArrayField } from '@formily/core'
-import type { ButtonProps as ElButtonProps } from 'element-plus'
-import { ElButton } from 'element-plus'
+import type { LinkProps } from 'element-plus'
+import { ElLink } from 'element-plus'
 import type { Schema } from '@formily/json-schema'
-// import { HandleDirective } from 'vue-slicksort'
-import { ArrowDown, ArrowUp, Delete, Rank } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp, Delete, Plus, Rank } from '@element-plus/icons-vue'
 
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
-
-export interface IArrayBaseAdditionProps extends ElButtonProps {
-  title?: string
-  method?: 'push' | 'unshift'
-  defaultValue?: any
-}
 
 export interface ArrayBaseMixins {
   Addition?: typeof ArrayBaseAddition
@@ -202,12 +195,12 @@ const ArrayBaseSortHandle = defineComponent({
         return null
 
       return h(
-        ElButton,
+        ElLink,
         {
           directives: [{ name: 'handle' }],
           size: 'small',
-          type: 'text',
           icon: Rank,
+          underline: false,
           ...attrs,
           class: [`${prefixCls}-sort-handle`].concat(attrs.class as any),
         },
@@ -250,12 +243,13 @@ const ArrayBaseAddition = defineComponent({
       if (array?.field.value.pattern !== 'editable')
         return null
       return h(
-        ElButton,
+        ElLink,
         {
           ...attrs,
           ...props,
           class: `${prefixCls}-addition`,
-          icon: 'qax-icon-Alone-Plus',
+          icon: Plus,
+          underline: false,
           onClick: (e) => {
             if (array.props?.disabled)
               return
@@ -285,10 +279,10 @@ const ArrayBaseAddition = defineComponent({
 })
 
 const ArrayBaseRemove = defineComponent<
-  ElButtonProps & { title?: string, index?: number }
+  LinkProps & { index?: number }
 >({
   name: 'ArrayBaseRemove',
-  setup(props, { attrs }) {
+  setup(props, { attrs, slots }) {
     const indexRef = useIndex(props.index)
     const base = useArray()
     const prefixCls = `${stylePrefix}-array-base`
@@ -296,12 +290,12 @@ const ArrayBaseRemove = defineComponent<
       if (base?.field.value.pattern !== 'editable')
         return null
       return h(
-        ElButton,
+        ElLink,
         {
           class: `${prefixCls}-remove`,
-          type: 'text',
           size: 'small',
           icon: Delete,
+          underline: false,
           ...attrs,
           onClick: (e: MouseEvent) => {
             e.stopPropagation()
@@ -318,7 +312,7 @@ const ArrayBaseRemove = defineComponent<
           },
         },
         {
-          default: () => [props.title],
+          default: () => [slots.default?.()],
         },
       )
     }
@@ -326,10 +320,10 @@ const ArrayBaseRemove = defineComponent<
 })
 
 const ArrayBaseMoveDown = defineComponent<
-  ElButtonProps & { title?: string, index?: number }
+  LinkProps & { index?: number }
 >({
   name: 'ArrayBaseMoveDown',
-  setup(props, { attrs }) {
+  setup(props, { attrs, slots }) {
     const indexRef = useIndex(props.index)
     const base = useArray()
     const prefixCls = `${stylePrefix}-array-base`
@@ -337,11 +331,10 @@ const ArrayBaseMoveDown = defineComponent<
       if (base?.field.value.pattern !== 'editable')
         return null
       return h(
-        ElButton,
+        ElLink,
         {
           class: `${prefixCls}-move-down`,
           size: 'small',
-          type: 'text',
           icon: ArrowDown,
           ...attrs,
           onClick: (e: MouseEvent) => {
@@ -363,7 +356,7 @@ const ArrayBaseMoveDown = defineComponent<
           },
         },
         {
-          default: () => [props.title],
+          default: () => [slots.default?.()],
         },
       )
     }
@@ -371,10 +364,10 @@ const ArrayBaseMoveDown = defineComponent<
 })
 
 const ArrayBaseMoveUp = defineComponent<
-  ElButtonProps & { title?: string, index?: number }
+  LinkProps & { index?: number }
 >({
   name: 'ArrayBaseMoveUp',
-  setup(props, { attrs }) {
+  setup(props, { attrs, slots }) {
     const indexRef = useIndex(props.index)
     const base = useArray()
     const prefixCls = `${stylePrefix}-array-base`
@@ -382,12 +375,12 @@ const ArrayBaseMoveUp = defineComponent<
       if (base?.field.value.pattern !== 'editable')
         return null
       return h(
-        ElButton,
+        ElLink,
         {
           class: `${prefixCls}-move-up`,
           size: 'small',
-          type: 'text',
           icon: ArrowUp,
+          underline: false,
           ...attrs,
           onClick: (e: MouseEvent) => {
             e.stopPropagation()
@@ -408,7 +401,7 @@ const ArrayBaseMoveUp = defineComponent<
           },
         },
         {
-          default: () => [props.title],
+          default: () => [slots.default?.()],
         },
       )
     }

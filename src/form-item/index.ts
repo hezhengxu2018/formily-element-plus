@@ -1,8 +1,4 @@
-import type {
-  Component,
-
-  Ref,
-} from 'vue'
+import type { Component, Ref } from 'vue'
 import {
   defineComponent,
   h,

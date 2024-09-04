@@ -3,7 +3,7 @@ import type { ArrayField } from '@formily/core'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { observer } from '@formily/reactive-vue'
 import type { ISchema } from '@formily/json-schema'
-import Draggable from 'vuedraggable'
+import { VueDraggable } from 'vue-draggable-plus'
 
 import { stylePrefix } from '../__builtins__/configs'
 import { ArrayBase } from '../array-base'
@@ -75,24 +75,25 @@ const ArrayItemsInner = observer(
           }
 
           return h(
-            Draggable,
+            VueDraggable,
             {
               class: [`${prefixCls}-list`],
-              value: [],
-              list: dataSource,
+              modelValue: dataSource,
               handle: `.${stylePrefix}-array-base-sort-handle`,
-              itemKey: (item: any, index: number) => getKey(item, index),
-              onChange(evt: any) {
-                if (evt.moved) {
-                  const { oldIndex, newIndex } = evt.moved
-                  if (Array.isArray(keyMap)) {
-                    keyMap.splice(newIndex, 0, keyMap.splice(oldIndex, 1)[0])
-                  }
-                  field.move(oldIndex, newIndex)
+              animation: 150,
+              onEnd(evt) {
+                const { oldIndex, newIndex } = evt
+                if (Array.isArray(keyMap)) {
+                  keyMap.splice(newIndex, 0, keyMap.splice(oldIndex, 1)[0])
                 }
+                field.move(oldIndex, newIndex)
               },
             },
-            { item: itemSlot },
+            { default: () => dataSource
+              .map((element, index) => {
+                return itemSlot({ element, index })
+              }),
+            },
           )
         }
         const renderAddition = () => {

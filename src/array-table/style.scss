@@ -62,13 +62,12 @@ $array-table-prefix-cls: '#{$formily-prefix}-array-table';
     border: 2px dashed var(--el-border-color);
 
     &:hover {
-      background-color: var(--el-color-white);
+      background-color: var(--el-button-hover-text-color);;
       border-color: var(--el-border-color);
     }
 
-    &:active,
-    &:focus {
-      background-color: var(--el-color-white);
+    &:active {
+      background-color: var(--el-button-active-bg-color);
       border-color: var(--el-color-primary);
     }
   }
