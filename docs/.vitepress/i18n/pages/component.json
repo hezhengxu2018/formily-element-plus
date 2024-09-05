@@ -42,6 +42,51 @@
         }
       ]
     },
+    "senario": {
+      "text": "Scenario 场景组件",
+      "children": [
+        {
+          "link": "/array-cards",
+          "text": "ArrayCards 卡片列表"
+        },
+        {
+          "link": "/array-items",
+          "text": "ArrayItems 自增列表"
+        },
+        {
+          "link": "/array-table",
+          "text": "ArrayTable 自增表格"
+        },
+        {
+          "link": "/array-tabs",
+          "text": "ArrayTabs 自增选项卡"
+        },
+        {
+          "link": "/form-collapse",
+          "text": "FormCollapse 折叠面板"
+        },
+        {
+          "link": "/form-step",
+          "text": "FormStep 分步表单"
+        },
+        {
+          "link": "/form-tab",
+          "text": "FormTab 选项卡表单"
+        },
+        {
+          "link": "/form-dialog",
+          "text": "FormDialog 弹窗表单"
+        },
+        {
+          "link": "/form-drawer",
+          "text": "FormDrawer 抽屉表单"
+        },
+        {
+          "link": "/editable",
+          "text": "Editable 局部编辑器"
+        }
+      ]
+    },
     "input": {
       "text": "Input 输入组件",
       "children": [
@@ -92,51 +137,6 @@
         {
           "link": "/upload",
           "text": "Upload 上传"
-        }
-      ]
-    },
-    "senario": {
-      "text": "Scenario 场景组件",
-      "children": [
-        {
-          "link": "/array-cards",
-          "text": "ArrayCards 卡片列表"
-        },
-        {
-          "link": "/array-items",
-          "text": "ArrayItems 自增列表"
-        },
-        {
-          "link": "/array-table",
-          "text": "ArrayTable 自增表格"
-        },
-        {
-          "link": "/array-tabs",
-          "text": "ArrayTabs 自增选项卡"
-        },
-        {
-          "link": "/form-collapse",
-          "text": "FormCollapse 折叠面板"
-        },
-        {
-          "link": "/form-step",
-          "text": "FormStep 分步表单"
-        },
-        {
-          "link": "/form-tab",
-          "text": "FormTab 选项卡表单"
-        },
-        {
-          "link": "/form-dialog",
-          "text": "FormDialog 弹窗表单"
-        },
-        {
-          "link": "/form-drawer",
-          "text": "FormDrawer 抽屉表单"
-        },
-        {
-          "link": "/editable",
-          "text": "Editable 局部编辑器"
         }
       ]
     },

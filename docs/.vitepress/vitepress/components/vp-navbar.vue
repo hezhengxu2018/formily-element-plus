@@ -23,12 +23,13 @@ const currentLink = '/zh-CN/'
     <div class="header-container">
       <div class="logo-container">
         <a :href="currentLink">
-          <!-- <img
+          <img
             class="logo"
-            src="/images/element-plus-logo.svg"
-            alt="Element Plus Logo"
-          /> -->
+            src="/formily-logo.svg"
+            alt="Formily Logo"
+          >
         </a>
+        <span class="title">Formily Element Plus</span>
       </div>
       <div class="content">
         <VPNavbarSearch class="search" :options="theme.agolia" multilang />
@@ -51,17 +52,21 @@ const currentLink = '/zh-CN/'
   align-items: center;
   height: var(--header-height);
   > a {
-    height: 28px;
-    width: 128px;
+    width: 150px;
   }
   .logo {
     position: relative;
-    height: 100%;
+    vertical-align: middle;
+  }
+  .title {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 20px;
+    margin-left: 16px;
   }
 }
 .dark {
-  .logo {
-    filter: drop-shadow(2px 2px 6px #409eff);
+  .logo,.title {
+    filter: drop-shadow(2px 2px 6px #4569d4);
   }
 }
 </style>

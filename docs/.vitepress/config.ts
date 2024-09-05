@@ -16,6 +16,7 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
     ],
   },
+  head: [['link', { rel: 'icon', href: '/favicon.svg' }]],
   locales: {
     'zh-CN': {
       label: '简体中文',
