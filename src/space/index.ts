@@ -34,19 +34,19 @@ export const Space = defineComponent({
       // 获取子节点数量
       let items: VNode[] = []
       if (Array.isArray(children)) {
-        if (children.length === 1) {
-          if ((children[0].tag as string)?.endsWith('Fragment')) {
-            // Fragment hack
-            items = (children[0].componentOptions as { children: VNode[] })
-              ?.children
-          }
-          else {
-            items = children
-          }
-        }
-        else {
-          items = children
-        }
+        // if (children.length === 1) {
+        //   if ((children[0].tag as string)?.endsWith('Fragment')) {
+        //     // Fragment hack
+        //     items = (children[0].componentOptions as { children: VNode[] })
+        //       ?.children
+        //   }
+        //   else {
+        //     items = children
+        //   }
+        // }
+        // else {
+        // }
+        items = children
       }
       const len = items.length
 

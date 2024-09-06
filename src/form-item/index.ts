@@ -120,7 +120,7 @@ function split(messages: any[]) {
     if (!text)
       return buf
     return index < messages.length - 1
-      ? buf.concat([text, '  '])
+      ? buf.concat([text, ', '])
       : buf.concat([text])
   }, [])
 }
@@ -543,7 +543,7 @@ const Item = connect(
       const errorMessages = takeMessage()
       return {
         feedbackText: Array.isArray(errorMessages)
-          ? errorMessages.join(', ')
+          ? errorMessages.join('  ')
           : errorMessages,
         extra: props.extra || field.description,
       }

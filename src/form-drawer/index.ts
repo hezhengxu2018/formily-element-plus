@@ -32,7 +32,7 @@ import {
 } from 'vue'
 import {
   createPortalProvider,
-  getPortalContext,
+  getPortalProvides,
   isValidElement,
   loadElConfigProvider,
   loading,
@@ -346,8 +346,14 @@ export function FormDrawer(
       })
       env.app = createApp(ComponentConstructor, {
         drawerProps,
-        parent: getPortalContext(id as string | symbol),
       })
+      const provides = getPortalProvides(id as string)
+      for (const key in provides) {
+        if (Object.prototype.hasOwnProperty.call(provides, key)) {
+          const element = provides[key]
+          env.app.provide(key, element)
+        }
+      }
       env.instance = env.app.mount(env.root)
     }
     env.instance.visible = visible

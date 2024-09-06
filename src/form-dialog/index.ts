@@ -3,37 +3,18 @@ import { toJS } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
 import type { Form, IFormProps } from '@formily/core'
 import { createForm } from '@formily/core'
-import type {
-  IMiddleware,
-} from '@formily/shared'
-import {
-  applyMiddleware,
-  isBool,
-  isFn,
-  isNum,
-  isStr,
-} from '@formily/shared'
+import type { IMiddleware } from '@formily/shared'
+import { applyMiddleware, isBool, isFn, isNum, isStr } from '@formily/shared'
 import { ElButton, ElConfigProvider, ElDialog } from 'element-plus'
 import type {
   ElButton as ElButtonProps,
   ElDialog as ElDialogProps,
 } from 'element-plus'
-import type {
-  Component,
-  PropType,
-  VNode,
-} from 'vue'
-import {
-  Teleport,
-  createApp,
-  defineComponent,
-  h,
-  onMounted,
-  ref,
-} from 'vue'
+import type { Component, PropType, VNode } from 'vue'
+import { Teleport, createApp, defineComponent, h, onMounted, ref } from 'vue'
 import {
   createPortalProvider,
-  getPortalContext,
+  getPortalProvides,
   isValidElement,
   loadElConfigProvider,
   loading,
@@ -41,7 +22,9 @@ import {
   stylePrefix,
 } from '../__builtins__'
 
-interface FormDialogContentProps { form: Form }
+interface FormDialogContentProps {
+  form: Form
+}
 
 type FormDialogContent = Component | ((props: FormDialogContentProps) => VNode)
 
@@ -97,19 +80,19 @@ export interface IFormDialogComponentProps {
 
 export function FormDialog(
   title: IFormDialogProps | DialogTitle,
-  content: FormDialogContent,
+  content: FormDialogContent
 ): IFormDialog
 
 export function FormDialog(
   title: IFormDialogProps | DialogTitle,
   id: string | symbol,
-  content: FormDialogContent,
+  content: FormDialogContent
 ): IFormDialog
 
 export function FormDialog(
   title: DialogTitle,
   id: string,
-  content: FormDialogContent,
+  content: FormDialogContent
 ): IFormDialog
 
 export function FormDialog(
@@ -261,7 +244,6 @@ export function FormDialog(
                               default: () =>
                                 resolveComponent(
                                   cancelText || '取消',
-                                  // t('el.popconfirm.cancelButtonText')
                                 ),
                             },
                           ),
@@ -280,7 +262,6 @@ export function FormDialog(
                               default: () =>
                                 resolveComponent(
                                   okText || '确定',
-                                  // t('el.popconfirm.confirmButtonText')
                                 ),
                             },
                           ),
@@ -294,11 +275,18 @@ export function FormDialog(
           },
         }),
       )
-
       env.app = createApp(ComponentConstructor, {
         dialogProps,
-        parent: getPortalContext(id as string | symbol),
       })
+
+      const provides = getPortalProvides(id as string)
+      for (const key in provides) {
+        if (Object.prototype.hasOwnProperty.call(provides, key)) {
+          const element = provides[key]
+          env.app.provide(key, element)
+        }
+      }
+
       env.instance = env.app.mount(env.root)
     }
     env.instance.visible = visible
@@ -329,46 +317,48 @@ export function FormDialog(
 
       env.promise = new Promise((resolve, reject) => {
         loading(dialogProps.loadingText, () =>
-          applyMiddleware(props, env.openMiddlewares)).then((props) => {
-          env.form = env.form || createForm(props)
+          applyMiddleware(props, env.openMiddlewares))
+          .then((props) => {
+            env.form = env.form || createForm(props)
 
-          render(
-            true,
-            () => {
-              env.form
-                .submit(async () => {
-                  await applyMiddleware(env.form, env.confirmMiddlewares)
-                  resolve(toJS(env.form.values))
-                  if (dialogProps.beforeClose) {
-                    setTimeout(() => {
-                      dialogProps.beforeClose(() => {
-                        formDialog.close()
+            render(
+              true,
+              () => {
+                env.form
+                  .submit(async () => {
+                    await applyMiddleware(env.form, env.confirmMiddlewares)
+                    resolve(toJS(env.form.values))
+                    if (dialogProps.beforeClose) {
+                      setTimeout(() => {
+                        dialogProps.beforeClose(() => {
+                          formDialog.close()
+                        })
                       })
-                    })
-                  }
-                  else {
+                    }
+                    else {
+                      formDialog.close()
+                    }
+                  })
+                  .catch((e) => {
+                    console.warn(e)
+                  })
+              },
+              async () => {
+                await loading(dialogProps.loadingText, () =>
+                  applyMiddleware(env.form, env.cancelMiddlewares))
+                if (dialogProps.beforeClose) {
+                  dialogProps.beforeClose(() => {
                     formDialog.close()
-                  }
-                })
-                .catch((e) => {
-                  console.warn(e)
-                })
-            },
-            async () => {
-              await loading(dialogProps.loadingText, () =>
-                applyMiddleware(env.form, env.cancelMiddlewares))
-              if (dialogProps.beforeClose) {
-                dialogProps.beforeClose(() => {
+                  })
+                }
+                else {
                   formDialog.close()
-                })
-              }
-              else {
-                formDialog.close()
-              }
-              reject(new Error('cancel'))
-            },
-          )
-        }).catch(e => reject(e))
+                }
+                reject(new Error('cancel'))
+              },
+            )
+          })
+          .catch(e => reject(e))
       })
       return env.promise
     },

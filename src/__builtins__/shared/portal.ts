@@ -1,5 +1,5 @@
-import { defineComponent, onBeforeUnmount } from 'vue'
-import { Fragment, h } from '@formily/vue'
+import type { AppContext } from 'vue'
+import { defineComponent, getCurrentInstance, h, onBeforeUnmount } from 'vue'
 
 export interface IPortalProps {
   id?: string | symbol
@@ -16,29 +16,25 @@ export function createPortalProvider(id: string | symbol) {
         default: id,
       },
     },
-
-    setup(props) {
+    setup(props, { slots }) {
       onBeforeUnmount(() => {
-        const { id } = props
-        if (id && PortalMap.has(id)) {
+        if (props.id && PortalMap.has(props.id)) {
           PortalMap.delete(id)
         }
       })
-    },
 
-    render() {
-      const { id } = this
-      if (id && !PortalMap.has(id)) {
-        PortalMap.set(id, this)
+      // !HACK 不存在在官方类型声明中的属性值，可能有移除的风险
+      const { provides } = getCurrentInstance() as unknown as AppContext
+      if (props.id && !PortalMap.has(id)) {
+        PortalMap.set(props.id, provides)
       }
-
-      return h(Fragment, {}, this.$slots)
+      return () => h('div', slots.default())
     },
   })
 
   return Portal
 }
 
-export function getPortalContext(id: string | symbol) {
+export function getPortalProvides(id: string | symbol) {
   return PortalMap.get(id)
 }
