@@ -2,14 +2,9 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { camelize } from 'vue'
-import glob from 'fast-glob'
 import type { Plugin } from 'vite'
-import { getLang, languages } from '../utils/lang'
-import footerLocale from '../i18n/component/footer.json'
 
 type Append = Record<'headers' | 'footers' | 'scriptSetups', string[]>
-
-let compPaths: string[]
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -22,20 +17,9 @@ export function MarkdownTransform(): Plugin {
 
     enforce: 'pre',
 
-    async buildStart() {
-      const pattern = `{${[...languages, languages[0]].join(',')}}/component`
-
-      compPaths = await glob(pattern, {
-        cwd: docRoot,
-        absolute: true,
-        onlyDirectories: true,
-      })
-    },
-
     async transform(code, id) {
       if (!id.endsWith('.md'))
         return
-
       const componentId = path.basename(id, '.md')
       const append: Append = {
         headers: [],
@@ -44,10 +28,6 @@ export function MarkdownTransform(): Plugin {
       }
 
       code = transformVpScriptSetup(code, append)
-
-      if (compPaths.some(compPath => id.startsWith(compPath))) {
-        code = transformComponentMarkdown(id, componentId, code, append)
-      }
 
       return combineMarkdown(
         code,
@@ -94,47 +74,6 @@ function transformVpScriptSetup(code: string, append: Append) {
   const scriptSetup = matches?.[3] ?? ''
   if (scriptSetup)
     append.scriptSetups.push(scriptSetup)
-  return code
-}
-
-function transformComponentMarkdown(id: string, componentId: string, code: string, append: Append) {
-  const lang = getLang(id)
-  const docUrl = `/${docsDirName}/en-US/component/${componentId}.md`
-  const componentUrl = `/packages/components/${componentId}`
-  const styleUrl = `/packages/theme-chalk/src/${componentId}.scss`
-
-  const componentPath = path.resolve(
-    projRoot,
-    `packages/components/${componentId}`,
-  )
-  const stylePath = path.resolve(
-    projRoot,
-    `packages/theme-chalk/src/${componentId}.scss`,
-  )
-
-  const isComponent = fs.existsSync(componentPath)
-  const isHaveComponentStyle = fs.existsSync(stylePath)
-
-  const links = [[footerLocale[lang].docs, docUrl]]
-
-  if (isComponent && isHaveComponentStyle)
-    links.unshift([footerLocale[lang].style, styleUrl])
-
-  if (isComponent)
-    links.unshift([footerLocale[lang].component, componentUrl])
-
-  const linksText = links
-    .filter(Boolean)
-    .map(([text, link]) => `[${text}](${link})`)
-    .join(' • ')
-
-  const sourceSection = `
-## ${footerLocale[lang].source}
-
-${linksText}`
-
-  append.footers.push(sourceSection)
-
   return code
 }
 

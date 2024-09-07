@@ -66,7 +66,6 @@
     --sidebar-z-index: 11;
     --sidebar-z-index-mobile: 31;
     --overlay-z-index: 30;
-    // --dropdown-z-index: 22;
   
     // code block vars
     --code-line-height: 1.4;
@@ -83,6 +82,10 @@
   
     // link
     --link-active-bg-color: rgba(var(--formily-primary-rgb), 0.05);
+  }
+
+  .toc-wrapper .toc-content {
+    --el-color-primary: var(--formily-primary);
   }
 }
 

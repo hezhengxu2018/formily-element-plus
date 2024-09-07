@@ -2,22 +2,22 @@ import { ensureLang } from '../utils/lang'
 import guideLocale from '../i18n/pages/guide.json'
 import componentLocale from '../i18n/pages/component.json'
 
-function getGuideSidebar() {
+function getGuideSidebar(locale: string = 'zh-CN') {
   return Object.fromEntries(
     Object.entries(guideLocale).map(([lang, val]) => [
       lang,
       Object.values(val).map(item => mapPrefix(item, lang)),
     ]),
-  )
+  )[locale]
 }
 
-function getComponentsSideBar() {
+function getComponentsSideBar(locale: string = 'zh-CN') {
   return Object.fromEntries(
     Object.entries(componentLocale).map(([lang, val]) => [
       lang,
       Object.values(val).map(item => mapPrefix(item, lang, '/component')),
     ]),
-  )
+  )[locale]
 }
 
 // return sidebar with language configs.

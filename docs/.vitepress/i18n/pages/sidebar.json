@@ -1,19 +1,9 @@
 {
   "zh-CN": [
     {
-      "text": "Guide",
-      "link": "/guide/design",
-      "activeMatch": "/guide/"
-    },
-    {
-      "text": "Component",
+      "text": "组件",
       "link": "/component/overview",
       "activeMatch": "/component/"
-    },
-    {
-      "text": "Resource",
-      "link": "/resource/index",
-      "activeMatch": "/resource/"
     }
   ]
 }

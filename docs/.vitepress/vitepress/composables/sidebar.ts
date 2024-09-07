@@ -1,27 +1,32 @@
 import { computed } from 'vue'
-import { useData } from 'vitepress'
+import { useData, useRoute } from 'vitepress'
 import { ensureStartingSlash } from '../utils'
-// import { useLang } from './lang'
+import { useLang } from './lang'
 
 export function useSidebar() {
-  // const route = useRoute()
-  const { theme, page } = useData()
-  // const lang = useLang()
+  const route = useRoute()
+  const { site, page } = useData()
+  const lang = useLang()
   if (!page.value) {
     return {
-      sidebar: computed(() => []),
+      sidebars: computed(() => []),
       hasSidebar: computed(() => false),
     }
   }
-  const sidebar = computed(() => {
+  const sidebars = computed(() => {
     if (page.value.frontmatter.sidebar === false)
       return []
-    return theme.value.sidebar
+    const sidebars = getSidebarConfig(
+      site.value.themeConfig.sidebar,
+      route.data.relativePath,
+      lang.value,
+    )
+    return sidebars
   })
 
   return {
-    sidebar: sidebar.value['/guide/'],
-    hasSidebar: sidebar.value,
+    sidebars,
+    hasSidebar: computed(() => sidebars.value.length > 0),
   }
 }
 
@@ -38,6 +43,7 @@ export function isSideBarEmpty(sidebar) {
 interface SidebarItem {
   text: string
   link: string
+  children?: SidebarItem[]
 }
 
 type SidebarConfig = SidebarItem[]
@@ -58,7 +64,7 @@ export function getSidebarConfig(sidebar: Sidebar, path: string, lang: string) {
   for (const dir in sidebar) {
     // make sure the multi sidebar key starts with slash too
     if (path.startsWith(ensureStartingSlash(`${lang}${dir}`))) {
-      return sidebar[dir][lang]
+      return sidebar[dir]
     }
   }
   return []

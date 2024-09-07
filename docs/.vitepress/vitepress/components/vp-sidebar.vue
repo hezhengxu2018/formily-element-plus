@@ -1,23 +1,12 @@
 <script lang="ts" setup>
-import { useData } from 'vitepress'
-import { useLang } from '../composables/lang'
-import { getSidebarConfig, useSidebar } from '../composables/sidebar'
+import { useSidebar } from '../composables/sidebar'
 
 import VPSidebarLink from './sidebar/vp-sidebar-link.vue'
 
 defineProps<{ open: boolean }>()
 defineEmits(['close'])
 
-// const isHome = useIsHome()
-const { page, theme } = useData()
-const { hasSidebar } = useSidebar()
-const lang = useLang()
-
-const sidebar = getSidebarConfig(
-  theme.value.sidebar,
-  page.value.relativePath,
-  lang.value,
-)
+const { sidebars, hasSidebar } = useSidebar()
 </script>
 
 <template>
@@ -25,7 +14,7 @@ const sidebar = getSidebarConfig(
     <aside>
       <slot name="top" />
       <div class="sidebar-groups">
-        <section v-for="(item, key) of sidebar" :key="key" class="sidebar-group">
+        <section v-for="(item, key) of sidebars" :key="key" class="sidebar-group">
           <p class="sidebar-group__title">
             {{ item.text }}
           </p>

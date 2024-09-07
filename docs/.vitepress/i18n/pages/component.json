@@ -21,12 +21,12 @@
           "text": "FormGrid 网格布局表单"
         },
         {
-          "link": "/form-item",
-          "text": "FormItem 表单项"
+          "link": "/space",
+          "text": "Space 弹性盒子布局表单"
         },
         {
-          "link": "/space",
-          "text": "Space 表单项Flex布局"
+          "link": "/form-item",
+          "text": "FormItem 表单项"
         },
         {
           "link": "/submit",
@@ -39,6 +39,10 @@
         {
           "link": "/form-button-group",
           "text": "FormButtonGroup 按钮布局"
+        },
+        {
+          "link": "/form",
+          "text": "Form 表单"
         }
       ]
     },

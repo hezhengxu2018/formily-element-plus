@@ -6,7 +6,7 @@
 
 :::demo
 
-form-button-group
+form-button-group/index
 
 :::
 

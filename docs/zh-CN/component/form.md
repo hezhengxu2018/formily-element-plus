@@ -6,7 +6,7 @@
 
 :::demo
 
-form
+form/form
 
 :::
 

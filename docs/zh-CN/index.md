@@ -22,20 +22,3 @@ hero:
 <ClientOnly>
   <ParallaxHome />
 </ClientOnly>
-
-# 安装
-
-vue3:
-
-```bash
-$ npm install --save element-plus
-$ npm install --save @formily/core @formily/vue @formily/element-plus
-```
-
-## 快速开始
-
-:::demo
-
-index
-
-:::
