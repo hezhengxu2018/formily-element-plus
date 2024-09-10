@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename)
 const alias: Alias[] = [
   {
     find: '~/',
-    replacement: `${path.resolve(__dirname, './.vitepress/vitepress')}/`,
+    replacement: `${path.resolve(__dirname, './.vitepress/theme')}/`,
   },
   {
     find: '@sliver/formily-element-plus',

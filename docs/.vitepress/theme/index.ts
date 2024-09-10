@@ -4,8 +4,8 @@ import ElementPlus, {
 } from 'element-plus'
 
 import type { Theme } from 'vitepress'
-import VPApp, { NotFound, globals } from '../vitepress'
 import { define } from '../utils/types'
+import VPApp, { NotFound, globals } from './app'
 import 'uno.css'
 import './style.css'
 
