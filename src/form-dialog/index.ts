@@ -179,6 +179,7 @@ export function FormDialog(
               ElDialog,
               {
                 'class': [`${prefixCls}`],
+                'zIndex': elConfig.zIndex,
                 ...dialogProps,
                 'modelValue': this.visible,
                 'onUpdate:modelValue': (val) => {

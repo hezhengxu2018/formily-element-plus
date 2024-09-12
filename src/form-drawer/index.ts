@@ -228,6 +228,7 @@ export function FormDrawer(
                       ElDrawer,
                       {
                         'class': `${prefixCls}`,
+                        'zIndex': elConfig.zIndex,
                         ...drawerProps,
                         'modelValue': this.visible,
                         'onUpdate:modelValue': (val) => {
