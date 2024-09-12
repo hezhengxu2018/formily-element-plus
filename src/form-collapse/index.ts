@@ -80,14 +80,11 @@ function createFormCollapse(defaultActiveKeys?: ActiveKeys) {
       formCollapse.activeKeys = toArr(formCollapse.activeKeys).concat(key)
     },
     removeActiveKey(key: ActiveKey) {
-      if (Array.isArray(formCollapse.activeKeys)) {
-        formCollapse.activeKeys = formCollapse.activeKeys.filter(
+      formCollapse.activeKeys = Array.isArray(formCollapse.activeKeys)
+        ? formCollapse.activeKeys.filter(
           item => item !== key,
         )
-      }
-      else {
-        formCollapse.activeKeys = ''
-      }
+        : ''
     },
     toggleActiveKey(key: ActiveKey) {
       if (formCollapse.hasActiveKey(key)) {

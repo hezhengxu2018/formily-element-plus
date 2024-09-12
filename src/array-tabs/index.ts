@@ -50,7 +50,7 @@ export const ArrayTabs = observer(
             type: 'error',
             address: `${path}.**`,
           })
-          if (errors.length) {
+          if (errors.length > 0) {
             return h(
               'span',
               {},

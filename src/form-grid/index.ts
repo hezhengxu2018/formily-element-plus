@@ -107,17 +107,17 @@ const FormGridInner = observer(
 
       const gridInstance = computed(() => {
         const newProps: IFormGridProps = {}
-        Object.keys(props).forEach((key) => {
-          if (typeof props[key] !== 'undefined') {
+        for (const key of Object.keys(props)) {
+          if (props[key] !== undefined) {
             newProps[key] = props[key]
           }
-        })
+        }
         const options = {
           columnGap: layout.value?.gridColumnGap ?? 8,
           rowGap: layout.value?.gridRowGap ?? 4,
           ...newProps,
         }
-        return markRaw(options?.grid ? options.grid : new Grid(options))
+        return markRaw(options?.grid ?? new Grid(options))
       })
       const prefixCls = `${stylePrefix}-form-grid`
 

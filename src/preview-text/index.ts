@@ -83,10 +83,10 @@ const Select = observer(
         const selected = getSelected()
         const dataSource: any[] = field?.dataSource?.length
           ? field.dataSource
-          : props?.options?.length
-            ? props.options
-            : []
-        if (!selected.length) {
+          : (props?.options?.length
+              ? props.options
+              : [])
+        if (selected.length === 0) {
           return h(
             ElTag,
             {},
@@ -137,9 +137,9 @@ const Cascader = observer(
       const props = attrs as unknown as CascaderProps
       const dataSource: any[] = field?.dataSource?.length
         ? field.dataSource
-        : props?.options?.length
-          ? props.options
-          : []
+        : (props?.options?.length
+            ? props.options
+            : [])
       const placeholder = usePlaceholder()
       const valueKey = props.props?.value || 'value'
       const labelKey = props.props?.label || 'label'

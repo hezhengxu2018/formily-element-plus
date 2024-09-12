@@ -70,14 +70,11 @@ function isDrawerTitle(props: any): props is DrawerTitle {
 }
 
 function getDrawerProps(props: any): IFormDrawerProps {
-  if (isDrawerTitle(props)) {
-    return {
-      title: props,
-    } as IFormDrawerProps
-  }
-  else {
-    return props
-  }
+  return isDrawerTitle(props)
+    ? {
+        title: props,
+      } as IFormDrawerProps
+    : props
 }
 
 export interface IFormDrawer {
@@ -159,7 +156,7 @@ export function FormDrawer(
 
   const elConfig = loadElConfigProvider()
 
-  document.body.appendChild(env.root)
+  document.body.append(env.root)
 
   const props = getDrawerProps(title)
   const drawerProps = {
@@ -169,7 +166,7 @@ export function FormDrawer(
       env.app.unmount()
       env.app = null
       env.instance = null
-      env.root?.parentNode?.removeChild(env.root)
+      env.root?.remove()
       env.root = undefined
     },
   }
@@ -404,8 +401,8 @@ export function FormDrawer(
                     formDrawer.close()
                   }
                 })
-                .catch((e) => {
-                  console.warn(e)
+                .catch((error) => {
+                  console.warn(error)
                 })
             },
             async () => {
@@ -423,7 +420,7 @@ export function FormDrawer(
               reject(new Error('cancel'))
             },
           )
-        }).catch(e => reject(e))
+        }).catch(error => reject(error))
       })
       return env.promise
     },

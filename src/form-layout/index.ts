@@ -121,16 +121,16 @@ export const FormLayout = defineComponent({
       [props, deepLayout],
       () => {
         shallowProps.value = props.value.shallow ? props.value : undefined
-        if (!props.value.shallow) {
-          Object.assign(newDeepLayout.value, props.value)
-        }
-        else {
-          if (props.value.size) {
+        if (props.value.shallow) {
+          if (props.value.size > 0) {
             newDeepLayout.value.size = props.value.size
           }
           if (props.value.colon) {
             newDeepLayout.value.colon = props.value.colon
           }
+        }
+        else {
+          Object.assign(newDeepLayout.value, props.value)
         }
       },
       { deep: true, immediate: true },

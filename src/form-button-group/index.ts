@@ -31,8 +31,8 @@ export const FormButtonGroup = defineComponent({
   setup(props, { slots, attrs }) {
     const prefixCls = `${stylePrefix}-form-button-group`
     return () => {
-      if (props.alignFormItem) {
-        return h(
+      return props.alignFormItem
+        ? h(
           FormBaseItem,
           {
             colon: false,
@@ -48,9 +48,7 @@ export const FormButtonGroup = defineComponent({
             default: () => h(Space, { size: props.gutter }, slots),
           },
         )
-      }
-      else {
-        return h(
+        : h(
           Space,
           {
             ...attrs,
@@ -59,16 +57,15 @@ export const FormButtonGroup = defineComponent({
               justifyContent:
                 props.align === 'left'
                   ? 'flex-start'
-                  : props.align === 'right'
-                    ? 'flex-end'
-                    : 'center',
+                  : (props.align === 'right'
+                      ? 'flex-end'
+                      : 'center'),
               display: 'flex',
             },
             size: props.gutter,
           },
           slots,
         )
-      }
     }
   },
 })

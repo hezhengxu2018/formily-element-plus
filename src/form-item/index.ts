@@ -77,12 +77,7 @@ function useOverflow(containerRef: Ref<HTMLElement>) {
     const contentWidth = content.getBoundingClientRect().width
 
     if (containerWidth !== 0) {
-      if (contentWidth > containerWidth) {
-        overflow.value = true
-      }
-      else {
-        overflow.value = false
-      }
+      overflow.value = contentWidth > containerWidth
     }
   }
 
@@ -120,8 +115,8 @@ function split(messages: any[]) {
     if (!text)
       return buf
     return index < messages.length - 1
-      ? buf.concat([text, ', '])
-      : buf.concat([text])
+      ? [...buf, text, ', ']
+      : [...buf, text]
   }, [])
 }
 
@@ -294,8 +289,8 @@ export const FormBaseItem = defineComponent({
           },
         )
         const isTextTooltip = tooltip && tooltipLayout === 'text'
-        if (isTextTooltip || overflow.value) {
-          return h(
+        return isTextTooltip || overflow.value
+          ? h(
             ElTooltip,
             {
               placement: 'top',
@@ -315,10 +310,7 @@ export const FormBaseItem = defineComponent({
                 ),
             },
           )
-        }
-        else {
-          return labelChildren
-        }
+          : labelChildren
       }
       const renderTooltipIcon = () => {
         if (tooltip && tooltipLayout === 'icon') {
@@ -533,11 +525,11 @@ const Item = connect(
           return
         if (props.feedbackText)
           return props.feedbackText
-        if (field.selfErrors.length)
+        if (field.selfErrors.length > 0)
           return split(field.selfErrors)
-        if (field.selfWarnings.length)
+        if (field.selfWarnings.length > 0)
           return split(field.selfWarnings)
-        if (field.selfSuccesses.length)
+        if (field.selfSuccesses.length > 0)
           return split(field.selfSuccesses)
       }
       const errorMessages = takeMessage()

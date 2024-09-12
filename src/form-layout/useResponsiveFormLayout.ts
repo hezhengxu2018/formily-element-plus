@@ -25,8 +25,8 @@ interface ICalculateProps {
 }
 
 const calcBreakpointIndex: ICalcBreakpointIndex = (breakpoints, width) => {
-  for (let i = 0; i < breakpoints.length; i++) {
-    if (width <= breakpoints[i]) {
+  for (const [i, breakpoint] of breakpoints.entries()) {
+    if (width <= breakpoint) {
       return i
     }
   }
@@ -37,7 +37,7 @@ function calcFactor<T>(value: T | T[], breakpointIndex: number): T {
   if (Array.isArray(value)) {
     if (breakpointIndex === -1)
       return value[0]
-    return value[breakpointIndex] ?? value[value.length - 1]
+    return value[breakpointIndex] ?? value.at(-1)
   }
   else {
     return value

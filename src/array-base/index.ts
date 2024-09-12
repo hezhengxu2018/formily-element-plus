@@ -89,12 +89,7 @@ function useKey(schema: Schema) {
   const isObject = isObjectValue(schema)
   let keyMap: WeakMap<Record<string, unknown>, string> | string[] | null = null
 
-  if (isObject) {
-    keyMap = new WeakMap()
-  }
-  else {
-    keyMap = []
-  }
+  keyMap = isObject ? new WeakMap() : []
 
   onBeforeUnmount(() => {
     keyMap = null

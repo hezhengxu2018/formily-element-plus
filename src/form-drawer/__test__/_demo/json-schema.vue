@@ -72,8 +72,8 @@ function handleOpen() {
     .then((values) => {
       console.log('values', values)
     })
-    .catch((e) => {
-      console.log(e)
+    .catch((error) => {
+      console.log(error)
     })
 }
 </script>

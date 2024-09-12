@@ -6,7 +6,7 @@ import type MarkdownIt from 'markdown-it'
  *
  * Extract them into env
  */
-export default (md: MarkdownIt): void => {
+export default function mdHeaders(md: MarkdownIt): void {
   // extract headers to env
   const render = md.renderer.render.bind(md.renderer)
 

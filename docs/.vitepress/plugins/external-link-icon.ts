@@ -4,7 +4,7 @@ import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 const renderToken: RenderRule = (tokens, idx, options, env, self) =>
   self.renderToken(tokens, idx, options)
 
-export default (md: MarkdownIt): void => {
+export default function mdExternalLinkIcon(md: MarkdownIt): void {
   const defaultLinkOpenRenderer = md.renderer.rules.link_open || renderToken
   const defaultLinkCloseRenderer = md.renderer.rules.link_close || renderToken
   let isExternalLink = false

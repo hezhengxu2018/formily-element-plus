@@ -1,6 +1,6 @@
 import type MarkdownIt from 'markdown-it'
 
-export default (md: MarkdownIt): void => {
+export default function mdTooltip(md: MarkdownIt): void {
   md.renderer.rules.tooltip = (tokens, idx) => {
     const token = tokens[idx]
 
@@ -8,6 +8,7 @@ export default (md: MarkdownIt): void => {
   }
 
   md.inline.ruler.before('emphasis', 'tooltip', (state, silent) => {
+    // eslint-disable-next-line unicorn/better-regex
     const tooltipRegExp = /^\^\[([^\]]*)\](`[^`]*`)?/
     const str = state.src.slice(state.pos, state.posMax)
 
@@ -22,7 +23,7 @@ export default (md: MarkdownIt): void => {
       return false
 
     const token = state.push('tooltip', 'tooltip', 0)
-    token.content = result[1].replace(/\\\|/g, '|')
+    token.content = result[1].replaceAll(String.raw`\|`, '|')
     token.info = (result[2] || '').replace(/^`(.*)`$/, '$1')
     token.level = state.level
     state.pos += result[0].length

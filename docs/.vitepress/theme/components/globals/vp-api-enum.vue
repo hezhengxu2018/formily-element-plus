@@ -11,7 +11,7 @@ const props = defineProps({
 
 const processString = (s: unknown) => (typeof s === 'string' ? `'${s}'` : s)
 
-const details = computed(() => props.values.map(processString).join(' | '))
+const details = computed(() => props.values.map(element => processString(element)).join(' | '))
 </script>
 
 <template>

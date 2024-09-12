@@ -64,7 +64,7 @@ function createFormStep(defaultCurrent = 0): IFormStep {
 
   const setDisplay = action.bound((target: number) => {
     const currentStep = env.steps[target]
-    env.steps.forEach(({ name }) => {
+    for (const { name } of env.steps) {
       env.form.query(`${env.field.address}.${name}`).take((field) => {
         if (name === currentStep.name) {
           field.setDisplay('visible')
@@ -73,7 +73,7 @@ function createFormStep(defaultCurrent = 0): IFormStep {
           field.setDisplay('hidden')
         }
       })
-    })
+    }
   })
 
   const formStep: IFormStep = model({
@@ -126,7 +126,7 @@ function createFormStep(defaultCurrent = 0): IFormStep {
 }
 
 function renderSteps(steps: SchemaStep[], callback) {
-  return steps.map(callback)
+  return steps.map((element, index) => callback(element, index))
 }
 const FormStepInner = observer(
   defineComponent({

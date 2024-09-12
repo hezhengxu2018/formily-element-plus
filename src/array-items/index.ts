@@ -31,7 +31,7 @@ const ArrayItemsInner = observer(
       return () => {
         const field = fieldRef.value
         const schema = schemaRef.value
-        const dataSource = Array.isArray(field.value) ? field.value.slice() : []
+        const dataSource = Array.isArray(field.value) ? [...field.value] : []
 
         const renderItems = () => {
           const itemSlot = ({
@@ -119,9 +119,7 @@ const ArrayItemsInner = observer(
                 'div',
                 {
                   class: [prefixCls],
-                  onChange: () => {
-
-                  },
+                  onChange: () => {},
                 },
                 {
                   default: () => [renderItems(), renderAddition()],
@@ -146,9 +144,7 @@ const ArrayItemsItem = defineComponent({
         {
           class: [`${prefixCls}-${props.type || 'card'}`],
           ...attrs,
-          onChange: () => {
-
-          },
+          onChange: () => {},
         },
         slots,
       )

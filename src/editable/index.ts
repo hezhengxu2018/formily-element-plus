@@ -29,11 +29,11 @@ function getFormItemProps(fieldRef: Ref<Field>): FormItemProps {
   if (!field)
     return {}
   const takeMessage = () => {
-    if (field.selfErrors.length)
+    if (field.selfErrors.length > 0)
       return field.selfErrors[0]
-    if (field.selfWarnings.length)
+    if (field.selfWarnings.length > 0)
       return field.selfWarnings[0]
-    if (field.selfSuccesses.length)
+    if (field.selfSuccesses.length > 0)
       return field.selfSuccesses[0]
   }
 

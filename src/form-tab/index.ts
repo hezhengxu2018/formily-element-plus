@@ -87,7 +87,7 @@ const FormTab = observer(
           type: 'error',
           address: `${field.value.address.concat(key)}.*`,
         })
-        if (errors.length) {
+        if (errors.length > 0) {
           return h(
             ElBadge,
             {

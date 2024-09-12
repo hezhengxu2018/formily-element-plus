@@ -38,11 +38,11 @@ export const head: HeadConfig[] = [
     })()`,
   ],
 
-  ['script', {}, fs.readFileSync(path.resolve(__dirname, '..', 'lang.js'), 'utf-8')],
+  ['script', {}, fs.readFileSync(path.resolve(__dirname, '..', 'lang.js'), 'utf8')],
 ]
 
 head.push([
   'script',
   {},
-  fs.readFileSync(path.resolve(__dirname, '..', 'dark-mode.js'), 'utf-8'),
+  fs.readFileSync(path.resolve(__dirname, '..', 'dark-mode.js'), 'utf8'),
 ])

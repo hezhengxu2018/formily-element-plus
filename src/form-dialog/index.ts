@@ -54,14 +54,11 @@ function isDialogTitle(props: any): props is DialogTitle {
 }
 
 function getDialogProps(props: any): IFormDialogProps {
-  if (isDialogTitle(props)) {
-    return {
-      title: props,
-    } as IFormDialogProps
-  }
-  else {
-    return props
-  }
+  return isDialogTitle(props)
+    ? {
+        title: props,
+      } as IFormDialogProps
+    : props
 }
 
 export interface IFormDialog {
@@ -118,7 +115,7 @@ export function FormDialog(
     cancelMiddlewares: [],
   }
 
-  document.body.appendChild(env.root)
+  document.body.append(env.root)
 
   const props = getDialogProps(title)
   const dialogProps = {
@@ -128,7 +125,7 @@ export function FormDialog(
       env.app?.unmount?.()
       env.app = null
       env.instance = null
-      env.root?.parentNode?.removeChild(env.root)
+      env.root?.remove()
       env.root = undefined
     },
   }
@@ -339,8 +336,8 @@ export function FormDialog(
                       formDialog.close()
                     }
                   })
-                  .catch((e) => {
-                    console.warn(e)
+                  .catch((error) => {
+                    console.warn(error)
                   })
               },
               async () => {
@@ -358,7 +355,7 @@ export function FormDialog(
               },
             )
           })
-          .catch(e => reject(e))
+          .catch(error => reject(error))
       })
       return env.promise
     },

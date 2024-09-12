@@ -17,15 +17,15 @@ export function throttleAndDebounce(fn: () => any, delay: number) {
     if (timeout) {
       clearTimeout(timeout)
     }
-    if (!called) {
+    if (called) {
+      timeout = setTimeout(fn, delay)
+    }
+    else {
       fn()
       called = true
       setTimeout(() => {
         called = false
       }, delay)
-    }
-    else {
-      timeout = setTimeout(fn, delay)
     }
   }
 }
@@ -50,11 +50,6 @@ export function createCrowdinUrl(targetLang: string) {
   let translateLang = ''
   // for zh-CN zh-HK zh-TW, maybe later we will have cases like Chinese lang
   // for now we just keep it as simple as possible.
-  if (targetLang.startsWith('zh-')) {
-    translateLang = targetLang.split('-').join('').toLocaleLowerCase()
-  }
-  else {
-    translateLang = targetLang.split('-').shift()!.toLocaleLowerCase()
-  }
+  translateLang = targetLang.startsWith('zh-') ? targetLang.split('-').join('').toLocaleLowerCase() : targetLang.split('-').shift()!.toLocaleLowerCase()
   return `https://crowdin.com/translate/element-plus/all/en-${translateLang}`
 }

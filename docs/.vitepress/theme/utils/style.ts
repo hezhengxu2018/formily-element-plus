@@ -57,17 +57,17 @@ export function getScrollBarWidth(namespace: string): number {
   outer.style.width = '100px'
   outer.style.position = 'absolute'
   outer.style.top = '-9999px'
-  document.body.appendChild(outer)
+  document.body.append(outer)
 
   const widthNoScroll = outer.offsetWidth
   outer.style.overflow = 'scroll'
 
   const inner = document.createElement('div')
   inner.style.width = '100%'
-  outer.appendChild(inner)
+  outer.append(inner)
 
   const widthWithScroll = inner.offsetWidth
-  outer.parentNode?.removeChild(outer)
+  outer.remove()
   scrollBarWidth = widthNoScroll - widthWithScroll
 
   return scrollBarWidth

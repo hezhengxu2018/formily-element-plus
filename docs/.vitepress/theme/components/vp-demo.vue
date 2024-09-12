@@ -55,8 +55,8 @@ async function copyCode() {
     await copy()
     $message.success(locale.value['copy-success'])
   }
-  catch (e: any) {
-    $message.error(e.message)
+  catch (error: any) {
+    $message.error(error.message)
   }
 }
 </script>

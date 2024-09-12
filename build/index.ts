@@ -17,4 +17,4 @@ export async function build() {
   await buildPackage()
 }
 
-build()
+await build()

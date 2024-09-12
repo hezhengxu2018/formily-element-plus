@@ -59,12 +59,7 @@ function useCollapseGrid(maxRows) {
   onUnmounted(dispose)
 
   const toggle = () => {
-    if (grid.maxRows === Infinity) {
-      grid.maxRows = maxRows
-    }
-    else {
-      grid.maxRows = Infinity
-    }
+    grid.maxRows = grid.maxRows === Infinity ? maxRows : Infinity
   }
   return {
     grid,

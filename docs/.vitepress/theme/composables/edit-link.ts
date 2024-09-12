@@ -25,9 +25,9 @@ export function useEditLink() {
         editLinks,
       } = theme.value
       const showEditLink
-        = frontmatter.value.editLink != null
-          ? frontmatter.value.editLink
-          : editLinks
+        = frontmatter.value.editLink === undefined
+          ? editLinks
+          : frontmatter.value.editLink
       const { relativePath } = page.value
       if (!showEditLink || !relativePath || !repo) {
         return null

@@ -15,13 +15,11 @@
   localStorage.setItem(cacheKey, language)
   userPreferredLang = language
   if (!location.pathname.startsWith(`/${userPreferredLang}`)) {
-    const toPath = [`/${userPreferredLang}`]
-      .concat(location.pathname.split('/').slice(2))
-      .join('/')
+    const toPath = `/${userPreferredLang}/${location.pathname.split('/').slice(2)}`
     location.pathname
       = toPath.endsWith('.html') || toPath.endsWith('/')
         ? toPath
-        : toPath.concat('/')
+        : [...toPath, '/']
   }
   if (navigator && navigator.serviceWorker.controller) {
     navigator.serviceWorker.controller.postMessage({

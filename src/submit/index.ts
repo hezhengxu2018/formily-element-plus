@@ -36,12 +36,10 @@ export const Submit = observer(
             type: 'primary',
             ...attrs,
             loading:
-              attrs.loading !== undefined ? attrs.loading : form?.submitting,
+              attrs.loading === undefined ? form?.submitting : attrs.loading,
             onClick: (e: any) => {
-              if (onClick) {
-                if (onClick(e) === false)
-                  return
-              }
+              if (onClick && onClick(e) === false)
+                return
               if (onSubmit) {
                 form
                   ?.submit(onSubmit as (e: any) => void)

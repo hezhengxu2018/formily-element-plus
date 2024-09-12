@@ -7,14 +7,7 @@ export function useLang() {
   return computed(() => {
     // the first part of the first slash
     const path = route.data?.relativePath
-    let lang: string
-
-    if (path?.includes('/')) {
-      lang = path.split('/').shift()! || defaultLang
-    }
-    else {
-      lang = defaultLang
-    }
+    const lang = path?.includes('/') ? path.split('/').shift()! || defaultLang : defaultLang
     return lang
   })
 }

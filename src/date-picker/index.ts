@@ -19,14 +19,20 @@ function getDefaultFormat(props: DatePickerProps, formatType = 'format') {
   if (type === 'week' && formatType === 'format') {
     return '[Week] ww'
   }
-  else if (type === 'month') {
-    return 'YYYY-MM'
-  }
-  else if (type === 'year') {
-    return 'YYYY'
-  }
-  else if (type === 'datetime' || type === 'datetimerange') {
-    return 'YYYY-MM-DD HH:mm:ss'
+  else {
+    switch (type) {
+      case 'month': {
+        return 'YYYY-MM'
+      }
+      case 'year': {
+        return 'YYYY'
+      }
+      case 'datetime':
+      case 'datetimerange': {
+        return 'YYYY-MM-DD HH:mm:ss'
+      }
+ // No default
+    }
   }
 
   return 'YYYY-MM-DD'

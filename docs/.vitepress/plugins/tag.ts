@@ -1,6 +1,6 @@
 import type MarkdownIt from 'markdown-it'
 
-export default (md: MarkdownIt): void => {
+export default function mdTag(md: MarkdownIt): void {
   md.inline.ruler.before('emphasis', 'tag', (state, silent) => {
     const tagRegExp = /^\^\(([^)]*)\)/
     const str = state.src.slice(state.pos, state.posMax)

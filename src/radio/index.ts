@@ -42,12 +42,12 @@ const RadioGroupOption = defineComponent({
       const OptionType
         = customProps.optionType === 'button' ? ElRadioButton : ElRadio
       const children
-        = options.length !== 0
+        = options.length > 0
           ? {
               default: () =>
                 options.map((option) => {
-                  if (typeof option === 'string') {
-                    return h(
+                  return typeof option === 'string'
+                    ? h(
                       OptionType,
                       { label: option },
                       {
@@ -56,9 +56,7 @@ const RadioGroupOption = defineComponent({
                         ],
                       },
                     )
-                  }
-                  else {
-                    return h(
+                    : h(
                       OptionType,
                       {
                         ...option,
@@ -73,7 +71,6 @@ const RadioGroupOption = defineComponent({
                         ],
                       },
                     )
-                  }
                 }),
             }
           : slots

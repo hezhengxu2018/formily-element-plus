@@ -53,8 +53,8 @@ export function useCopyColor() {
       await copy()
       $message.success(`--el-color-${colorType}: ${source.value}`)
     }
-    catch (e: any) {
-      $message.error(e.message)
+    catch (error: any) {
+      $message.error(error.message)
     }
   }
 

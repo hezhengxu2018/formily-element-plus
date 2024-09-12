@@ -20,11 +20,11 @@ function transformAddress(data = {}) {
       return buf.concat({
         label: name,
         value: code,
-        children: _cities.length
+        children: _cities.length > 0
           ? _cities
-          : _districts.length
-            ? _districts
-            : undefined,
+          : (_districts.length > 0
+              ? _districts
+              : undefined),
       })
     },
     [],

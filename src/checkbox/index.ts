@@ -94,12 +94,12 @@ const CheckboxGroupOption: Component = defineComponent({
     return (): any => {
       const options = customProps.options || []
       const children
-        = options.length !== 0
+        = options.length > 0
           ? {
               default: () =>
                 options.map((option) => {
-                  if (typeof option === 'string') {
-                    return h(
+                  return typeof option === 'string'
+                    ? h(
                       ElCheckbox,
                       {
                         option: {
@@ -112,9 +112,7 @@ const CheckboxGroupOption: Component = defineComponent({
                         ? { default: () => slots.option({ option }) }
                         : {},
                     )
-                  }
-                  else {
-                    return h(
+                    : h(
                       ElCheckbox,
                       {
                         option,
@@ -124,7 +122,6 @@ const CheckboxGroupOption: Component = defineComponent({
                         ? { default: () => slots.option({ option }) }
                         : {},
                     )
-                  }
                 }),
             }
           : slots

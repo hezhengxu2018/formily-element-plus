@@ -74,7 +74,7 @@ function insertActiveKeys(activeKeys: number[] | number, index: number, accordio
     if (key < index)
       return buf.concat(key)
     if (key === index)
-      return buf.concat([key, key + 1])
+      return [...buf, key, key + 1]
     return buf.concat(key + 1)
   }, [] as number[])
 }
@@ -98,8 +98,8 @@ export const ArrayCollapseInner = observer(
 
       watchEffect(() => {
         const field = fieldRef.value
-        const dataSource = Array.isArray(field.value) ? field.value.slice() : []
-        if (!field.modified && dataSource.length) {
+        const dataSource = Array.isArray(field.value) ? [...field.value] : []
+        if (!field.modified && dataSource.length > 0) {
           activeKeys.value = takeDefaultActiveKeys(
             dataSource.length,
             props.defaultOpenPanelCount,
@@ -113,12 +113,12 @@ export const ArrayCollapseInner = observer(
       return () => {
         const field = fieldRef.value
         const schema = schemaRef.value
-        const dataSource = Array.isArray(field.value) ? field.value.slice() : []
+        const dataSource = Array.isArray(field.value) ? [...field.value] : []
         if (!schema)
           throw new Error('can not found schema object')
 
         const renderItems = () => {
-          if (!dataSource.length) {
+          if (dataSource.length === 0) {
             return null
           }
 
@@ -160,7 +160,7 @@ export const ArrayCollapseInner = observer(
                     },
                     {},
                   ),
-                  errors.length
+                  errors.length > 0
                     ? h(
                       ElBadge,
                       {

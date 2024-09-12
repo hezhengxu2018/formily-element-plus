@@ -26,7 +26,7 @@ const mappedParams = computed(() =>
       if (Array.isArray(val)) {
         type = val.join(' | ')
       }
-      return params.concat([`${key}: ${type}`])
+      return [...params, `${key}: ${type}`]
     }, [] as string[])
     .join(', '),
 )

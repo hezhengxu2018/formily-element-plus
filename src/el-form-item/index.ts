@@ -9,7 +9,7 @@ export type ElFormItemProps = typeof _ElFormItemProps & { title: string }
 export const ElFormItem = connect(
   ElFormItemComponent,
   mapProps({ title: 'label', required: true }, (props, field) => ({
-    error: !isVoidField(field) ? field.selfErrors[0] ?? undefined : undefined,
+    error: isVoidField(field) ? undefined : field.selfErrors[0] ?? undefined,
   })),
 )
 
