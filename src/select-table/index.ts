@@ -1,14 +1,14 @@
-import { defineComponent, h, nextTick, ref, watch } from 'vue'
+import type { FieldDisplayTypes, GeneralField } from '@formily/core'
+import type { Schema } from '@formily/vue'
+import type { Column, TableInstance, TableProps } from 'element-plus'
+import type { Component, PropType } from 'vue'
+import { isArr, isFn } from '@formily/shared'
 import { connect, mapProps, useFieldSchema } from '@formily/vue'
 import { ElRadio, ElRadioGroup, ElTable, ElTableColumn, version } from 'element-plus'
-import { isArr, isFn } from '@formily/shared'
-import type { Component, PropType } from 'vue'
-import type { Schema } from '@formily/vue'
-import type { FieldDisplayTypes, GeneralField } from '@formily/core'
-import type { Column, TableInstance, TableProps } from 'element-plus'
-
 import { differenceWith, remove, uniqWith } from 'lodash-es'
+
 import { gt } from 'semver'
+import { defineComponent, h, nextTick, ref, watch } from 'vue'
 import { composeExport, stylePrefix } from '../__builtins__'
 
 type IFilterOption = boolean | ((option: any, keyword: string) => boolean)
@@ -273,8 +273,8 @@ const InnerSelectTable
         if (props.mode === 'multiple') {
           const removedItemList = prevSelection.length > newSelection.length
             ? differenceWith(prevSelection, newSelection, (itemPrev, itemNext) => {
-              return isFn(rowKey) ? rowKey(itemPrev) === rowKey(itemNext) : itemPrev[rowKey] === itemNext[rowKey]
-            })
+                return isFn(rowKey) ? rowKey(itemPrev) === rowKey(itemNext) : itemPrev[rowKey] === itemNext[rowKey]
+              })
             : []
           prevSelection = newSelection
           selectedFlatDataSource.value = uniqWith([...selectedFlatDataSource.value, ...newSelection], (itemPrev, itemNext) => {
@@ -351,26 +351,26 @@ const InnerSelectTable
           return [props.mode === 'multiple'
             ? h(ElTableColumn, { type: 'selection' })
             : h(ElTableColumn, { type: 'radio', width: 46 }, {
-              default({ row }) {
-                const finalKey = isFn(rowKey) ? rowKey(row) : row[rowKey]
-                return h(ElRadioGroup, { modelValue: radioSelectedKey.value }, {
-                  default() {
-                    return h(ElRadio, {
-                      ...compatibleRadioValue(finalKey),
-                      onChange: () => {
-                        radioSelectedKey.value = finalKey
-                        if (props.optionAsValue) {
-                          emit('change', row)
-                        }
-                        else {
-                          emit('change', finalKey)
-                        }
-                      },
-                    }, () => '')
-                  },
-                })
-              },
-            }), columns.map((colItem) => {
+                default({ row }) {
+                  const finalKey = isFn(rowKey) ? rowKey(row) : row[rowKey]
+                  return h(ElRadioGroup, { modelValue: radioSelectedKey.value }, {
+                    default() {
+                      return h(ElRadio, {
+                        ...compatibleRadioValue(finalKey),
+                        onChange: () => {
+                          radioSelectedKey.value = finalKey
+                          if (props.optionAsValue) {
+                            emit('change', row)
+                          }
+                          else {
+                            emit('change', finalKey)
+                          }
+                        },
+                      }, () => '')
+                    },
+                  })
+                },
+              }), columns.map((colItem) => {
             return h(ElTableColumn, { ...colItem })
           })]
         },
