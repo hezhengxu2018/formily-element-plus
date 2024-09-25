@@ -97,6 +97,11 @@
       "path": "./node_modules/cz-git"
     }
   },
+  "pnpm": {
+    "patchedDependencies": {
+      "vitest-browser-vue@0.0.1": "patches/vitest-browser-vue@0.0.1.patch"
+    }
+  },
   "lint-staged": {
     "*.{vue,js,ts,jsx,tsx,md,json}": "eslint --fix"
   }
