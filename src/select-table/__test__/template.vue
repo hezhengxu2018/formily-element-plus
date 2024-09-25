@@ -18,6 +18,7 @@ function onSubmit(value) {
       :data-source="[
         { key: '1', name: 'title-1', description: 'description-1' },
         { key: '2', name: 'title-2', description: 'description-2' },
+        { key: '3', name: 'title-3', description: 'description-3' },
       ]"
       :decorator="[FormItem]"
       :component="[

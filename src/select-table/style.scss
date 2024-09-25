@@ -1,0 +1,7 @@
+@import '../__builtins__/styles/common.scss';
+
+.#{$formily-prefix}-select-table {
+  .--click-row-select {
+    cursor: pointer;
+  }
+}
