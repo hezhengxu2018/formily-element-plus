@@ -25,7 +25,7 @@ const { frontmatter: fm } = useData()
     </template>
   </VPHero>
   <VPHomeFeatures />
-  <div class="vp-doc container h-sm">
+  <div class="vp-doc container">
     <!-- <Content /> -->
   </div>
   <el-divider style="margin-bottom: 0" />
@@ -38,3 +38,11 @@ const { frontmatter: fm } = useData()
     </p>
   </div>
 </template>
+
+<style lang="css" scoped>
+.container {
+  margin: 0 auto;
+  margin-top: 72px;
+  max-width: 1152px;
+}
+</style>

@@ -6,7 +6,6 @@ import { useSidebar } from '../composables/sidebar'
 import VPHeroContent from './vp-hero-content.vue'
 import VPDocContent from './vp-doc-content.vue'
 import VPNotFound from './vp-not-found.vue'
-import VPFooter from './globals/vp-footer.vue'
 
 // const props = defineProps<{ isSidebarOpen: boolean }>()
 const { frontmatter } = useData()
@@ -49,6 +48,5 @@ const { hasSidebar } = useSidebar()
         <slot name="content-bottom" />
       </template>
     </VPDocContent>
-    <VPFooter v-if="!isHeroPost" />
   </main>
 </template>

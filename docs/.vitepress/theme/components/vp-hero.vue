@@ -291,8 +291,8 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
     border-radius: 50%;
     width: 192px;
     height: 192px;
-    background-image: var(--vp-home-hero-image-background-image);
-    filter: var(--vp-home-hero-image-filter);
+    background-image: linear-gradient(-45deg, var(--purple-color-light) 30%, var(--formily-primary) 75%);
+    filter: blur(72px);
     /*rtl:ignore*/
     transform: translate(-50%, -50%);
   }

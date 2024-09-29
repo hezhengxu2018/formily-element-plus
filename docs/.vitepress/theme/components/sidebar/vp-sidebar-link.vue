@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vitepress'
 import { isActive } from '../../utils'
-
+import VersionTag from '../dev/version-tag.vue'
 import type { Link } from '../../types'
 
 const props = defineProps<{
