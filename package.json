@@ -7,6 +7,9 @@
   "license": "MIT",
   "main": "esm",
   "types": "esm/index.d.ts",
+  "files": [
+    "esm"
+  ],
   "scripts": {
     "create:style": "tsx build/create-style",
     "build": "tsx build/index.ts",
@@ -19,20 +22,21 @@
     "lint-staged": "lint-staged"
   },
   "peerDependencies": {
-    "@formily/core": "^2.3.2",
-    "@formily/grid": "^2.3.2",
-    "@formily/json-schema": "^2.3.2",
-    "@formily/reactive": "^2.3.2",
-    "@formily/reactive-vue": "^2.3.2",
-    "@formily/shared": "^2.3.2",
-    "@formily/vue": "^2.3.2",
+    "@formily/core": "^2.0.8",
+    "@formily/grid": "^2.0.8",
+    "@formily/json-schema": "^2.0.8",
+    "@formily/reactive": "^2.0.8",
+    "@formily/reactive-vue": "^2.0.8",
+    "@formily/shared": "^2.0.8",
+    "@formily/vue": "^2.0.8",
     "element-plus": "^2.1.8",
     "vue": "^3.3.0"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
-    "vue-draggable-plus": "^0.5.3",
-    "vuedraggable": "4"
+    "semver": "^7",
+    "vue-draggable-plus": "^0.5.0",
+    "vuedraggable": "^4"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.0.0",
@@ -50,7 +54,6 @@
     "@vue/shared": "^3.4.38",
     "@vueuse/core": "^11.0.3",
     "clipboard-copy": "^4.0.1",
-    "cypress": "13.13.2",
     "cz-git": "^1.9.4",
     "czg": "^1.9.4",
     "eslint": "^9.9.0",
