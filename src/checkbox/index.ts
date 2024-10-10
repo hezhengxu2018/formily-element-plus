@@ -1,10 +1,15 @@
 import type { Component, PropType } from 'vue'
-import { defineComponent, h } from 'vue'
+import { computed, defineComponent, h } from 'vue'
 import { connect, mapProps, mapReadPretty } from '@formily/vue'
-import { ElCheckbox, ElCheckboxButton, ElCheckboxGroup } from 'element-plus'
-import type {
-  SlotTypes,
-} from '../__builtins__/shared'
+import { isStr } from '@formily/shared'
+import {
+  ElCheckbox,
+  ElCheckboxButton,
+  ElCheckboxGroup,
+  version,
+} from 'element-plus'
+import { lt } from 'semver'
+import type { SlotTypes } from '../__builtins__/shared'
 import {
   composeExport,
   resolveComponent,
@@ -16,6 +21,11 @@ import { PreviewText } from '../preview-text'
 type ElCheckboxProps = Omit<typeof ElCheckbox, 'value'> & {
   value: ElCheckboxProps['label']
 }
+
+type OptionType = Partial<{
+  label: string
+  value: string
+}>
 
 export interface CheckboxProps extends ElCheckboxProps {
   option: Omit<typeof ElCheckbox, 'value'> & {
@@ -91,31 +101,38 @@ const CheckboxGroupOption: Component = defineComponent({
     },
   },
   setup(customProps, { attrs, slots }) {
-    return (): any => {
+    const isBelow260 = lt(version, '2.6.0')
+    // 统一使用2.6.0之后的方式设置label与value
+    const unifiedOptions = computed<Array<OptionType>>(() => {
       const options = customProps.options || []
+      return options.map((option: OptionType) => {
+        if (isStr(option))
+          return { label: option, value: option }
+        return option
+      })
+    })
+
+    return () => {
       const children
-        = options.length > 0
+        = unifiedOptions.value.length > 0
           ? {
               default: () =>
-                options.map((option) => {
-                  return typeof option === 'string'
+                unifiedOptions.value.map((option) => {
+                  return isBelow260
                     ? h(
                       ElCheckbox,
                       {
-                        option: {
-                          label: option,
-                          value: option,
-                        },
+                        label: option.value,
                         optionType: customProps.optionType,
                       },
                       slots?.option
                         ? { default: () => slots.option({ option }) }
-                        : {},
+                        : { default: () => option.label },
                     )
                     : h(
                       ElCheckbox,
                       {
-                        option,
+                        ...option,
                         optionType: customProps.optionType,
                       },
                       slots?.option
@@ -144,9 +161,12 @@ const CheckboxGroup = connect(
   }),
 )
 
-const InnerCheckbox = connect(CheckboxOption, mapProps({
-  value: 'modelValue',
-}))
+const InnerCheckbox = connect(
+  CheckboxOption,
+  mapProps({
+    value: 'modelValue',
+  }),
+)
 
 export const Checkbox = composeExport(InnerCheckbox, {
   Group: CheckboxGroup,
