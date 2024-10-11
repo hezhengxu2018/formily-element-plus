@@ -43,36 +43,43 @@ const CheckboxOption = defineComponent({
       default: null,
     },
   },
-  setup(curtomProps, { attrs, slots }) {
+  setup(customProps, { attrs, slots }) {
     return () => {
       const props = attrs as unknown as CheckboxProps
-      const option = curtomProps?.option
-      if (option) {
+      const isBelow260 = lt(version, '2.6.0')
+      // 文档中没有写明的属性，一般由CheckboxOption传入
+      if (customProps.option) {
+        const option = customProps.option
+        const unifiedOption = isStr(option)
+          ? { ...props, label: option, value: option }
+          : { ...props, ...option }
+
         const children = {
           default: () => [
             resolveComponent(slots.default ?? option.label, { option }),
           ],
         }
-        const newProps = {} as Partial<ElCheckboxProps>
-        Object.assign(newProps, option)
-        newProps.label = option.value
-        delete newProps.value
 
         return h(
           attrs.optionType === 'button' ? ElCheckboxButton : ElCheckbox,
-          {
-            ...newProps,
-          },
+          isBelow260
+            ? { ...unifiedOption, label: option.value }
+            : { ...unifiedOption },
           children,
         )
       }
 
       return h(
-        ElCheckbox,
+        attrs.optionType === 'button' ? ElCheckboxButton : ElCheckbox,
+        isBelow260
+          ? { ...props, label: attrs.value }
+          : { ...props },
         {
-          ...props,
+          default:
+            isBelow260
+              ? slots.default ?? customProps.option.label
+              : slots.default,
         },
-        slots,
       )
     }
   },
@@ -92,7 +99,7 @@ const CheckboxGroupOption: Component = defineComponent({
   name: 'FCheckboxGroup',
   props: {
     options: {
-      type: Array,
+      type: Array as PropType<Array<OptionType>>,
       default: () => [],
     },
     optionType: {
@@ -101,44 +108,18 @@ const CheckboxGroupOption: Component = defineComponent({
     },
   },
   setup(customProps, { attrs, slots }) {
-    const isBelow260 = lt(version, '2.6.0')
-    // 统一使用2.6.0之后的方式设置label与value
-    const unifiedOptions = computed<Array<OptionType>>(() => {
-      const options = customProps.options || []
-      return options.map((option: OptionType) => {
-        if (isStr(option))
-          return { label: option, value: option }
-        return option
-      })
-    })
-
     return () => {
       const children
-        = unifiedOptions.value.length > 0
+        = customProps.options?.length > 0
           ? {
               default: () =>
-                unifiedOptions.value.map((option) => {
-                  return isBelow260
-                    ? h(
-                      ElCheckbox,
-                      {
-                        label: option.value,
-                        optionType: customProps.optionType,
-                      },
-                      slots?.option
-                        ? { default: () => slots.option({ option }) }
-                        : { default: () => option.label },
-                    )
-                    : h(
-                      ElCheckbox,
-                      {
-                        ...option,
-                        optionType: customProps.optionType,
-                      },
-                      slots?.option
-                        ? { default: () => slots.option({ option }) }
-                        : {},
-                    )
+                customProps.options.map((option) => {
+                  return h(CheckboxOption, {
+                    option,
+                    optionType: customProps.optionType,
+                  }, slots?.option
+                    ? { default: () => slots.option({ option }) }
+                    : { default: () => option.label })
                 }),
             }
           : slots
