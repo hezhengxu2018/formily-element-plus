@@ -7,12 +7,12 @@ import { mdPlugin } from './config/markdown-plugin'
 export default defineConfig({
   title: 'Formily Element Plus',
   description: 'Element Plus 的 Formily 封装',
-  themeConfig: {
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
-    ],
-  },
   head,
+  themeConfig: {
+    footer: {
+      message: 'Released under the MIT License.',
+    },
+  },
   locales: {
     'zh-CN': {
       label: '简体中文',

@@ -1,18 +1,3 @@
-import 'normalize.css'
-// import 'element-plus/dist/index.css'
-
-// for dev
-// reset
-import 'element-plus/theme-chalk/src/reset.scss'
-import 'element-plus/theme-chalk/src/index.scss'
-// for dark mode
-import 'element-plus/theme-chalk/src/dark/css-vars.scss'
-
-import './styles/css-vars.scss'
-import './styles/app.scss'
-
-import 'uno.css'
-
 import type { Component } from 'vue'
 import VPDemo from './components/vp-demo.vue'
 import ApiTyping from './components/globals/vp-api-typing.vue'

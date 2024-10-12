@@ -52,6 +52,10 @@ export default {
         value: 'chore',
         name: 'chore:    其他修改 | Other changes that do not modify src or test files',
       },
+      {
+        value: 'wip',
+        name: 'wip:      尚未完成 | Work in progress',
+      },
     ],
     useEmoji: false,
     emojiAlign: 'center',
