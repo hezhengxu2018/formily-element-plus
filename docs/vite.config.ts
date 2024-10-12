@@ -21,6 +21,42 @@ const alias: Alias[] = [
     find: '@sliver/formily-element-plus',
     replacement: `${path.resolve(__dirname, '../src')}/`,
   },
+  {
+    find: /^.*\/VPNav\.vue$/,
+    replacement: fileURLToPath(
+      new URL('.vitepress/theme/components/vp-nav.vue', import.meta.url),
+    ),
+  },
+  {
+    find: /^.*\/VPNavBar\.vue$/,
+    replacement: fileURLToPath(
+      new URL('.vitepress/theme/components/vp-navbar.vue', import.meta.url),
+    ),
+  },
+  {
+    find: /^.*\/VPLocalNav\.vue$/,
+    replacement: fileURLToPath(
+      new URL('.vitepress/theme/components/vp-subnav.vue', import.meta.url),
+    ),
+  },
+  {
+    find: /^.*\/VPDocAside\.vue$/,
+    replacement: fileURLToPath(
+      new URL('.vitepress/theme/components/doc-content/vp-table-of-content.vue', import.meta.url),
+    ),
+  },
+  // {
+  //   find: /^.*\/VPContent\.vue$/,
+  //   replacement: fileURLToPath(
+  //     new URL('.vitepress/theme/components/vp-content.vue', import.meta.url),
+  //   ),
+  // },
+  {
+    find: /^.*\/VPSidebar\.vue$/,
+    replacement: fileURLToPath(
+      new URL('.vitepress/theme/components/vp-sidebar.vue', import.meta.url),
+    ),
+  },
 ]
 
 export default defineConfig(async () => {
