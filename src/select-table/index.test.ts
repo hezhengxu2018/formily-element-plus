@@ -119,11 +119,7 @@ describe('多选框交互', async () => {
 
   it('在dataSource改变后再次显示时应该勾选已经选中的项', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', dataSource: [
-      { key: '1', name: 'title-1', description: 'description-1' },
-      { key: '2', name: 'title-2', description: 'description-2' },
-      { key: '3', name: 'title-3', description: 'description-3' },
-    ] }), {
+    const screen = render(formilyWrapperFactory({ primaryKey: 'key', dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
       data() {
         return {
           form,
@@ -135,9 +131,11 @@ describe('多选框交互', async () => {
     const field = form.query('selectTable').take<ArrayField>((field: ArrayField) => field)
     field.setDataSource([{ key: '4', name: 'title-4', description: 'description-4' }])
     await screen.getByRole('row', { name: 'title-4' }).getByRole('checkbox').click()
-    await field.setDataSource([{ key: '1', name: 'title-1', description: 'description-1' }])
-    await expect.element(screen.getByRole('table').getByText('title-4')).toBeInTheDocument()
-    // field.setDataSource([{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }])
+    field.setDataSource([{ key: '1', name: 'title-1', description: 'description-1' }])
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).toBeChecked()
+    field.setDataSource([{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '4', name: 'title-4', description: 'description-4' }])
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).toBeChecked()
+    await expect.element(screen.getByRole('row', { name: 'title-4' }).getByRole('checkbox')).toBeChecked()
   })
 })
 
@@ -213,9 +211,67 @@ describe('树形选择', async () => {
         }
       },
     })
-    await screen.getByRole('row', { name: 'title-1' }).getByRole('radio').click()
-    expect(form.query('selectTable').get('value')).toEqual('1')
-    await screen.getByRole('row', { name: 'title-2' }).getByRole('radio').click()
-    expect(form.query('selectTable').get('value')).toEqual('2')
+    await screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox').click()
+    expect(form.query('selectTable').get('value')).toEqual([1])
+    await screen.getByRole('row', { name: 'title-3' }).getByRole('checkbox').click()
+    expect(form.query('selectTable').get('value')).toEqual([1, 3, 31, 32])
+  })
+
+  it('开启checkStrictly后，点击多选框后form表单中的值不应该联动', async () => {
+    const form = createForm()
+    const screen = render(formilyWrapperFactory({
+      rowKey: 'id',
+      dataSource: [
+        {
+          id: 1,
+          date: '2016-05-02',
+          name: 'title-1',
+          address: 'No. 189, Grove St, Los Angeles',
+        },
+        {
+          id: 2,
+          date: '2016-05-04',
+          name: 'title-2',
+          address: 'No. 189, Grove St, Los Angeles',
+        },
+        {
+          id: 3,
+          date: '2016-05-01',
+          name: 'title-3',
+          address: 'No. 189, Grove St, Los Angeles',
+          children: [
+            {
+              id: 31,
+              date: '2016-05-01',
+              name: 'title-3-1',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              id: 32,
+              date: '2016-05-01',
+              name: 'title-3-2',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+          ],
+        },
+        {
+          id: 4,
+          date: '2016-05-03',
+          name: 'title-4',
+          address: 'No. 189, Grove St, Los Angeles',
+        },
+      ],
+      treeProps: {
+        checkStrictly: true,
+      },
+    }), {
+      data() {
+        return {
+          form,
+        }
+      },
+    })
+    await screen.getByRole('row', { name: 'title-3' }).getByRole('checkbox').click()
+    expect(form.query('selectTable').get('value')).toEqual([3])
   })
 })
