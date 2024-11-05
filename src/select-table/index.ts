@@ -213,17 +213,8 @@ const InnerSelectTable
       primaryKey: {
         type: [String, Function] as PropType<ISelectTableProps['primaryKey']>,
       },
-      // filterOption: {
-      //   type: Function as PropType<ISelectTableProps['filterOption']>,
-      // },
-      filterSort: {
-        type: Function as PropType<ISelectTableProps['filterSort']>,
-      },
       onSearch: {
         type: Function as PropType<ISelectTableProps['onSearch']>,
-      },
-      onChange: {
-        type: Function as PropType<ISelectTableProps['onChange']>,
       },
       value: {
         type: [String, Number, Array] as PropType<ISelectTableProps['value']>,
@@ -240,7 +231,7 @@ const InnerSelectTable
       },
     },
     emits: ['change'],
-    setup(props, { emit }) {
+    setup(props, { emit, attrs }) {
       const elTableRef = ref<TableInstance>()
       const rowKey = props.rowKey ?? props.primaryKey
       const selectedFlatDataSource = ref([])
@@ -332,14 +323,23 @@ const InnerSelectTable
         }
       }
 
-      return () => h(
+      function onClearSelectionClick() {
+        elTableRef.value.clearSelection()
+        emit('change', [])
+        selectedFlatDataSource.value = []
+      }
+
+      return () => h('div', { class: `${stylePrefix}-select-table` }, [props.value?.length > 0 && h('div', { class: `${stylePrefix}-select-table-alert-container` }, [
+        h('span', `已选择 ${props.value?.length} 项 `),
+        h(ElLink, { type: 'primary', underline: false, style: 'margin-left: 8px;', onClick: onClearSelectionClick }, () => '取消选择'),
+      ]), h(
         ElTable,
         {
           ref(ref) {
             elTableRef.value = ref as TableInstance
           },
-          class: `${stylePrefix}-select-table`,
           ...props,
+          ...attrs,
           rowClassName: props.clickRowToSelect ? `--click-row-select` : '',
           data: props.dataSource,
           type: 'selection',
@@ -374,7 +374,7 @@ const InnerSelectTable
             return h(ElTableColumn, { ...colItem })
           })]
         },
-      )
+      )])
     },
   })
 
