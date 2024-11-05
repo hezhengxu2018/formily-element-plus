@@ -243,6 +243,15 @@ const InnerSelectTable
       const columnSource = useSchemaColumns()
       const columns = props.columns ?? useColumns(columnSource)
 
+      // 当前页面是否是树形表格
+      // const isTree = computed(() => {
+      //   const treeProps = attrs.treeProps as TreeProps
+      //   if (treeProps?.children) {
+      //     return props.dataSource.some(item => item[treeProps.children])
+      //   }
+      //   return props.dataSource.some(item => item.children)
+      // })
+
       watch(() => props.dataSource, async () => {
         const selectedKeys = new Set(selectedFlatDataSource.value.map(item => isFn(rowKey) ? rowKey(item) : item[rowKey]))
         await nextTick()
@@ -256,6 +265,7 @@ const InnerSelectTable
       })
 
       function onSelect(newSelection: Record<string, any>[]) {
+        console.log(newSelection)
         const rowKey = props.rowKey ?? props.primaryKey
         if (!rowKey) {
           throw new Error('rowKey is required')
@@ -307,18 +317,19 @@ const InnerSelectTable
       }
 
       function onRowClick(row: Record<string, any>, _, event: Event) {
-        if (props.clickRowToSelect) {
-          if (props.mode === 'multiple') {
-            const checkboxDOM = (event.target as Element).closest('tr').querySelector('input[type="checkbox"]')
-            if (checkboxDOM instanceof HTMLElement) {
-              checkboxDOM.click()
-            }
+        if (!props.clickRowToSelect)
+          return
+
+        if (props.mode === 'multiple') {
+          const checkboxDOM = (event.target as Element).closest('tr').querySelector('input[type="checkbox"]')
+          if (checkboxDOM instanceof HTMLElement) {
+            checkboxDOM.click()
           }
-          else {
-            const radioDOM = (event.target as Element).closest('tr').querySelector('input[type="radio"]')
-            if (radioDOM instanceof HTMLElement) {
-              radioDOM.click()
-            }
+        }
+        else {
+          const radioDOM = (event.target as Element).closest('tr').querySelector('input[type="radio"]')
+          if (radioDOM instanceof HTMLElement) {
+            radioDOM.click()
           }
         }
       }
