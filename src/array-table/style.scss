@@ -59,11 +59,12 @@ $array-table-prefix-cls: '#{$formily-prefix}-array-table';
   .#{$formily-prefix}-array-base-addition {
     margin-top: 8px;
     width: 100%;
-    border: 2px dashed var(--el-border-color);
+    border: 1px dashed var(--el-border-color);
+    border-radius: var(--el-border-radius-small);
 
     &:hover {
-      background-color: var(--el-button-hover-text-color);;
-      border-color: var(--el-border-color);
+      background-color: var(--el-button-hover-text-color);
+      border-color: var(--el-primary-color);
     }
 
     &:active {

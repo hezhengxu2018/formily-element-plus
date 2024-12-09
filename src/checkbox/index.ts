@@ -1,5 +1,5 @@
 import type { Component, PropType } from 'vue'
-import { computed, defineComponent, h } from 'vue'
+import { defineComponent, h } from 'vue'
 import { connect, mapProps, mapReadPretty } from '@formily/vue'
 import { isStr } from '@formily/shared'
 import {
@@ -47,23 +47,19 @@ const CheckboxOption = defineComponent({
     return () => {
       const props = attrs as unknown as CheckboxProps
       const isBelow260 = lt(version, '2.6.0')
-      // 文档中没有写明的属性，一般由CheckboxOption传入
+      // 统一使用2.6.0之后的方式设置label与value
       if (customProps.option) {
-        const option = customProps.option
-        const unifiedOption = isStr(option)
-          ? { ...props, label: option, value: option }
-          : { ...props, ...option }
-
+        const unifiedOption = isStr(customProps.option) ? { ...props, label: customProps.option, value: customProps.option } : { ...props, ...customProps.option }
         const children = {
           default: () => [
-            resolveComponent(slots.default ?? option.label, { option }),
+            resolveComponent(slots.default ?? customProps.option.label, { option: customProps.option }),
           ],
         }
 
         return h(
           attrs.optionType === 'button' ? ElCheckboxButton : ElCheckbox,
           isBelow260
-            ? { ...unifiedOption, label: option.value }
+            ? { ...unifiedOption, label: customProps.option.value }
             : { ...unifiedOption },
           children,
         )
@@ -75,10 +71,7 @@ const CheckboxOption = defineComponent({
           ? { ...props, label: attrs.value }
           : { ...props },
         {
-          default:
-            isBelow260
-              ? slots.default ?? customProps.option.label
-              : slots.default,
+          default: isBelow260 ? slots.default ?? customProps.option.label : slots.default,
         },
       )
     }

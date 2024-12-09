@@ -17,11 +17,11 @@ $array-table-prefix-cls: '#{$formily-prefix}-array-cards';
 
   .#{$formily-prefix}-array-base-addition {
     width: 100%;
-    border: 2px dashed var(--el-border-color);
+    border: 1px dashed var(--el-border-color);
 
     &:hover {
       background-color: var(--el-color-white);
-      border-color: var(--el-border-color);
+      border-color: var(--el-primary-color);
     }
 
     &:active,

@@ -109,7 +109,7 @@ export const ArrayTabs = observer(
             )
           })
         return h(
-          ElTabs as any,
+          ElTabs,
           {
             'class': [prefixCls],
             ...attrs,
@@ -119,7 +119,7 @@ export const ArrayTabs = observer(
             'onUpdata:modelValue': (key: any) => {
               activeKey.value = key
             },
-            'onModel': (target: any) => {
+            'onTabRemove': (target: any) => {
               onEdit(target, 'remove')
               if (isFn(attrs['tab-remove'])) {
                 attrs['tab-remove'](target)
