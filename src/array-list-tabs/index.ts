@@ -1,17 +1,17 @@
+import type { ArrayField } from '@formily/core'
+import type { ISchema } from '@formily/json-schema'
 import type { Ref } from 'vue'
-import { defineComponent, h, inject, provide, ref } from 'vue'
+import { reaction } from '@formily/reactive'
+import { observer } from '@formily/reactive-vue'
+import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import {
   ElBadge,
   ElCard,
   ElEmpty,
   ElScrollbar,
 } from 'element-plus'
-import type { ArrayField } from '@formily/core'
-import { RecursionField, useField, useFieldSchema } from '@formily/vue'
-import { observer } from '@formily/reactive-vue'
-import type { ISchema } from '@formily/json-schema'
 
-import { reaction } from '@formily/reactive'
+import { defineComponent, h, inject, provide, ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
 import { ArrayBase } from '../array-base'
@@ -39,8 +39,10 @@ const ArrayListTabPane = defineComponent({
       h(
         'div',
         {
-          class: `${prefixCls}-tabpane`,
-          style: activeIndex.value !== props.index && 'display: none;',
+          'class': `${prefixCls}-tabpane`,
+          'style': activeIndex.value !== props.index && 'display: none;',
+          'role': 'tabpanel',
+          'aria-labelledby': `tab-${props.index}`,
         },
         slots.default(),
       )
