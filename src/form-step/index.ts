@@ -1,17 +1,17 @@
-import type { PropType } from 'vue'
-import { defineComponent } from 'vue'
-import { action, model, observable } from '@formily/reactive'
 import type { Form, VoidField } from '@formily/core'
+import type { Schema, SchemaKey } from '@formily/json-schema'
+import type { PropType } from 'vue'
+import { action, model, observable } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
 import {
   Fragment,
-  RecursionField,
   h,
+  RecursionField,
   useField,
   useFieldSchema,
 } from '@formily/vue'
-import type { Schema, SchemaKey } from '@formily/json-schema'
 import { ElStep, ElSteps } from 'element-plus'
+import { defineComponent } from 'vue'
 import { composeExport, stylePrefix } from '../__builtins__'
 
 export interface IFormStep {

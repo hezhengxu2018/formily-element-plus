@@ -1,9 +1,9 @@
 import { connect, mapProps, mapReadPretty } from '@formily/vue'
-import { defineComponent, h } from 'vue'
 import { ElOption, ElSelect } from 'element-plus'
-import { PreviewText } from '../preview-text'
-
+import { defineComponent, h } from 'vue'
 import { transformComponent } from '../__builtins__'
+
+import { PreviewText } from '../preview-text'
 
 export type SelectProps = typeof ElSelect & {
   options?: Array<typeof ElOption>
@@ -32,28 +32,28 @@ const SelectOption = defineComponent({
                 options.map((option: any) => {
                   return typeof option === 'string'
                     ? h(
-                      ElOption,
-                      { key: option, value: option, label: option },
-                      {
-                        default: () =>
-                          slots?.option?.({
-                            option: { label: option, value: option },
-                          }) ?? option,
-                      },
-                    )
+                        ElOption,
+                        { key: option, value: option, label: option },
+                        {
+                          default: () =>
+                            slots?.option?.({
+                              option: { label: option, value: option },
+                            }) ?? option,
+                        },
+                      )
                     : h(
-                      ElOption,
-                      {
-                        key: option.value,
-                        ...option,
-                      },
-                      {
-                        default: () =>
-                          slots?.option?.({ option })
-                          ?? option.label
-                          ?? option.value,
-                      },
-                    )
+                        ElOption,
+                        {
+                          key: option.value,
+                          ...option,
+                        },
+                        {
+                          default: () =>
+                            slots?.option?.({ option })
+                            ?? option.label
+                            ?? option.value,
+                        },
+                      )
                 }),
             }
           : slots

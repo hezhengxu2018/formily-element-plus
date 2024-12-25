@@ -1,16 +1,16 @@
+import type { Schema, SchemaKey } from '@formily/json-schema'
 import type { PropType } from 'vue'
-import { computed, defineComponent, reactive } from 'vue'
-import { observer } from '@formily/reactive-vue'
 import { model } from '@formily/reactive'
+import { observer } from '@formily/reactive-vue'
 import {
   Fragment,
-  RecursionField,
   h,
+  RecursionField,
   useField,
   useFieldSchema,
 } from '@formily/vue'
-import type { Schema, SchemaKey } from '@formily/json-schema'
 import { ElBadge, ElTabPane, ElTabs } from 'element-plus'
+import { computed, defineComponent, reactive } from 'vue'
 import { composeExport, stylePrefix } from '../__builtins__'
 
 export interface IFormTab {

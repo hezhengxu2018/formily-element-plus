@@ -17,4 +17,5 @@ export async function build() {
   await buildPackage()
 }
 
+// eslint-disable-next-line antfu/no-top-level-await
 await build()

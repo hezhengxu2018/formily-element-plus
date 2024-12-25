@@ -1,13 +1,12 @@
 <script setup lang="tsx">
-import { defineComponent, onUnmounted, ref } from 'vue'
 import { createForm } from '@formily/core'
-import {
-  FormProvider,
-  FragmentComponent,
-  createSchemaField,
-} from '@formily/vue'
 import { autorun } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
+import {
+  createSchemaField,
+  FormProvider,
+  FragmentComponent,
+} from '@formily/vue'
 import {
   DatePicker,
   Form,
@@ -19,6 +18,7 @@ import {
   Select,
   Submit,
 } from '@sliver/formily-element-plus'
+import { defineComponent, onUnmounted, ref } from 'vue'
 
 function useCollapseGrid(maxRows) {
   const grid = FormGrid.createFormGrid({

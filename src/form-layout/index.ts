@@ -3,6 +3,7 @@ import type {
   Ref,
   SetupContext,
 } from 'vue'
+import { h } from '@formily/vue'
 import {
   defineComponent,
   inject,
@@ -10,7 +11,6 @@ import {
   ref,
   watch,
 } from 'vue'
-import { h } from '@formily/vue'
 import { stylePrefix } from '../__builtins__'
 import { useResponsiveFormLayout } from './useResponsiveFormLayout'
 

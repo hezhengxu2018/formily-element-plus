@@ -2,10 +2,10 @@ export function isValidElement(element) {
   return (
     isVueOptions(element)
     || (element
-    && typeof element === 'object'
-    && 'componentOptions' in element
-    && 'context' in element
-    && element.tag !== undefined)
+      && typeof element === 'object'
+      && 'componentOptions' in element
+      && 'context' in element
+      && element.tag !== undefined)
   ) // remove text node
 }
 
@@ -23,7 +23,7 @@ export function isVueOptions(options: any) {
   return (
     options
     && (typeof options.template === 'string'
-    || typeof options.render === 'function')
+      || typeof options.render === 'function')
   )
 }
 

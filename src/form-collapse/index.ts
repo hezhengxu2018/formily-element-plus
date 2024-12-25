@@ -1,18 +1,18 @@
-import { model } from '@formily/reactive'
+import type { GeneralField } from '@formily/core'
+import type { Schema, SchemaKey } from '@formily/json-schema'
 import type { PropType } from 'vue'
-import { computed, defineComponent } from 'vue'
+import { model } from '@formily/reactive'
+import { observer } from '@formily/reactive-vue'
+import { toArr } from '@formily/shared'
 import {
   Fragment,
-  RecursionField,
   h,
+  RecursionField,
   useField,
   useFieldSchema,
 } from '@formily/vue'
-import { observer } from '@formily/reactive-vue'
-import type { Schema, SchemaKey } from '@formily/json-schema'
 import { ElBadge, ElCollapse, ElCollapseItem } from 'element-plus'
-import { toArr } from '@formily/shared'
-import type { GeneralField } from '@formily/core'
+import { computed, defineComponent } from 'vue'
 
 import { composeExport, stylePrefix } from '../__builtins__'
 
@@ -82,8 +82,8 @@ function createFormCollapse(defaultActiveKeys?: ActiveKeys) {
     removeActiveKey(key: ActiveKey) {
       formCollapse.activeKeys = Array.isArray(formCollapse.activeKeys)
         ? formCollapse.activeKeys.filter(
-          item => item !== key,
-        )
+            item => item !== key,
+          )
         : ''
     },
     toggleActiveKey(key: ActiveKey) {

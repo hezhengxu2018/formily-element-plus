@@ -1,12 +1,12 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { type Alias, defineConfig } from 'vite'
-import VueMacros from 'unplugin-vue-macros/vite'
-import UnoCSS from 'unocss/vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import Components from 'unplugin-vue-components/vite'
-import Icons from 'unplugin-icons/vite'
+import UnoCSS from 'unocss/vite'
 import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
+import Components from 'unplugin-vue-components/vite'
+import VueMacros from 'unplugin-vue-macros/vite'
+import { type Alias, defineConfig } from 'vite'
 import { MarkdownTransform } from './.vitepress/plugins/markdown-transform'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -42,15 +42,18 @@ const alias: Alias[] = [
   {
     find: /^.*\/VPDocAside\.vue$/,
     replacement: fileURLToPath(
-      new URL('.vitepress/theme/components/doc-content/vp-table-of-content.vue', import.meta.url),
+      new URL(
+        '.vitepress/theme/components/doc-content/vp-table-of-content.vue',
+        import.meta.url,
+      ),
     ),
   },
-  // {
-  //   find: /^.*\/VPContent\.vue$/,
-  //   replacement: fileURLToPath(
-  //     new URL('.vitepress/theme/components/vp-content.vue', import.meta.url),
-  //   ),
-  // },
+  {
+    find: /^.*\/VPContent\.vue$/,
+    replacement: fileURLToPath(
+      new URL('.vitepress/theme/components/vp-content.vue', import.meta.url),
+    ),
+  },
   {
     find: /^.*\/VPSidebar\.vue$/,
     replacement: fileURLToPath(
@@ -109,5 +112,12 @@ export default defineConfig(async () => {
       UnoCSS(),
       MarkdownTransform(),
     ],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler', // or "modern"
+        },
+      },
+    },
   }
 })

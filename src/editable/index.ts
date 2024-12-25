@@ -1,17 +1,17 @@
-import type { Ref } from 'vue'
-import { defineComponent, h, onBeforeUnmount, ref } from 'vue'
-import { observer } from '@formily/reactive-vue'
-import { reaction } from '@formily/reactive'
 import type { Field } from '@formily/core'
+import type { Ref } from 'vue'
+import type { FormItemProps } from '../form-item'
+import { ChatDotRound, Close, Edit } from '@element-plus/icons-vue'
 import { isVoidField } from '@formily/core'
+import { reaction } from '@formily/reactive'
+import { observer } from '@formily/reactive-vue'
 import { useField } from '@formily/vue'
 import { ElPopover } from 'element-plus'
-import { ChatDotRound, Close, Edit } from '@element-plus/icons-vue'
 
+import { defineComponent, h, onBeforeUnmount, ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
-import type { FormItemProps } from '../form-item'
-import { FormBaseItem } from '../form-item'
 import { composeExport } from '../__builtins__/shared'
+import { FormBaseItem } from '../form-item'
 
 export type EditableProps = FormItemProps
 export type EditablePopoverProps = typeof ElPopover

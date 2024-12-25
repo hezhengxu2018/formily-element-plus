@@ -1,4 +1,4 @@
-@import '../__builtins__/styles/common.scss';
+@use '../__builtins__/styles/common.scss' as *;
 
 $array-table-prefix-cls: '#{$formily-prefix}-array-table';
 
@@ -59,12 +59,11 @@ $array-table-prefix-cls: '#{$formily-prefix}-array-table';
   .#{$formily-prefix}-array-base-addition {
     margin-top: 8px;
     width: 100%;
-    border: 1px dashed var(--el-border-color);
-    border-radius: var(--el-border-radius-small);
+    border: 2px dashed var(--el-border-color);
 
     &:hover {
-      background-color: var(--el-button-hover-text-color);
-      border-color: var(--el-primary-color);
+      background-color: var(--el-button-hover-text-color);;
+      border-color: var(--el-border-color);
     }
 
     &:active {

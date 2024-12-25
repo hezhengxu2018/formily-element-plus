@@ -1,5 +1,15 @@
 import type { Component, Ref } from 'vue'
 import {
+  CircleCheck,
+  CircleClose,
+  InfoFilled,
+  Warning,
+} from '@element-plus/icons-vue'
+import { isVoidField } from '@formily/core'
+import { connect, mapProps } from '@formily/vue'
+import { ElIcon, ElPopover, ElTooltip } from 'element-plus'
+
+import {
   defineComponent,
   h,
   onBeforeUnmount,
@@ -7,17 +17,6 @@ import {
   ref,
   watch,
 } from 'vue'
-import { isVoidField } from '@formily/core'
-import { connect, mapProps } from '@formily/vue'
-import { ElIcon, ElPopover, ElTooltip } from 'element-plus'
-
-import {
-  CircleCheck,
-  CircleClose,
-  InfoFilled,
-  Warning,
-} from '@element-plus/icons-vue'
-import { FormLayoutShallowContext, useFormLayout } from '../form-layout'
 import {
   composeExport,
   getStyleNumber,
@@ -25,6 +24,7 @@ import {
   stylePrefix,
 } from '../__builtins__'
 import { useGridColumn } from '../form-grid'
+import { FormLayoutShallowContext, useFormLayout } from '../form-layout'
 
 export interface FormItemProps {
   className?: string
@@ -230,43 +230,43 @@ export const FormBaseItem = defineComponent({
       const formatChildren
         = feedbackLayout === 'popover'
           ? h(
-            ElPopover,
-            {
-              props: {
-                disabled: !feedbackText,
-                placement: 'top',
+              ElPopover,
+              {
+                props: {
+                  disabled: !feedbackText,
+                  placement: 'top',
+                },
               },
-            },
-            {
-              reference: () =>
-                h('div', {}, { default: () => slots.default?.() }),
-              default: () => [
-                h(
-                  'div',
-                  {
-                    class: {
-                      [`${prefixCls}-${feedbackStatus}-help`]:
+              {
+                reference: () =>
+                  h('div', {}, { default: () => slots.default?.() }),
+                default: () => [
+                  h(
+                    'div',
+                    {
+                      class: {
+                        [`${prefixCls}-${feedbackStatus}-help`]:
                           !!feedbackStatus,
-                      [`${prefixCls}-help`]: true,
+                        [`${prefixCls}-help`]: true,
+                      },
                     },
-                  },
-                  {
-                    default: () => [
-                      feedbackStatus
-                      && ['error', 'success', 'warning'].includes(
-                        feedbackStatus as string,
-                      )
-                        ? ICON_MAP[
-                          feedbackStatus as 'error' | 'success' | 'warning'
-                        ]()
-                        : '',
-                      resolveComponent(feedbackText),
-                    ],
-                  },
-                ),
-              ],
-            },
-          )
+                    {
+                      default: () => [
+                        feedbackStatus
+                        && ['error', 'success', 'warning'].includes(
+                          feedbackStatus as string,
+                        )
+                          ? ICON_MAP[
+                              feedbackStatus as 'error' | 'success' | 'warning'
+                            ]()
+                          : '',
+                        resolveComponent(feedbackText),
+                      ],
+                    },
+                  ),
+                ],
+              },
+            )
           : slots.default?.()
 
       const renderLabelText = () => {
@@ -291,25 +291,25 @@ export const FormBaseItem = defineComponent({
         const isTextTooltip = tooltip && tooltipLayout === 'text'
         return isTextTooltip || overflow.value
           ? h(
-            ElTooltip,
-            {
-              placement: 'top',
-            },
-            {
-              default: () => [labelChildren],
-              content: () =>
-                h(
-                  'div',
-                  {},
-                  {
-                    default: () => [
-                      overflow.value && resolveComponent(label),
-                      isTextTooltip && resolveComponent(tooltip),
-                    ],
-                  },
-                ),
-            },
-          )
+              ElTooltip,
+              {
+                placement: 'top',
+              },
+              {
+                default: () => [labelChildren],
+                content: () =>
+                  h(
+                    'div',
+                    {},
+                    {
+                      default: () => [
+                        overflow.value && resolveComponent(label),
+                        isTextTooltip && resolveComponent(tooltip),
+                      ],
+                    },
+                  ),
+              },
+            )
           : labelChildren
       }
       const renderTooltipIcon = () => {
@@ -550,7 +550,7 @@ const Item = connect(
           field.validateStatus === 'validating'
             ? 'pending'
             : (Array.isArray(field.decorator)
-            && field.decorator[1]?.feedbackStatus)
+              && field.decorator[1]?.feedbackStatus)
             || field.validateStatus,
       }
     },

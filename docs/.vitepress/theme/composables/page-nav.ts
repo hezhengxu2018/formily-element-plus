@@ -1,5 +1,5 @@
-import { computed } from 'vue'
 import { useData } from 'vitepress'
+import { computed } from 'vue'
 import { isActive } from '../utils'
 import { useLang } from './lang'
 import { getFlatSideBarLinks, getSidebarConfig } from './sidebar'

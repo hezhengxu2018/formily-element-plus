@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { isClient } from '@vueuse/core'
 
-import { useSidebar } from '../composables/sidebar'
 import { useFullScreen } from '../composables/fullscreen'
+import { useSidebar } from '../composables/sidebar'
 import { useToggleWidgets } from '../composables/toggle-widgets'
 import { breakpoints } from '../constant'
-import VpNavbar from './vp-navbar.vue'
 import VpNavFull from './vp-nav-full.vue'
+import VpNavbar from './vp-navbar.vue'
 
 const { hasSidebar } = useSidebar()
 const { toggleFullScreen, isFullScreen } = useFullScreen()

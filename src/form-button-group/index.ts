@@ -1,9 +1,9 @@
+import type { SpaceProps } from '../space'
 import { h } from '@formily/vue'
 import { defineComponent } from 'vue'
-import type { SpaceProps } from '../space'
-import { Space } from '../space'
-import { FormBaseItem } from '../form-item'
 import { stylePrefix } from '../__builtins__'
+import { FormBaseItem } from '../form-item'
+import { Space } from '../space'
 
 export type FormButtonGroupProps = Omit<SpaceProps, 'align' | 'size'> & {
   align?: 'left' | 'right' | 'center'
@@ -33,39 +33,39 @@ export const FormButtonGroup = defineComponent({
     return () => {
       return props.alignFormItem
         ? h(
-          FormBaseItem,
-          {
-            colon: false,
-            label: ' ',
-            ...attrs,
-            style: {
-              margin: 0,
-              padding: 0,
-              width: '100%',
+            FormBaseItem,
+            {
+              colon: false,
+              label: ' ',
+              ...attrs,
+              style: {
+                margin: 0,
+                padding: 0,
+                width: '100%',
+              },
             },
-          },
-          {
-            default: () => h(Space, { size: props.gutter }, slots),
-          },
-        )
+            {
+              default: () => h(Space, { size: props.gutter }, slots),
+            },
+          )
         : h(
-          Space,
-          {
-            ...attrs,
-            class: [prefixCls],
-            style: {
-              justifyContent:
+            Space,
+            {
+              ...attrs,
+              class: [prefixCls],
+              style: {
+                justifyContent:
                 props.align === 'left'
                   ? 'flex-start'
                   : (props.align === 'right'
                       ? 'flex-end'
                       : 'center'),
-              display: 'flex',
+                display: 'flex',
+              },
+              size: props.gutter,
             },
-            size: props.gutter,
-          },
-          slots,
-        )
+            slots,
+          )
     }
   },
 })

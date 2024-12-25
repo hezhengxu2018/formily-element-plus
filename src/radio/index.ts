@@ -1,10 +1,10 @@
-import { connect, mapProps, mapReadPretty } from '@formily/vue'
 import type { PropType } from 'vue'
-import { defineComponent, h } from 'vue'
-import { ElRadio, ElRadioButton, ElRadioGroup } from 'element-plus'
 import type {
   SlotTypes,
 } from '../__builtins__/shared'
+import { connect, mapProps, mapReadPretty } from '@formily/vue'
+import { ElRadio, ElRadioButton, ElRadioGroup } from 'element-plus'
+import { defineComponent, h } from 'vue'
 import {
   composeExport,
   resolveComponent,
@@ -48,29 +48,29 @@ const RadioGroupOption = defineComponent({
                 options.map((option) => {
                   return typeof option === 'string'
                     ? h(
-                      OptionType,
-                      { label: option },
-                      {
-                        default: () => [
-                          resolveComponent(slots?.option ?? option, { option }),
-                        ],
-                      },
-                    )
+                        OptionType,
+                        { label: option },
+                        {
+                          default: () => [
+                            resolveComponent(slots?.option ?? option, { option }),
+                          ],
+                        },
+                      )
                     : h(
-                      OptionType,
-                      {
-                        ...option,
-                        value: undefined,
-                        label: option.value,
-                      },
-                      {
-                        default: () => [
-                          resolveComponent(slots?.option ?? option.label, {
-                            option,
-                          }),
-                        ],
-                      },
-                    )
+                        OptionType,
+                        {
+                          ...option,
+                          value: undefined,
+                          label: option.value,
+                        },
+                        {
+                          default: () => [
+                            resolveComponent(slots?.option ?? option.label, {
+                              option,
+                            }),
+                          ],
+                        },
+                      )
                 }),
             }
           : slots

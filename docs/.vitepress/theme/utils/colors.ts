@@ -1,5 +1,5 @@
-import { getCurrentInstance, ref, watch } from 'vue'
 import { useClipboard } from '@vueuse/core'
+import { getCurrentInstance, ref, watch } from 'vue'
 import { isDark } from '~/composables/dark'
 
 export function getCssVarName(namespace: string, type: string) {

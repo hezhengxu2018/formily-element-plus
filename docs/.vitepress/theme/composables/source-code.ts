@@ -1,6 +1,6 @@
-import { computed } from 'vue'
-import { useData } from 'vitepress'
 import type { Ref } from 'vue'
+import { useData } from 'vitepress'
+import { computed } from 'vue'
 import { createGitHubUrl } from '../utils'
 
 export function useSourceCode(path: Ref<string>) {

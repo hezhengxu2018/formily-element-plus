@@ -1,4 +1,4 @@
-@import '../__builtins__/styles/common.scss';
+@use '../__builtins__/styles/common.scss' as *;
 
 $array-table-prefix-cls: '#{$formily-prefix}-array-collapse';
 
@@ -22,12 +22,11 @@ $array-table-prefix-cls: '#{$formily-prefix}-array-collapse';
 
   .#{$formily-prefix}-array-base-addition {
     width: 100%;
-    border: 1px dashed var(--el-border-color);
-    border-radius: var(--el-border-radius-small);
+    border: 2px dashed var(--el-border-color);
 
     &:hover {
       background-color: var(--el-color-white);
-      border-color: var(--el-primary-color);
+      border-color: var(--el-border-color);
     }
 
     &:active,

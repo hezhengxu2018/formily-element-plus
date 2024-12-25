@@ -1,17 +1,17 @@
-import { FormProvider, FragmentComponent } from '@formily/vue'
-import { toJS } from '@formily/reactive'
-import { observer } from '@formily/reactive-vue'
 import type { Form, IFormProps } from '@formily/core'
-import { createForm } from '@formily/core'
 import type { IMiddleware } from '@formily/shared'
-import { applyMiddleware, isBool, isFn, isNum, isStr } from '@formily/shared'
-import { ElButton, ElConfigProvider, ElDialog } from 'element-plus'
 import type {
   ElButton as ElButtonProps,
   ElDialog as ElDialogProps,
 } from 'element-plus'
 import type { Component, PropType, VNode } from 'vue'
-import { Teleport, createApp, defineComponent, h, onMounted, ref } from 'vue'
+import { createForm } from '@formily/core'
+import { toJS } from '@formily/reactive'
+import { observer } from '@formily/reactive-vue'
+import { applyMiddleware, isBool, isFn, isNum, isStr } from '@formily/shared'
+import { FormProvider, FragmentComponent } from '@formily/vue'
+import { ElButton, ElConfigProvider, ElDialog } from 'element-plus'
+import { createApp, defineComponent, h, onMounted, ref, Teleport } from 'vue'
 import {
   createPortalProvider,
   getPortalProvides,

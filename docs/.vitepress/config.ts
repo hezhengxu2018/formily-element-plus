@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitepress'
-import { sidebar } from './config/sidebar'
-import { nav } from './config/nav'
 import { head } from './config/head'
 import { mdPlugin } from './config/markdown-plugin'
+import { nav } from './config/nav'
+import { sidebar } from './config/sidebar'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Formily Element Plus',

@@ -1,7 +1,7 @@
 import type { Component, PropType } from 'vue'
-import { defineComponent, h } from 'vue'
-import { connect, mapProps, mapReadPretty } from '@formily/vue'
+import type { SlotTypes } from '../__builtins__/shared'
 import { isStr } from '@formily/shared'
+import { connect, mapProps, mapReadPretty } from '@formily/vue'
 import {
   ElCheckbox,
   ElCheckboxButton,
@@ -9,7 +9,7 @@ import {
   version,
 } from 'element-plus'
 import { lt } from 'semver'
-import type { SlotTypes } from '../__builtins__/shared'
+import { defineComponent, h } from 'vue'
 import {
   composeExport,
   resolveComponent,

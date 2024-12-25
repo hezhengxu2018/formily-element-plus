@@ -1,5 +1,5 @@
-import { resolveHeadersFromTokens, slugify } from '@mdit-vue/shared'
 import type MarkdownIt from 'markdown-it'
+import { resolveHeadersFromTokens, slugify } from '@mdit-vue/shared'
 
 /**
  * Get markdown headers info

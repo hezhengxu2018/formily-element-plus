@@ -1,6 +1,6 @@
-import { ensureLang } from '../utils/lang'
-import guideLocale from '../i18n/pages/guide.json'
 import componentLocale from '../i18n/pages/component.json'
+import guideLocale from '../i18n/pages/guide.json'
+import { ensureLang } from '../utils/lang'
 
 function getGuideSidebar(locale: string = 'zh-CN') {
   return Object.fromEntries(

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { type Ref, inject } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
+import { inject, type Ref } from 'vue'
 import VPButton from './vp-button.vue'
 import VPImage from './vp-image.vue'
 

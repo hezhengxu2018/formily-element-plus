@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { h } from 'vue'
 import { createForm } from '@formily/core'
 import { createSchemaField } from '@formily/vue'
 import {
@@ -10,6 +9,7 @@ import {
   Upload,
 } from '@sliver/formily-element-plus'
 import { ElButton } from 'element-plus'
+import { h } from 'vue'
 
 function UploadButton() {
   return h(ElButton, {}, { default: () => '上传图片' })

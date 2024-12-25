@@ -2,7 +2,7 @@
 import type { DataField } from '@formily/core'
 import { createForm, onFieldInit, onFieldReact } from '@formily/core'
 import { action, observable } from '@formily/reactive'
-import { FormProvider, createSchemaField } from '@formily/vue'
+import { createSchemaField, FormProvider } from '@formily/vue'
 import { FormItem, Select, Submit } from '@sliver/formily-element-plus'
 
 let timeout

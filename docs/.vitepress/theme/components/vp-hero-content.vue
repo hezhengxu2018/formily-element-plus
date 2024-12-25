@@ -28,15 +28,6 @@ const { frontmatter: fm } = useData()
   <div class="vp-doc container">
     <!-- <Content /> -->
   </div>
-  <el-divider style="margin-bottom: 0" />
-  <div class="text-center py-6 text-xs">
-    <p class="mb-1">
-      Released under the
-      <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferer">
-        MIT License
-      </a>.
-    </p>
-  </div>
 </template>
 
 <style lang="css" scoped>

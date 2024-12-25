@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
 import MarkdownIt from 'markdown-it'
+import { computed } from 'vue'
 
 const props = defineProps({
   content: { type: String, required: true },

@@ -1,5 +1,8 @@
+import type { ArrayField } from '@formily/core'
+import type { ISchema } from '@formily/json-schema'
 import type { Ref } from 'vue'
-import { defineComponent, h, ref, watchEffect } from 'vue'
+import { observer } from '@formily/reactive-vue'
+import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import {
   ElBadge,
   ElCard,
@@ -8,14 +11,11 @@ import {
   ElEmpty,
   ElRow,
 } from 'element-plus'
-import type { ArrayField } from '@formily/core'
-import { RecursionField, useField, useFieldSchema } from '@formily/vue'
-import { observer } from '@formily/reactive-vue'
-import type { ISchema } from '@formily/json-schema'
+import { defineComponent, h, ref, watchEffect } from 'vue'
 
 import { stylePrefix } from '../__builtins__/configs'
-import { ArrayBase } from '../array-base'
 import { composeExport } from '../__builtins__/shared'
+import { ArrayBase } from '../array-base'
 
 type ElCollapseProps = typeof ElCollapse
 type ElCollapseItemProps = typeof ElCollapseItem
@@ -162,13 +162,13 @@ export const ArrayCollapseInner = observer(
                   ),
                   errors.length > 0
                     ? h(
-                      ElBadge,
-                      {
-                        class: [`${prefixCls}-errors-badge`],
-                        value: errors.length,
-                      },
-                      { default: () => headerTitle },
-                    )
+                        ElBadge,
+                        {
+                          class: [`${prefixCls}-errors-badge`],
+                          value: errors.length,
+                        },
+                        { default: () => headerTitle },
+                      )
                     : headerTitle,
                 ],
               },

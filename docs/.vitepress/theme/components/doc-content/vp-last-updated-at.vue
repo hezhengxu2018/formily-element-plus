@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
 import { useData } from 'vitepress'
-import { useLang } from '../../composables/lang'
+import { computed, onMounted, ref } from 'vue'
 import localeData from '../../../i18n/component/last-update-at.json'
+import { useLang } from '../../composables/lang'
 
 const { page } = useData()
 const lang = useLang()

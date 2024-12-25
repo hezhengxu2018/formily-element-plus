@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { nextTick, ref, watch } from 'vue'
 import type { SwitchInstance } from 'element-plus'
+import { nextTick, ref, watch } from 'vue'
 import { isDark, toggleDark } from '../../composables/dark'
 import DarkIcon from '../icons/dark.vue'
 import LightIcon from '../icons/light.vue'
@@ -20,7 +20,6 @@ watch(
 function beforeChange() {
   return new Promise<boolean>((resolve) => {
     const isAppearanceTransition
-      // @ts-expect-error: Transition API
       = document.startViewTransition
       && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (!isAppearanceTransition) {
@@ -37,7 +36,7 @@ function beforeChange() {
       Math.max(x, innerWidth - x),
       Math.max(y, innerHeight - y),
     )
-    // @ts-expect-error: Transition API
+
     const transition = document.startViewTransition(async () => {
       resolve(true)
       await nextTick()

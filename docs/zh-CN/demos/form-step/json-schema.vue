@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { createForm } from '@formily/core'
-import { FormConsumer, FormProvider, createSchemaField } from '@formily/vue'
+import { createSchemaField, FormConsumer, FormProvider } from '@formily/vue'
 import {
   FormButtonGroup,
   FormItem,

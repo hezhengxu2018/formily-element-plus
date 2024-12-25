@@ -1,10 +1,10 @@
-import { computed } from 'vue'
 import { useData } from 'vitepress'
+import { computed } from 'vue'
+import editLinkLocale from '../../i18n/component/edit-link.json'
 import { defaultLang } from '../constant'
 import { createCrowdinUrl, createGitHubUrl } from '../utils'
-import editLinkLocale from '../../i18n/component/edit-link.json'
-import { useLocale } from './locale'
 import { useLang } from './lang'
+import { useLocale } from './locale'
 
 export function useEditLink() {
   const { page, theme, frontmatter } = useData()

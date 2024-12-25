@@ -1,21 +1,20 @@
-import { computed, defineComponent, h, ref } from 'vue'
 import type {
   ArrayField,
   FieldDisplayTypes,
   GeneralField,
   IVoidFieldFactoryProps,
 } from '@formily/core'
+import type { Schema } from '@formily/json-schema'
+import type { Component, Ref, VNode } from 'vue'
+import { observer } from '@formily/reactive-vue'
+import { isArr, isBool } from '@formily/shared'
 import {
-  FragmentComponent,
   RecursionField as _RecursionField,
+  FragmentComponent,
   useField,
   useFieldSchema,
 } from '@formily/vue'
-import { observer } from '@formily/reactive-vue'
-import { isArr, isBool } from '@formily/shared'
-import type { Schema } from '@formily/json-schema'
 
-import type { Component, Ref, VNode } from 'vue'
 import {
   ElBadge,
   ElOption,
@@ -24,11 +23,12 @@ import {
   ElTable,
   ElTableColumn,
 } from 'element-plus'
+import { computed, defineComponent, h, ref } from 'vue'
 
-import { Space } from '../space'
-import { ArrayBase } from '../array-base'
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
+import { ArrayBase } from '../array-base'
+import { Space } from '../space'
 
 type ElTableProps = typeof ElTable
 type ElColumnProps = typeof ElTableColumn

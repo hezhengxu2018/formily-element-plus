@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 // import nprogress from 'nprogress'
 import { useData, useRoute } from 'vitepress'
+import { computed } from 'vue'
 import { useSidebar } from '../composables/sidebar'
-import VPHeroContent from './vp-hero-content.vue'
 import VPDocContent from './vp-doc-content.vue'
+import VPHeroContent from './vp-hero-content.vue'
 import VPNotFound from './vp-not-found.vue'
 
 // const props = defineProps<{ isSidebarOpen: boolean }>()
 const { frontmatter } = useData()
 const route = useRoute()
-const isNotFound = computed(() => route.component === VPNotFound)
+const isNotFound = computed(() => route.data.description === 'Not Found')
 const isHeroPost = computed(() => frontmatter.value.page === true)
 const { hasSidebar } = useSidebar()
 

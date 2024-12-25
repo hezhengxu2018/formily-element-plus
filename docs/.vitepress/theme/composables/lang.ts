@@ -1,5 +1,5 @@
-import { computed } from 'vue'
 import { useRoute } from 'vitepress'
+import { computed } from 'vue'
 import { defaultLang } from '../constant'
 
 export function useLang() {
