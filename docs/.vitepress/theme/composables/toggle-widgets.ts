@@ -1,7 +1,7 @@
-import { watch } from 'vue'
+import type { Ref } from 'vue'
 
 import { isClient } from '@vueuse/core'
-import type { Ref } from 'vue'
+import { watch } from 'vue'
 
 export function useToggleWidgets(watchSource: Ref<boolean>, handler: (e: Event) => void) {
   if (!isClient)

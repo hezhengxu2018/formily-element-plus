@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import VPLink from '../common/vp-link.vue'
-
 import type { Link } from '../../types'
+
+import VPLink from '../common/vp-link.vue'
 
 defineProps<{
   item: Link

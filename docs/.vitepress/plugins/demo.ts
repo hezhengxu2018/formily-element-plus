@@ -1,8 +1,8 @@
-import path from 'node:path'
-import fs from 'node:fs'
 import type MarkdownIt from 'markdown-it'
-import type Token from 'markdown-it/lib/token.mjs'
 import type Renderer from 'markdown-it/lib/renderer.mjs'
+import type Token from 'markdown-it/lib/token.mjs'
+import fs from 'node:fs'
+import path from 'node:path'
 
 interface ContainerOpts {
   marker?: string | undefined

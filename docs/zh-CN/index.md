@@ -1,5 +1,6 @@
 ---
 layout: home
+page: true
 
 hero:
   name: Formily Element Plus

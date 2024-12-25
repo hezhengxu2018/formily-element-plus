@@ -1,11 +1,11 @@
-import { defineComponent } from 'vue'
-import type { Component, SetupContext, VNode } from 'vue'
 import type { Form as FormType, IFormFeedback } from '@formily/core'
+import type { Component, SetupContext, VNode } from 'vue'
+import type { FormLayoutProps } from '../form-layout'
 import { FormProvider as _FormProvider, h, useForm } from '@formily/vue'
 
-import { PreviewText } from '../preview-text'
-import type { FormLayoutProps } from '../form-layout'
+import { defineComponent } from 'vue'
 import { FormLayout } from '../form-layout'
+import { PreviewText } from '../preview-text'
 
 const FormProvider = _FormProvider as unknown as Component
 

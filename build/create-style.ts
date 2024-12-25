@@ -6,6 +6,7 @@ import fs from 'fs-extra'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+// eslint-disable-next-line antfu/no-top-level-await
 const files = await glob('../src/*/style.scss', {
   cwd: path.resolve(__dirname, '../src'),
 })
@@ -14,9 +15,9 @@ fs.writeFile(
   path.resolve(__dirname, '../src/style.ts'),
   `// auto generated code
 ${files
-    .map((path) => {
-      return `import '${path}'\n`
-    })
-    .join('')}`,
+  .map((path) => {
+    return `import '${path}'\n`
+  })
+  .join('')}`,
   'utf8',
 )

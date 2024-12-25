@@ -1,14 +1,14 @@
 import type { Field } from '@formily/core'
-import { defineComponent, h, ref } from 'vue'
-import { FragmentComponent, connect, mapProps, useField } from '@formily/vue'
+import type { UploadFile } from 'element-plus/es/components/upload/src/upload'
 import {
   Plus,
   UploadFilled,
   Upload as UploadIcon,
 } from '@element-plus/icons-vue'
-import { ElButton, ElIcon, ElUpload, genFileId } from 'element-plus'
-import type { UploadFile } from 'element-plus/es/components/upload/src/upload'
 import { isFn } from '@formily/shared'
+import { connect, FragmentComponent, mapProps, useField } from '@formily/vue'
+import { ElButton, ElIcon, ElUpload, genFileId } from 'element-plus'
+import { defineComponent, h, ref } from 'vue'
 
 export type UploadProps = typeof ElUpload & {
   textContent?: string

@@ -1,3 +1,4 @@
+import type { ConfigProviderProps } from 'element-plus'
 /*
  * @Author: Hezhengxu
  * @Date: 2024-08-28 11:15:56
@@ -5,7 +6,6 @@
  * @Description: 加载现有项目中的element-plus配置项
  */
 import type { App } from 'vue'
-import type { ConfigProviderProps } from 'element-plus'
 import { useGlobalConfig, useZIndex } from 'element-plus'
 
 export const loadElConfigProvider: () => Partial<ConfigProviderProps> = () => {

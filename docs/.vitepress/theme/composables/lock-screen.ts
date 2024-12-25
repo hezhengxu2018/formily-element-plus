@@ -1,5 +1,5 @@
-import { onUnmounted } from 'vue'
 import { isClient } from '@vueuse/core'
+import { onUnmounted } from 'vue'
 import {
   addClass,
   getScrollBarWidth,

@@ -1,8 +1,15 @@
+import type { ArrayField } from '@formily/core'
+import type { Schema } from '@formily/json-schema'
+import type { LinkProps } from 'element-plus'
 import type {
   InjectionKey,
   PropType,
   Ref,
 } from 'vue'
+import { ArrowDown, ArrowUp, Delete, Plus, Rank } from '@element-plus/icons-vue'
+import { clone, isValid, uid } from '@formily/shared'
+import { FragmentComponent, useField, useFieldSchema } from '@formily/vue'
+import { ElLink } from 'element-plus'
 import {
   defineComponent,
   h,
@@ -12,13 +19,6 @@ import {
   ref,
   toRefs,
 } from 'vue'
-import { FragmentComponent, useField, useFieldSchema } from '@formily/vue'
-import { clone, isValid, uid } from '@formily/shared'
-import type { ArrayField } from '@formily/core'
-import type { LinkProps } from 'element-plus'
-import { ElLink } from 'element-plus'
-import type { Schema } from '@formily/json-schema'
-import { ArrowDown, ArrowUp, Delete, Plus, Rank } from '@element-plus/icons-vue'
 
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'

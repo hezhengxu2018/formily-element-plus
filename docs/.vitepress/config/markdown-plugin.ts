@@ -1,12 +1,12 @@
 import type MarkdownIt from 'markdown-it'
 import mdContainer from 'markdown-it-container'
-import externalLinkIcon from '../plugins/external-link-icon'
-import tableWrapper from '../plugins/table-wrapper'
-import tooltip from '../plugins/tooltip'
-import tag from '../plugins/tag'
-import headers from '../plugins/headers'
-import createDemoContainer from '../plugins/demo'
 import { ApiTableContainer } from '../plugins/api-table'
+import createDemoContainer from '../plugins/demo'
+import externalLinkIcon from '../plugins/external-link-icon'
+import headers from '../plugins/headers'
+import tableWrapper from '../plugins/table-wrapper'
+import tag from '../plugins/tag'
+import tooltip from '../plugins/tooltip'
 
 export function mdPlugin(md: MarkdownIt) {
   md.use(headers)

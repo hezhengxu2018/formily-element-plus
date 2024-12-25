@@ -1,26 +1,26 @@
 @use 'sass:math';
-@import '../__builtins__/styles/common.scss';
-@import './var.scss';
-@import './grid.scss';
-@import './animation.scss';
+@use '../__builtins__/styles/common.scss' as *;
+@use './var.scss' as *;
+@use './grid.scss' as *;
+@use './animation.scss' as *;
 
 .#{$form-item-prefix} {
   display: flex;
-  margin-bottom: $--form-item-margin-bottom;
+  margin-bottom: $form-item-margin-bottom;
   position: relative;
-  line-height: $--form-item-medium-line-height;
-  font-size: $--form-font-size;
+  line-height: $form-item-medium-line-height;
+  font-size: $form-font-size;
 
   &-label * {
-    line-height: $--form-item-medium-line-height;
+    line-height: $form-item-medium-line-height;
   }
 
   &-label-content {
-    min-height: $--form-item-medium-line-height;
+    min-height: $form-item-medium-line-height;
   }
 
   &-content-component {
-    line-height: $--form-item-medium-line-height;
+    line-height: $form-item-medium-line-height;
   }
 
   .#{$namespace}-input,
@@ -98,7 +98,7 @@
 }
 
 .#{$form-item-prefix}-feedback-layout-loose {
-  margin-bottom: $--form-error-line-height;
+  margin-bottom: $form-error-line-height;
 
   &.#{$form-item-prefix}-feedback-has-text:not(.#{$form-item-prefix}-inset) {
     margin-bottom: 0;
@@ -122,8 +122,8 @@
 
     .#{$form-item-prefix}-control-content-component {
       width: 100%;
-      min-height: $--form-item-medium-line-height;
-      line-height: $--form-item-medium-line-height;
+      min-height: $form-item-medium-line-height;
+      line-height: $form-item-medium-line-height;
 
       &-has-feedback-icon {
         flex: 1;
@@ -137,7 +137,7 @@
       margin-right: 8px;
       display: inline-flex;
       align-items: center;
-      min-height: $--form-item-medium-line-height;
+      min-height: $form-item-medium-line-height;
       flex-shrink: 0;
     }
 
@@ -145,58 +145,58 @@
       margin-left: 8px;
       display: inline-flex;
       align-items: center;
-      min-height: $--form-item-medium-line-height;
+      min-height: $form-item-medium-line-height;
       flex-shrink: 0;
     }
   }
 }
 
 .#{$form-item-prefix}-size-small {
-  font-size: $--font-size-extra-small;
+  font-size: $namespace;
 
   .#{$form-item-prefix}-label * {
-    line-height: $--form-item-small-line-height;
+    line-height: $form-item-small-line-height;
   }
 
   .#{$form-item-prefix}-label-content {
-    min-height: $--form-item-small-line-height;
+    min-height: $form-item-small-line-height;
   }
 
   .#{$form-item-prefix}-control-content {
     .#{$form-item-prefix}-control-content-component {
-      line-height: $--form-item-small-line-height;
-      min-height: $--form-item-small-line-height;
+      line-height: $form-item-small-line-height;
+      min-height: $form-item-small-line-height;
     }
   }
 
   .#{$form-item-prefix}-help,
   .#{$form-item-prefix}-extra {
-    min-height: $--form-error-line-height;
+    min-height: $form-error-line-height;
   }
 
   .#{$form-item-prefix}-control-content {
-    min-height: $--form-item-small-line-height;
+    min-height: $form-item-small-line-height;
   }
 
   .#{$form-item-prefix}-label > label {
-    height: $--form-item-small-line-height;
+    height: $form-item-small-line-height;
   }
 
   .#{$namespace}-input {
     input {
-      height: $--form-item-small-line-height;
-      line-height: $--form-item-small-line-height;
+      height: $form-item-small-line-height;
+      line-height: $form-item-small-line-height;
     }
   }
 
   .#{$namespace}-input-number {
-    line-height: $--form-item-small-line-height;
+    line-height: $form-item-small-line-height;
     &.is-controls-right {
       .#{$namespace}-input-number__increase,
       .#{$namespace}-input-number__decrease {
-        line-height: calc($--form-item-small-line-height / 2);
-        height: calc($--form-item-small-line-height / 2);
-        font-size: $--font-size-extra-small;
+        line-height: calc($form-item-small-line-height / 2);
+        height: calc($form-item-small-line-height / 2);
+        font-size: $font-size-extra-small;
         box-sizing: border-box;
       }
     }
@@ -204,58 +204,58 @@
 }
 
 .#{$form-item-prefix}-size-large {
-  font-size: $--font-size-medium;
+  font-size: $font-size-medium;
 
   .#{$form-item-prefix}-label * {
-    line-height: $--form-item-large-line-height;
+    line-height: $form-item-large-line-height;
   }
 
   .#{$form-item-prefix}-label-content {
-    min-height: $--form-item-large-line-height;
+    min-height: $form-item-large-line-height;
   }
 
   .#{$form-item-prefix}-control-content {
     .#{$form-item-prefix}-control-content-component {
-      line-height: $--form-item-large-line-height;
-      min-height: $--form-item-large-line-height;
+      line-height: $form-item-large-line-height;
+      min-height: $form-item-large-line-height;
     }
   }
 
   .#{$form-item-prefix}-help,
   .#{$form-item-prefix}-extra {
-    min-height: $--form-error-line-height;
+    min-height: $form-error-line-height;
   }
 
   .#{$form-item-prefix}-control-content {
-    min-height: $--form-item-large-line-height;
+    min-height: $form-item-large-line-height;
   }
 
   .#{$namespace}-input {
     input {
-      height: $--form-item-large-line-height;
-      line-height: $--form-item-large-line-height;
+      height: $form-item-large-line-height;
+      line-height: $form-item-large-line-height;
     }
   }
 
   .#{$namespace}-select {
     input {
-      height: $--form-item-large-line-height !important;
-      line-height: $--form-item-large-line-height;
+      height: $form-item-large-line-height !important;
+      line-height: $form-item-large-line-height;
     }
   }
 
   .#{$namespace}-select__tags .el-tag {
-    height: $--form-item-large-line-height - 12px;
-    line-height: $--form-item-large-line-height - 12px;
+    height: $form-item-large-line-height - 12px;
+    line-height: $form-item-large-line-height - 12px;
   }
 
   .#{$namespace}-input-number {
-    line-height: $--form-item-large-line-height;
+    line-height: $form-item-large-line-height;
     &.is-controls-right {
       .#{$namespace}-input-number__increase,
       .#{$namespace}-input-number__decrease {
-        line-height: calc($--form-item-large-line-height / 2) - 1;
-        font-size: $--font-size-medium;
+        line-height: calc($form-item-large-line-height / 2) - 1;
+        font-size: $font-size-medium;
       }
     }
   }
@@ -266,11 +266,11 @@
     display: block;
 
     .#{$form-item-prefix}-label * {
-      line-height: $--form-item-label-top-line-height;
+      line-height: $form-item-label-top-line-height;
     }
 
     .#{$form-item-prefix}-label-content {
-      min-height: $--form-item-label-top-line-height;
+      min-height: $form-item-label-top-line-height;
     }
   }
 }
@@ -284,7 +284,7 @@
   color: var(--el-text-color-secondary);
   display: flex;
   align-items: center;
-  height: $--form-item-medium-line-height;
+  height: $form-item-medium-line-height;
   cursor: pointer;
   i {
     line-height: 1;
@@ -324,8 +324,8 @@
 .#{$form-item-prefix}-help,
 .#{$form-item-prefix}-extra {
   clear: both;
-  min-height: $--form-error-line-height;
-  line-height: $--form-error-line-height;
+  min-height: $form-error-line-height;
+  line-height: $form-error-line-height;
   color: var(--el-text-color-secondary);
   transition: var(--el-transition-all);
   padding-top: 0;

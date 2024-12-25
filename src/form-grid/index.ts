@@ -1,9 +1,14 @@
+import type { IGridOptions } from '@formily/grid'
 import type {
   ComponentInternalInstance,
   InjectionKey,
   PropType,
   Ref,
 } from 'vue'
+import { Grid } from '@formily/grid'
+import { markRaw } from '@formily/reactive'
+import { observer } from '@formily/reactive-vue'
+import { h } from '@formily/vue'
 import {
   computed,
   defineComponent,
@@ -13,11 +18,6 @@ import {
   provide,
   watchEffect,
 } from 'vue'
-import { h } from '@formily/vue'
-import { observer } from '@formily/reactive-vue'
-import { markRaw } from '@formily/reactive'
-import type { IGridOptions } from '@formily/grid'
-import { Grid } from '@formily/grid'
 import { composeExport, stylePrefix } from '../__builtins__'
 import { useFormLayout } from '../form-layout'
 

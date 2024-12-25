@@ -1,7 +1,7 @@
 <script setup lang="tsx">
-import { ElButton } from 'element-plus'
 import { Field } from '@formily/vue'
 import { DatePicker, FormDialog, FormItem, FormLayout, Input } from '@sliver/formily-element-plus'
+import { ElButton } from 'element-plus'
 
 async function handleOpen() {
   await FormDialog('弹框表单', () => (

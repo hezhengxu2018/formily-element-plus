@@ -1,7 +1,7 @@
 <script setup lang="tsx">
+import { Field } from '@formily/vue'
 import { FormDialog, FormItem, FormLayout, Input } from '@sliver/formily-element-plus'
 import { ElButton } from 'element-plus'
-import { Field } from '@formily/vue'
 
 function handleOpen() {
   FormDialog('弹框表单', () => (

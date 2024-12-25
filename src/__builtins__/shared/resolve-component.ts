@@ -1,6 +1,6 @@
-import { isFn, isNum, isStr } from '@formily/shared'
-import { type DefineComponent, type VNode, h, isVNode, toRaw } from 'vue'
 import type { SlotTypes } from '.'
+import { isFn, isNum, isStr } from '@formily/shared'
+import { type DefineComponent, h, isVNode, toRaw, type VNode } from 'vue'
 
 export function resolveComponent(child?: SlotTypes, props?: Record<string, any>) {
   if (child) {

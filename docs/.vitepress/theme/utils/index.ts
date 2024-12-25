@@ -2,7 +2,7 @@ import { isExternal } from 'vitepress/dist/client/shared'
 
 export * from './colors'
 
-export { isExternal, isActive } from 'vitepress/dist/client/shared'
+export { isActive, isExternal } from 'vitepress/dist/client/shared'
 export { ensureStartingSlash } from 'vitepress/dist/client/theme-default/support/utils'
 
 const endingSlashRE = /\/$/

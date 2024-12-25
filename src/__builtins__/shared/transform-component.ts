@@ -1,7 +1,7 @@
 import type { Component } from 'vue'
-import { defineComponent } from 'vue'
 import { each, merge } from '@formily/shared'
 import { h } from '@formily/vue'
+import { defineComponent } from 'vue'
 
 type ListenersTransformRules = Record<string, string>
 

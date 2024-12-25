@@ -1,5 +1,5 @@
-import { computed } from 'vue'
 import { useData, useRoute } from 'vitepress'
+import { computed } from 'vue'
 import { ensureStartingSlash } from '../utils'
 import { useLang } from './lang'
 

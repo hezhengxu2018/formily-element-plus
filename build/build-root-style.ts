@@ -6,10 +6,10 @@ import { cwd } from './constants'
 function createStyleFile(files: string[]) {
   return `// auto generated code
 ${files
-    .map((path) => {
-      return `import '${path}'\n`
-    })
-    .join('')}`
+  .map((path) => {
+    return `import '${path}'\n`
+  })
+  .join('')}`
 }
 
 export function buildRootStyle() {

@@ -1,21 +1,21 @@
-import { computed, defineComponent, h, toRef } from 'vue'
-import { observer } from '@formily/reactive-vue'
-import { useField } from '@formily/vue'
-import { isArr, isValid } from '@formily/shared'
-import { ElTag } from 'element-plus'
 import type { Field } from '@formily/core'
 import type { Ref } from 'vue'
+import type { CascaderProps } from '../cascader'
+import type { DatePickerProps } from '../date-picker'
+import type { SelectProps } from '../select'
+import type { TimePickerProps } from '../time-picker'
+import { observer } from '@formily/reactive-vue'
+import { isArr, isValid } from '@formily/shared'
+import { useField } from '@formily/vue'
+import { ElTag } from 'element-plus'
+import { computed, defineComponent, h, toRef } from 'vue'
+import { stylePrefix } from '../__builtins__/configs'
 import {
   composeExport,
   createContext,
   resolveComponent,
   useContext,
 } from '../__builtins__/shared'
-import { stylePrefix } from '../__builtins__/configs'
-import type { SelectProps } from '../select'
-import type { CascaderProps } from '../cascader'
-import type { DatePickerProps } from '../date-picker'
-import type { TimePickerProps } from '../time-picker'
 import { Space } from '../space'
 
 const prefixCls = `${stylePrefix}-preview-text`

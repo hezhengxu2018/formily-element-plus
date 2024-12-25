@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vitepress'
-import { useLang } from '../composables/lang'
+import { computed, ref, watch } from 'vue'
 import skipLinkLocale from '../../i18n/component/skip-link.json'
+import { useLang } from '../composables/lang'
 
 const route = useRoute()
 const lang = useLang()

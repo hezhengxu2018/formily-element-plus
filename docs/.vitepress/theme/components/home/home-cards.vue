@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { useData } from 'vitepress'
+import { computed } from 'vue'
 import homeLocale from '../../../i18n/pages/home.json'
 
 const { lang } = useData()

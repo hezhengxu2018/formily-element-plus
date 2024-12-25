@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useSidebar } from '../composables/sidebar'
 import { useBackTop } from '../composables/back-top'
+import { useSidebar } from '../composables/sidebar'
 import ToggleSidebarBtn from './subnav/toggle-sidebar-btn.vue'
 
 defineProps<{

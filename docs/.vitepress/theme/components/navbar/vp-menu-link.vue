@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { useRoute } from 'vitepress'
+import type { Link } from '../../types'
 import { useStorage } from '@vueuse/core'
-import VPLink from '../common/vp-link.vue'
+import { useRoute } from 'vitepress'
 import { isActive } from '../../utils'
 
-import type { Link } from '../../types'
+import VPLink from '../common/vp-link.vue'
 
 defineProps<{
   item: Link

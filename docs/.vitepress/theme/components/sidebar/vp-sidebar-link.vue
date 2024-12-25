@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
+import type { Link } from '../../types'
 import { useRoute } from 'vitepress'
+import { computed, ref, watch } from 'vue'
 import { isActive } from '../../utils'
 import VersionTag from '../dev/version-tag.vue'
-import type { Link } from '../../types'
 
 const props = defineProps<{
   item: Link

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { PropType } from 'vue'
+import { computed } from 'vue'
 import ApiTyping from './vp-api-typing.vue'
 
 type ParamType = [string, string]

@@ -1,8 +1,8 @@
+import type { Plugin } from 'vite'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { camelize } from 'vue'
-import type { Plugin } from 'vite'
 
 type Append = Record<'headers' | 'footers' | 'scriptSetups', string[]>
 

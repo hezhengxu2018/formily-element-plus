@@ -1,7 +1,7 @@
-import { isVoidField } from '@formily/core'
-import { connect, mapProps } from '@formily/vue'
-
 import type { ElFormItem as _ElFormItemProps } from 'element-plus'
+import { isVoidField } from '@formily/core'
+
+import { connect, mapProps } from '@formily/vue'
 import { ElFormItem as ElFormItemComponent } from 'element-plus'
 
 export type ElFormItemProps = typeof _ElFormItemProps & { title: string }

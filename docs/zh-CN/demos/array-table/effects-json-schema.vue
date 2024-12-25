@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { createForm, onFieldChange, onFieldReact } from '@formily/core'
-import { FormProvider, createSchemaField } from '@formily/vue'
+import { createSchemaField, FormProvider } from '@formily/vue'
 import {
   ArrayTable,
   Editable,

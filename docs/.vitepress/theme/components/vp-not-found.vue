@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { isClient } from '@vueuse/core'
-import { useLang } from '../composables/lang'
+import { computed } from 'vue'
 import localeData from '../../i18n/pages/not-found.json'
+import { useLang } from '../composables/lang'
 
 const lang = useLang()
 

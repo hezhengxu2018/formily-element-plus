@@ -1,9 +1,9 @@
-import { defineComponent, h } from 'vue'
-import { useField } from '@formily/vue'
-import { observer } from '@formily/reactive-vue'
 import type { Field } from '@formily/core'
 import { isVoidField } from '@formily/core'
+import { observer } from '@formily/reactive-vue'
+import { useField } from '@formily/vue'
 import { ElCascader } from 'element-plus'
+import { defineComponent, h } from 'vue'
 
 import { PreviewText } from '../preview-text'
 

@@ -1,6 +1,6 @@
+import type { ComponentInternalInstance } from 'vue'
 import { isArr, isValid } from '@formily/shared'
 import { getCurrentInstance, onMounted, ref } from 'vue'
-import type { ComponentInternalInstance } from 'vue'
 
 interface IProps {
   breakpoints?: number[]

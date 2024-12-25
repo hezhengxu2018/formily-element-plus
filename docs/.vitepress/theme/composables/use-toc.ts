@@ -1,7 +1,7 @@
-import { computed } from 'vue'
+import type { PageData } from 'vitepress'
 import { useData } from 'vitepress'
 
-import type { PageData } from 'vitepress'
+import { computed } from 'vue'
 
 type EnhanceArrayElement<T, P> = T extends Array<infer U> ? (U & P)[] : never
 
