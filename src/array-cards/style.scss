@@ -1,8 +1,8 @@
 @use '../__builtins__/styles/common.scss' as *;
 
-$array-table-prefix-cls: '#{$formily-prefix}-array-cards';
+$array-cards-prefix-cls: '#{$formily-prefix}-array-cards';
 
-.#{$array-table-prefix-cls} {
+.#{$array-cards-prefix-cls} {
   .el-card__header {
     padding-top: 12.5px;
     padding-bottom: 12.5px;
@@ -11,17 +11,19 @@ $array-table-prefix-cls: '#{$formily-prefix}-array-cards';
     padding: 0;
   }
 
-  .#{$array-table-prefix-cls}-item {
-    margin-bottom: 10px;
+  .#{$array-cards-prefix-cls}-item + .#{$array-cards-prefix-cls}-item {
+    margin-top: 8px;
   }
 
   .#{$formily-prefix}-array-base-addition {
+    margin-top: 8px;
     width: 100%;
-    border: 2px dashed var(--el-border-color);
+    border: 1px dashed var(--el-border-color);
+    border-radius: var(--el-border-radius-small);
 
     &:hover {
       background-color: var(--el-color-white);
-      border-color: var(--el-border-color);
+      border-color: var(--el-primary-color);
     }
 
     &:active,
