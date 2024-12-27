@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { createForm, onFieldChange, onFieldReact } from '@formily/core'
+import { createForm, isField, onFieldChange, onFieldReact } from '@formily/core'
 import { createSchemaField, FormProvider } from '@formily/vue'
 import {
   ArrayTable,
@@ -9,6 +9,7 @@ import {
   Submit,
   Switch,
 } from '@sliver/formily-element-plus'
+import { ElSpace } from 'element-plus'
 
 const { SchemaField } = createSchemaField({
   components: {
@@ -17,6 +18,7 @@ const { SchemaField } = createSchemaField({
     Input,
     Editable,
     Switch,
+    ElSpace,
   },
 })
 
@@ -25,10 +27,14 @@ const form = createForm({
     // 主动联动模式
     onFieldChange('hideFirstColumn', ['value'], (field) => {
       field.query('array.column3').take((target) => {
-        target.visible = !field.value
+        if (isField(field)) {
+          target.visible = !field.value
+        }
       })
       field.query('array.*.a2').take((target) => {
-        target.visible = !field.value
+        if (isField(field)) {
+          target.visible = !field.value
+        }
       })
     })
     // 被动联动模式
@@ -118,17 +124,26 @@ const schema = {
                 'type': 'void',
                 'x-component': 'FormItem',
                 'properties': {
-                  remove: {
+                  space: {
                     'type': 'void',
-                    'x-component': 'ArrayTable.Remove',
-                  },
-                  moveDown: {
-                    'type': 'void',
-                    'x-component': 'ArrayTable.MoveDown',
-                  },
-                  moveUp: {
-                    'type': 'void',
-                    'x-component': 'ArrayTable.MoveUp',
+                    'x-component': 'ElSpace',
+                    'x-component-props': {
+                      style: 'height: 100%',
+                    },
+                    'properties': {
+                      remove: {
+                        'type': 'void',
+                        'x-component': 'ArrayTable.Remove',
+                      },
+                      moveDown: {
+                        'type': 'void',
+                        'x-component': 'ArrayTable.MoveDown',
+                      },
+                      moveUp: {
+                        'type': 'void',
+                        'x-component': 'ArrayTable.MoveUp',
+                      },
+                    },
                   },
                 },
               },

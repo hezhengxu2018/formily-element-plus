@@ -14,6 +14,7 @@ import {
   defineComponent,
   h,
   inject,
+  mergeProps,
   onBeforeUnmount,
   provide,
   ref,
@@ -189,16 +190,17 @@ const ArrayBaseSortHandle = defineComponent({
       if (array.field.value?.pattern !== 'editable')
         return null
 
+      const defaultProps = {
+        class: `${prefixCls}-sort-handle`,
+        directives: [{ name: 'handle' }],
+        size: 'small',
+        icon: Rank,
+        underline: false,
+      }
+
       return h(
         ElLink,
-        {
-          directives: [{ name: 'handle' }],
-          size: 'small',
-          icon: Rank,
-          underline: false,
-          ...attrs,
-          class: [`${prefixCls}-sort-handle`].concat(attrs.class as any),
-        },
+        mergeProps(defaultProps, attrs),
         {},
       )
     }
@@ -213,10 +215,7 @@ const ArrayBaseIndex = defineComponent({
     return () => {
       return h(
         'span',
-        {
-          class: `${prefixCls}-index`,
-          ...attrs,
-        },
+        mergeProps({ class: `${prefixCls}-index` }, attrs),
         {
           default: () => [`#${index.value + 1}.`],
         },
@@ -285,30 +284,30 @@ const ArrayBaseRemove = defineComponent<
     return () => {
       if (base?.field.value.pattern !== 'editable')
         return null
+      const defaultProps = {
+        'class': `${prefixCls}-remove`,
+        'size': 'small',
+        'icon': Delete,
+        'underline': false,
+        'role': 'button',
+        'aria-label': `移除条目`,
+        'onClick': (e: MouseEvent) => {
+          e.stopPropagation()
+          if (Array.isArray(base?.keyMap)) {
+            base?.keyMap?.splice(indexRef.value, 1)
+          }
+
+          base?.field.value.remove(indexRef.value as number)
+          base?.attrs?.remove?.(indexRef.value as number)
+
+          if (typeof attrs.onClick === 'function') {
+            attrs.onClick(e)
+          }
+        },
+      }
       return h(
         ElLink,
-        {
-          'class': `${prefixCls}-remove`,
-          'size': 'small',
-          'icon': Delete,
-          'underline': false,
-          ...attrs,
-          'role': 'button',
-          'aria-label': `移除条目`,
-          'onClick': (e: MouseEvent) => {
-            e.stopPropagation()
-            if (Array.isArray(base?.keyMap)) {
-              base?.keyMap?.splice(indexRef.value, 1)
-            }
-
-            base?.field.value.remove(indexRef.value as number)
-            base?.attrs?.remove?.(indexRef.value as number)
-
-            if (typeof attrs.onClick === 'function') {
-              attrs.onClick(e)
-            }
-          },
-        },
+        mergeProps(defaultProps, attrs),
         {
           default: () => [slots.default?.()],
         },
@@ -328,31 +327,34 @@ const ArrayBaseMoveDown = defineComponent<
     return () => {
       if (base?.field.value.pattern !== 'editable')
         return null
+
+      const defaultProps = {
+        class: `${prefixCls}-move-down`,
+        size: 'small',
+        icon: ArrowDown,
+        underline: false,
+        onClick: (e: MouseEvent) => {
+          e.stopPropagation()
+          if (Array.isArray(base?.keyMap)) {
+            base.keyMap.splice(
+              indexRef.value + 1,
+              0,
+              base.keyMap.splice(indexRef.value, 1)[0],
+            )
+          }
+
+          base?.field.value.moveDown(indexRef.value as number)
+          base?.attrs?.moveDown?.(indexRef.value as number)
+
+          if (typeof attrs.onClick === 'function') {
+            attrs.onClick(e)
+          }
+        },
+      }
+
       return h(
         ElLink,
-        {
-          class: `${prefixCls}-move-down`,
-          size: 'small',
-          icon: ArrowDown,
-          ...attrs,
-          onClick: (e: MouseEvent) => {
-            e.stopPropagation()
-            if (Array.isArray(base?.keyMap)) {
-              base.keyMap.splice(
-                indexRef.value + 1,
-                0,
-                base.keyMap.splice(indexRef.value, 1)[0],
-              )
-            }
-
-            base?.field.value.moveDown(indexRef.value as number)
-            base?.attrs?.moveDown?.(indexRef.value as number)
-
-            if (typeof attrs.onClick === 'function') {
-              attrs.onClick(e)
-            }
-          },
-        },
+        mergeProps(defaultProps, attrs),
         {
           default: () => [slots.default?.()],
         },
@@ -369,35 +371,36 @@ const ArrayBaseMoveUp = defineComponent<
     const indexRef = useIndex(props.index)
     const base = useArray()
     const prefixCls = `${stylePrefix}-array-base`
+
+    const defaultProps = {
+      class: `${prefixCls}-move-up`,
+      size: 'small',
+      icon: ArrowUp,
+      underline: false,
+      onClick: (e: MouseEvent) => {
+        e.stopPropagation()
+        if (Array.isArray(base?.keyMap)) {
+          base.keyMap.splice(
+            indexRef.value - 1,
+            0,
+            base.keyMap.splice(indexRef.value, 1)[0],
+          )
+        }
+        base?.field.value.moveUp(indexRef.value as number)
+        base?.attrs?.moveUp?.(indexRef.value as number)
+
+        if (typeof attrs.onClick === 'function') {
+          attrs.onClick(e)
+        }
+      },
+    }
+
     return () => {
       if (base?.field.value.pattern !== 'editable')
         return null
       return h(
         ElLink,
-        {
-          class: `${prefixCls}-move-up`,
-          size: 'small',
-          icon: ArrowUp,
-          underline: false,
-          ...attrs,
-          onClick: (e: MouseEvent) => {
-            e.stopPropagation()
-            if (Array.isArray(base?.keyMap)) {
-              base.keyMap.splice(
-                indexRef.value - 1,
-                0,
-                base.keyMap.splice(indexRef.value, 1)[0],
-              )
-            }
-
-            base?.field.value.moveUp(indexRef.value as number)
-            base?.attrs?.moveUp?.(indexRef.value as number)
-
-            if (typeof attrs.onClick === 'function') {
-              attrs.onClick(e)
-            }
-          },
-        },
+        mergeProps(defaultProps, attrs),
         {
           default: () => [slots.default?.()],
         },

@@ -20,6 +20,7 @@ import {
   ElOption,
   ElPagination,
   ElSelect,
+  ElSpace,
   ElTable,
   ElTableColumn,
 } from 'element-plus'
@@ -28,7 +29,6 @@ import { computed, defineComponent, h, ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
 import { ArrayBase } from '../array-base'
-import { Space } from '../space'
 
 type ElTableProps = typeof ElTable
 type ElColumnProps = typeof ElTableColumn
@@ -342,7 +342,7 @@ const ArrayTablePagination = defineComponent({
           class: [`${prefixCls}-pagination`],
         },
         h(
-          Space,
+          ElSpace,
           {},
           {
             default: () => [

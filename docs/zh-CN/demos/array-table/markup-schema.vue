@@ -8,7 +8,7 @@ import {
   Input,
   Submit,
 } from '@sliver/formily-element-plus'
-import { ElAlert, ElButton } from 'element-plus'
+import { ElAlert, ElButton, ElSpace } from 'element-plus'
 
 const form = createForm()
 
@@ -24,6 +24,7 @@ const {
     ArrayTable,
     Input,
     Editable,
+    ElSpace,
   },
 })
 
@@ -102,9 +103,11 @@ function range(count) {
             }"
           >
             <SchemaVoidField x-component="FormItem">
-              <SchemaVoidField x-component="ArrayTable.Remove" />
-              <SchemaVoidField x-component="ArrayTable.MoveUp" />
-              <SchemaVoidField x-component="ArrayTable.MoveDown" />
+              <SchemaVoidField x-component="ElSpace" :x-component-props="{ style: 'height: 100%' }">
+                <SchemaVoidField x-component="ArrayTable.Remove" />
+                <SchemaVoidField x-component="ArrayTable.MoveUp" />
+                <SchemaVoidField x-component="ArrayTable.MoveDown" />
+              </SchemaVoidField>
             </SchemaVoidField>
           </SchemaVoidField>
         </SchemaObjectField>

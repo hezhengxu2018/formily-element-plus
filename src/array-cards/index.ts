@@ -85,7 +85,9 @@ const ArrayCardsInner = observer(
             )
             const extra = h(
               'span',
-              {},
+              {
+                class: `${prefixCls}-extra-container`,
+              },
               {
                 default: () => [
                   h(

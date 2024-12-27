@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { createForm, onFieldChange, onFieldReact } from '@formily/core'
+import { createForm, isField, onFieldChange, onFieldReact } from '@formily/core'
 import { createSchemaField, FormProvider } from '@formily/vue'
 import {
   ArrayTable,
@@ -9,6 +9,7 @@ import {
   Submit,
   Switch,
 } from '@sliver/formily-element-plus'
+import { ElSpace } from 'element-plus'
 
 const {
   SchemaField,
@@ -24,6 +25,7 @@ const {
     Input,
     Editable,
     Switch,
+    ElSpace,
   },
 })
 
@@ -32,11 +34,14 @@ const form = createForm({
     // 主动联动模式
     onFieldChange('hideFirstColumn', ['value'], (field) => {
       field.query('array.column3').take((target) => {
-        console.log('target', target)
-        target.visible = !field.value
+        if (isField(field)) {
+          target.visible = !field.value
+        }
       })
       field.query('array.*.a2').take((target) => {
-        target.visible = !field.value
+        if (isField(field)) {
+          target.visible = !field.value
+        }
       })
     })
     // 被动联动模式
@@ -120,9 +125,11 @@ function log(...v) {
             }"
           >
             <SchemaVoidField x-component="FormItem">
-              <SchemaVoidField x-component="ArrayTable.Remove" />
-              <SchemaVoidField x-component="ArrayTable.MoveUp" />
-              <SchemaVoidField x-component="ArrayTable.MoveDown" />
+              <SchemaVoidField x-component="ElSpace" :x-component-props="{ style: 'height: 100%' }">
+                <SchemaVoidField x-component="ArrayTable.Remove" />
+                <SchemaVoidField x-component="ArrayTable.MoveUp" />
+                <SchemaVoidField x-component="ArrayTable.MoveDown" />
+              </SchemaVoidField>
             </SchemaVoidField>
           </SchemaVoidField>
         </SchemaObjectField>
