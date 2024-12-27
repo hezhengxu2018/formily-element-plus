@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { createForm, onFieldChange, onFieldReact } from '@formily/core'
+import { createForm, isField, onFieldChange, onFieldReact } from '@formily/core'
 import { createSchemaField, FormProvider } from '@formily/vue'
 import { ArrayCards, FormItem, Input, Submit } from '@sliver/formily-element-plus'
 
@@ -22,7 +22,9 @@ const form = createForm({
     // 主动联动模式
     onFieldChange('array.*.aa', ['value'], (field, form) => {
       form.setFieldState(field.query('.bb'), (state) => {
-        state.visible = field.value !== '123'
+        if (isField(field)) {
+          state.visible = field.value !== '123'
+        }
       })
     })
     // 被动联动模式
