@@ -39,6 +39,12 @@ function handleOpen() {
       </FormDrawer.Footer>
     </FormLayout>
   ))
+    .forConfirm(async (form, next) => {
+      setTimeout(() => {
+        console.log('form', form)
+        next()
+      }, 1000)
+    })
     .open({
       initialValues: {
         aaa: '123',

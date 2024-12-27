@@ -1,35 +1,17 @@
 import type { Form, IFormProps } from '@formily/core'
-import type {
-  IMiddleware,
-} from '@formily/shared'
+import type { IMiddleware } from '@formily/shared'
 import type {
   ElButton as ElButtonProps,
   ElDrawer as ElDrawerProps,
 } from 'element-plus'
-import type {
-  Component,
-  VNode,
-} from 'vue'
+import type { Component, PropType, VNode } from 'vue'
 import { createForm } from '@formily/core'
 import { toJS } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
-import {
-  applyMiddleware,
-  isBool,
-  isFn,
-  isNum,
-  isStr,
-} from '@formily/shared'
-import { FormProvider, Fragment, h } from '@formily/vue'
-
+import { applyMiddleware, isBool, isFn, isNum, isStr } from '@formily/shared'
+import { FormProvider, FragmentComponent } from '@formily/vue'
 import { ElButton, ElConfigProvider, ElDrawer } from 'element-plus'
-import {
-  createApp,
-  defineComponent,
-  onMounted,
-  ref,
-  Teleport,
-} from 'vue'
+import { createApp, defineComponent, h, onMounted, ref, Teleport } from 'vue'
 import {
   createPortalProvider,
   getPortalProvides,
@@ -141,6 +123,7 @@ export function FormDrawer(
     content = id as FormDrawerContent
     id = 'form-drawer'
   }
+  const elConfig = loadElConfigProvider()
 
   const prefixCls = `${stylePrefix}-form-drawer`
   const env = {
@@ -153,8 +136,6 @@ export function FormDrawer(
     confirmMiddlewares: [],
     cancelMiddlewares: [],
   }
-
-  const elConfig = loadElConfigProvider()
 
   document.body.append(env.root)
 
@@ -176,7 +157,7 @@ export function FormDrawer(
       setup() {
         return () =>
           h(
-            Fragment,
+            FragmentComponent,
             {},
             {
               default: () => [
@@ -192,159 +173,138 @@ export function FormDrawer(
 
   const render = (visible = true, resolve?: () => any, reject?: () => any) => {
     if (!env.instance) {
-      const ComponentConstructor = defineComponent({
-        props: ['drawerProps'],
-        data() {
-          return {
-            visible: false,
-          }
-        },
-        render() {
-          const {
-            onClose,
-            onClosed,
-            onOpen,
-            onOpend,
-            onOK,
-            onCancel,
-            title,
-            footer,
-            okText,
-            cancelText,
-            okButtonProps,
-            cancelButtonProps,
-            ...drawerProps
-          } = this.drawerProps
-          return h(
-            FormProvider,
-            {
-              form: env.form,
-            },
-            {
-              default: () =>
-                h(ElConfigProvider, elConfig, {
-                  default: () =>
-                    h(
-                      ElDrawer,
-                      {
-                        'class': `${prefixCls}`,
-                        'zIndex': elConfig.zIndex,
-                        ...drawerProps,
-                        'modelValue': this.visible,
-                        'onUpdate:modelValue': (val) => {
-                          this.visible = val
-                        },
-                        'onClose': () => {
-                          onClose?.()
-                        },
-                        'onClosed': () => {
-                          onClosed?.()
-                        },
-                        'onOpen': () => {
-                          onOpen?.()
-                        },
-                        'onOpened': () => {
-                          onOpend?.()
-                        },
-                        'beforeClose': (done) => {
-                          reject()
-                          done()
-                        },
-                      },
-                      {
-                        default: () => [
-                          h(
-                            'div',
-                            {
-                              class: [`${prefixCls}-body`],
-                            },
-                            [h(component, {}, {})] as any,
-                          ),
-                          h(
-                            'div',
-                            {
-                              class: [`${prefixCls}-footer`],
-                            },
-                            {
-                              default: () => {
-                                const FooterPortalTarget = h(
-                                  'span',
-                                  {
-                                    id: PORTAL_TARGET_NAME,
-                                  },
-                                  {},
-                                )
+      const ComponentConstructor = observer(
+        defineComponent({
+          props: { drawerProps: { type: Object as PropType<IFormDrawerProps> } },
+          data() {
+            return {
+              visible: false,
+            }
+          },
+          render() {
+            const {
+              onClose,
+              onClosed,
+              onOpen,
+              onOpend,
+              onOK,
+              onCancel,
+              title,
+              footer,
+              okText,
+              cancelText,
+              okButtonProps,
+              cancelButtonProps,
+              ...drawerProps
+            } = this.drawerProps
 
-                                if (footer === null) {
-                                  return [null, FooterPortalTarget]
-                                }
-                                else if (footer) {
-                                  return [
-                                    resolveComponent(footer),
-                                    FooterPortalTarget,
-                                  ]
-                                }
+            return h(
+              ElDrawer,
+              {
+                'class': `${prefixCls}`,
+                'zIndex': elConfig.zIndex,
+                ...drawerProps,
+                'modelValue': this.visible,
+                'onUpdate:modelValue': (val) => {
+                  this.visible = val
+                },
+                'onClose': () => {
+                  onClose?.()
+                },
+                'onClosed': () => {
+                  onClosed?.()
+                },
+                'onOpen': () => {
+                  onOpen?.()
+                },
+                'onOpened': () => {
+                  onOpend?.()
+                },
+                'beforeClose': (done) => {
+                  reject()
+                  done()
+                },
+              },
+              {
+                default: () =>
+                  h(FormProvider, { form: env.form }, () =>
+                    h(ElConfigProvider, elConfig, () => h(component))),
+                header: () =>
+                  h('div', {}, { default: () => [resolveComponent(title)] }),
+                footer: () =>
+                  h(
+                    'div',
+                    {
+                      class: `${prefixCls}-footer`,
+                    },
+                    {
+                      default: () => {
+                        const FooterPortalTarget = h(
+                          'span',
+                          {
+                            id: PORTAL_TARGET_NAME,
+                          },
+                          {},
+                        )
 
-                                return [
-                                  h(
-                                    ElButton,
-                                    {
-                                      ...cancelButtonProps,
-                                      onClick: (e: MouseEvent) => {
-                                        onCancel?.(e)
-                                        reject()
-                                      },
-                                    },
-                                    {
-                                      default: () => [
-                                        resolveComponent(
-                                          cancelText || '取消',
-                                          // t('el.popconfirm.cancelButtonText')
-                                        ),
-                                      ],
-                                    },
-                                  ),
-                                  h(
-                                    ElButton,
-                                    {
-                                      type: 'primary',
-                                      ...okButtonProps,
-                                      onClick: (e: MouseEvent) => {
-                                        onOK?.(e)
-                                        resolve()
-                                      },
-                                    },
-                                    {
-                                      default: () => [
-                                        resolveComponent(
-                                          okText || '确定',
-                                          // t('el.popconfirm.confirmButtonText')
-                                        ),
-                                      ],
-                                    },
-                                  ),
-                                  FooterPortalTarget,
-                                ]
+                        if (footer === null) {
+                          return [null, FooterPortalTarget]
+                        }
+                        else if (footer) {
+                          return [resolveComponent(footer), FooterPortalTarget]
+                        }
+
+                        return [
+                          h(
+                            ElButton,
+                            {
+                              ...cancelButtonProps,
+                              onClick: (e: MouseEvent) => {
+                                onCancel?.(e)
+                                reject()
                               },
                             },
+                            {
+                              default: () => [
+                                resolveComponent(
+                                  cancelText || '取消',
+                                ),
+                              ],
+                            },
                           ),
-                        ],
-                        header: () =>
                           h(
-                            'div',
-                            {},
-                            { default: () => [resolveComponent(title)] },
+                            ElButton,
+                            {
+                              type: 'primary',
+                              ...okButtonProps,
+                              loading: env.form.submitting,
+                              onClick: (e: MouseEvent) => {
+                                onOK?.(e)
+                                resolve()
+                              },
+                            },
+                            {
+                              default: () => [
+                                resolveComponent(
+                                  okText || '确定',
+                                ),
+                              ],
+                            },
                           ),
+                          FooterPortalTarget,
+                        ]
                       },
-                    ),
-                }),
-            },
-          )
-        },
-      })
+                    },
+                  ),
+              },
+            )
+          },
+        }),
+      )
       env.app = createApp(ComponentConstructor, {
         drawerProps,
       })
+
       const provides = getPortalProvides(id as string)
       for (const key in provides) {
         if (Object.prototype.hasOwnProperty.call(provides, key)) {
