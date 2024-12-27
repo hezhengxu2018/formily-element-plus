@@ -211,7 +211,9 @@ export function FormDialog(
                 footer: () =>
                   h(
                     'div',
-                    {},
+                    {
+                      class: `${prefixCls}-footer`,
+                    },
                     {
                       default: () => {
                         const FooterPortalTarget = h(
