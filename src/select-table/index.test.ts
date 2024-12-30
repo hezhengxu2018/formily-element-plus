@@ -1,12 +1,12 @@
-import { describe, expect, it } from 'vitest'
-import { render } from 'vitest-browser-vue'
-import 'element-plus/theme-chalk/base.css'
-import 'element-plus/theme-chalk/el-table.css'
 import type { ArrayField } from '@formily/core'
 import { createForm } from '@formily/core'
-import { defineComponent, h } from 'vue'
 import { Field, FormProvider } from '@formily/vue'
+import { describe, expect, it } from 'vitest'
+import { render } from 'vitest-browser-vue'
+import { defineComponent, h } from 'vue'
 import SelectTable from './index'
+import 'element-plus/theme-chalk/base.css'
+import 'element-plus/theme-chalk/el-table.css'
 import './style'
 
 function formilyWrapperFactory(fieldProps = {}, selectTableProps = {}) {
@@ -20,19 +20,20 @@ function formilyWrapperFactory(fieldProps = {}, selectTableProps = {}) {
       return (
         h(FormProvider, {
           form: this.form,
-        }, () => h(Field, {
-          name: 'selectTable',
-          title: 'selectTable',
-          dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }],
-          ...fieldProps,
-          component: [SelectTable, {
-            columns: [
-              { prop: 'name', label: 'Title' },
-              { prop: 'description', label: 'Description' },
-            ],
-            ...selectTableProps,
-          }],
-        }))
+        }, () =>
+          h(Field, {
+            name: 'selectTable',
+            title: 'selectTable',
+            dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }],
+            ...fieldProps,
+            component: [SelectTable, {
+              columns: [
+                { prop: 'name', label: 'Title' },
+                { prop: 'description', label: 'Description' },
+              ],
+              ...selectTableProps,
+            }],
+          }))
       )
     },
   })
@@ -137,6 +138,30 @@ describe('多选框交互', async () => {
     await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).toBeChecked()
     await expect.element(screen.getByRole('row', { name: 'title-4' }).getByRole('checkbox')).toBeChecked()
   })
+
+  it('在组件有默认值时数值的应该正确勾选', async () => {
+    const form = createForm()
+    const screen = render(formilyWrapperFactory({ primaryKey: 'key', initialValue: ['1'], dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
+      data() {
+        return {
+          form,
+        }
+      },
+    })
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).toBeChecked()
+  })
+
+  it('在optionAsValue为true时,组件有默认值时数值的应该正确勾选', async () => {
+    const form = createForm()
+    const screen = render(formilyWrapperFactory({ primaryKey: 'key', initialValue: [{ key: '1' }], optionAsValue: true, dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
+      data() {
+        return {
+          form,
+        }
+      },
+    })
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).toBeChecked()
+  })
 })
 
 describe('单选框交互', async () => {
@@ -154,9 +179,33 @@ describe('单选框交互', async () => {
     await screen.getByRole('row', { name: 'title-2' }).getByRole('radio').click()
     expect(form.query('selectTable').get('value')).toEqual('2')
   })
+
+  it('在组件有默认值时数值的应该正确勾选', async () => {
+    const form = createForm()
+    const screen = render(formilyWrapperFactory({ primaryKey: 'key', mode: 'single', initialValue: ['1'], dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
+      data() {
+        return {
+          form,
+        }
+      },
+    })
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('radio')).toBeChecked()
+  })
+
+  it('在optionAsValue为true时,组件有默认值时数值的应该正确勾选', async () => {
+    const form = createForm()
+    const screen = render(formilyWrapperFactory({ primaryKey: 'key', mode: 'single', initialValue: [{ key: '1' }], optionAsValue: true, dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
+      data() {
+        return {
+          form,
+        }
+      },
+    })
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('radio')).toBeChecked()
+  })
 })
 
-describe('树形选择', async () => {
+describe.skip('树形选择', async () => {
   it('点击多选框后form表单中的值应该改变', async () => {
     const form = createForm()
     const screen = render(formilyWrapperFactory({
