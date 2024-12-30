@@ -39,7 +39,10 @@ importers:
         version: 2.3.2(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2))
       element-plus:
         specifier: ^2.1.8
-        version: 2.9.0(vue@3.5.13(typescript@5.7.2))
+        version: 2.9.1(vue@3.5.13(typescript@5.7.2))
+      lodash-es:
+        specifier: ^4
+        version: 4.17.21
       semver:
         specifier: ^7
         version: 7.6.3
@@ -49,9 +52,6 @@ importers:
       vue-draggable-plus:
         specifier: ^0.5.0
         version: 0.5.6(@types/sortablejs@1.15.8)
-      vuedraggable:
-        specifier: ^4
-        version: 4.1.0(vue@3.5.13(typescript@5.7.2))
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^3.0.0
@@ -193,7 +193,7 @@ importers:
         version: 2.1.8(@types/node@20.17.10)(@vitest/browser@2.1.8)(@vitest/ui@2.1.8)(msw@2.7.0(@types/node@20.17.10)(typescript@5.7.2))(sass-embedded@1.83.0)(sass@1.78.0)
       vitest-browser-vue:
         specifier: ^0.0.1
-        version: 0.0.1(@vitest/browser@2.1.8)(vitest@2.1.8)(vue@3.5.13(typescript@5.7.2))
+        version: 0.0.1(patch_hash=l57uoyjfzhrisk27yqjwzuaali)(@vitest/browser@2.1.8)(vitest@2.1.8)(vue@3.5.13(typescript@5.7.2))
       vue-eslint-parser:
         specifier: ^9.4.3
         version: 9.4.3(eslint@9.16.0(jiti@2.4.1))
@@ -1241,22 +1241,6 @@ packages:
     peerDependencies:
       '@types/node': '>=18'
 
-  '@inquirer/confirm@3.2.0':
-    resolution: {integrity: sha512-oOIwPs0Dvq5220Z8lGL/6LHRTEr9TgLHmiI99Rj1PJ1p1czTys+olrgBqZk4E2qC0YTzeHprxSQmoHioVdJ7Lw==}
-    engines: {node: '>=18'}
-
-  '@inquirer/core@9.1.0':
-    resolution: {integrity: sha512-RZVfH//2ytTjmaBIzeKT1zefcQZzuruwkpTwwbe/i2jTl4o9M+iML5ChULzz6iw1Ok8iUBBsRCjY2IEbD8Ft4w==}
-    engines: {node: '>=18'}
-
-  '@inquirer/figures@1.0.5':
-    resolution: {integrity: sha512-79hP/VWdZ2UVc9bFGJnoQ/lQMpL74mGgzSYX1xUqCVk7/v73vJCMw1VuyWN1jGkZ9B3z7THAbySqGbCNefcjfA==}
-    engines: {node: '>=18'}
-
-  '@inquirer/type@1.5.3':
-    resolution: {integrity: sha512-xUQ14WQGR/HK5ei+2CvgcwoH9fQ4PgPGmVFSN0pc1+fVyDL3MREhyAY7nxEErSu6CkllBM3D7e3e+kOvtu+eIg==}
-    engines: {node: '>=18'}
-
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
@@ -1583,9 +1567,6 @@ packages:
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
-  '@types/cookie@0.6.0':
-    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
-
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
@@ -1624,9 +1605,6 @@ packages:
 
   '@types/node@20.17.9':
     resolution: {integrity: sha512-0JOXkRyLanfGPE2QRCwgxhzlBAvaRdCNMcvbd7jFfpmD4eEXll7LRwy5ymJmyeZqk7Nh7eD2LeUyQ68BbndmXw==}
-
-  '@types/node@22.5.5':
-    resolution: {integrity: sha512-Xjs4y5UPO/CLdzpgR6GirZJx36yScjh73+2NlLlkFRSoQN8B0DpfXPdZGnvVmLRLOsqDpOfTNv7D9trgGhmOIA==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -3648,16 +3626,6 @@ packages:
       typescript:
         optional: true
 
-  msw@2.4.6:
-    resolution: {integrity: sha512-flx3DIP3+a81vvEY1lCmZVFKVYVcDiizNHg6mHYc2+F2xU+4LmZ6P2eYZUGEFoJWqA3yRWS70pJa0riFVTb5FQ==}
-    engines: {node: '>=18'}
-    hasBin: true
-    peerDependencies:
-      typescript: '>= 4.8.x'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   muggle-string@0.4.1:
     resolution: {integrity: sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ==}
 
@@ -3685,11 +3653,6 @@ packages:
 
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
-
-  nopt@7.2.1:
-    resolution: {integrity: sha512-taM24ViiimT/XntxbPyJQzCG+p4EKOpgD3mxFwW38mGjVUrfERQOeY4EDHjdnptttfHuHQXFx+lTP08Q+mLa/w==}
-    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
-    hasBin: true
 
   nopt@7.2.1:
     resolution: {integrity: sha512-taM24ViiimT/XntxbPyJQzCG+p4EKOpgD3mxFwW38mGjVUrfERQOeY4EDHjdnptttfHuHQXFx+lTP08Q+mLa/w==}
@@ -3876,16 +3839,6 @@ packages:
 
   playwright@1.49.0:
     resolution: {integrity: sha512-eKpmys0UFDnfNb3vfsf8Vx2LEOtflgRebl0Im2eQQnYMA4Aqd+Zw8bEOB+7ZKvN76901mRnqdsiOGKxzVTbi7A==}
-    engines: {node: '>=18'}
-    hasBin: true
-
-  playwright-core@1.47.1:
-    resolution: {integrity: sha512-i1iyJdLftqtt51mEk6AhYFaAJCDx0xQ/O5NU8EKaWFgMjItPVma542Nh/Aq8aLCjIJSzjaiEQGW/nyqLkGF1OQ==}
-    engines: {node: '>=18'}
-    hasBin: true
-
-  playwright@1.47.1:
-    resolution: {integrity: sha512-SUEKi6947IqYbKxRiqnbUobVZY4bF1uu+ZnZNJX9DfU1tlf2UhWfvVjLf01pQx9URsOr18bFVUKXmanYWhbfkw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -4809,11 +4762,6 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
-
-  vuedraggable@4.1.0:
-    resolution: {integrity: sha512-FU5HCWBmsf20GpP3eudURW3WdWTKIbEIQxh9/8GE806hydR9qZqRRxRE3RjqX7PkuLuMQG/A7n3cfj9rCEchww==}
-    peerDependencies:
-      vue: ^3.0.1
 
   webpack-virtual-modules@0.6.2:
     resolution: {integrity: sha512-66/V2i5hQanC51vBQKPH4aI8NMAcBW59FVBs+rC7eGHupMyfn34q7rZIE+ETlJ+XTevqfUhVVBgSUNSW2flEUQ==}
@@ -6046,17 +5994,6 @@ snapshots:
   '@oxc-resolver/binding-win32-x64-msvc@2.1.1':
     optional: true
 
-  '@one-ini/wasm@0.1.1': {}
-
-  '@open-draft/deferred-promise@2.2.0': {}
-
-  '@open-draft/logger@0.3.0':
-    dependencies:
-      is-node-process: 1.2.0
-      outvariant: 1.4.3
-
-  '@open-draft/until@2.1.0': {}
-
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
@@ -6242,8 +6179,6 @@ snapshots:
 
   '@types/cookie@0.6.0': {}
 
-  '@types/cookie@0.6.0': {}
-
   '@types/debug@4.1.12':
     dependencies:
       '@types/ms': 0.7.34
@@ -6282,10 +6217,6 @@ snapshots:
   '@types/ms@0.7.34': {}
 
   '@types/node@20.17.9':
-    dependencies:
-      undici-types: 6.19.8
-
-  '@types/node@22.5.5':
     dependencies:
       undici-types: 6.19.8
 
@@ -8287,16 +8218,6 @@ snapshots:
 
   js-cookie@3.0.5: {}
 
-  js-beautify@1.15.1:
-    dependencies:
-      config-chain: 1.1.13
-      editorconfig: 1.0.4
-      glob: 10.4.5
-      js-cookie: 3.0.5
-      nopt: 7.2.1
-
-  js-cookie@3.0.5: {}
-
   js-tokens@4.0.0: {}
 
   js-yaml@4.1.0:
@@ -8877,28 +8798,6 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  msw@2.4.6(typescript@5.5.4):
-    dependencies:
-      '@bundled-es-modules/cookie': 2.0.0
-      '@bundled-es-modules/statuses': 1.0.1
-      '@bundled-es-modules/tough-cookie': 0.1.6
-      '@inquirer/confirm': 3.2.0
-      '@mswjs/interceptors': 0.35.3
-      '@open-draft/until': 2.1.0
-      '@types/cookie': 0.6.0
-      '@types/statuses': 2.0.5
-      chalk: 4.1.2
-      graphql: 16.9.0
-      headers-polyfill: 4.0.3
-      is-node-process: 1.2.0
-      outvariant: 1.4.3
-      path-to-regexp: 6.3.0
-      strict-event-emitter: 0.5.1
-      type-fest: 4.26.1
-      yargs: 17.7.2
-    optionalDependencies:
-      typescript: 5.5.4
-
   muggle-string@0.4.1: {}
 
   mute-stream@2.0.0: {}
@@ -8917,10 +8816,6 @@ snapshots:
   node-fetch-native@1.6.4: {}
 
   node-releases@2.0.19: {}
-
-  nopt@7.2.1:
-    dependencies:
-      abbrev: 2.0.0
 
   nopt@7.2.1:
     dependencies:
@@ -9188,8 +9083,6 @@ snapshots:
   regex@5.0.2:
     dependencies:
       regex-utilities: 2.3.0
-
-  regenerator-runtime@0.14.1: {}
 
   regexp-ast-analysis@0.7.1:
     dependencies:
@@ -9961,7 +9854,7 @@ snapshots:
       - typescript
       - universal-cookie
 
-  vitest-browser-vue@0.0.1(@vitest/browser@2.1.8)(vitest@2.1.8)(vue@3.5.13(typescript@5.7.2)):
+  vitest-browser-vue@0.0.1(patch_hash=l57uoyjfzhrisk27yqjwzuaali)(@vitest/browser@2.1.8)(vitest@2.1.8)(vue@3.5.13(typescript@5.7.2)):
     dependencies:
       '@vitest/browser': 2.1.8(@types/node@20.17.10)(playwright@1.49.1)(typescript@5.7.2)(vite@6.0.7(@types/node@20.17.10)(jiti@2.4.2)(sass-embedded@1.83.0)(sass@1.78.0)(tsx@4.19.2)(yaml@2.6.1))(vitest@2.1.8)
       '@vue/test-utils': 2.4.6
@@ -10047,11 +9940,6 @@ snapshots:
       '@vue/shared': 3.5.13
     optionalDependencies:
       typescript: 5.7.2
-
-  vuedraggable@4.1.0(vue@3.5.13(typescript@5.7.2)):
-    dependencies:
-      sortablejs: 1.14.0
-      vue: 3.5.13(typescript@5.7.2)
 
   webpack-virtual-modules@0.6.2: {}
 
