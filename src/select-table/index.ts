@@ -2,7 +2,7 @@ import type { FieldDisplayTypes, GeneralField } from '@formily/core'
 import type { Schema } from '@formily/vue'
 import type { Column, TableInstance, TableProps } from 'element-plus'
 import type { Component, PropType } from 'vue'
-import { isArr, isFn } from '@formily/shared'
+import { isFn } from '@formily/shared'
 import { connect, mapProps, useFieldSchema } from '@formily/vue'
 import {
   ElLink,
@@ -14,9 +14,8 @@ import {
   vLoading,
 } from 'element-plus'
 import { differenceWith, isNil, remove, uniqWith } from 'lodash-es'
-
 import { gt } from 'semver'
-import { computed, defineComponent, h, nextTick, ref, watch, withDirectives } from 'vue'
+import { computed, defineComponent, h, mergeProps, nextTick, ref, watch, withDirectives } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
 import './style.ts'
@@ -30,8 +29,6 @@ export interface ISelectTableProps extends TableProps<any> {
   dataSource?: any[]
   optionAsValue?: boolean
   valueType?: 'all' | 'parent' | 'child' | 'path'
-  showSearch?: boolean
-  // searchProps?: SearchProps
   primaryKey?: string | ((record: any) => string)
   rowKey?: string | ((record: any) => string)
   filterOption?: IFilterOption
@@ -39,86 +36,6 @@ export interface ISelectTableProps extends TableProps<any> {
   onSearch?: (keyword: string) => void
   onChange?: (value: any, options: any) => void
   value?: any
-}
-
-interface ObservableColumnSource {
-  field?: GeneralField
-  columnProps: Column<any>
-  schema: Schema
-  display: FieldDisplayTypes
-  name: string
-}
-
-function isColumnComponent(schema: Schema) {
-  return schema['x-component']?.indexOf('Column') > -1
-}
-
-function useSchemaColumns() {
-  const schema = useFieldSchema().value
-  const parseSources = (schema: Schema): ObservableColumnSource[] => {
-    if (isColumnComponent(schema)) {
-      if (!schema['x-component-props']?.prop && !schema.name)
-        return []
-      const name = schema['x-component-props']?.prop || schema.name
-      const columnProps = schema['x-component-props'] || {}
-      const display = schema['x-display']
-      return [
-        {
-          name,
-          display,
-          schema,
-          columnProps: {
-            prop: name,
-            ...columnProps,
-          },
-        },
-      ]
-    }
-    else if (schema.properties) {
-      return schema.reduceProperties<
-        ObservableColumnSource[],
-        ObservableColumnSource[]
-      >((buf, schema) => {
-        return buf.concat(parseSources(schema))
-      }, [])
-    }
-    return []
-  }
-
-  const parseArrayItems = (schema: Schema['items']) => {
-    if (!schema)
-      return []
-    const sources: ObservableColumnSource[] = []
-    const items = isArr(schema) ? schema : [schema]
-    return items.reduce((columns, schema) => {
-      const item = parseSources(schema)
-      if (item) {
-        return columns.concat(item)
-      }
-      return columns
-    }, sources)
-  }
-
-  const validSchema = (
-    schema?.type === 'array' && schema?.items ? schema.items : schema
-  ) as Schema
-
-  return parseArrayItems(validSchema)
-}
-
-function useColumns(sources: ObservableColumnSource[]): Partial<Column<any>> {
-  return sources.reduce<Partial<Column<any>>>(
-    (buf, { name, columnProps, schema }, key) => {
-      if (!isColumnComponent(schema))
-        return buf
-      return buf.concat({
-        ...columnProps,
-        key,
-        prop: name,
-      })
-    },
-    [],
-  )
 }
 
 // function useFlatOptions(tree: any[]) {
@@ -210,16 +127,14 @@ const InnerSelectTable = defineComponent({
     let prevSelection = []
 
     const radioSelectedKey = ref()
-
-    const columnSource = useSchemaColumns()
-    const columns = props.columns ?? useColumns(columnSource)
+    const columns = props.columns ?? []
 
     const currentSelectLength = computed(() => {
       if (props.mode === 'multiple') {
-        return Array.isArray(props.value) ? props.value?.length : 1
+        return Array.isArray(props.value) ? props.value.length : 0
       }
       else {
-        return radioSelectedKey.value ? 1 : 0
+        return isNil(radioSelectedKey.value) ? 0 : 1
       }
     })
 
@@ -353,8 +268,20 @@ const InnerSelectTable = defineComponent({
       }
     }
 
-    return () =>
-      h('div', { class: `${stylePrefix}-select-table` }, [
+    return () => {
+      const elTableDefaultProps = {
+        ref(ref) {
+          elTableRef.value = ref as TableInstance
+        },
+        rowKey,
+        rowClassName: props.clickRowToSelect ? `--click-row-select` : '',
+        data: props.dataSource,
+        onSelect,
+        onSelectAll: onSelect,
+        onRowClick,
+      }
+
+      return h('div', { class: `${stylePrefix}-select-table` }, [
         currentSelectLength.value > 0
         && props.showAlertToolbar
         && h('div', { class: `${stylePrefix}-select-table-alert-container` }, [
@@ -376,19 +303,7 @@ const InnerSelectTable = defineComponent({
         withDirectives(
           h(
             ElTable,
-            {
-              ref(ref) {
-                elTableRef.value = ref as TableInstance
-              },
-              ...props,
-              ...attrs,
-              rowClassName: props.clickRowToSelect ? `--click-row-select` : '',
-              data: props.dataSource,
-              type: 'selection',
-              onSelect,
-              onSelectAll: onSelect,
-              onRowClick,
-            },
+            mergeProps(elTableDefaultProps, attrs),
             () => {
               return [
                 props.mode === 'multiple'
@@ -429,6 +344,7 @@ const InnerSelectTable = defineComponent({
           [[vLoading, props.loading]],
         ),
       ])
+    }
   },
 })
 
