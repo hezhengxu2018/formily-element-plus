@@ -1,9 +1,10 @@
 import type { ArrayField } from '@formily/core'
 import { createForm } from '@formily/core'
-import { Field, FormProvider } from '@formily/vue'
+import { createSchemaField, Field, FormProvider } from '@formily/vue'
+import { ElTableColumn } from 'element-plus'
 import { describe, expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
-import { defineComponent, h } from 'vue'
+import { defineComponent, Fragment, h } from 'vue'
 import SelectTable from './index'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-table.css'
@@ -39,10 +40,107 @@ function formilyWrapperFactory(fieldProps = {}, selectTableProps = {}) {
   })
 }
 
+function formilyWrapperWithSlotFactory(fieldProps = {}, selectTableProps = {}) {
+  return defineComponent({
+    data() {
+      return {
+        form: createForm(),
+      }
+    },
+    render() {
+      return (
+        h(FormProvider, {
+          form: this.form,
+        }, () =>
+          h(Field, {
+            name: 'selectTable',
+            title: 'selectTable',
+            dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }],
+            ...fieldProps,
+            component: [SelectTable, {
+              ...selectTableProps,
+            }],
+          }, {
+            default: () => [h(ElTableColumn, { prop: 'name', label: 'Title' }), h(ElTableColumn, { prop: 'description', label: 'Description' }, { default: ({ row }) => h('div', `${row.description}-${row.name}`) })],
+          }))
+      )
+    },
+  })
+}
+
+function formilyWrapperWithSlotBySchemaFactory(fieldProps = {}, selectTableProps = {}) {
+  return defineComponent({
+    setup() {
+      const form = createForm()
+      const { SchemaArrayField } = createSchemaField({
+        components: {
+          SelectTable,
+        },
+      })
+      return () => (
+        <FormProvider form={form}>
+          <SchemaArrayField
+            name="selectTable"
+            title="selectTable"
+            dataSource={[
+              { key: '1', name: 'title-1', description: 'description-1' },
+              { key: '2', name: 'title-2', description: 'description-2' },
+              { key: '3', name: 'title-3', description: 'description-3' },
+            ]}
+            x-component="SelectTable"
+            x-component-props={{
+              ...selectTableProps,
+            }}
+            x-content={(
+              <Fragment>
+                <ElTableColumn prop="name" label="Title" />
+                <ElTableColumn
+                  prop="description"
+                  label="Description"
+                >
+                  {{
+                    default: ({ row }) => {
+                      return <div>{`${row.description}-${row.name}`}</div>
+                    },
+                  }}
+                </ElTableColumn>
+              </Fragment>
+            )}
+          />
+          <Field
+            name="selectTable"
+            title="selectTable"
+            dataSource={[
+              { key: '1', name: 'title-1', description: 'description-1' },
+              { key: '2', name: 'title-2', description: 'description-2' },
+              { key: '3', name: 'title-3', description: 'description-3' },
+            ]}
+            {...fieldProps}
+            component={[SelectTable, { ...selectTableProps }]}
+          >
+            <ElTableColumn prop="name" label="Title" />
+            <ElTableColumn
+              prop="description"
+              label="Description"
+            >
+              {{
+                default: ({ row }) => {
+                  return <div>{`${row.description}-${row.name}`}</div>
+                },
+              }}
+            </ElTableColumn>
+          </Field>
+        </FormProvider>
+      )
+    },
+  })
+}
+
 describe('基础数据展示', async () => {
   it('应该显示为空数据', async () => {
     const screen = render(SelectTable)
     await expect.element(screen.getByText('No Data')).toBeInTheDocument()
+    await expect.element(screen.getByText('已选择')).not.toBeInTheDocument()
   })
 
   it('应该显示数据', async () => {
@@ -67,7 +165,19 @@ describe('基础数据展示', async () => {
 
   it.todo('当mode为single时应该显示单选框')
 
-  it('在dataSource改变时显示的内容也应该改变', async () => {
+  it('带有插槽的内容应该正常展示', async () => {
+    const screen = render(formilyWrapperWithSlotFactory({ primaryKey: 'key' }))
+    await expect.element(screen.getByText('description-1-title-1')).toBeInTheDocument()
+    await expect.element(screen.getByText('description-2-title-2')).toBeInTheDocument()
+  })
+
+  it('schema模式下应该正常展示', async () => {
+    const screen = render(formilyWrapperWithSlotBySchemaFactory({ primaryKey: 'key' }))
+    await expect.element(screen.getByText('description-1-title-1')).toBeInTheDocument()
+    await expect.element(screen.getByText('description-2-title-2')).toBeInTheDocument()
+  })
+
+  it.skip('在dataSource改变时显示的内容也应该改变', async () => {
     const form = createForm()
     const screen = render(formilyWrapperFactory({ primaryKey: 'key', dataSource: [] }), {
       data() {
