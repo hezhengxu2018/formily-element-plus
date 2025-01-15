@@ -12,6 +12,7 @@ import {
 import { ElBadge, ElTabPane, ElTabs } from 'element-plus'
 import { computed, defineComponent, reactive } from 'vue'
 import { composeExport, stylePrefix } from '../__builtins__'
+import './style.scss'
 
 export interface IFormTab {
   activeKey: string

@@ -13,8 +13,8 @@ import {
 } from '@formily/vue'
 import { ElBadge, ElCollapse, ElCollapseItem } from 'element-plus'
 import { computed, defineComponent } from 'vue'
-
 import { composeExport, stylePrefix } from '../__builtins__'
+import './style.scss'
 
 type ActiveKeys = string | number | Array<string | number>
 

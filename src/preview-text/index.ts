@@ -1,5 +1,5 @@
 import type { Field } from '@formily/core'
-import type { Ref } from 'vue'
+import type { Ref, StyleValue } from 'vue'
 import type { CascaderProps } from '../cascader'
 import type { DatePickerProps } from '../date-picker'
 import type { SelectProps } from '../select'
@@ -7,7 +7,7 @@ import type { TimePickerProps } from '../time-picker'
 import { observer } from '@formily/reactive-vue'
 import { isArr, isValid } from '@formily/shared'
 import { useField } from '@formily/vue'
-import { ElTag } from 'element-plus'
+import { ElSpace, ElTag } from 'element-plus'
 import { computed, defineComponent, h, toRef } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import {
@@ -16,7 +16,6 @@ import {
   resolveComponent,
   useContext,
 } from '../__builtins__/shared'
-import { Space } from '../space'
 
 const prefixCls = `${stylePrefix}-preview-text`
 const PlaceholderContext = createContext('N/A')
@@ -39,10 +38,10 @@ const Input = defineComponent({
     const placeholder = usePlaceholder(value)
     return () => {
       return h(
-        Space,
+        ElSpace,
         {
           class: [prefixCls],
-          style: attrs.style,
+          style: attrs.style as StyleValue,
         },
         {
           default: () =>
@@ -114,10 +113,10 @@ const Select = observer(
 
       return () => {
         return h(
-          Space,
+          ElSpace,
           {
             class: [prefixCls],
-            style: attrs.style,
+            style: attrs.style as StyleValue,
           },
           {
             default: () => getLabels(),
@@ -193,10 +192,10 @@ const Cascader = observer(
 
       return () => {
         return h(
-          Space,
+          ElSpace,
           {
             class: [prefixCls],
-            style: attrs.style,
+            style: attrs.style as StyleValue,
           },
           {
             default: () => getLabels(),

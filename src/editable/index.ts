@@ -12,6 +12,7 @@ import { defineComponent, h, onBeforeUnmount, ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
 import { FormBaseItem } from '../form-item'
+import './style.scss'
 
 export type EditableProps = FormItemProps
 export type EditablePopoverProps = typeof ElPopover

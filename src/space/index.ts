@@ -2,6 +2,7 @@ import type { SetupContext, VNode } from 'vue'
 import { defineComponent, h } from 'vue'
 import { stylePrefix } from '../__builtins__'
 import { useFormLayout } from '../form-layout'
+import './style.scss'
 
 export interface SpaceProps {
   size: 'small' | 'middle' | 'large' | number

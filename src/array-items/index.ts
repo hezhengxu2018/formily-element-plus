@@ -8,6 +8,7 @@ import { VueDraggable } from 'vue-draggable-plus'
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
 import { ArrayBase } from '../array-base'
+import './style.scss'
 
 function isAdditionComponent(schema: ISchema) {
   return schema['x-component']?.indexOf('Addition') > -1

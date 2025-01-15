@@ -5,6 +5,7 @@ import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElBadge, ElTabPane, ElTabs } from 'element-plus'
 import { isFn } from '@formily/shared'
 import { stylePrefix } from '../__builtins__/configs'
+import './style.scss'
 
 export const ArrayTabs = observer(
   defineComponent({

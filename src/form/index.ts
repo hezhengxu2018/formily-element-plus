@@ -6,6 +6,7 @@ import { FormProvider as _FormProvider, h, useForm } from '@formily/vue'
 import { defineComponent } from 'vue'
 import { FormLayout } from '../form-layout'
 import { PreviewText } from '../preview-text'
+import './style.scss'
 
 const FormProvider = _FormProvider as unknown as Component
 

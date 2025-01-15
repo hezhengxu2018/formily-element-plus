@@ -23,6 +23,7 @@ import {
 
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
+import './style.scss'
 
 export interface ArrayBaseMixins {
   Addition?: typeof ArrayBaseAddition

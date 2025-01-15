@@ -16,6 +16,7 @@ import { defineComponent, h, ref, watchEffect } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
 import { ArrayBase } from '../array-base'
+import './style.scss'
 
 type ElCollapseProps = typeof ElCollapse
 type ElCollapseItemProps = typeof ElCollapseItem
