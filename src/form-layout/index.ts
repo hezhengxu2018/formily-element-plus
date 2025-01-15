@@ -13,6 +13,7 @@ import {
 } from 'vue'
 import { stylePrefix } from '../__builtins__'
 import { useResponsiveFormLayout } from './useResponsiveFormLayout'
+import './style.scss'
 
 export interface FormLayoutProps {
   className?: string

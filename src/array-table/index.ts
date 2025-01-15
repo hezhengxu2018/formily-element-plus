@@ -14,7 +14,6 @@ import {
   useField,
   useFieldSchema,
 } from '@formily/vue'
-
 import {
   ElBadge,
   ElOption,
@@ -25,10 +24,10 @@ import {
   ElTableColumn,
 } from 'element-plus'
 import { computed, defineComponent, h, ref } from 'vue'
-
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
 import { ArrayBase } from '../array-base'
+import './style.scss'
 
 type ElTableProps = typeof ElTable
 type ElColumnProps = typeof ElTableColumn

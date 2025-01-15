@@ -21,6 +21,7 @@ import {
   resolveComponent,
   stylePrefix,
 } from '../__builtins__'
+import './style.scss'
 
 interface FormDrawerContentProps { form: Form }
 

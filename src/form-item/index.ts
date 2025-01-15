@@ -8,7 +8,6 @@ import {
 import { isVoidField } from '@formily/core'
 import { connect, mapProps } from '@formily/vue'
 import { ElIcon, ElPopover, ElTooltip } from 'element-plus'
-
 import {
   defineComponent,
   h,
@@ -25,6 +24,7 @@ import {
 } from '../__builtins__'
 import { useGridColumn } from '../form-grid'
 import { FormLayoutShallowContext, useFormLayout } from '../form-layout'
+import './style.scss'
 
 export interface FormItemProps {
   className?: string

@@ -20,6 +20,7 @@ import {
 } from 'vue'
 import { composeExport, stylePrefix } from '../__builtins__'
 import { useFormLayout } from '../form-layout'
+import './style.scss'
 
 export interface IFormGridProps extends IGridOptions {
   grid?: Grid<HTMLElement>
