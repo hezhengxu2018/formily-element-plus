@@ -177,7 +177,7 @@ describe('基础数据展示', async () => {
     await expect.element(screen.getByText('description-2-title-2')).toBeInTheDocument()
   })
 
-  it.skip('在dataSource改变时显示的内容也应该改变', async () => {
+  it('在dataSource改变时显示的内容也应该改变', async () => {
     const form = createForm()
     const screen = render(formilyWrapperFactory({ primaryKey: 'key', dataSource: [] }), {
       data() {
