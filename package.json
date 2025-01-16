@@ -5,6 +5,9 @@
   "description": "",
   "author": "hezhengxu",
   "license": "MIT",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "main": "esm",
   "types": "esm/index.d.ts",
   "files": [
