@@ -10,11 +10,11 @@ import {
   ElEmpty,
   ElScrollbar,
 } from 'element-plus'
-
 import { defineComponent, h, inject, provide, ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
 import { ArrayBase } from '../array-base'
+import './style.scss'
 
 function isAdditionComponent(schema: ISchema) {
   return schema['x-component']?.indexOf('Addition') > -1
@@ -35,14 +35,16 @@ const ArrayListTabPane = defineComponent({
   },
   setup(props, { slots }) {
     const activeIndex = inject<Ref>(tabsRootContextKey)
+    const field = useField()
     return () =>
       h(
         'div',
         {
           'class': `${prefixCls}-tabpane`,
           'style': activeIndex.value !== props.index && 'display: none;',
+          'id': `${field.value.props.name}-tab-panel-${props.index}`,
           'role': 'tabpanel',
-          'aria-labelledby': `tab-${props.index}`,
+          'aria-labelledby': `${field.value.props.name}-tab-${props.index}`,
         },
         slots.default(),
       )
@@ -216,11 +218,14 @@ export const ArrayListTabsInner = observer(
                             return h(
                               'li',
                               {
-                                class: [
+                                'class': [
                                   `${prefixCls}_list-item`,
                                   activeIndex.value === index && 'is-active',
                                 ],
-                                onClick: () => onTabClick(index),
+                                'id': `${field.props.name}-tab-${index}`,
+                                'role': 'tab',
+                                'aria-controls': `${field.props.name}-tab-panel-${index}`,
+                                'onClick': () => onTabClick(index),
                               },
                               {
                                 default: () => [

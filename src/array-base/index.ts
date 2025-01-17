@@ -1,8 +1,15 @@
+import type { ArrayField } from '@formily/core'
+import type { Schema } from '@formily/json-schema'
+import type { LinkProps } from 'element-plus'
 import type {
   InjectionKey,
   PropType,
   Ref,
 } from 'vue'
+import { ArrowDown, ArrowUp, Delete, Plus, Rank } from '@element-plus/icons-vue'
+import { clone, isValid, uid } from '@formily/shared'
+import { FragmentComponent, useField, useFieldSchema } from '@formily/vue'
+import { ElLink } from 'element-plus'
 import {
   defineComponent,
   h,
@@ -12,13 +19,6 @@ import {
   ref,
   toRefs,
 } from 'vue'
-import { FragmentComponent, useField, useFieldSchema } from '@formily/vue'
-import { clone, isValid, uid } from '@formily/shared'
-import type { ArrayField } from '@formily/core'
-import type { LinkProps } from 'element-plus'
-import { ElLink } from 'element-plus'
-import type { Schema } from '@formily/json-schema'
-import { ArrowDown, ArrowUp, Delete, Plus, Rank } from '@element-plus/icons-vue'
 
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
@@ -242,10 +242,11 @@ const ArrayBaseAddition = defineComponent({
         {
           ...attrs,
           ...props,
-          class: `${prefixCls}-addition`,
-          icon: Plus,
-          underline: false,
-          onClick: (e) => {
+          'class': `${prefixCls}-addition`,
+          'icon': Plus,
+          'underline': false,
+          'aria-label': '添加条目',
+          'onClick': (e) => {
             if (array.props?.disabled)
               return
             const defaultValue = getDefaultValue(
@@ -287,12 +288,14 @@ const ArrayBaseRemove = defineComponent<
       return h(
         ElLink,
         {
-          class: `${prefixCls}-remove`,
-          size: 'small',
-          icon: Delete,
-          underline: false,
+          'class': `${prefixCls}-remove`,
+          'size': 'small',
+          'icon': Delete,
+          'underline': false,
           ...attrs,
-          onClick: (e: MouseEvent) => {
+          'role': 'button',
+          'aria-label': `移除条目`,
+          'onClick': (e: MouseEvent) => {
             e.stopPropagation()
             if (Array.isArray(base?.keyMap)) {
               base?.keyMap?.splice(indexRef.value, 1)
