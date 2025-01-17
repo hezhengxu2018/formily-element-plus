@@ -20,6 +20,7 @@ export default defineConfig({
     outDir: './esm',
     emptyOutDir: true,
     cssCodeSplit: true,
+    sourcemap: true,
     rollupOptions: {
       external: Object.keys(pkg.peerDependencies).concat(Object.keys(pkg.dependencies)),
       output: {
@@ -41,6 +42,7 @@ export default defineConfig({
     libInjectCss(),
     dts({
       outDir: ['./esm'],
+      exclude: ['./**/style.ts', './**/*.test.{ts,tsx}'],
     }),
     VueMacros({
       setupComponent: false,
