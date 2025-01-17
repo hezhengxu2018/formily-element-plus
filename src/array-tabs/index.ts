@@ -1,9 +1,9 @@
-import { defineComponent, h, ref } from 'vue'
-import { observer } from '@formily/reactive-vue'
 import type { ArrayField } from '@formily/core'
+import { observer } from '@formily/reactive-vue'
+import { isFn } from '@formily/shared'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElBadge, ElTabPane, ElTabs } from 'element-plus'
-import { isFn } from '@formily/shared'
+import { defineComponent, h, ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import './style.scss'
 
