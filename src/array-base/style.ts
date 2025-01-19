@@ -1,1 +1,1 @@
-import 'element-plus/theme-chalk/button.css'
+import 'element-plus/theme-chalk/el-button.css'

@@ -2,7 +2,7 @@ import type { FieldDisplayTypes, GeneralField } from '@formily/core'
 import type { Schema } from '@formily/vue'
 import type { Column, TableInstance, TableProps } from 'element-plus'
 import type { Component, PropType } from 'vue'
-import { isFn } from '@formily/shared'
+import { isEqual, isFn } from '@formily/shared'
 import { connect, mapProps, useFieldSchema } from '@formily/vue'
 import {
   ElLink,
@@ -18,7 +18,7 @@ import { gt } from 'semver'
 import { computed, defineComponent, h, mergeProps, nextTick, ref, watch, withDirectives } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
-import './style.ts'
+import './style'
 
 type IFilterOption = boolean | ((option: any, keyword: string) => boolean)
 
@@ -29,8 +29,8 @@ export interface ISelectTableProps extends TableProps<any> {
   dataSource?: any[]
   optionAsValue?: boolean
   valueType?: 'all' | 'parent' | 'child' | 'path'
-  primaryKey?: string | ((record: any) => string)
-  rowKey?: string | ((record: any) => string)
+  primaryKey?: string
+  rowKey?: string
   filterOption?: IFilterOption
   filterSort?: IFilterSort
   onSearch?: (keyword: string) => void
@@ -77,7 +77,7 @@ const InnerSelectTable = defineComponent({
       default: 'all',
     },
     primaryKey: {
-      type: [String, Function] as PropType<ISelectTableProps['primaryKey']>,
+      type: String as PropType<ISelectTableProps['primaryKey']>,
     },
     onSearch: {
       type: Function as PropType<ISelectTableProps['onSearch']>,
@@ -88,7 +88,7 @@ const InnerSelectTable = defineComponent({
       >,
     },
     rowKey: {
-      type: [String, Function] as PropType<ISelectTableProps['rowKey']>,
+      type: String as PropType<ISelectTableProps['rowKey']>,
     },
     dataSource: {
       type: Array as PropType<ISelectTableProps['dataSource']>,
@@ -113,16 +113,7 @@ const InnerSelectTable = defineComponent({
     function getRowKey(item: unknown) {
       return isFn(rowKey) ? rowKey(item) : item[rowKey]
     }
-    const initialSelectedList = props.value?.map((item) => {
-      if (!props.optionAsValue && !isFn(rowKey)) {
-        return {
-          [rowKey]: item,
-        }
-      }
-      return item
-    },
-    )
-    const selectedFlatDataSource = ref(initialSelectedList ?? [])
+    const selectedFlatDataSource = ref([])
     // 为了获取移除的项而缓存的当前页面的前一次选择
     let prevSelection = []
 
@@ -174,24 +165,64 @@ const InnerSelectTable = defineComponent({
       { immediate: true },
     )
 
-    function onSelect(newSelection: Record<string, any>[]) {
-      const rowKey = props.rowKey ?? props.primaryKey
-      if (!rowKey) {
-        throw new Error('rowKey is required')
-      }
-
+    watch(() => props.value, async (value) => {
       if (props.mode === 'single') {
-        return
+        const valueKey = props.optionAsValue ? value[rowKey] : value
+        radioSelectedKey.value = valueKey
       }
+      else {
+        const currentDisplayDataKeys = props.optionAsValue ? selectedFlatDataSource.value : selectedFlatDataSource.value.map(item => item[rowKey])
+        const valueKeys = props.optionAsValue ? value.map(item => item[rowKey]) : value ?? []
+        if (isEqual(valueKeys, currentDisplayDataKeys)) {
+          return
+        }
+        if (valueKeys.length > currentDisplayDataKeys.length) {
+          const shouldSelectItem = differenceWith(
+            valueKeys,
+            currentDisplayDataKeys,
+            (itemPrev, itemNext) => {
+              return itemPrev === itemNext
+            },
+          )
+          await nextTick()
+          for (const tableItem of props.dataSource) {
+            for (const i of shouldSelectItem) {
+              if (tableItem[rowKey] === i) {
+                elTableRef.value.toggleRowSelection(tableItem, true)
+              }
+            }
+          }
+        }
+        else {
+          const shouldRemoveItem = differenceWith(
+            valueKeys,
+            currentDisplayDataKeys,
+            (itemPrev, itemNext) => {
+              return itemPrev === itemNext
+            },
+          )
+          await nextTick()
+          for (const tableItem of props.dataSource) {
+            for (const i of shouldRemoveItem) {
+              if (tableItem[rowKey] === i) {
+                elTableRef.value.toggleRowSelection(tableItem, false)
+              }
+            }
+          }
+        }
+      }
+    }, {
+      immediate: true,
+    })
+
+    function onSelect(newSelection: Record<string, any>[]) {
       const removedItemList
         = prevSelection.length > newSelection.length
           ? differenceWith(
               prevSelection,
               newSelection,
               (itemPrev, itemNext) => {
-                return isFn(rowKey)
-                  ? rowKey(itemPrev) === rowKey(itemNext)
-                  : itemPrev[rowKey] === itemNext[rowKey]
+                return !isFn(rowKey) && itemPrev[rowKey] === itemNext[rowKey]
               },
             )
           : []
