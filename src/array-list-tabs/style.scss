@@ -7,10 +7,6 @@ $array-list-prefix-cls: '#{$formily-prefix}-array-list-tabs';
   border: 1px solid var(--el-border-color);
   border-radius: var(--el-border-radius-base);
 
-  .el-card {
-    flex: 1;
-  }
-
   .el-empty {
     padding: 0;
   }
@@ -60,6 +56,7 @@ $array-list-prefix-cls: '#{$formily-prefix}-array-list-tabs';
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        user-select: none;
       }
 
       &--close {
@@ -105,6 +102,7 @@ $array-list-prefix-cls: '#{$formily-prefix}-array-list-tabs';
     margin: 6px;
     border: 1px dashed var(--el-border-color);
     border-radius: var(--el-border-radius-small);
+    user-select: none;
 
     &:hover {
       background-color: var(--el-color-white);

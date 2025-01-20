@@ -6,7 +6,6 @@ import { observer } from '@formily/reactive-vue'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import {
   ElBadge,
-  ElCard,
   ElEmpty,
   ElScrollbar,
 } from 'element-plus'
@@ -63,7 +62,7 @@ export const ArrayListTabsInner = observer(
         default: () => [],
       },
     },
-    setup(props, { attrs }) {
+    setup(props) {
       const fieldRef = useField<ArrayField>()
       const schemaRef = useFieldSchema()
       const activeIndex = ref(0)
@@ -179,17 +178,11 @@ export const ArrayListTabsInner = observer(
         if (dataSource?.length)
           return
         return h(
-          ElCard,
+          'div',
           {
-            class: `${prefixCls}-item`,
-            shadow: 'never',
-            ...attrs,
-            header: attrs.title || field.title,
+            class: `${prefixCls}-tabpane`,
           },
-          {
-            default: () =>
-              h(ElEmpty, { description: 'No Data', imageSize: 100 }, {}),
-          },
+          h(ElEmpty, { imageSize: 100 }, {}),
         )
       }
 

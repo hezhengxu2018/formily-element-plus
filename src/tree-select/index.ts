@@ -14,7 +14,7 @@ const TransformElTreeSelect = transformComponent<TreeSelectProps>(
 
 export const TreeSelect = connect(
   TransformElTreeSelect,
-  mapProps({ value: 'modelValue', readOnly: 'readonly' }),
+  mapProps({ value: 'modelValue', readOnly: 'readonly', dataSource: 'data' }),
   mapReadPretty(PreviewText.Select),
 )
 

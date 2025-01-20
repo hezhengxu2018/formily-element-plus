@@ -11,8 +11,14 @@ import { describe, expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { defineComponent, h } from 'vue'
 import { ArrayListTabs, FormItem, Input } from '../index'
-import './style'
+import './style.scss'
 import 'element-plus/theme-chalk/src/input.scss'
+import 'element-plus/theme-chalk/src/base.scss'
+import 'element-plus/theme-chalk/src/empty.scss'
+import 'element-plus/theme-chalk/src/link.scss'
+import 'element-plus/theme-chalk/src/icon.scss'
+import 'element-plus/theme-chalk/src/badge.scss'
+import 'element-plus/theme-chalk/src/scrollbar.scss'
 
 export const ArrayListTabsTest = defineComponent({
   name: 'TestComponent',
