@@ -8,7 +8,8 @@ import { defineComponent, Fragment, h } from 'vue'
 import SelectTable from './index'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-table.css'
-import './style'
+import 'element-plus/theme-chalk/el-link.css'
+import './style.scss'
 
 function formilyWrapperFactory(fieldProps = {}, selectTableProps = {}) {
   return defineComponent({
@@ -163,8 +164,6 @@ describe('基础数据展示', async () => {
     await expect.element(screen.getByRole('row', { name: 'title-1 description-' }).getByRole('checkbox')).toBeInTheDocument()
   })
 
-  it.todo('当mode为single时应该显示单选框')
-
   it('带有插槽的内容应该正常展示', async () => {
     const screen = render(formilyWrapperWithSlotFactory({ primaryKey: 'key' }))
     await expect.element(screen.getByText('description-1-title-1')).toBeInTheDocument()
@@ -263,7 +262,7 @@ describe('多选框交互', async () => {
 
   it('在optionAsValue为true时,组件有默认值时数值的应该正确勾选', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', initialValue: [{ key: '1' }], optionAsValue: true, dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
+    const screen = render(formilyWrapperFactory({ primaryKey: 'key', initialValue: [{ key: '1' }, { key: '2' }], optionAsValue: true, dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
       data() {
         return {
           form,
@@ -271,6 +270,43 @@ describe('多选框交互', async () => {
       },
     })
     await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).toBeChecked()
+  })
+
+  it('多选时form表单中的值在改动后应该与选中的项保持一致', async () => {
+    const form = createForm()
+    const screen = render(formilyWrapperFactory({ primaryKey: 'key', rowKey: 'key' }), {
+      data() {
+        return {
+          form,
+        }
+      },
+    })
+    form.setInitialValues({ selectTable: ['1'] })
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).toBeChecked()
+    form.setValues({ selectTable: ['2'] })
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).not.toBeChecked()
+    await expect.element(screen.getByRole('row', { name: 'title-2' }).getByRole('checkbox')).toBeChecked()
+  })
+
+  it('表单的值置空时原本选中的值也应该取消选择', async () => {
+    const form = createForm({
+      initialValues: { selectTable: ['1'] },
+    })
+    const screen = render(formilyWrapperFactory({ primaryKey: 'key', rowKey: 'key' }), {
+      data() {
+        return {
+          form,
+        }
+      },
+    })
+
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).toBeChecked()
+    form.setValues({ selectTable: [] })
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).not.toBeChecked()
+    const field = form.query('selectTable').take<ArrayField>((field: ArrayField) => field)
+    field.setDataSource([{ key: '1', name: 'title-1', description: 'description-1' }])
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).toBeInTheDocument()
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).not.toBeChecked()
   })
 })
 
@@ -292,7 +328,7 @@ describe('单选框交互', async () => {
 
   it('在组件有默认值时数值的应该正确勾选', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', mode: 'single', initialValue: ['1'], dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
+    const screen = render(formilyWrapperFactory({ primaryKey: 'key', mode: 'single', initialValue: '1', dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
       data() {
         return {
           form,
@@ -304,7 +340,7 @@ describe('单选框交互', async () => {
 
   it('在optionAsValue为true时,组件有默认值时数值的应该正确勾选', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', mode: 'single', initialValue: [{ key: '1' }], optionAsValue: true, dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
+    const screen = render(formilyWrapperFactory({ primaryKey: 'key', mode: 'single', initialValue: { key: '1' }, optionAsValue: true, dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
       data() {
         return {
           form,
@@ -312,6 +348,21 @@ describe('单选框交互', async () => {
       },
     })
     await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('radio')).toBeChecked()
+  })
+
+  it('单选时form表单中的值在改动后应该与选中的项保持一致', async () => {
+    const form = createForm()
+    const screen = render(formilyWrapperFactory({ primaryKey: 'key', rowKey: 'key', mode: 'single' }), {
+      data() {
+        return {
+          form,
+        }
+      },
+    })
+    form.setInitialValues({ selectTable: '1' })
+    await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('radio')).toBeChecked()
+    form.setValues({ selectTable: '2' })
+    await expect.element(screen.getByRole('row', { name: 'title-2' }).getByRole('radio')).toBeChecked()
   })
 })
 

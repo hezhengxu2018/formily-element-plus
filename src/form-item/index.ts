@@ -349,56 +349,56 @@ export const FormBaseItem = defineComponent({
       }
       const renderLabel
         = label
-        && h(
-          'div',
-          {
-            class: {
-              [`${prefixCls}-label`]: true,
-              [`${prefixCls}-label-tooltip`]:
+          && h(
+            'div',
+            {
+              class: {
+                [`${prefixCls}-label`]: true,
+                [`${prefixCls}-label-tooltip`]:
                 (tooltip && tooltipLayout === 'text') || overflow.value,
-              [`${prefixCls}-item-col-${labelCol}`]: enableCol && !!labelCol,
+                [`${prefixCls}-item-col-${labelCol}`]: enableCol && !!labelCol,
+              },
+              style: labelStyle,
             },
-            style: labelStyle,
-          },
-          {
-            default: () => [
+            {
+              default: () => [
               // label content
-              renderLabelText(),
-              // label tooltip
-              renderTooltipIcon(),
-              // label colon
-              label
-              && h(
-                'span',
-                {
-                  class: `${prefixCls}-colon`,
-                },
-                { default: () => [colon ? ':' : ''] },
-              ),
-            ],
-          },
-        )
+                renderLabelText(),
+                // label tooltip
+                renderTooltipIcon(),
+                // label colon
+                label
+                && h(
+                  'span',
+                  {
+                    class: `${prefixCls}-colon`,
+                  },
+                  { default: () => [colon ? ':' : ''] },
+                ),
+              ],
+            },
+          )
 
       const renderFeedback
         = !!feedbackText
-        && feedbackLayout !== 'popover'
-        && feedbackLayout !== 'none'
-        && h(
-          'div',
-          {
-            class: {
-              [`${prefixCls}-${feedbackStatus}-help`]: !!feedbackStatus,
-              [`${prefixCls}-help`]: true,
-              [`${prefixCls}-help-enter`]: true,
-              [`${prefixCls}-help-enter-active`]: true,
+          && feedbackLayout !== 'popover'
+          && feedbackLayout !== 'none'
+          && h(
+            'div',
+            {
+              class: {
+                [`${prefixCls}-${feedbackStatus}-help`]: !!feedbackStatus,
+                [`${prefixCls}-help`]: true,
+                [`${prefixCls}-help-enter`]: true,
+                [`${prefixCls}-help-enter-active`]: true,
+              },
             },
-          },
-          { default: () => [resolveComponent(feedbackText)] },
-        )
+            { default: () => [resolveComponent(feedbackText)] },
+          )
 
       const renderExtra
         = extra
-        && h('div', { class: `${prefixCls}-extra` }, { default: () => [extra] })
+          && h('div', { class: `${prefixCls}-extra` }, { default: () => [extra] })
       const renderContent = h(
         'div',
         {

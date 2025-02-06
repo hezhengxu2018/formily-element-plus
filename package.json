@@ -1,7 +1,7 @@
 {
   "name": "@sliver/formily-element-plus",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "author": "hezhengxu",
   "license": "MIT",
@@ -50,6 +50,7 @@
     "@eslint/markdown": "^6.0.0",
     "@iconify-json/ri": "^1.2.0",
     "@mdit-vue/shared": "^2.1.3",
+    "@types/lodash-es": "^4.17.12",
     "@types/markdown-it": "^14.1.2",
     "@types/markdown-it-container": "^2.0.10",
     "@types/node": "20",

@@ -1,16 +1,37 @@
 /// <reference types="vitest" />
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import glob from 'fast-glob'
 import VueMacros from 'unplugin-vue-macros/rollup'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import { libInjectCss } from 'vite-plugin-lib-inject-css'
 import { pkg } from './build/constants'
 
+function resolve(dir) {
+  const __filename = fileURLToPath(import.meta.url)
+  const __dirname = path.dirname(__filename)
+  return path.resolve(__dirname, dir)
+}
+
+// 获取导出入口
+export function getComponentEntries() {
+  return Object.fromEntries(
+    glob
+      .sync('src/**/*.ts')
+      .map(file => [
+        path.relative('src', file.slice(0, file.length - path.extname(file).length)),
+        resolve(file),
+      ]),
+  )
+}
+
 export default defineConfig({
   build: {
     lib: {
-      entry: './src/index.ts',
+      entry: getComponentEntries(),
       formats: ['es'],
       fileName: (format, fileName) => {
         const extension = format === 'cjs' ? 'js' : 'mjs'
@@ -24,9 +45,11 @@ export default defineConfig({
     rollupOptions: {
       external: Object.keys(pkg.peerDependencies).concat(Object.keys(pkg.dependencies)),
       output: {
-        preserveModules: true,
-        preserveModulesRoot: 'src',
-        assetFileNames: 'styles/[name][extname]',
+        assetFileNames: (assetInfo) => {
+          const originalFileName = assetInfo.originalFileNames[0]
+          const originalDirName = originalFileName?.match(/src\/(.*)\/index.ts/)?.[1]
+          return originalDirName ? `styles/${originalDirName}/[name][extname]` : `styles/[name][extname]`
+        },
       },
       treeshake: {
         moduleSideEffects: (id) => {
@@ -50,6 +73,9 @@ export default defineConfig({
       plugins: {
         vue: vue({
           isProduction: true,
+          features: {
+            optionsAPI: false,
+          },
         }),
         vueJsx: vueJsx(),
       },
