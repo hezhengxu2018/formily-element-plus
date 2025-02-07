@@ -39,7 +39,6 @@ export interface ISelectTableProps extends TableProps<any> {
   valueType?: 'all' | 'parent' | 'child' | 'path'
   loading?: boolean
   rowKey?: string
-  primaryKey?: string
   clickRowToSelect?: boolean
   showAlertToolbar?: boolean
   value?: any
@@ -50,7 +49,7 @@ function compatibleRadioValue(key: string) {
 }
 
 const elTableRef = ref<TableInstance>()
-const rowKey = props.rowKey ?? props.primaryKey
+const rowKey = props.rowKey
 function getInitialSelectedList() {
   if (props.mode === 'multiple') {
     return props.value?.map((item) => {
@@ -133,7 +132,7 @@ watch(
         .getSelectionRows()
         .map(item => item[rowKey])
       const valueKeys = props.optionAsValue
-        ? value.map(item => item[rowKey])
+        ? value?.map(item => item[rowKey])
         : value ?? []
       selectedFlatDataSource.value = selectedFlatDataSource.value.filter(
         item => valueKeys.includes(item[rowKey]),

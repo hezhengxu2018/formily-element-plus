@@ -131,6 +131,10 @@
           "text": "InputNumber 数字输入框"
         },
         {
+          "link": "/select-table",
+          "text": "SelectTable 选择表格"
+        },
+        {
           "link": "/transfer",
           "text": "Transfer 穿梭框"
         },

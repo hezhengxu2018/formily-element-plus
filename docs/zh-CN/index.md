@@ -22,7 +22,13 @@ features:
   - title: 🔌 自由的依赖版本
     details: formily及element-plus的版本都作为peerDependencies，可以根据项目需要选择自己需要的element-plus版本。
   - title: 🔑 完善的表单组件
-    details: 补全element-plus的表单组件。
+    details: 补全element-plus的表单组件。同时添加额外的场景组件，满足各种业务场景。
+  - title: ♿️  更好的A11y
+    details: 提升组件的可访问性。特别对FormItem组件的重构，提供更友好的组件访问支持及视觉反馈。
+  - title: 🧪 补全的组件测试
+    details: 新增的组件全部提供了完善的组件测试，保证组件质量及重构的信心。
+  - title: 📝 基于Vue模板语法
+    details: 新增组件尽可能使用Vue模板语法进行开发，提供更好的可读性及运行时的优化，使得代码更易维护，性能更好。
 ---
 
 <style>
