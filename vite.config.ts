@@ -20,7 +20,9 @@ function resolve(dir) {
 export function getComponentEntries() {
   return Object.fromEntries(
     glob
-      .sync('src/**/*.ts')
+      .sync('src/**/*.{ts,tsx}', {
+        ignore: ['src/**/*.test.{ts,tsx}', 'src/**/__tests__/**'],
+      })
       .map(file => [
         path.relative('src', file.slice(0, file.length - path.extname(file).length)),
         resolve(file),

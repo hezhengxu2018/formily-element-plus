@@ -79,6 +79,10 @@ select-table/template-multiple-slot
 | clickRowToSelect | 是否点击整行进行选择，如果需要对表格内局部添加点击事件需要禁用该配置项 | ^[boolean] | `true` |
 | showAlertToolbar | 是否显示选择提示工具栏 | ^[boolean] | `true` |
 
+::: tip 提示
+其他的配置项会传入至 ElTable 组件上，具体请参考[官方文档](https://cn.element-plus.org/zh-CN/component/table.html#table-%E5%B1%9E%E6%80%A7)，例如可以限制表格高度或者条纹等，但会有不推荐的配置项，例如应该用Formily的dataSource配置项来渲染表格数据而不是ElTable的data属性。
+:::
+
 ### Slots
 
 | 插槽名 | 说明 |

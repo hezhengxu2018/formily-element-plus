@@ -13,6 +13,14 @@
       "text": "Layout 布局组件",
       "children": [
         {
+          "link": "/form",
+          "text": "Form 表单"
+        },
+        {
+          "link": "/form-item",
+          "text": "FormItem 表单项"
+        },
+        {
           "link": "/form-layout",
           "text": "FormLayout 区块布局表单"
         },
@@ -25,8 +33,8 @@
           "text": "Space 弹性盒子布局表单"
         },
         {
-          "link": "/form-item",
-          "text": "FormItem 表单项"
+          "link": "/form-button-group",
+          "text": "FormButtonGroup 按钮布局"
         },
         {
           "link": "/submit",
@@ -35,14 +43,64 @@
         {
           "link": "/reset",
           "text": "Reset 重置按钮"
+        }
+      ]
+    },
+    "input": {
+      "text": "Input 输入组件",
+      "children": [
+        {
+          "link": "/input",
+          "text": "Input 输入框"
         },
         {
-          "link": "/form-button-group",
-          "text": "FormButtonGroup 按钮布局"
+          "link": "/input-number",
+          "text": "InputNumber 数字输入框"
         },
         {
-          "link": "/form",
-          "text": "Form 表单"
+          "link": "/password",
+          "text": "Password 密码输入框"
+        },
+        {
+          "link": "/checkbox",
+          "text": "Checkbox 多选框"
+        },
+        {
+          "link": "/radio",
+          "text": "Radio 单选框"
+        },
+        {
+          "link": "/select",
+          "text": "Select 下拉选择框"
+        },
+        {
+          "link": "/select-table",
+          "text": "SelectTable 选择表格",
+          "promotion": "1.3.0"
+        },
+        {
+          "link": "/cascader",
+          "text": "Cascader 级联选择器"
+        },
+        {
+          "link": "/transfer",
+          "text": "Transfer 穿梭框"
+        },
+        {
+          "link": "/switch",
+          "text": "Switch 开关"
+        },
+        {
+          "link": "/date-picker",
+          "text": "DatePicker 日期选择器"
+        },
+        {
+          "link": "/time-picker",
+          "text": "TimePicker 时间选择器"
+        },
+        {
+          "link": "/upload",
+          "text": "Upload 上传"
         }
       ]
     },
@@ -66,16 +124,17 @@
           "text": "ArrayTabs 自增选项卡"
         },
         {
+          "link": "/array-list-tabs",
+          "text": "ArrayListTabs 自增选项卡列表",
+          "promotion": "1.3.0"
+        },
+        {
+          "link": "/editable",
+          "text": "Editable 局部编辑器"
+        },
+        {
           "link": "/form-collapse",
           "text": "FormCollapse 折叠面板"
-        },
-        {
-          "link": "/form-step",
-          "text": "FormStep 分步表单"
-        },
-        {
-          "link": "/form-tab",
-          "text": "FormTab 选项卡表单"
         },
         {
           "link": "/form-dialog",
@@ -86,65 +145,12 @@
           "text": "FormDrawer 抽屉表单"
         },
         {
-          "link": "/editable",
-          "text": "Editable 局部编辑器"
-        }
-      ]
-    },
-    "input": {
-      "text": "Input 输入组件",
-      "children": [
-        {
-          "link": "/input",
-          "text": "Input 输入框"
+          "link": "/form-step",
+          "text": "FormStep 分步表单"
         },
         {
-          "link": "/password",
-          "text": "Password 密码输入框"
-        },
-        {
-          "link": "/select",
-          "text": "Select 下拉选择框"
-        },
-        {
-          "link": "/radio",
-          "text": "Radio 单选框"
-        },
-        {
-          "link": "/checkbox",
-          "text": "Checkbox 多选框"
-        },
-        {
-          "link": "/switch",
-          "text": "Switch 开关"
-        },
-        {
-          "link": "/date-picker",
-          "text": "DatePicker 日期选择器"
-        },
-        {
-          "link": "/time-picker",
-          "text": "TimePicker 时间选择器"
-        },
-        {
-          "link": "/input-number",
-          "text": "InputNumber 数字输入框"
-        },
-        {
-          "link": "/select-table",
-          "text": "SelectTable 选择表格"
-        },
-        {
-          "link": "/transfer",
-          "text": "Transfer 穿梭框"
-        },
-        {
-          "link": "/cascader",
-          "text": "Cascader 级联选择器"
-        },
-        {
-          "link": "/upload",
-          "text": "Upload 上传"
+          "link": "/form-tab",
+          "text": "FormTab 选项卡表单"
         }
       ]
     },
