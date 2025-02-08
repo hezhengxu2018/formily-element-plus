@@ -10,6 +10,7 @@ import {
   resolveComponent,
 } from '../__builtins__/shared'
 import { PreviewText } from '../preview-text'
+import './style.scss'
 
 export type ElRadioProps = typeof ElRadio
 export type RadioGroupProps = typeof ElRadioGroup & {

@@ -33,6 +33,8 @@ $editable-prefix-cls: '#{$formily-prefix}-editable';
     transition: all 0.25s ease-in-out;
     width: 14px;
     height: 14px;
+    display: inline;
+    vertical-align: text-bottom;
 
     &:hover {
       color: var(--el-color-primary);
