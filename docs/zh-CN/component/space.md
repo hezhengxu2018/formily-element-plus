@@ -1,6 +1,10 @@
 # Space
 
-> 超级便捷的 Flex 布局组件，可以帮助用户快速实现任何元素的并排紧挨布局
+> Element-Plus 的 Flex 布局组件
+
+::: warning 注意
+本项目实际并未导出名为 `Space` 或 `ElSpace` 的组件，请从`Element-Plus` 中引入，在文档中列出仅为提供使用上的参考。
+:::
 
 ## Markup Schema 案例
 

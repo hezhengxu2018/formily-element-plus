@@ -1,10 +1,10 @@
-import type { SpaceProps } from '../space'
+import type { spaceProps } from 'element-plus'
 import { ElSpace } from 'element-plus'
 import { defineComponent, h } from 'vue'
 import { stylePrefix } from '../__builtins__'
 import { FormBaseItem } from '../form-item'
 
-export type FormButtonGroupProps = Omit<SpaceProps, 'align' | 'size'> & {
+export type FormButtonGroupProps = Omit<typeof spaceProps, 'align' | 'size'> & {
   align?: 'left' | 'right' | 'center'
   gutter?: number
   className?: string

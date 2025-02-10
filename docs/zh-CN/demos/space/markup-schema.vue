@@ -6,12 +6,12 @@ import {
   FormItem,
   FormLayout,
   Input,
-  Space,
   Submit,
 } from '@sliver/formily-element-plus'
+import { ElSpace } from 'element-plus'
 
 const { SchemaField, SchemaVoidField, SchemaStringField } = createSchemaField({
-  components: { FormItem, FormLayout, Input, Space },
+  components: { FormItem, FormLayout, Input, ElSpace },
 })
 
 const form = createForm()
@@ -39,7 +39,7 @@ function log(value) {
               asterisk: true,
               feedbackLayout: 'none',
             }"
-            x-component="Space"
+            x-component="ElSpace"
           >
             <SchemaStringField
               name="firstName"
@@ -61,7 +61,7 @@ function log(value) {
               asterisk: true,
               feedbackLayout: 'none',
             }"
-            x-component="Space"
+            x-component="ElSpace"
           >
             <SchemaStringField
               name="aa"

@@ -6,9 +6,9 @@ import {
   FormItem,
   FormLayout,
   Input,
-  Space,
   Submit,
 } from '@sliver/formily-element-plus'
+import { ElSpace } from 'element-plus'
 
 const form = createForm()
 
@@ -30,7 +30,7 @@ function log(value) {
             feedbackLayout: 'none',
           },
         ]"
-        :component="[Space]"
+        :component="[ElSpace]"
       >
         <Field
           name="firstName"
@@ -55,7 +55,7 @@ function log(value) {
             feedbackLayout: 'none',
           },
         ]"
-        :component="[Space]"
+        :component="[ElSpace]"
       >
         <Field
           name="aa"
