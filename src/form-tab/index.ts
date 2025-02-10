@@ -3,14 +3,12 @@ import type { PropType } from 'vue'
 import { model } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
 import {
-  Fragment,
-  h,
   RecursionField,
   useField,
   useFieldSchema,
 } from '@formily/vue'
 import { ElBadge, ElTabPane, ElTabs } from 'element-plus'
-import { computed, defineComponent, reactive } from 'vue'
+import { computed, defineComponent, Fragment, h, reactive } from 'vue'
 import { composeExport, stylePrefix } from '../__builtins__'
 import './style.scss'
 
@@ -150,7 +148,7 @@ const FormTabPane = defineComponent<IFormTabPaneProps>({
   name: 'FFormTabPane',
   inheritAttrs: false,
   setup(_props, { slots }) {
-    return () => h(Fragment, {}, slots)
+    return () => h(Fragment, slots.default?.())
   },
 })
 

@@ -2,9 +2,9 @@ import type { IFormFeedback } from '@formily/core'
 import type { ElButton as ElButtonProps } from 'element-plus'
 import type { SetupContext } from 'vue'
 import { observer } from '@formily/reactive-vue'
-import { h, useParentForm } from '@formily/vue'
+import { useParentForm } from '@formily/vue'
 import { ElButton } from 'element-plus'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 export type ISubmitProps = {
   onClick?: (e: MouseEvent) => any
@@ -35,8 +35,7 @@ export const Submit = observer(
             nativeType: attrs?.submit ? 'button' : 'submit',
             type: 'primary',
             ...attrs,
-            loading:
-              attrs.loading === undefined ? form?.submitting : attrs.loading,
+            loading: form?.submitting ?? !!attrs.loading,
             onClick: (e: any) => {
               if (onClick && onClick(e) === false)
                 return

@@ -6,9 +6,9 @@ import {
   Upload as UploadIcon,
 } from '@element-plus/icons-vue'
 import { isFn } from '@formily/shared'
-import { connect, FragmentComponent, mapProps, useField } from '@formily/vue'
+import { connect, mapProps, useField } from '@formily/vue'
 import { ElButton, ElIcon, ElUpload, genFileId } from 'element-plus'
-import { defineComponent, h, ref } from 'vue'
+import { defineComponent, Fragment, h, ref } from 'vue'
 
 export type UploadProps = typeof ElUpload & {
   textContent?: string
@@ -92,22 +92,19 @@ const UploadWrapper = defineComponent({
 
           if (drag) {
             return h(
-              FragmentComponent,
-              {},
-              {
-                default: () => [
-                  h(
-                    ElIcon,
-                    { style: { fontSize: '60px', margin: '40px 0 16px' } },
-                    { default: () => h(UploadFilled, { color: 'gray' }, {}) },
-                  ),
-                  h(
-                    'div',
-                    { staticClass: 'el-upload__text' },
-                    { default: () => [curProps.textContent] },
-                  ),
-                ],
-              },
+              Fragment,
+              [
+                h(
+                  ElIcon,
+                  { style: { fontSize: '60px', margin: '40px 0 16px' } },
+                  { default: () => h(UploadFilled, { color: 'gray' }, {}) },
+                ),
+                h(
+                  'div',
+                  { staticClass: 'el-upload__text' },
+                  { default: () => [curProps.textContent] },
+                ),
+              ],
             )
           }
 
@@ -122,19 +119,16 @@ const UploadWrapper = defineComponent({
                   color: 'gray',
                 },
               },
-              {},
             )
           }
 
           return h(
             ElButton,
             {},
-            {
-              default: () => [
-                h(UploadIcon, { style: { width: '12px', height: '12px' } }),
-                curProps.textContent,
-              ],
-            },
+            [
+              h(UploadIcon, { style: { width: '12px', height: '12px' } }),
+              curProps.textContent,
+            ],
           )
         }
       }

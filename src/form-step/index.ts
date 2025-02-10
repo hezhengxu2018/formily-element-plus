@@ -4,14 +4,12 @@ import type { PropType } from 'vue'
 import { action, model, observable } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
 import {
-  Fragment,
-  h,
   RecursionField,
   useField,
   useFieldSchema,
 } from '@formily/vue'
 import { ElStep, ElSteps } from 'element-plus'
-import { defineComponent } from 'vue'
+import { defineComponent, Fragment, h } from 'vue'
 import { composeExport, stylePrefix } from '../__builtins__'
 
 export interface IFormStep {
@@ -177,7 +175,7 @@ const FormStepInner = observer(
               renderSteps(steps, ({ name, schema }, key) => {
                 if (key !== current)
                   return
-                return h(RecursionField, { props: { name, schema }, key }, {})
+                return h(RecursionField, { name, schema, key }, {})
               }),
             ],
           },
@@ -191,7 +189,7 @@ const StepPane = defineComponent({
   name: 'FFormStepPane',
   inheritAttrs: false,
   setup(_props, { slots }) {
-    return () => h(Fragment, {}, slots)
+    return () => h(Fragment, slots.default?.())
   },
 })
 

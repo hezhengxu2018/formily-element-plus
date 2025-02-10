@@ -3,9 +3,9 @@ import type {
   Ref,
   SetupContext,
 } from 'vue'
-import { h } from '@formily/vue'
 import {
   defineComponent,
+  h,
   inject,
   provide,
   ref,
@@ -159,6 +159,7 @@ export const FormLayout = defineComponent({
       )
     }
   },
+  inheritAttrs: false,
 })
 
 export default FormLayout

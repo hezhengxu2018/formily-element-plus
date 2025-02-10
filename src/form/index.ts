@@ -1,9 +1,9 @@
 import type { Form as FormType, IFormFeedback } from '@formily/core'
 import type { Component, SetupContext, VNode } from 'vue'
 import type { FormLayoutProps } from '../form-layout'
-import { FormProvider as _FormProvider, h, useForm } from '@formily/vue'
+import { FormProvider as _FormProvider, useForm } from '@formily/vue'
 
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 import { FormLayout } from '../form-layout'
 import { PreviewText } from '../preview-text'
 

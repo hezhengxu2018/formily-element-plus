@@ -8,10 +8,11 @@ import type {
 } from 'vue'
 import { ArrowDown, ArrowUp, Delete, Plus, Rank } from '@element-plus/icons-vue'
 import { clone, isValid, uid } from '@formily/shared'
-import { FragmentComponent, useField, useFieldSchema } from '@formily/vue'
+import { useField, useFieldSchema } from '@formily/vue'
 import { ElLink } from 'element-plus'
 import {
   defineComponent,
+  Fragment,
   h,
   inject,
   mergeProps,
@@ -162,7 +163,7 @@ const ArrayBaseInner = defineComponent({
       keyMap: props.keyMap,
     })
     return () => {
-      return h(FragmentComponent, {}, slots)
+      return h(Fragment, slots.default?.())
     }
   },
 })
@@ -173,7 +174,7 @@ const ArrayBaseItem = defineComponent({
   setup(props: IArrayBaseItemProps, { slots }) {
     provide(ItemSymbol, props)
     return () => {
-      return h(FragmentComponent, {}, slots)
+      return h(Fragment, slots.default?.())
     }
   },
 })

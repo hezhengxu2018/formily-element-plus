@@ -5,14 +5,12 @@ import { model } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
 import { toArr } from '@formily/shared'
 import {
-  Fragment,
-  h,
   RecursionField,
   useField,
   useFieldSchema,
 } from '@formily/vue'
 import { ElBadge, ElCollapse, ElCollapseItem } from 'element-plus'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, Fragment, h } from 'vue'
 import { composeExport, stylePrefix } from '../__builtins__'
 import './style.scss'
 
@@ -141,7 +139,7 @@ const FormCollapse = observer(
             {
               default: () => {
                 if (titleSlot) {
-                  return h(Fragment, {}, titleSlot)
+                  return h(Fragment, titleSlot)
                 }
                 return props.title
               },
@@ -149,7 +147,7 @@ const FormCollapse = observer(
           )
         }
         if (titleSlot) {
-          return h(Fragment, {}, titleSlot)
+          return h(Fragment, titleSlot)
         }
         return props.title
       }
@@ -183,10 +181,7 @@ const FormCollapse = observer(
                     title: () =>
                       h(
                         Fragment,
-                        {},
-                        {
-                          default: () => [badgedHeader(name, props, titleSlot)],
-                        },
+                        [badgedHeader(name, props, titleSlot)],
                       ),
                   },
                 )
@@ -203,7 +198,7 @@ export const FormCollapseItem = defineComponent({
   name: 'FFormCollapseItem',
   inheritAttrs: false,
   setup(_props, { slots }) {
-    return () => h(Fragment, {}, slots)
+    return () => h(Fragment, slots.default?.())
   },
 })
 

@@ -9,9 +9,17 @@ import { createForm } from '@formily/core'
 import { toJS } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
 import { applyMiddleware, isBool, isFn, isNum, isStr } from '@formily/shared'
-import { FormProvider, FragmentComponent } from '@formily/vue'
+import { FormProvider } from '@formily/vue'
 import { ElButton, ElConfigProvider, ElDialog } from 'element-plus'
-import { createApp, defineComponent, h, onMounted, ref, Teleport } from 'vue'
+import {
+  createApp,
+  defineComponent,
+  Fragment,
+  h,
+  onMounted,
+  ref,
+  Teleport,
+} from 'vue'
 import {
   createPortalProvider,
   getPortalProvides,
@@ -55,9 +63,9 @@ function isDialogTitle(props: any): props is DialogTitle {
 
 function getDialogProps(props: any): IFormDialogProps {
   return isDialogTitle(props)
-    ? {
+    ? ({
         title: props,
-      } as IFormDialogProps
+      } as IFormDialogProps)
     : props
 }
 
@@ -134,16 +142,11 @@ export function FormDialog(
     defineComponent({
       setup() {
         return () =>
-          h(
-            FragmentComponent,
-            {},
-            {
-              default: () =>
-                resolveComponent(content, {
-                  form: env.form,
-                }),
-            },
-          )
+          h(Fragment, [
+            resolveComponent(content, {
+              form: env.form,
+            }),
+          ])
       },
     }),
   )
@@ -242,9 +245,7 @@ export function FormDialog(
                             },
                             {
                               default: () =>
-                                resolveComponent(
-                                  cancelText || '取消',
-                                ),
+                                resolveComponent(cancelText || '取消'),
                             },
                           ),
                           h(
@@ -259,10 +260,7 @@ export function FormDialog(
                               },
                             },
                             {
-                              default: () =>
-                                resolveComponent(
-                                  okText || '确定',
-                                ),
+                              default: () => resolveComponent(okText || '确定'),
                             },
                           ),
                           FooterPortalTarget,

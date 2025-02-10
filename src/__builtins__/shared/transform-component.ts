@@ -1,7 +1,6 @@
 import type { Component } from 'vue'
-import { each, merge } from '@formily/shared'
-import { h } from '@formily/vue'
-import { defineComponent } from 'vue'
+import { each } from '@formily/shared'
+import { defineComponent, h, mergeProps } from 'vue'
 
 type ListenersTransformRules = Record<string, string>
 
@@ -20,7 +19,7 @@ export function transformComponent<T extends Record<string, any>>(tag: any, tran
           })
         }
         if (defaultProps) {
-          data = merge(defaultProps, attrs)
+          data = mergeProps(defaultProps, attrs)
         }
         return h(tag, data, slots)
       }

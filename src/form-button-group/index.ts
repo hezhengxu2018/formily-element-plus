@@ -1,9 +1,8 @@
 import type { SpaceProps } from '../space'
-import { h } from '@formily/vue'
-import { defineComponent } from 'vue'
+import { ElSpace } from 'element-plus'
+import { defineComponent, h } from 'vue'
 import { stylePrefix } from '../__builtins__'
 import { FormBaseItem } from '../form-item'
-import { Space } from '../space'
 
 export type FormButtonGroupProps = Omit<SpaceProps, 'align' | 'size'> & {
   align?: 'left' | 'right' | 'center'
@@ -45,11 +44,11 @@ export const FormButtonGroup = defineComponent({
               },
             },
             {
-              default: () => h(Space, { size: props.gutter }, slots),
+              default: () => h(ElSpace, { size: props.gutter }, slots.default?.()),
             },
           )
         : h(
-            Space,
+            ElSpace,
             {
               ...attrs,
               class: [prefixCls],
@@ -64,7 +63,7 @@ export const FormButtonGroup = defineComponent({
               },
               size: props.gutter,
             },
-            slots,
+            slots.default?.(),
           )
     }
   },

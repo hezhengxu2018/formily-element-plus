@@ -8,11 +8,11 @@ import type {
 import { Grid } from '@formily/grid'
 import { markRaw } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
-import { h } from '@formily/vue'
 import {
   computed,
   defineComponent,
   getCurrentInstance,
+  h,
   inject,
   onMounted,
   provide,

@@ -1,10 +1,10 @@
 import type { IFieldResetOptions } from '@formily/core'
 import type { ElButton as ElButtonProps } from 'element-plus'
 import { observer } from '@formily/reactive-vue'
-import { h, useParentForm } from '@formily/vue'
+import { useParentForm } from '@formily/vue'
 
 import { ElButton } from 'element-plus'
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 
 export type ResetProps = IFieldResetOptions & typeof ElButtonProps
 
