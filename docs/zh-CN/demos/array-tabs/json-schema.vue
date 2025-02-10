@@ -5,14 +5,14 @@ import {
   ArrayTabs,
   FormItem,
   Input,
-  Space,
   Submit,
 } from '@sliver/formily-element-plus'
+import { ElSpace } from 'element-plus'
 
 const { SchemaField } = createSchemaField({
   components: {
     FormItem,
-    Space,
+    ElSpace,
     Input,
     ArrayTabs,
   },

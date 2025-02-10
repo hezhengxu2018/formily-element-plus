@@ -62,62 +62,61 @@ const alias: Alias[] = [
   },
 ]
 
-export default defineConfig(async () => {
-  // const env = loadEnv(mode, process.cwd(), '')
+export default defineConfig({
+  ssr: {
+    noExternal: ['@formily/vue'],
+  },
+  server: {
+    host: true,
+    // https: !!env.HTTPS,
+    // fs: {
+    //   allow: [projRoot],
+    // },
+  },
+  resolve: {
+    alias,
+  },
+  plugins: [
+    VueMacros({
+      setupComponent: false,
+      setupSFC: false,
+      hoistStatic: {
+        exclude: ['./**/*.vue'],
+      },
+      plugins: {
+        vueJsx: vueJsx(),
+      },
+    }),
 
-  return {
-    server: {
-      host: true,
-      // https: !!env.HTTPS,
-      // fs: {
-      //   allow: [projRoot],
-      // },
-    },
-    resolve: {
-      alias,
-    },
-    plugins: [
-      VueMacros({
-        setupComponent: false,
-        setupSFC: false,
-        hoistStatic: {
-          exclude: ['./**/*.vue'],
-        },
-        plugins: {
-          vueJsx: vueJsx(),
-        },
-      }),
+    // https://github.com/antfu/unplugin-vue-components
+    Components({
+      dirs: ['.vitepress/vitepress/components'],
 
-      // https://github.com/antfu/unplugin-vue-components
-      Components({
-        dirs: ['.vitepress/vitepress/components'],
+      allowOverrides: true,
 
-        allowOverrides: true,
+      // custom resolvers
+      resolvers: [
+        // auto import icons
+        // https://github.com/antfu/unplugin-icons
+        IconsResolver(),
+      ],
 
-        // custom resolvers
-        resolvers: [
-          // auto import icons
-          // https://github.com/antfu/unplugin-icons
-          IconsResolver(),
-        ],
+      // allow auto import and register components used in markdown
+      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+    }),
 
-        // allow auto import and register components used in markdown
-        include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-      }),
-
-      // https://github.com/antfu/unplugin-icons
-      Icons({
-        autoInstall: true,
-      }),
-      UnoCSS(),
-      MarkdownTransform(),
-    ],
-    css: {
-      preprocessorOptions: {
-        scss: {
-          api: 'modern-compiler', // or "modern"
-        },
+    // https://github.com/antfu/unplugin-icons
+    Icons({
+      autoInstall: true,
+    }),
+    UnoCSS(),
+    MarkdownTransform(),
+  ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler', // or "modern"
       },
     },
-  }
+  },
 })

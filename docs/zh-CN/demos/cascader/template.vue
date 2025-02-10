@@ -34,8 +34,10 @@ function transformAddress(data = {}) {
 
 function useAddress(pattern) {
   onFieldReact(pattern, (field: DataField) => {
+    if (typeof window === 'undefined')
+      return
     field.loading = true
-    fetch('//unpkg.com/china-location/dist/location.json')
+    fetch('/location.json')
       .then(res => res.json())
       .then(
         action.bound((data) => {

@@ -33,6 +33,8 @@ function transformAddress(data = {}) {
 
 function useAsyncDataSource(url, transform) {
   return (field) => {
+    if (typeof window === 'undefined')
+      return
     field.loading = true
 
     fetch(url)
@@ -60,7 +62,7 @@ const schema = {
         },
       },
       'x-reactions': [
-        '{{useAsyncDataSource("//unpkg.com/china-location/dist/location.json",transformAddress)}}',
+        '{{useAsyncDataSource("/location.json",transformAddress)}}',
       ],
     },
   },

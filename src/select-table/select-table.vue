@@ -111,7 +111,7 @@ watch(
         }
       }
       await nextTick()
-      prevSelection = elTableRef.value.getSelectionRows()
+      prevSelection = elTableRef.value?.getSelectionRows()
     }
   },
   { immediate: true },
@@ -129,7 +129,7 @@ watch(
     else {
       await nextTick()
       const currentDisplayDataKeys = elTableRef.value
-        .getSelectionRows()
+        ?.getSelectionRows()
         .map(item => item[rowKey])
       const valueKeys = props.optionAsValue
         ? value?.map(item => item[rowKey])

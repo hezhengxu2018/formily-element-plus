@@ -8,7 +8,7 @@ import { observer } from '@formily/reactive-vue'
 import { useField } from '@formily/vue'
 import { ElPopover } from 'element-plus'
 
-import { defineComponent, h, onBeforeUnmount, ref } from 'vue'
+import { defineComponent, h, onBeforeUnmount, onMounted, ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
 import { FormBaseItem } from '../form-item'
@@ -51,7 +51,10 @@ const EditableInner = observer(
     name: 'FEditable',
     setup(props, { attrs, slots }) {
       const fieldRef = useField<Field>()
-      const innerRef = ref(document.body)
+      const innerRef = ref<HTMLElement | null>(null)
+      onMounted(() => {
+        innerRef.value = document.body
+      })
 
       const prefixCls = `${stylePrefix}-editable`
       const setEditable = (payload: boolean) => {

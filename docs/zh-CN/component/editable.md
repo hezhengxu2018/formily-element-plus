@@ -34,7 +34,7 @@ editable/template
 
 > 内联编辑
 
-参考 [/guide/form-item.html#api](/guide/form-item.html#api)
+参考 [/component/form-item.html#api](./form-item.html#api)
 
 ### Editable.Popover
 
