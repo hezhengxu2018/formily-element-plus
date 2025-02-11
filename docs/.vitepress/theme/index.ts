@@ -2,8 +2,10 @@ import ElementPlus, {
   ID_INJECTION_KEY,
   ZINDEX_INJECTION_KEY,
 } from 'element-plus'
+import vitepressNprogress from 'vitepress-plugin-nprogress'
 import DefaultTheme from 'vitepress/theme'
 import NotFound, { globals } from './app'
+import 'vitepress-plugin-nprogress/lib/css/index.css'
 import 'normalize.css'
 import 'element-plus/theme-chalk/src/reset.scss'
 import 'element-plus/theme-chalk/src/index.scss'
@@ -15,7 +17,9 @@ import 'uno.css'
 export default {
   extends: DefaultTheme,
   NotFound,
-  enhanceApp({ app }) {
+  enhanceApp(ctx) {
+    vitepressNprogress(ctx)
+    const app = ctx.app
     app.use(ElementPlus)
     app.provide(ID_INJECTION_KEY, { prefix: 1024, current: 0 })
     app.provide(ZINDEX_INJECTION_KEY, { current: 0 })

@@ -38,7 +38,7 @@ function createDemoContainer(md: MarkdownIt): ContainerOpts {
         if (!source)
           throw new Error(`Incorrect source file: ${sourceFile}`)
 
-        return `<Demo source="${encodeURIComponent(
+        return `<ClientOnly> <Demo source="${encodeURIComponent(
           md.render(`\`\`\` vue\n${source}\`\`\``),
         )}" path="${sourceFile}" raw-source="${encodeURIComponent(
           source,
@@ -46,7 +46,7 @@ function createDemoContainer(md: MarkdownIt): ContainerOpts {
   <template #source><formily-ep-${sourceFile.replaceAll('/', '-')}/></template>`
       }
       else {
-        return '</Demo>\n'
+        return '</Demo>\n </ClientOnly>'
       }
     },
 
