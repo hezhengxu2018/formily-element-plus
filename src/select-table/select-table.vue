@@ -273,15 +273,17 @@ function onClearSelectionClick() {
       />
       <ElTableColumn
         v-else
-        type="radio"
         width="46"
       >
         <template #default="{ row }">
-          <ElRadioGroup v-model="radioSelectedKey">
+          <ElRadioGroup v-model="radioSelectedKey" style="width: 100%;">
             <ElRadio
+              :model-value="row[rowKey]"
               v-bind="compatibleRadioValue(row[rowKey])"
               @change="() => onRadioClick(row)"
-            />
+            >
+              &nbsp;
+            </ElRadio>
           </ElRadioGroup>
         </template>
       </ElTableColumn>
