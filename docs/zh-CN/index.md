@@ -40,6 +40,10 @@ features:
   --vp-home-hero-image-filter: blur(44px);
 }
 
+h2 {
+  text-align: center;
+}
+
 @media (min-width: 640px) {
   :root {
     --vp-home-hero-image-filter: blur(56px);

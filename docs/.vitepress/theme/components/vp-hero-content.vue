@@ -25,8 +25,8 @@ const { frontmatter: fm } = useData()
     </template>
   </VPHero>
   <VPHomeFeatures />
-  <div class="vp-doc container">
-    <!-- <Content /> -->
+  <div class="container">
+    <Content />
   </div>
 </template>
 
