@@ -40,7 +40,7 @@ features:
   --vp-home-hero-image-filter: blur(44px);
 }
 
-h2 {
+h2:not(.vp-features h2) {
   text-align: center;
 }
 

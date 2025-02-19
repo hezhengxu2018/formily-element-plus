@@ -10,4 +10,14 @@
 
 ## ArrayTabs
 
-修复无法关闭Tab页的问题。
+- 修复无法关闭Tab页的问题。
+
+## FormDialog
+
+- 修复通过protalId传入上下文时无法打开对话框的问题。
+- 现在表单校验失败时不会作为错误终止FormDialog的Promise状态，仅取消和关闭会将整个Promise作为reject抛出，方便进行函数式编程。
+
+## FormDrawer
+
+- 修复通过protalId传入上下文时无法打开对话框的问题。
+- 现在表单校验失败时不会作为错误终止FormDrawer的Promise状态，仅取消和关闭会将整个Promise作为reject抛出，方便进行函数式编程。
