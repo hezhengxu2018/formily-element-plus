@@ -28,9 +28,9 @@ function onSubmit(value) {
       :decorator="[FormItem]"
       :component="[Checkbox.Group, { optionType: 'button' }]"
     >
-      <!-- <template v-slot:option="{ option }">
-        <div>{{ option.label }}</div>
-      </template> -->
+      <template #default="{ option }">
+        <div>通过插槽渲染的{{ option.label }}</div>
+      </template>
     </ArrayField>
     <Submit @submit="onSubmit">
       提交
