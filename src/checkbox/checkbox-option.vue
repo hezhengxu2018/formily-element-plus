@@ -5,6 +5,7 @@ import { ElCheckbox, ElCheckboxButton } from 'element-plus'
 
 defineOptions({
   name: 'FCheckboxOption',
+  inheritAttrs: false,
 })
 
 const props = defineProps({
@@ -29,7 +30,7 @@ const emits = defineEmits(['change'])
       v-bind="props.option"
       @update:model-value="(value) => emits('change', value)"
     >
-      <slot :option="option" />
+      <slot />
     </ElCheckbox>
     <ElCheckbox
       v-else

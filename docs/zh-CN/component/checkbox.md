@@ -10,6 +10,14 @@ checkbox/markup-schema
 
 :::
 
+## Markup Schema 使用插槽案例
+
+:::demo
+
+checkbox/markup-schema-slot
+
+:::
+
 ## JSON Schema 案例
 
 :::demo
