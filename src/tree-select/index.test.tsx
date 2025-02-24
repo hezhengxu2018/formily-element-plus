@@ -82,14 +82,15 @@ const sourceData = [
 
 function formilyWrapperFactory(fieldProps = {}, treeSelectProps = {}) {
   return defineComponent({
-    data() {
-      return {
-        form: createForm(),
-      }
+    props: {
+      form: {
+        type: Object,
+        default: () => createForm(),
+      },
     },
-    render() {
-      return (
-        <FormProvider form={this.form}>
+    setup(props) {
+      return () => (
+        <FormProvider form={props.form}>
           <Field
             name="treeSelect"
             title="treeSelect"
