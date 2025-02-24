@@ -4,7 +4,7 @@ import { createSchemaField, Field, FormProvider } from '@formily/vue'
 import { ElTableColumn } from 'element-plus'
 import { describe, expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
-import { defineComponent, Fragment, h } from 'vue'
+import { defineComponent, Fragment } from 'vue'
 import SelectTable from './index'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-table.css'
@@ -13,29 +13,36 @@ import './style.scss'
 
 function formilyWrapperFactory(fieldProps = {}, selectTableProps = {}) {
   return defineComponent({
-    data() {
-      return {
-        form: createForm(),
-      }
+    props: {
+      form: {
+        type: Object,
+        default: () => createForm(),
+      },
     },
-    render() {
-      return (
-        h(FormProvider, {
-          form: this.form,
-        }, () =>
-          h(Field, {
-            name: 'selectTable',
-            title: 'selectTable',
-            dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }],
-            ...fieldProps,
-            component: [SelectTable, {
-              columns: [
-                { prop: 'name', label: 'Title' },
-                { prop: 'description', label: 'Description' },
-              ],
-              ...selectTableProps,
-            }],
-          }))
+    setup(props) {
+      return () => (
+        <FormProvider form={props.form}>
+          <Field
+            name="selectTable"
+            title="selectTable"
+            dataSource={[
+              { key: '1', name: 'title-1', description: 'description-1' },
+              { key: '2', name: 'title-2', description: 'description-2' },
+              { key: '3', name: 'title-3', description: 'description-3' },
+            ]}
+            {...fieldProps}
+            component={[
+              SelectTable,
+              {
+                columns: [
+                  { prop: 'name', label: 'Title' },
+                  { prop: 'description', label: 'Description' },
+                ],
+                ...selectTableProps,
+              },
+            ]}
+          />
+        </FormProvider>
       )
     },
   })
@@ -43,27 +50,36 @@ function formilyWrapperFactory(fieldProps = {}, selectTableProps = {}) {
 
 function formilyWrapperWithSlotFactory(fieldProps = {}, selectTableProps = {}) {
   return defineComponent({
-    data() {
-      return {
-        form: createForm(),
-      }
+    props: {
+      form: {
+        type: Object,
+        default: () => createForm(),
+      },
     },
-    render() {
-      return (
-        h(FormProvider, {
-          form: this.form,
-        }, () =>
-          h(Field, {
-            name: 'selectTable',
-            title: 'selectTable',
-            dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }],
-            ...fieldProps,
-            component: [SelectTable, {
-              ...selectTableProps,
-            }],
-          }, {
-            default: () => [h(ElTableColumn, { prop: 'name', label: 'Title' }), h(ElTableColumn, { prop: 'description', label: 'Description' }, { default: ({ row }) => h('div', `${row.description}-${row.name}`) })],
-          }))
+    setup(props) {
+      return () => (
+        <FormProvider form={props.form}>
+          <Field
+            name="selectTable"
+            title="selectTable"
+            dataSource={[
+              { key: '1', name: 'title-1', description: 'description-1' },
+              { key: '2', name: 'title-2', description: 'description-2' },
+              { key: '3', name: 'title-3', description: 'description-3' },
+            ]}
+            {...fieldProps}
+            component={[SelectTable, { ...selectTableProps }]}
+          >
+            <ElTableColumn prop="name" label="Title" />
+            <ElTableColumn
+              prop="description"
+              label="Description"
+              v-slots={{
+                default: ({ row }) => <div>{`${row.description}-${row.name}`}</div>,
+              }}
+            />
+          </Field>
+        </FormProvider>
       )
     },
   })
@@ -154,35 +170,31 @@ describe('基础数据展示', async () => {
 
   it('应该包含多选框', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key' }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key' }), {
+      props: {
+        form,
       },
     })
     await expect.element(screen.getByRole('row', { name: 'title-1 description-' }).getByRole('checkbox')).toBeInTheDocument()
   })
 
   it('带有插槽的内容应该正常展示', async () => {
-    const screen = render(formilyWrapperWithSlotFactory({ primaryKey: 'key' }))
+    const screen = render(formilyWrapperWithSlotFactory({ rowKey: 'key' }))
     await expect.element(screen.getByText('description-1-title-1')).toBeInTheDocument()
     await expect.element(screen.getByText('description-2-title-2')).toBeInTheDocument()
   })
 
   it('schema模式下应该正常展示', async () => {
-    const screen = render(formilyWrapperWithSlotBySchemaFactory({ primaryKey: 'key' }))
+    const screen = render(formilyWrapperWithSlotBySchemaFactory({ rowKey: 'key' }))
     await expect.element(screen.getByText('description-1-title-1')).toBeInTheDocument()
     await expect.element(screen.getByText('description-2-title-2')).toBeInTheDocument()
   })
 
   it('在dataSource改变时显示的内容也应该改变', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', dataSource: [] }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key', dataSource: [] }), {
+      props: {
+        form,
       },
     })
     await expect.poll(() => screen.getByRole('table').getByRole('checkbox').elements()).toHaveLength(1)
@@ -197,11 +209,9 @@ describe('基础数据展示', async () => {
 describe('多选框交互', async () => {
   it('点击多选框后form表单中的值应该改变', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key' }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key' }), {
+      props: {
+        form,
       },
     })
     await screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox').click()
@@ -212,11 +222,9 @@ describe('多选框交互', async () => {
 
   it('多选框选择两项后数组的长度应该为2，且再次点击应该取消选择', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key' }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key' }), {
+      props: {
+        form,
       },
     })
     await screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox').click()
@@ -229,11 +237,9 @@ describe('多选框交互', async () => {
 
   it('在dataSource改变后再次显示时应该勾选已经选中的项', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key', dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
+      props: {
+        form,
       },
     })
     await screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox').click()
@@ -250,11 +256,9 @@ describe('多选框交互', async () => {
 
   it('在组件有默认值时数值的应该正确勾选', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', initialValue: ['1'], dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key', initialValue: ['1'], dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
+      props: {
+        form,
       },
     })
     await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).toBeChecked()
@@ -262,11 +266,9 @@ describe('多选框交互', async () => {
 
   it('在optionAsValue为true时,组件有默认值时数值的应该正确勾选', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', initialValue: [{ key: '1' }, { key: '2' }], optionAsValue: true, dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key', initialValue: [{ key: '1' }, { key: '2' }], optionAsValue: true, dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
+      props: {
+        form,
       },
     })
     await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox')).toBeChecked()
@@ -274,11 +276,9 @@ describe('多选框交互', async () => {
 
   it('多选时form表单中的值在改动后应该与选中的项保持一致', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', rowKey: 'key' }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key' }), {
+      props: {
+        form,
       },
     })
     form.setInitialValues({ selectTable: ['1'] })
@@ -292,11 +292,9 @@ describe('多选框交互', async () => {
     const form = createForm({
       initialValues: { selectTable: ['1'] },
     })
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', rowKey: 'key' }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key' }), {
+      props: {
+        form,
       },
     })
 
@@ -313,11 +311,9 @@ describe('多选框交互', async () => {
 describe('单选框交互', async () => {
   it('点击多选框后form表单中的值应该改变', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', mode: 'single', highlightCurrentRow: true }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key', mode: 'single', highlightCurrentRow: true }), {
+      props: {
+        form,
       },
     })
     await screen.getByRole('row', { name: 'title-1' }).getByRole('radio').click()
@@ -328,11 +324,9 @@ describe('单选框交互', async () => {
 
   it('在组件有默认值时数值的应该正确勾选', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', mode: 'single', initialValue: '1', dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key', mode: 'single', initialValue: '1', dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
+      props: {
+        form,
       },
     })
     await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('radio')).toBeChecked()
@@ -340,11 +334,9 @@ describe('单选框交互', async () => {
 
   it('在optionAsValue为true时,组件有默认值时数值的应该正确勾选', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', mode: 'single', initialValue: { key: '1' }, optionAsValue: true, dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key', mode: 'single', initialValue: { key: '1' }, optionAsValue: true, dataSource: [{ key: '1', name: 'title-1', description: 'description-1' }, { key: '2', name: 'title-2', description: 'description-2' }, { key: '3', name: 'title-3', description: 'description-3' }] }), {
+      props: {
+        form,
       },
     })
     await expect.element(screen.getByRole('row', { name: 'title-1' }).getByRole('radio')).toBeChecked()
@@ -352,11 +344,9 @@ describe('单选框交互', async () => {
 
   it('单选时form表单中的值在改动后应该与选中的项保持一致', async () => {
     const form = createForm()
-    const screen = render(formilyWrapperFactory({ primaryKey: 'key', rowKey: 'key', mode: 'single' }), {
-      data() {
-        return {
-          form,
-        }
+    const screen = render(formilyWrapperFactory({ rowKey: 'key', mode: 'single' }), {
+      props: {
+        form,
       },
     })
     form.setInitialValues({ selectTable: '1' })
@@ -415,10 +405,8 @@ describe.skip('树形选择', async () => {
         checkStrictly: false,
       },
     }), {
-      data() {
-        return {
-          form,
-        }
+      props: {
+        form,
       },
     })
     await screen.getByRole('row', { name: 'title-1' }).getByRole('checkbox').click()
@@ -475,10 +463,8 @@ describe.skip('树形选择', async () => {
         checkStrictly: true,
       },
     }), {
-      data() {
-        return {
-          form,
-        }
+      props: {
+        form,
       },
     })
     await screen.getByRole('row', { name: 'title-3' }).getByRole('checkbox').click()
