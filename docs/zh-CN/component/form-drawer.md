@@ -63,7 +63,7 @@ interface FormDrawer {
 }
 ```
 
-`DrawerProps`类型定义参考 [Element-Plus Drawer API](https://element-plus.gitee.io/zh-CN/component/drawer.html#drawer-属性)
+`DrawerProps`类型定义参考 [Element-Plus Drawer API](https://cn.element-plus.org/zh-CN/component/drawer.html#drawer-属性)
 
 ### FormDrawer.Footer
 

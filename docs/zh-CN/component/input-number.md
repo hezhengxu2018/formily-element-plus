@@ -28,4 +28,4 @@ input-number/template
 
 ## API
 
-参考 [https://element-plus.gitee.io/zh-CN/component/input-number.html](https://element-plus.gitee.io/zh-CN/component/input-number.html)
+参考 [https://cn.element-plus.org/zh-CN/component/input-number.html](https://cn.element-plus.org/zh-CN/component/input-number.html)

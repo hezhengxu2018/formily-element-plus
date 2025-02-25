@@ -40,11 +40,11 @@ array-collapse/effects-json-schema
 
 ### ArrayCollapse
 
-参考 [https://element-plus.gitee.io/zh-CN/component/collapse.html](https://element-plus.gitee.io/zh-CN/component/collapse.html)
+参考 [https://cn.element-plus.org/zh-CN/component/collapse.html](https://cn.element-plus.org/zh-CN/component/collapse.html)
 
 ### ArrayCollapse.Item
 
-参考 [https://element-plus.gitee.io/zh-CN/component/collapse.html](https://element-plus.gitee.io/zh-CN/component/collapse.html)
+参考 [https://cn.element-plus.org/zh-CN/component/collapse.html](https://cn.element-plus.org/zh-CN/component/collapse.html)
 
 ### ArrayCollapse.Addition
 
@@ -58,7 +58,7 @@ array-collapse/effects-json-schema
 | method       | `'push' \| 'unshift'` | 添加方式 | `'push'` |
 | defaultValue | any                   | 默认值   |          |
 
-其余参考 [https://element-plus.gitee.io/zh-CN/component/button.html](https://element-plus.gitee.io/zh-CN/component/button.html)
+其余参考 [https://cn.element-plus.org/zh-CN/component/button.html](https://cn.element-plus.org/zh-CN/component/button.html)
 
 注意：title 属性可以接收 Field 模型中的 title 映射，也就是在 Field 上传 title 也是生效的
 
@@ -70,7 +70,7 @@ array-collapse/effects-json-schema
 | ------ | ------ | ---- | ------ |
 | title  | string | 文案 |        |
 
-其余参考 [https://element-plus.gitee.io/zh-CN/component/button.html](https://element-plus.gitee.io/zh-CN/component/button.html)
+其余参考 [https://cn.element-plus.org/zh-CN/component/button.html](https://cn.element-plus.org/zh-CN/component/button.html)
 
 注意：title 属性可以接收 Field 模型中的 title 映射，也就是在 Field 上传 title 也是生效的
 
@@ -82,7 +82,7 @@ array-collapse/effects-json-schema
 | ------ | ------ | ---- | ------ |
 | title  | string | 文案 |        |
 
-其余参考 [https://element-plus.gitee.io/zh-CN/component/button.html](https://element-plus.gitee.io/zh-CN/component/button.html)
+其余参考 [https://cn.element-plus.org/zh-CN/component/button.html](https://cn.element-plus.org/zh-CN/component/button.html)
 
 注意：title 属性可以接收 Field 模型中的 title 映射，也就是在 Field 上传 title 也是生效的
 
@@ -94,7 +94,7 @@ array-collapse/effects-json-schema
 | ------ | ------ | ---- | ------ |
 | title  | string | 文案 |        |
 
-其余参考 [https://element-plus.gitee.io/zh-CN/component/button.html](https://element-plus.gitee.io/zh-CN/component/button.html)
+其余参考 [https://cn.element-plus.org/zh-CN/component/button.html](https://cn.element-plus.org/zh-CN/component/button.html)
 
 注意：title 属性可以接收 Field 模型中的 title 映射，也就是在 Field 上传 title 也是生效的
 

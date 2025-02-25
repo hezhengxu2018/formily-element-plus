@@ -28,4 +28,4 @@ date-picker/template
 
 ## API
 
-参考 [https://element-plus.gitee.io/zh-CN/component/date-picker.html](https://element-plus.gitee.io/zh-CN/component/date-picker.html)
+参考 [https://cn.element-plus.org/zh-CN/component/date-picker.html](https://cn.element-plus.org/zh-CN/component/date-picker.html)

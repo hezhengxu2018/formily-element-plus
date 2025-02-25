@@ -28,4 +28,4 @@ cascader/template
 
 ## API
 
-参考 [https://element-plus.gitee.io/zh-CN/component/cascader.html](https://element-plus.gitee.io/zh-CN/component/cascader.html)
+参考 [https://cn.element-plus.org/zh-CN/component/cascader.html](https://cn.element-plus.org/zh-CN/component/cascader.html)

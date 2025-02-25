@@ -13,7 +13,7 @@ const TransformElTimeSelect = transformComponent<TimeSelectProps>(
 
 export const TimeSelect = connect(
   TransformElTimeSelect,
-  mapProps({ value: 'modelValue', disabled: 'disabled' }),
+  mapProps({ value: 'modelValue', disabled: 'disabled', editable: 'editable' }),
   mapReadPretty(PreviewText.Input),
 )
 

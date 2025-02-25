@@ -99,6 +99,10 @@
           "text": "TimePicker 时间选择器"
         },
         {
+          "link": "/time-select",
+          "text": "TimeSelect 时间选择"
+        },
+        {
           "link": "/upload",
           "text": "Upload 上传"
         }

@@ -24,4 +24,4 @@ array-tabs/json-schema
 
 ### ArrayTabs
 
-参考 [https://element-plus.gitee.io/zh-CN/component/tabs.html](https://element-plus.gitee.io/zh-CN/component/tabs.html)
+参考 [https://cn.element-plus.org/zh-CN/component/tabs.html](https://cn.element-plus.org/zh-CN/component/tabs.html)

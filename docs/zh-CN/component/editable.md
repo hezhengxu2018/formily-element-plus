@@ -40,4 +40,4 @@ editable/template
 
 > 浮层编辑
 
-参考 [https://element-plus.gitee.io/zh-CN/component/popover.html](https://element-plus.gitee.io/zh-CN/component/popover.html)
+参考 [https://cn.element-plus.org/zh-CN/component/popover.html](https://cn.element-plus.org/zh-CN/component/popover.html)

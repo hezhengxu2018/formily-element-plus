@@ -28,11 +28,11 @@ radio/template
 
 ## API
 
-参考 [https://element-plus.gitee.io/zh-CN/component/radio.html](https://element-plus.gitee.io/zh-CN/component/radio.html)
+参考 [https://cn.element-plus.org/zh-CN/component/radio.html](https://cn.element-plus.org/zh-CN/component/radio.html)
 
 ### 扩展属性
 
 | 属性名     | 类型                                                                                              | 描述     | 默认值  |
 | ---------- | ------------------------------------------------------------------------------------------------- | -------- | ------- |
-| options    | [RadioProps](https://element-plus.gitee.io/zh-CN/component/radio.html#radio-%E5%B1%9E%E6%80%A7)[] | 选项     | []      |
+| options    | [RadioProps](https://cn.element-plus.org/zh-CN/component/radio.html#radio-%E5%B1%9E%E6%80%A7)[] | 选项     | []      |
 | optionType | default/button                                                                                    | 样式类型 | default |

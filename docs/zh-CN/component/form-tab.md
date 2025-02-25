@@ -28,11 +28,11 @@ form-tab/json-schema
 | ------- | -------- | ------------------------------------- | ------ |
 | formTab | IFormTab | 传入通过 createFormTab 创建出来的模型 |        |
 
-其余参考 [https://element-plus.gitee.io/zh-CN/component/tabs.html](https://element-plus.gitee.io/zh-CN/component/tabs.html)
+其余参考 [https://cn.element-plus.org/zh-CN/component/tabs.html](https://cn.element-plus.org/zh-CN/component/tabs.html)
 
 ### FormTab.TabPane
 
-参考 [https://element-plus.gitee.io/zh-CN/component/tabs.html#tab-pane-属性](https://element-plus.gitee.io/zh-CN/component/tabs.html#tab-pane-属性)
+参考 [https://cn.element-plus.org/zh-CN/component/tabs.html#tab-pane-属性](https://cn.element-plus.org/zh-CN/component/tabs.html#tab-pane-属性)
 
 ### FormTab.createFormTab
 

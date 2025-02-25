@@ -24,19 +24,19 @@ const { copy, isSupported } = useClipboard({
 
 const [sourceVisible, toggleSourceVisible] = useToggle()
 const lang = useLang()
-const demoSourceUrl = useSourceCode(toRef(props, 'path'))
+// const demoSourceUrl = useSourceCode(toRef(props, 'path'))
 
 const sourceCodeRef = ref<HTMLButtonElement>()
 
 const locale = computed(() => demoBlockLocale[lang.value])
 const decodedDescription = computed(() => decodeURIComponent(props.description))
 
-function onPlaygroundClick() {
-  const { link } = usePlayground(props.rawSource)
-  if (!isClient)
-    return
-  window.open(link)
-}
+// function onPlaygroundClick() {
+//   const { link } = usePlayground(props.rawSource)
+//   if (!isClient)
+//     return
+//   window.open(link)
+// }
 
 function onSourceVisibleKeydown(e: KeyboardEvent) {
   if (['Enter', 'Space'].includes(e.code)) {
@@ -73,7 +73,7 @@ async function copyCode() {
     <ElDivider class="m-0" />
 
     <div class="op-btns">
-      <ElTooltip
+      <!-- <ElTooltip
         :content="locale['edit-in-editor']"
         :show-arrow="false"
         :trigger="['hover', 'focus']"
@@ -112,7 +112,7 @@ async function copyCode() {
             <i-ri-github-line />
           </a>
         </ElIcon>
-      </ElTooltip>
+      </ElTooltip> -->
       <ElTooltip
         :content="locale['copy-code']"
         :show-arrow="false"

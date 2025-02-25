@@ -28,11 +28,11 @@ form-step/json-schema
 | -------- | --------- | -------------------------------------- | ------ |
 | formStep | IFormStep | 传入通过 createFormStep 创建出来的模型 |        |
 
-其余参考 [https://element-plus.gitee.io/zh-CN/component/steps.html](https://element-plus.gitee.io/zh-CN/component/steps.html)
+其余参考 [https://cn.element-plus.org/zh-CN/component/steps.html](https://cn.element-plus.org/zh-CN/component/steps.html)
 
 ### FormStep.StepPane
 
-参考 [https://element-plus.gitee.io/zh-CN/component/steps.html](https://element-plus.gitee.io/zh-CN/component/steps.html)
+参考 [https://cn.element-plus.org/zh-CN/component/steps.html](https://cn.element-plus.org/zh-CN/component/steps.html)
 
 ### FormStep.createFormStep
 

@@ -28,4 +28,4 @@ input/template
 
 ## API
 
-参考 [https://element-plus.gitee.io/zh-CN/component/input.html](https://element-plus.gitee.io/zh-CN/component/input.html)
+参考 [https://cn.element-plus.org/zh-CN/component/input.html](https://cn.element-plus.org/zh-CN/component/input.html)

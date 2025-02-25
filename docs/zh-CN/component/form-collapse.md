@@ -28,11 +28,11 @@ form-collapse/json-schema
 | ------------ | ------------- | ---------------------------------------------------------- | ------ |
 | formCollapse | IFormCollapse | 传入通过 createFormCollapse/useFormCollapse 创建出来的模型 |        |
 
-其余参考 [https://element-plus.gitee.io/zh-CN/component/collapse.html](https://element-plus.gitee.io/zh-CN/component/collapse.html)
+其余参考 [https://cn.element-plus.org/zh-CN/component/collapse.html](https://cn.element-plus.org/zh-CN/component/collapse.html)
 
 ### FormCollapse.Item
 
-参考 [https://element-plus.gitee.io/zh-CN/component/collapse.html#collapse-插槽](https://element-plus.gitee.io/zh-CN/component/collapse.html#collapse-插槽)
+参考 [https://cn.element-plus.org/zh-CN/component/collapse.html#collapse-插槽](https://cn.element-plus.org/zh-CN/component/collapse.html#collapse-插槽)
 
 ### FormCollapse.createFormCollapse
 
