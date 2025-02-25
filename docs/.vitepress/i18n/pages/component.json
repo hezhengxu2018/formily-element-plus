@@ -100,7 +100,8 @@
         },
         {
           "link": "/time-select",
-          "text": "TimeSelect 时间选择"
+          "text": "TimeSelect 时间选择",
+          "promotion": "1.4.0"
         },
         {
           "link": "/upload",
