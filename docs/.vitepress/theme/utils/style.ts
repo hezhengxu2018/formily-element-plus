@@ -1,5 +1,6 @@
+import type { CSSProperties } from 'vue'
 import { isClient } from '@vueuse/core'
-import { camelize, type CSSProperties } from 'vue'
+import { camelize } from 'vue'
 
 export function classNameToArray(cls = '') {
   return cls.split(' ').filter(item => !!item.trim())

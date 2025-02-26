@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { CaretTop } from '@element-plus/icons-vue'
-import { isClient, useClipboard, useToggle } from '@vueuse/core'
-import { computed, getCurrentInstance, ref, toRef } from 'vue'
+import { useClipboard, useToggle } from '@vueuse/core'
+import { computed, getCurrentInstance, ref } from 'vue'
 import demoBlockLocale from '../../i18n/component/demo-block.json'
 import { useLang } from '../composables/lang'
-import { useSourceCode } from '../composables/source-code'
-import { usePlayground } from '../composables/use-playground'
 import SourceCode from './demo/vp-source-code.vue'
 
 const props = defineProps<{

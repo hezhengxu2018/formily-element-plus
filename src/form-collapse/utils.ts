@@ -1,7 +1,7 @@
-import { model } from '@formily/reactive'
-import { toArr } from '@formily/shared'
 import type { GeneralField } from '@formily/core'
 import type { Schema, SchemaKey } from '@formily/json-schema'
+import { model } from '@formily/reactive'
+import { toArr } from '@formily/shared'
 
 type ActiveKeys = string | number | Array<string | number>
 
@@ -33,10 +33,11 @@ export function usePanels(collapseField: GeneralField, schema: Schema) {
     schema,
   }))
 
-  const panels: Panels = schemaList.filter(item => {
+  const panels: Panels = schemaList.filter((item) => {
     const field = collapseField.query(collapseField.address.concat(item.name)).take()
     const isHidden = field?.display === 'none' || field?.display === 'hidden'
-    if (isHidden) return false
+    if (isHidden)
+      return false
     return item?.schema?.['x-component']?.includes('FormCollapse.Item') ?? false
   })
 
@@ -44,42 +45,42 @@ export function usePanels(collapseField: GeneralField, schema: Schema) {
 }
 
 export function createFormCollapse(defaultActiveKeys?: ActiveKeys) {
-    const formCollapse = model({
-      activeKeys: defaultActiveKeys,
-      setActiveKeys(keys: ActiveKeys) {
-        formCollapse.activeKeys = keys
-      },
-      hasActiveKey(key: ActiveKey) {
-        if (Array.isArray(formCollapse.activeKeys)) {
-          if (formCollapse.activeKeys.includes(key)) {
-            return true
-          }
-        }
-        else if (formCollapse.activeKeys === key) {
+  const formCollapse = model({
+    activeKeys: defaultActiveKeys,
+    setActiveKeys(keys: ActiveKeys) {
+      formCollapse.activeKeys = keys
+    },
+    hasActiveKey(key: ActiveKey) {
+      if (Array.isArray(formCollapse.activeKeys)) {
+        if (formCollapse.activeKeys.includes(key)) {
           return true
         }
-        return false
-      },
-      addActiveKey(key: ActiveKey) {
-        if (formCollapse.hasActiveKey(key))
-          return
-        formCollapse.activeKeys = toArr(formCollapse.activeKeys).concat(key)
-      },
-      removeActiveKey(key: ActiveKey) {
-        formCollapse.activeKeys = Array.isArray(formCollapse.activeKeys)
-          ? formCollapse.activeKeys.filter(
-              item => item !== key,
-            )
-          : ''
-      },
-      toggleActiveKey(key: ActiveKey) {
-        if (formCollapse.hasActiveKey(key)) {
-          formCollapse.removeActiveKey(key)
-        }
-        else {
-          formCollapse.addActiveKey(key)
-        }
-      },
-    })
-    return formCollapse
-  }
+      }
+      else if (formCollapse.activeKeys === key) {
+        return true
+      }
+      return false
+    },
+    addActiveKey(key: ActiveKey) {
+      if (formCollapse.hasActiveKey(key))
+        return
+      formCollapse.activeKeys = toArr(formCollapse.activeKeys).concat(key)
+    },
+    removeActiveKey(key: ActiveKey) {
+      formCollapse.activeKeys = Array.isArray(formCollapse.activeKeys)
+        ? formCollapse.activeKeys.filter(
+            item => item !== key,
+          )
+        : ''
+    },
+    toggleActiveKey(key: ActiveKey) {
+      if (formCollapse.hasActiveKey(key)) {
+        formCollapse.removeActiveKey(key)
+      }
+      else {
+        formCollapse.addActiveKey(key)
+      }
+    },
+  })
+  return formCollapse
+}

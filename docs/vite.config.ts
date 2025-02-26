@@ -1,3 +1,4 @@
+import type { Alias } from 'vite'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -6,7 +7,7 @@ import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
 import VueMacros from 'unplugin-vue-macros/vite'
-import { type Alias, defineConfig } from 'vite'
+import { defineConfig } from 'vite'
 import { MarkdownTransform } from './.vitepress/plugins/markdown-transform'
 
 const __filename = fileURLToPath(import.meta.url)

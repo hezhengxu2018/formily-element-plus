@@ -2,12 +2,12 @@
 import type { PropType } from 'vue'
 import type { IFormCollapse } from './utils'
 import { observable } from '@formily/reactive'
-import { useField, useFieldSchema, RecursionField } from '@formily/vue'
-import { isFn } from "@formily/shared";
+import { isFn } from '@formily/shared'
+import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElBadge, ElCollapse, ElCollapseItem } from 'element-plus'
 import { computed, useAttrs } from 'vue'
 import { stylePrefix } from '../__builtins__'
-import { createFormCollapse, usePanels } from "./utils";
+import { createFormCollapse, usePanels } from './utils'
 
 defineOptions({
   inheritAttrs: false,
@@ -40,7 +40,7 @@ function takeActiveKeys(panelList) {
 }
 
 const panelErrorNumberList = observable.computed(() => {
-  const errorLengthList = panels.value.map(item => {
+  const errorLengthList = panels.value.map((item) => {
     const panelErrors = field.value.form.queryFeedbacks({
       type: 'error',
       address: `${field.value.address.concat(item.name)}.*`,

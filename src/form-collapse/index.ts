@@ -1,9 +1,8 @@
-import type { PropType } from 'vue'
 import { observer } from '@formily/reactive-vue'
-import FFormCollapse from "./form-collapse.vue";
-import { createFormCollapse } from "./utils";
 import { defineComponent, Fragment, h } from 'vue'
 import { composeExport } from '../__builtins__'
+import FFormCollapse from './form-collapse.vue'
+import { createFormCollapse } from './utils'
 import './style.scss'
 
 const FormCollapse = observer(FFormCollapse)

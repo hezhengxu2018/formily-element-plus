@@ -1,5 +1,1 @@
-import FormButtonGroup from "./form-button-group.vue";
-
-export { FormButtonGroup}
-
-export default FormButtonGroup
+export { default, default as FormButtonGroup } from './form-button-group.vue'

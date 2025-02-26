@@ -9,9 +9,9 @@
   let userPreferredLang = localStorage.getItem(cacheKey) || navigator.language
   const language
     = langAlias[userPreferredLang]
-    || (supportedLangs.includes(userPreferredLang)
-      ? userPreferredLang
-      : defaultLang)
+      || (supportedLangs.includes(userPreferredLang)
+        ? userPreferredLang
+        : defaultLang)
   localStorage.setItem(cacheKey, language)
   userPreferredLang = language
   if (!location.pathname.startsWith(`/${userPreferredLang}`)) {

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { h } from 'vue';
 import { createForm } from '@formily/core'
 import { createSchemaField, FormProvider } from '@formily/vue'
 import {
@@ -10,6 +9,7 @@ import {
   Submit,
 } from '@sliver/formily-element-plus'
 import { ElButton } from 'element-plus'
+import { h } from 'vue'
 
 const { SchemaField, SchemaVoidField, SchemaStringField } = createSchemaField({
   components: {
@@ -42,7 +42,7 @@ function log(values) {
           x-component="FormCollapse.Item"
           :x-component-props="{ title: 'A1' }"
           :x-content="{
-            title: '标题Tab1'
+            title: '标题Tab1',
           }"
         >
           <SchemaStringField
@@ -58,7 +58,7 @@ function log(values) {
           x-component="FormCollapse.Item"
           :x-component-props="{ title: 'A2' }"
           :x-content="{
-            title: (errorLength) => h('span', `render 函数渲染的VNode, 错误数量：${errorLength ?? 0}`)
+            title: (errorLength) => h('span', `render 函数渲染的VNode, 错误数量：${errorLength ?? 0}`),
           }"
         >
           <SchemaStringField

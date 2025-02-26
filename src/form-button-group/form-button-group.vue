@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ElSpace, ElFormItem } from 'element-plus'
+import { ElFormItem, ElSpace } from 'element-plus'
 import { stylePrefix } from '../__builtins__'
 
 defineOptions({
