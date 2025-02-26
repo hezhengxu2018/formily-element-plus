@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { h } from 'vue';
 import { createForm } from '@formily/core'
-import { createSchemaField } from '@formily/vue'
+import { createSchemaField, FormProvider } from '@formily/vue'
 import {
-  Form,
   FormButtonGroup,
   FormCollapse,
   FormItem,
@@ -21,14 +21,13 @@ const { SchemaField, SchemaVoidField, SchemaStringField } = createSchemaField({
 
 const form = createForm()
 const formCollapse = FormCollapse.createFormCollapse()
-
 function log(values) {
   console.log(values)
 }
 </script>
 
 <template>
-  <Form :form="form" :label-col="6" :wrapper-col="10">
+  <FormProvider :form="form">
     <SchemaField>
       <SchemaVoidField
         type="void"
@@ -42,6 +41,9 @@ function log(values) {
           name="tab1"
           x-component="FormCollapse.Item"
           :x-component-props="{ title: 'A1' }"
+          :x-content="{
+            title: '标题Tab1'
+          }"
         >
           <SchemaStringField
             name="aaa"
@@ -55,6 +57,9 @@ function log(values) {
           name="tab2"
           x-component="FormCollapse.Item"
           :x-component-props="{ title: 'A2' }"
+          :x-content="{
+            title: (errorLength) => h('span', `render 函数渲染的VNode, 错误数量：${errorLength ?? 0}`)
+          }"
         >
           <SchemaStringField
             name="bbb"
@@ -66,6 +71,7 @@ function log(values) {
         </SchemaVoidField>
         <SchemaVoidField
           name="tab3"
+          :visible="false"
           x-component="FormCollapse.Item"
           :x-component-props="{ title: 'A3' }"
         >
@@ -104,7 +110,7 @@ function log(values) {
         提交
       </Submit>
     </FormButtonGroup>
-  </Form>
+  </FormProvider>
 </template>
 
 <style lang="scss" scoped></style>

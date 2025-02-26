@@ -4,7 +4,7 @@
 >
 > 注意：只能用在 Schema 场景
 
-## Markup Schema 案例
+## Markup Schema 标题使用插槽案例
 
 :::demo
 
