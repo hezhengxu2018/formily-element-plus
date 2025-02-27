@@ -22,8 +22,9 @@ import {
   ElSpace,
   ElTable,
   ElTableColumn,
+  vLoading,
 } from 'element-plus'
-import { computed, defineComponent, h, ref } from 'vue'
+import { computed, defineComponent, h, ref, withDirectives } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { composeExport } from '../__builtins__/shared'
 import { ArrayBase } from '../array-base'
@@ -477,7 +478,7 @@ const ArrayTableInner = observer(
               },
               {
                 default: () => [
-                  h(
+                  withDirectives(h(
                     ElTable as any,
                     {
                       rowKey: defaultRowKey,
@@ -488,7 +489,7 @@ const ArrayTableInner = observer(
                       ...slots,
                       default: () => renderColumns(startIndex),
                     },
-                  ),
+                  ), [[vLoading, field.loading]]),
                   pager?.(),
                   renderStateManager(),
                   renderAddition(),
