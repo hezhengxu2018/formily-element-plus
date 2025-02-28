@@ -39,15 +39,14 @@ function takeActiveKeys(panelList) {
   return panelList.map(item => item.name)
 }
 
-const panelErrorNumberList = observable.computed(() => {
-  const errorLengthList = panels.value.map((item) => {
+const panelErrorCounts = observable.computed(() => {
+  return panels.value.map((item) => {
     const panelErrors = field.value.form.queryFeedbacks({
       type: 'error',
       address: `${field.value.address.concat(item.name)}.*`,
     })
     return panelErrors.length
   })
-  return errorLengthList
 })
 </script>
 
@@ -68,18 +67,18 @@ const panelErrorNumberList = observable.computed(() => {
         <template #title>
           <template v-if="itemSchema['x-content']?.title">
             <template v-if="isFn(itemSchema['x-content']?.title)">
-              <template v-if="panelErrorNumberList.value[index] !== 0">
-                <ElBadge :class="`${prefixCls}-errors-badge`" :value="panelErrorNumberList.value[index]">
-                  <component :is="() => itemSchema['x-content']?.title(panelErrorNumberList.value[index])" />
+              <template v-if="panelErrorCounts.value[index] !== 0">
+                <ElBadge :class="`${prefixCls}-errors-badge`" :value="panelErrorCounts.value[index]">
+                  <component :is="() => itemSchema['x-content']?.title(panelErrorCounts.value[index])" />
                 </ElBadge>
               </template>
               <template v-else>
-                <component :is="() => itemSchema['x-content']?.title(panelErrorNumberList.value[index])" />
+                <component :is="() => itemSchema['x-content']?.title(panelErrorCounts.value[index])" />
               </template>
             </template>
             <template v-else>
-              <template v-if="panelErrorNumberList.value[index] !== 0">
-                <ElBadge :class="`${prefixCls}-errors-badge`" :value="panelErrorNumberList.value[index]">
+              <template v-if="panelErrorCounts.value[index] !== 0">
+                <ElBadge :class="`${prefixCls}-errors-badge`" :value="panelErrorCounts.value[index]">
                   <component :is="() => itemSchema['x-content']?.title" />
                 </ElBadge>
               </template>
@@ -88,8 +87,8 @@ const panelErrorNumberList = observable.computed(() => {
               </template>
             </template>
           </template>
-          <template v-else-if="panelErrorNumberList.value[index] !== 0">
-            <ElBadge :class="`${prefixCls}-errors-badge`" :value="panelErrorNumberList.value[index]">
+          <template v-else-if="panelErrorCounts.value[index] !== 0">
+            <ElBadge :class="`${prefixCls}-errors-badge`" :value="panelErrorCounts.value[index]">
               <span>
                 {{ itemSchema['x-component-props'].title }}
               </span>
