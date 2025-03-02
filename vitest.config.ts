@@ -4,6 +4,11 @@ import viteConfig from './vite.config'
 export default mergeConfig(viteConfig, defineConfig({
   test: {
     css: true,
+    coverage: {
+      provider: 'v8',
+      reporter: ['clover', 'json', 'html'],
+      include: ['src'],
+    },
     browser: {
       provider: 'playwright', // or 'webdriverio'
       enabled: true,

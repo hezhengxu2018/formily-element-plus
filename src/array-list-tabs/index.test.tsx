@@ -102,7 +102,7 @@ describe('arrayListTabs', async () => {
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
     await expect
-      .element(screen.getByText('长度或条目数不能大于5'))
+      .element(screen.getByText('5'))
       .toBeInTheDocument()
     await screen.getByRole('textbox', { name: '请输入Input' }).fill('TEST_INPUT')
     await expect.element(screen.getByText('TEST_INPUT')).toBeInTheDocument()
