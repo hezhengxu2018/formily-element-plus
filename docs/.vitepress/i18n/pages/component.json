@@ -74,6 +74,11 @@
           "text": "Select 下拉选择框"
         },
         {
+          "link": "/tree-select",
+          "text": "TreeSelect 树形选择框",
+          "promotion": "1.3.0"
+        },
+        {
           "link": "/select-table",
           "text": "SelectTable 选择表格",
           "promotion": "1.3.0"

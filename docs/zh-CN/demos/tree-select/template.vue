@@ -1,15 +1,9 @@
+<script lang="ts" setup>
 import { createForm } from '@formily/core'
 import { Field, FormProvider } from '@formily/vue'
-import { describe, expect, it } from 'vitest'
-import { render } from 'vitest-browser-vue'
-import { defineComponent } from 'vue'
-import TreeSelect from './index'
-import 'element-plus/theme-chalk/base.css'
-import 'element-plus/theme-chalk/el-tree-select.css'
-import 'element-plus/theme-chalk/el-select.css'
-import 'element-plus/theme-chalk/el-tree.css'
+import { FormItem, Submit, TreeSelect } from '@sliver/formily-element-plus'
 
-const sourceData = [
+const data = [
   {
     value: '1',
     label: 'Level one 1',
@@ -80,39 +74,24 @@ const sourceData = [
   },
 ]
 
-function formilyWrapperFactory(fieldProps = {}, treeSelectProps = {}) {
-  return defineComponent({
-    props: {
-      form: {
-        type: Object,
-        default: () => createForm(),
-      },
-    },
-    setup(props) {
-      return () => (
-        <FormProvider form={props.form}>
-          <Field
-            name="treeSelect"
-            title="treeSelect"
-            dataSource={sourceData}
-            {...fieldProps}
-            component={[
-              TreeSelect,
-              {
-                ...treeSelectProps,
-              },
-            ]}
-          />
-        </FormProvider>
-      )
-    },
-  })
-}
+const form = createForm()
 
-describe('基础数据展示', async () => {
-  it('应该显示dataSource内的值', async () => {
-    const screen = render(formilyWrapperFactory())
-    await screen.getByText('Select').click()
-    await expect.element(screen.getByText('Level one 1')).toBeInTheDocument()
-  })
-})
+function log(value) {
+  console.log(value)
+}
+</script>
+
+<template>
+  <FormProvider :form="form">
+    <Field
+      name="treeSelect"
+      title="树形选择"
+      :decorator="[FormItem]"
+      :component="[TreeSelect]"
+      :data-source="data"
+    />
+    <Submit @submit="log">
+      提交
+    </Submit>
+  </FormProvider>
+</template>

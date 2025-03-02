@@ -73,12 +73,7 @@ export default defineConfig({
       setupComponent: false,
       setupSFC: false,
       plugins: {
-        vue: vue({
-          isProduction: true,
-          features: {
-            optionsAPI: false,
-          },
-        }),
+        vue: vue(),
         vueJsx: vueJsx(),
       },
     }),
