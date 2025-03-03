@@ -25,6 +25,12 @@ export default {
   methods: {
     log(value) {
       console.log(value)
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log('mock request success')
+          resolve(value)
+        }, 5000)
+      })
     },
   },
 }
