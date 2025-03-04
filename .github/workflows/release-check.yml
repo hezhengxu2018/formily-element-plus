@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_TOKEN }}  # 使用具有写权限的 token
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -29,7 +29,6 @@ jobs:
           cache: pnpm
           registry-url: 'https://registry.npmjs.org'
 
-      # 添加 Playwright 缓存
       - name: Cache Playwright browsers
         uses: actions/cache@v3
         with:
