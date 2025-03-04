@@ -90,12 +90,12 @@ const panelErrorCounts = observable.computed(() => {
           <template v-else-if="panelErrorCounts.value[index] !== 0">
             <ElBadge :class="`${prefixCls}-errors-badge`" :value="panelErrorCounts.value[index]">
               <span>
-                {{ itemSchema['x-component-props'].title }}
+                {{ itemSchema['x-component-props']?.title }}
               </span>
             </ElBadge>
           </template>
           <template v-else>
-            {{ itemSchema['x-component-props'].title }}
+            {{ itemSchema['x-component-props']?.title }}
           </template>
         </template>
       </ElCollapseItem>
