@@ -4,10 +4,10 @@
     "commitMessage": "chore: release v${version}",
     "requireBranch": "master",
     "tagName": "v${version}",
-    "push": false
+    "push": true
   },
   "github": {
-    "release": false
+    "release": true
   },
   "npm": {
     "publish": false
