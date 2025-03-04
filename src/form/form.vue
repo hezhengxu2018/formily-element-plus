@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Form as FormType, IFormFeedback } from '@formily/core'
 import type { Component, PropType } from 'vue'
-import { FormProvider, useForm } from '@formily/vue'
+import { FormProvider } from '@formily/vue'
 import { FormLayout } from '../form-layout'
 import { PreviewText } from '../preview-text'
 
@@ -19,7 +19,7 @@ const props = defineProps({
     default: 'form',
   },
   previewTextPlaceholder: {
-    type: [String, Function],
+    type: String,
   },
   onAutoSubmit: {
     type: Function as PropType<(values: FormType['values']) => Promise<any>>,
@@ -28,8 +28,6 @@ const props = defineProps({
     type: Function as PropType<(error: IFormFeedback[]) => void>,
   },
 })
-
-const top = useForm()
 
 function handleSubmit(e: Event, form: FormType) {
   e?.stopPropagation?.()
@@ -41,8 +39,8 @@ function handleSubmit(e: Event, form: FormType) {
 </script>
 
 <template>
-  <FormProvider v-if="props.form" :form="props.form">
-    <PreviewText.Placeholder :value="props.previewTextPlaceholder || $slots.previewTextPlaceholder">
+  <FormProvider :form="props.form">
+    <PreviewText.Placeholder :value="props.previewTextPlaceholder">
       <FormLayout v-bind="$attrs">
         <component
           :is="props.component"
@@ -53,19 +51,4 @@ function handleSubmit(e: Event, form: FormType) {
       </FormLayout>
     </PreviewText.Placeholder>
   </FormProvider>
-
-  <template v-else>
-    <template v-if="top">
-      <PreviewText.Placeholder :value="props.previewTextPlaceholder || $slots.previewTextPlaceholder">
-        <FormLayout v-bind="$attrs">
-          <component
-            :is="props.component"
-            @submit="(e) => handleSubmit(e, top)"
-          >
-            <slot />
-          </component>
-        </FormLayout>
-      </PreviewText.Placeholder>
-    </template>
-  </template>
 </template>

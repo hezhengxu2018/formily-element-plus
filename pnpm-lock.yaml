@@ -94,7 +94,7 @@ importers:
         specifier: ^3
         version: 3.0.6(@types/node@20.17.19)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@20.17.19)(jiti@2.4.2)(sass-embedded@1.85.0)(sass@1.78.0)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-v8':
-        specifier: 3.0.6
+        specifier: ^3.0.6
         version: 3.0.6(@vitest/browser@3.0.6)(vitest@3.0.6)
       '@vitest/ui':
         specifier: ^3
