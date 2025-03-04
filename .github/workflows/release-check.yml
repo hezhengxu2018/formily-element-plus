@@ -15,6 +15,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}  # 使用具有写权限的 token
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -28,11 +29,21 @@ jobs:
           cache: pnpm
           registry-url: 'https://registry.npmjs.org'
 
+      # 添加 Playwright 缓存
+      - name: Cache Playwright browsers
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
 
       - name: Run tests with coverage
         run: pnpm coverage
@@ -49,10 +60,10 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git remote set-url origin https://${{ secrets.GH_TOKEN }}@github.com/hezhengxu2018/formily-element-plus.git
 
       - name: Version and Release
         run: |
           pnpm release-it ${{ github.event.inputs.version }} --ci
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
