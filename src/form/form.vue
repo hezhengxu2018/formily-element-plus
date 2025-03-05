@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Form as FormType, IFormFeedback } from '@formily/core'
-import type { Component, PropType } from 'vue'
+import type { Component, PropType, VNode } from 'vue'
 import { FormProvider } from '@formily/vue'
 import { FormLayout } from '../form-layout'
 import { PreviewText } from '../preview-text'
@@ -19,7 +19,7 @@ const props = defineProps({
     default: 'form',
   },
   previewTextPlaceholder: {
-    type: String,
+    type: [String, Function] as PropType<string | (() => VNode)>,
   },
   onAutoSubmit: {
     type: Function as PropType<(values: FormType['values']) => Promise<any>>,
