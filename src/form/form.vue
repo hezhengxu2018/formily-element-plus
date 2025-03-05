@@ -1,18 +1,18 @@
 <script lang="ts" setup>
 import type { Form as FormType, IFormFeedback } from '@formily/core'
 import type { Component, PropType, VNode } from 'vue'
-import { FormProvider } from '@formily/vue'
+import { FormProvider, useForm } from '@formily/vue'
 import { FormLayout } from '../form-layout'
 import { PreviewText } from '../preview-text'
 
 defineOptions({
   name: 'FForm',
+  inheritAttrs: false,
 })
 
 const props = defineProps({
   form: {
     type: Object as PropType<FormType>,
-    required: true,
   },
   component: {
     type: [String, Object] as PropType<string | Component>,
@@ -29,6 +29,8 @@ const props = defineProps({
   },
 })
 
+const top = useForm()
+
 function handleSubmit(e: Event, form: FormType) {
   e?.stopPropagation?.()
   e?.preventDefault?.()
@@ -39,7 +41,7 @@ function handleSubmit(e: Event, form: FormType) {
 </script>
 
 <template>
-  <FormProvider :form="props.form">
+  <FormProvider v-if="props.form" :form="props.form">
     <PreviewText.Placeholder :value="props.previewTextPlaceholder">
       <FormLayout v-bind="$attrs">
         <component
@@ -51,4 +53,16 @@ function handleSubmit(e: Event, form: FormType) {
       </FormLayout>
     </PreviewText.Placeholder>
   </FormProvider>
+  <template v-else-if="top">
+    <PreviewText.Placeholder :value="props.previewTextPlaceholder">
+      <FormLayout v-bind="$attrs">
+        <component
+          :is="props.component"
+          @submit="(e) => handleSubmit(e, top)"
+        >
+          <slot />
+        </component>
+      </FormLayout>
+    </PreviewText.Placeholder>
+  </template>
 </template>
