@@ -11,7 +11,7 @@ element-plus 从`2.6.0`开始提供了新的属性，`label`作为`value`已经�
 :::
 
 ::: tip 提示
-本组件做了对低版本`element-plus`的兼容处理，即无论你在使用哪个版本的`element-plus`，在这一配置项上不再有版本的差异（但在低版本时即使使用插槽渲染还是要使用`label`属性来作为`value`）。
+本组件做了对低版本`element-plus`的兼容处理，即无论你在使用哪个版本的`element-plus`，不使用插槽时dataSource中的对象都应包含`label`和`value`（但在低版本时使用插槽渲染还是要使用`label`属性来作为`value`）。
 :::
 
 ## Markup Schema 案例
