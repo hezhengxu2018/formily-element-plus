@@ -27,6 +27,16 @@ function onSubmit(value) {
       ]"
       :decorator="[FormItem]"
       :component="[Checkbox.Group, { optionType: 'button' }]"
+    />
+    <ArrayField
+      name="multiple-slot"
+      title="使用插槽的复选"
+      :data-source="[
+        { label: '选项1', value: 1 },
+        { label: '选项2', value: 2 },
+      ]"
+      :decorator="[FormItem]"
+      :component="[Checkbox.Group, { optionType: 'button' }]"
     >
       <template #default="{ option }">
         <div>通过插槽渲染的{{ option.label }}</div>
