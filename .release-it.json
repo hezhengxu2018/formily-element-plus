@@ -7,7 +7,10 @@
     "push": true
   },
   "github": {
-    "release": true
+    "release": true,
+    "releaseName": "Release v${version}",
+    "tokenRef": "GH_TOKEN",
+    "autoGenerate": true
   },
   "npm": {
     "publish": false
