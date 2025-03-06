@@ -22,7 +22,7 @@ import {
   resolveComponent,
   stylePrefix,
 } from '../__builtins__'
-import { useGridColumn } from '../form-grid'
+import { FormGrid } from '../form-grid'
 import { FormLayoutShallowContext, useFormLayout } from '../form-layout'
 import './style.scss'
 
@@ -165,7 +165,7 @@ export const FormBaseItem = defineComponent({
     provide(FormLayoutShallowContext, ref({}))
 
     return () => {
-      const gridColumn = useGridColumn(props.gridSpan as string)
+      const gridColumn = FormGrid.useGridColumn(props.gridSpan as string)
       const gridStyles: Record<string, any> = {}
 
       if (gridColumn) {
