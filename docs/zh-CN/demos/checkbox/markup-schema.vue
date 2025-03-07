@@ -3,7 +3,12 @@ import { createForm } from '@formily/core'
 import { createSchemaField } from '@formily/vue'
 import { Checkbox, Form, FormItem, Submit } from '@sliver/formily-element-plus'
 
-const form = createForm()
+const form = createForm({
+  initialValues: {
+    single: true,
+    multiple: [1],
+  },
+})
 const { SchemaField, SchemaBooleanField, SchemaArrayField } = createSchemaField(
   {
     components: {

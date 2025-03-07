@@ -1,25 +1,26 @@
 import { connect, mapProps, mapReadPretty } from '@formily/vue'
+import { ElCheckbox } from 'element-plus'
 import { composeExport } from '../__builtins__/shared'
 import { PreviewText } from '../preview-text'
-import CheckboxGroupOption from './checkbox-group-option.vue'
-import CheckboxOption from './checkbox-option.vue'
+import FCheckboxGroup from './checkbox-group.vue'
 
 const CheckboxGroup = connect(
-  CheckboxGroupOption,
-  mapProps({ dataSource: 'options', value: 'modelValue' }),
+  FCheckboxGroup,
+  mapProps({ dataSource: 'options', disabled: true }),
   mapReadPretty(PreviewText.Select, {
     multiple: true,
   }),
 )
 
-const InnerCheckbox = connect(
-  CheckboxOption,
+const FCheckbox = connect(
+  ElCheckbox,
   mapProps({
     value: 'modelValue',
+    disabled: true,
   }),
 )
 
-export const Checkbox = composeExport(InnerCheckbox, {
+export const Checkbox = composeExport(FCheckbox, {
   Group: CheckboxGroup,
 })
 
