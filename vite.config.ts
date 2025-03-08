@@ -52,6 +52,12 @@ export default defineConfig({
           const originalDirName = originalFileName?.match(/src\/(.*)\/index.ts/)?.[1]
           return originalDirName ? `styles/${originalDirName}/[name][extname]` : `styles/[name][extname]`
         },
+        chunkFileNames(chunkInfo) {
+          const fileName = chunkInfo.name.split('.')[0]
+          const regex = /.*src\/(.+)\/[^/]+\.vue\?.*/
+          const outDir = chunkInfo.moduleIds[0].match(regex)?.[1]
+          return `${outDir}${path.sep}${fileName}.mjs`
+        },
       },
       treeshake: {
         moduleSideEffects: (id) => {
@@ -68,6 +74,7 @@ export default defineConfig({
     dts({
       outDir: ['./esm'],
       exclude: ['./**/style.ts', './**/*.test.{ts,tsx}'],
+      cleanVueFileName: true,
     }),
     VueMacros({
       setupComponent: false,

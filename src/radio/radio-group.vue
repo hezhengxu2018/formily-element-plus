@@ -30,9 +30,15 @@ const OptionType = computed(() => {
 })
 const IS_LESS_THAN_2_6_0 = lt(version, '2.6.0')
 
-// 添加类型守卫函数
 function isRadioPropsObject(option: any): option is RadioProps {
   return isPlainObject(option)
+}
+
+function getOptionLabel(option: any, index: number) {
+  if (isRadioPropsObject(props.options[index])) {
+    return props.options[index].label
+  }
+  return option.label
 }
 
 const compatiableProps = computed(() => {
@@ -60,7 +66,7 @@ const slots = useSlots()
   <ElRadioGroup :model-value="props.value" @update:model-value="(value) => emits('change', value)">
     <template v-if="!slots.default">
       <component :is="OptionType" v-for="(option, index) of compatiableProps" :key="index" v-bind="option">
-        {{ isRadioPropsObject(props.options[index]) ? props.options[index].label : option.label }}
+        {{ getOptionLabel(option, index) }}
       </component>
     </template>
     <template v-else>
