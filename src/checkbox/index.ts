@@ -12,7 +12,7 @@ const CheckboxGroup = connect(
   }),
 )
 
-const FCheckbox = connect(
+const InnerCheckbox = connect(
   ElCheckbox,
   mapProps({
     value: 'modelValue',
@@ -20,7 +20,7 @@ const FCheckbox = connect(
   }),
 )
 
-export const Checkbox = composeExport(FCheckbox, {
+export const Checkbox = composeExport(InnerCheckbox, {
   Group: CheckboxGroup,
 })
 

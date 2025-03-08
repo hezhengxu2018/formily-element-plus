@@ -1,97 +1,29 @@
-import type { PropType } from 'vue'
-import type {
-  SlotTypes,
-} from '../__builtins__/shared'
+import type { RadioProps } from 'element-plus'
 import { connect, mapProps, mapReadPretty } from '@formily/vue'
-import { ElRadio, ElRadioButton, ElRadioGroup } from 'element-plus'
-import { defineComponent, h } from 'vue'
-import {
-  composeExport,
-  resolveComponent,
-} from '../__builtins__/shared'
+import { ElRadio } from 'element-plus'
+import { composeExport, transformComponent } from '../__builtins__/shared'
 import { PreviewText } from '../preview-text'
+import FRadioGroup from './radio-group.vue'
 import './style.scss'
 
-export type ElRadioProps = typeof ElRadio
-export type RadioGroupProps = typeof ElRadioGroup & {
-  value: any
-  options?: (
-    | (Omit<ElRadioProps, 'value'> & {
-      value: ElRadioProps['label']
-      label: SlotTypes
-    })
-    | string
-  )[]
-  optionType: 'defalt' | 'button'
-}
-
-const RadioGroupOption = defineComponent({
-  name: 'FRadioGroup',
-  props: {
-    options: {
-      type: Array as PropType<RadioGroupProps['options']>,
-      default: () => [],
-    },
-    optionType: {
-      type: String as PropType<RadioGroupProps['optionType']>,
-      default: 'default',
-    },
-  },
-  setup(customProps, { attrs, slots }) {
-    return () => {
-      const options = customProps.options || []
-      const OptionType
-        = customProps.optionType === 'button' ? ElRadioButton : ElRadio
-      const children
-        = options.length > 0
-          ? {
-              default: () =>
-                options.map((option) => {
-                  return typeof option === 'string'
-                    ? h(
-                        OptionType,
-                        { label: option },
-                        {
-                          default: () => [
-                            resolveComponent(slots?.option ?? option, { option }),
-                          ],
-                        },
-                      )
-                    : h(
-                        OptionType,
-                        {
-                          ...option,
-                          value: undefined,
-                          label: option.value,
-                        },
-                        {
-                          default: () => [
-                            resolveComponent(slots?.option ?? option.label, {
-                              option,
-                            }),
-                          ],
-                        },
-                      )
-                }),
-            }
-          : slots
-      return h(
-        ElRadioGroup,
-        {
-          ...attrs,
-        },
-        children,
-      )
-    }
-  },
+const TransformElRadio = transformComponent<RadioProps>(ElRadio, {
+  change: 'update:modelValue',
 })
 
+const InnerRadio = connect(
+  TransformElRadio,
+  mapProps({
+    value: 'modelValue',
+    disabled: true,
+  }),
+)
+
 const RadioGroup = connect(
-  RadioGroupOption,
-  mapProps({ dataSource: 'options', value: 'modelValue' }),
+  FRadioGroup,
+  mapProps({ dataSource: 'options', disabled: true }),
   mapReadPretty(PreviewText.Select),
 )
-export const Radio = composeExport(ElRadio, {
+export const Radio = composeExport(InnerRadio, {
   Group: RadioGroup,
 })
 
