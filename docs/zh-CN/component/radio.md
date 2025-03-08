@@ -2,6 +2,10 @@
 
 > 单选框
 
+::: warning 注意
+你永远都应该使用`Radio.Group`而不是`Radio`，本组件实际上并未对`Radio`进行封装。是原始的`ElRadio`组件。新版`ElRadio`的入参value会和Field的入参冲突，想要兼容就必须对入参进行额外的包裹，带来不必要的复杂度。而且对于表单而言应该没有单独使用的场景，额外的封装显得有些多余。
+:::
+
 ## Markup Schema 案例
 
 :::demo
