@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { CheckboxProps } from 'element-plus'
 import type { PropType } from 'vue'
-import { computed, useSlots } from "vue";
-import { ElCheckboxGroup, ElCheckbox, ElCheckboxButton, version } from 'element-plus'
+import { ElCheckbox, ElCheckboxButton, ElCheckboxGroup, version } from 'element-plus'
+import { isPlainObject } from 'lodash-es'
 import { lt } from 'semver'
+import { computed, useSlots } from 'vue'
 
 defineOptions({
   name: 'FCheckboxGroup',
@@ -24,12 +25,19 @@ const props = defineProps({
   },
 })
 
+const emits = defineEmits(['change'])
 const OptionType = computed(() => {
   return props.optionType === 'button' ? ElCheckboxButton : ElCheckbox
 })
 const IS_LESS_THAN_2_6_0 = lt(version, '2.6.0')
 const compatiableProps = computed(() => {
-  return props.options.map(option => {
+  return props.options.map((option) => {
+    if (!isPlainObject(option)) {
+      return {
+        label: option,
+        value: option,
+      }
+    }
     if (IS_LESS_THAN_2_6_0) {
       return {
         ...option,
@@ -40,15 +48,14 @@ const compatiableProps = computed(() => {
   })
 })
 
-const emits = defineEmits(['change'])
 const slots = useSlots()
 </script>
 
 <template>
-  <ElCheckboxGroup :model-value="props.value" @update:model-value="(value)=> emits('change', value)">
+  <ElCheckboxGroup :model-value="props.value" @update:model-value="(value) => emits('change', value)">
     <template v-if="!slots.default">
       <component :is="OptionType" v-for="(option, index) of compatiableProps" :key="index" v-bind="option">
-        {{ $props.options[index].label }}
+        {{ isPlainObject(props.options[index]) ? props.options[index]?.label : option.label }}
       </component>
     </template>
     <template v-else>
