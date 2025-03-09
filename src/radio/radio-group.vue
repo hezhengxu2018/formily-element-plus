@@ -64,14 +64,14 @@ const slots = useSlots()
 
 <template>
   <ElRadioGroup :model-value="props.value" @update:model-value="(value) => emits('change', value)">
-    <template v-if="!slots.default">
+    <template v-if="!slots.option">
       <component :is="OptionType" v-for="(option, index) of compatiableProps" :key="index" v-bind="option">
         {{ getOptionLabel(option, index) }}
       </component>
     </template>
     <template v-else>
       <component :is="OptionType" v-for="(option, index) of compatiableProps" :key="index" v-bind="option">
-        <slot :option="option" />
+        <slot name="option" :option="option" />
       </component>
     </template>
   </ElRadioGroup>

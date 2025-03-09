@@ -53,14 +53,14 @@ const slots = useSlots()
 
 <template>
   <ElCheckboxGroup :model-value="props.value" @update:model-value="(value) => emits('change', value)">
-    <template v-if="!slots.default">
+    <template v-if="!slots.option">
       <component :is="OptionType" v-for="(option, index) of compatiableProps" :key="index" v-bind="option">
         {{ isPlainObject(props.options[index]) ? props.options[index]?.label : option.label }}
       </component>
     </template>
     <template v-else>
       <component :is="OptionType" v-for="(option, index) of compatiableProps" :key="index" v-bind="option">
-        <slot :option="option" />
+        <slot name="option" :option="option" />
       </component>
     </template>
   </ElCheckboxGroup>
