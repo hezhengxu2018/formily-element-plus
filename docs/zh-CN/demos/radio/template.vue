@@ -13,7 +13,7 @@ function log(value) {
 <template>
   <FormProvider :form="form">
     <Field
-      name="input"
+      name="radio"
       title="单选"
       :decorator="[FormItem]"
       :component="[Radio.Group]"
@@ -28,6 +28,20 @@ function log(value) {
         },
       ]"
     />
+    <Field
+      name="radio-slot"
+      title="单选插槽"
+      :component="[Radio.Group]"
+      :decorator="[FormItem]"
+      :data-source="[
+        { label: '标签1', value: '1' },
+        { label: '标签2', value: '2' },
+      ]"
+    >
+      <template #option="{ option }">
+        使用插槽渲染的{{ option.label }}
+      </template>
+    </Field>
     <Submit @submit="log">
       提交
     </Submit>

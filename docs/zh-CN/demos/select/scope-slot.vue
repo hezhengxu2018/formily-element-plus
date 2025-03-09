@@ -2,16 +2,6 @@
 import { createForm } from '@formily/core'
 import { createSchemaField, FormProvider } from '@formily/vue'
 import { FormItem, Select, Submit } from '@sliver/formily-element-plus'
-import { h } from 'vue'
-
-const OptionComp = {
-  props: {
-    option: null,
-  },
-  render(_1, _2, { option }) {
-    return h('div', {}, `${option?.label}-${option?.value}`)
-  },
-}
 
 const form = createForm()
 const { SchemaField, SchemaStringField } = createSchemaField({
@@ -50,7 +40,7 @@ function log(value) {
           },
         ]"
         :x-content="{
-          option: OptionComp,
+          option: (props, { attrs }) => `${attrs.option?.label}-${attrs.option?.value}`,
         }"
       />
 

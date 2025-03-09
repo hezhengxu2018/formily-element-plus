@@ -38,7 +38,7 @@ function onSubmit(value) {
         x-decorator="FormItem"
         x-component="Checkbox.Group"
         :x-content="{
-          default: (props, { attrs }) => {
+          option: (props, { attrs }) => {
             return h(Fragment, [`使用插槽渲染的${attrs.option.label}`])
           },
         }"

@@ -2,14 +2,6 @@
 
 > 复选框
 
-::: warning 注意
-使用本组件有一个前提，即`Checkbox.Group`内没有使用插槽的需求。`Checkbox`组件会跳过一层插槽直接将插槽渲染在`ElCheckbox`组件内的插槽中，具体使用请参考下面的案例。
-:::
-
-::: tip 提示
-element-plus 从`2.6.0`开始提供了新的属性，`label`作为`value`已经被废弃。
-:::
-
 ::: tip 提示
 本组件做了对低版本`element-plus`的兼容处理，即无论你在使用哪个版本的`element-plus`，不使用插槽时dataSource中的对象都应包含`label`和`value`（但在低版本时使用插槽渲染还是要使用`label`属性来作为`value`）。
 :::
@@ -60,4 +52,4 @@ checkbox/template
 
 | 插槽名   | 说明                           | 类型                  |
 | ---     | ---                           | ---                   |
-| default | 自定义每个选项渲染方式的作用域插槽 | ^[object]`{ option }` |
+| option | 自定义每个选项渲染方式的作用域插槽 | ^[object]`{ option }` |

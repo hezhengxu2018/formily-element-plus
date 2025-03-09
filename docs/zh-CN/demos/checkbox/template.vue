@@ -38,7 +38,7 @@ function onSubmit(value) {
       :decorator="[FormItem]"
       :component="[Checkbox.Group, { optionType: 'button' }]"
     >
-      <template #default="{ option }">
+      <template #option="{ option }">
         <div>通过插槽渲染的{{ option.label }}</div>
       </template>
     </ArrayField>

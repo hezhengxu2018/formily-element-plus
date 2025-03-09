@@ -20,7 +20,7 @@ function log(value) {
   <FormProvider :form="form">
     <SchemaField>
       <SchemaStringField
-        name="input"
+        name="radio"
         title="单选"
         x-decorator="FormItem"
         x-component="Radio.Group"
@@ -34,6 +34,27 @@ function log(value) {
             value: 2,
           },
         ]"
+      />
+      <SchemaStringField
+        name="radio-slot"
+        title="插槽单选"
+        x-decorator="FormItem"
+        x-component="Radio.Group"
+        :enum="[
+          {
+            label: '选项1',
+            value: 1,
+          },
+          {
+            label: '选项2',
+            value: 2,
+          },
+        ]"
+        :x-content="{
+          option: (_, { attrs }) => {
+            return `插槽渲染的${attrs.option.label}`
+          },
+        }"
       />
     </SchemaField>
     <Submit @submit="log">
