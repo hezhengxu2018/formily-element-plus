@@ -65,7 +65,7 @@ describe('reset 组件', () => {
 
       // 点击重置
       await getByRole('button', { name: '重置' }).click()
-      expect(resetSpy).toHaveBeenCalledWith('*', { forceClear: false, validate: false })
+      expect(resetSpy).toHaveBeenCalledWith('*', { forceClear: false })
       expect(form.values.input).toBe('初始值')
     })
 
@@ -86,7 +86,7 @@ describe('reset 组件', () => {
 
       // 点击重置
       await getByRole('button', { name: '强制清空' }).click()
-      expect(resetSpy).toHaveBeenCalledWith('*', { forceClear: true, validate: false })
+      expect(resetSpy).toHaveBeenCalledWith('*', { forceClear: true })
       expect(form.values.input).toBe(undefined)
     })
 
@@ -115,7 +115,7 @@ describe('reset 组件', () => {
 
       // 点击重置
       await getByRole('button', { name: '重置并校验' }).click()
-      expect(resetSpy).toHaveBeenCalledWith('*', { forceClear: true, validate: true })
+      expect(resetSpy).toHaveBeenCalledWith('*', { forceClear: true })
 
       // 校验应该失败，因为必填字段被清空了
       expect(form.invalid).toBe(true)

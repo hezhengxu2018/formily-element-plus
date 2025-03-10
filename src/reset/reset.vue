@@ -34,7 +34,7 @@ function handleClick(e: MouseEvent) {
   })
   props.validate && form?.validate()
     .then(props.onResetValidateSuccess)
-    .catch(props.onResetValidateFailed)
+    .catch(error => props.onResetValidateFailed?.(error))
 }
 </script>
 

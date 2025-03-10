@@ -11,6 +11,10 @@ const { SchemaField, SchemaStringField } = createSchemaField({
 })
 
 const form = createForm()
+
+function log(value) {
+  console.log(value)
+}
 </script>
 
 <template>
@@ -33,7 +37,7 @@ const form = createForm()
       />
     </SchemaField>
     <FormButtonGroup align-form-item>
-      <Reset validate force-clear>
+      <Reset validate force-clear @reset-validate-success="log">
         重置
       </Reset>
     </FormButtonGroup>
