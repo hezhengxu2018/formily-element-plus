@@ -6,9 +6,9 @@ import {
   Editable,
   FormItem,
   Input,
+  Space,
   Submit,
 } from '@sliver/formily-element-plus'
-import { ElSpace } from 'element-plus'
 
 const { SchemaField } = createSchemaField({
   components: {
@@ -16,7 +16,7 @@ const { SchemaField } = createSchemaField({
     ArrayTable,
     Input,
     Editable,
-    ElSpace,
+    Space,
   },
 })
 
@@ -98,7 +98,7 @@ const schema = {
                 'properties': {
                   space: {
                     'type': 'void',
-                    'x-component': 'ElSpace',
+                    'x-component': 'Space',
                     'x-component-props': {
                       style: 'height: 100%',
                     },

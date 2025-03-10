@@ -1,15 +1,14 @@
 <script lang="ts" setup>
 import { createForm } from '@formily/core'
 import { Field, FormConsumer, FormProvider } from '@formily/vue'
-import { FormItem, InputNumber } from '@sliver/formily-element-plus'
-import { ElSpace } from 'element-plus'
+import { FormItem, InputNumber, Space } from '@sliver/formily-element-plus'
 
 const form = createForm()
 </script>
 
 <template>
   <FormProvider :form="form">
-    <ElSpace>
+    <Space>
       <Field
         name="price"
         title="价格"
@@ -48,6 +47,6 @@ const form = createForm()
           </FormItem>
         </template>
       </FormConsumer>
-    </ElSpace>
+    </Space>
   </FormProvider>
 </template>

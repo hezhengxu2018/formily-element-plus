@@ -7,14 +7,14 @@ import {
   FormItem,
   Input,
   Select,
+  Space,
   Submit,
 } from '@sliver/formily-element-plus'
-import { ElSpace } from 'element-plus'
 
 const { SchemaField } = createSchemaField({
   components: {
     FormItem,
-    ElSpace,
+    Space,
     Input,
     Select,
     DatePicker,
@@ -33,7 +33,7 @@ const schema = {
       'title': '字符串数组',
       'items': {
         'type': 'void',
-        'x-component': 'ElSpace',
+        'x-component': 'Space',
         'properties': {
           sort: {
             'type': 'void',
@@ -70,7 +70,7 @@ const schema = {
         properties: {
           space: {
             'type': 'void',
-            'x-component': 'ElSpace',
+            'x-component': 'Space',
             'properties': {
               sort: {
                 'type': 'void',
@@ -139,7 +139,7 @@ const schema = {
         'properties': {
           space: {
             'type': 'void',
-            'x-component': 'ElSpace',
+            'x-component': 'Space',
             'properties': {
               sort: {
                 'type': 'void',

@@ -6,10 +6,10 @@ import {
   Editable,
   FormItem,
   Input,
+  Space,
   Submit,
   Switch,
 } from '@sliver/formily-element-plus'
-import { ElSpace } from 'element-plus'
 
 const {
   SchemaField,
@@ -25,7 +25,7 @@ const {
     Input,
     Editable,
     Switch,
-    ElSpace,
+    Space,
   },
 })
 
@@ -125,7 +125,7 @@ function log(...v) {
             }"
           >
             <SchemaVoidField x-component="FormItem">
-              <SchemaVoidField x-component="ElSpace" :x-component-props="{ style: 'height: 100%' }">
+              <SchemaVoidField x-component="Space" :x-component-props="{ style: 'height: 100%' }">
                 <SchemaVoidField x-component="ArrayTable.Remove" />
                 <SchemaVoidField x-component="ArrayTable.MoveUp" />
                 <SchemaVoidField x-component="ArrayTable.MoveDown" />

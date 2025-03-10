@@ -8,9 +8,9 @@ import {
   FormItem,
   Input,
   Select,
+  Space,
   Submit,
 } from '@sliver/formily-element-plus'
-import { ElSpace } from 'element-plus'
 
 const {
   SchemaField,
@@ -21,7 +21,7 @@ const {
 } = createSchemaField({
   components: {
     FormItem,
-    ElSpace,
+    Space,
     Input,
     Select,
     DatePicker,
@@ -44,7 +44,7 @@ function log(values) {
         x-decorator="FormItem"
         x-component="ArrayItems"
       >
-        <SchemaVoidField x-component="ElSpace">
+        <SchemaVoidField x-component="Space">
           <SchemaVoidField
             x-decorator="FormItem"
             x-component="ArrayItems.SortHandle"
@@ -74,7 +74,7 @@ function log(values) {
         x-component="ArrayItems"
       >
         <SchemaObjectField>
-          <SchemaVoidField x-component="ElSpace">
+          <SchemaVoidField x-component="Space">
             <SchemaVoidField
               x-decorator="FormItem"
               x-component="ArrayItems.SortHandle"
@@ -131,7 +131,7 @@ function log(values) {
         :x-component-props="{ style: { width: '600px' } }"
       >
         <SchemaObjectField x-decorator="ArrayItems.Item">
-          <SchemaVoidField x-component="ElSpace">
+          <SchemaVoidField x-component="Space">
             <SchemaVoidField
               x-decorator="FormItem"
               x-component="ArrayItems.SortHandle"

@@ -3,7 +3,7 @@
 > Element-Plus 的 Flex 布局组件
 
 ::: warning 注意
-本项目实际并未导出名为 `Space` 或 `ElSpace` 的组件，请从`Element-Plus` 中引入，在文档中列出仅为提供使用上的参考。
+本项目并未对Space组件做任何封装，只是简单的引入与再导出了对等依赖中的ElSpace，其效果与直接使用ElSpace相同。
 :::
 
 ## Markup Schema 案例
