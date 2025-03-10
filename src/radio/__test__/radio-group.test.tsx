@@ -107,7 +107,9 @@ describe('radio-group', () => {
               { label: '标签2', value: '2' },
             ]}
           >
-            {({ option }) => `使用插槽渲染的${option.label}`}
+            {{
+              option: ({ option }) => `使用插槽渲染的${option.label}`,
+            }}
           </Field>
         </FormProvider>
       ))
