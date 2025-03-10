@@ -5,11 +5,11 @@ import { ElTableColumn } from 'element-plus'
 import { describe, expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { defineComponent, Fragment } from 'vue'
-import SelectTable from './index'
+import SelectTable from '../index'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-table.css'
 import 'element-plus/theme-chalk/el-link.css'
-import './style.scss'
+import '../style.scss'
 
 function formilyWrapperFactory(fieldProps = {}, selectTableProps = {}) {
   return defineComponent({
