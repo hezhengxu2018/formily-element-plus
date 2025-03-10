@@ -1,5 +1,19 @@
 # Changelog
 
+# [2.1.0](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.0.1...v2.1.0) (2025-03-10)
+
+
+### Bug Fixes
+
+* **checkbox:** checkbox添加对低版本element-plus的兼容 ([5491570](https://github.com/hezhengxu2018/formily-element-plus/commit/5491570d8c0ca73a4fa19f73b884f03b28b165d4))
+* **form:** 修复From组件中previewTextPlaceholder属性类型声明错误 ([89b5f79](https://github.com/hezhengxu2018/formily-element-plus/commit/89b5f791da33768695b77f9ea50b70369a2e6a88))
+* **form:** 修复因移除没有在文档中描述的功能而无法使用QueryForm的问题 ([b87712c](https://github.com/hezhengxu2018/formily-element-plus/commit/b87712c13c898f3b9426f759922809d4d18defbe))
+
+
+### Features
+
+* **space:** 重新提供了space组件,只是简单的从对等依赖中再导出 ([2c288f4](https://github.com/hezhengxu2018/formily-element-plus/commit/2c288f46b823c05330429ee7585b8fce2c37a07b))
+
 ## 2.0.1 (2025-03-04)
 
 
