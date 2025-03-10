@@ -7,10 +7,7 @@
     "push": true
   },
   "github": {
-    "release": true,
-    "releaseName": "Release v${version}",
-    "tokenRef": "GH_TOKEN",
-    "autoGenerate": true
+    "release": true
   },
   "npm": {
     "publish": false
@@ -18,10 +15,15 @@
   "plugins": {
     "@release-it/conventional-changelog": {
       "preset": "angular",
-      "infile": "CHANGELOG.md"
+      "infile": "CHANGELOG.md",
+      "header": "# 更新日志\n\n",
+      "ignoreRecommendedBump": true,
+      "strictSemVer": true,
+      "releaseCount": 0
     }
   },
   "hooks": {
-    "before:init": ["npm run lint"]
+    "before:init": ["npm run lint"],
+    "after:release": "echo 发布完成！"
   }
 }

@@ -66,3 +66,4 @@ jobs:
           pnpm release-it ${{ github.event.inputs.version }} --ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
