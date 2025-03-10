@@ -31,8 +31,8 @@ function handleClick(e: MouseEvent) {
   const form = formRef?.value
   form?.reset('*', {
     forceClear: props.forceClear,
-    validate: props.validate,
   })
+  props.validate && form?.validate()
     .then(props.onResetValidateSuccess)
     .catch(props.onResetValidateFailed)
 }
