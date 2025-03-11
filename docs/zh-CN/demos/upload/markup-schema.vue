@@ -23,7 +23,7 @@ const { SchemaField, SchemaArrayField } = createSchemaField({
   },
 })
 
-function onSubmit(value) {
+async function onSubmit(value) {
   console.log(value)
 }
 </script>
@@ -37,7 +37,7 @@ function onSubmit(value) {
         x-decorator="FormItem"
         x-component="Upload"
         :x-component-props="{
-          action: 'https://formily-vue.free.beeceptor.com/file',
+          action: 'https://run.mocky.io/v3/4ddf3c65-5202-4b56-87ad-ef7314e84fdc',
           textContent: '上传',
         }"
         required
@@ -49,7 +49,7 @@ function onSubmit(value) {
         x-component="Upload"
         :x-component-props="{
           listType: 'picture-card',
-          action: 'https://formily-vue.free.beeceptor.com/file',
+          action: '#',
         }"
         required
       />
