@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Field } from '@formily/core'
-import type { ImageViewerInstance, ImageViewerProps, UploadFile, UploadRawFile } from 'element-plus'
+import type { ImageViewerInstance, ImageViewerProps, UploadFile, UploadRawFile, UploadProps } from 'element-plus'
 import type { PropType } from 'vue'
 import {
   Plus as PlusIcon,
@@ -10,7 +10,8 @@ import {
 import { isFn } from '@formily/shared'
 import { useField } from '@formily/vue'
 import { ElIcon, ElImageViewer, ElUpload, genFileId } from 'element-plus'
-import { computed, ref, useAttrs } from 'vue'
+import { computed, ref, useAttrs, onBeforeUnmount, toRaw } from 'vue'
+import { reaction } from '@formily/reactive'
 
 defineOptions({
   name: 'FUpload',
@@ -26,8 +27,13 @@ const props = defineProps({
     type: Function as PropType<(error?: Error) => string>,
     default: (error?: Error) => error?.message || '',
   },
+  formatValue: {
+    type: Function as PropType<(fileList?: UploadFile[]) => any>,
+    default: item => item,
+  },
   fileList: {
     type: Array as PropType<UploadFile[]>,
+    default: () => [],
   },
   imageViewerProps: {
     type: Object as PropType<ImageViewerProps>,
@@ -37,13 +43,12 @@ const props = defineProps({
 
 const emit = defineEmits(['change'])
 const uploadRef = ref()
-const attrs = useAttrs()
+const attrs = useAttrs() as UploadProps
 const fieldRef = useField<Field>()
 
 const imgPreviewRef = ref<ImageViewerInstance>()
 const activeImageIndex = ref(0)
 const isShowImgViewer = ref(false)
-
 const imgPreviewList = computed(() => {
   return props.fileList.map(item => item.url)
 })
@@ -61,16 +66,16 @@ function handleChange(file: UploadFile, fileList: UploadFile[]) {
   if (isFn(attrs.onChange)) {
     attrs.onChange(file, fileList)
   }
+  fieldRef.value.setDataSource([...fileList])
   setFeedBack()
-  emit('change', fileList)
 }
 
 function handleRemove(file: UploadFile, fileList: UploadFile[]) {
   if (isFn(attrs.onRemove)) {
     attrs.onRemove(file, fileList)
   }
+  fieldRef.value.setDataSource([...fileList])
   setFeedBack()
-  emit('change', fileList)
 }
 
 function handleExceed(files: File[]) {
@@ -80,7 +85,7 @@ function handleExceed(files: File[]) {
   const file = files[0] as UploadRawFile
   file.uid = genFileId()
   uploadRef.value!.handleStart(file)
-  if (attrs.action !== '#' && attrs.autoUpload) {
+  if (attrs.autoUpload ?? true) {
     uploadRef.value!.submit()
   }
 }
@@ -95,16 +100,32 @@ function handleError(error: Error, file: UploadFile, fileList: UploadFile[]) {
 }
 
 function onPreviewClick(uploadFile: UploadFile) {
+  if (!uploadFile.url && !attrs.accept?.includes('image'))
+    return
   const clickIndex = props.fileList.findIndex((element: UploadFile) => element.uid === uploadFile.uid)
   activeImageIndex.value = clickIndex
   isShowImgViewer.value = true
 }
+
+const dispose = reaction(() => {
+  // 是否在提交表单前完成上传，如果是则以获取response时触发，如果不是则以fileList状态改变时触发
+  const isPreUpload = attrs.action !== '#' || attrs.httpRequest !== undefined
+  const responseList = isPreUpload ? fieldRef.value.dataSource?.map(item => item.response) : fieldRef.value.dataSource?.map(item => item.status)
+  return responseList
+}, () => {
+  const emitValue = props.formatValue(fieldRef.value.dataSource as UploadFile[])
+  emit('change', emitValue)
+})
+onBeforeUnmount(()=> {
+  dispose()
+})
 </script>
 
 <template>
   <ElUpload
     ref="uploadRef"
     v-bind="attrs"
+    :fileList="$props.fileList"
     @change="handleChange"
     @remove="handleRemove"
     @exceed="handleExceed"
@@ -133,13 +154,13 @@ function onPreviewClick(uploadFile: UploadFile) {
         </ElButton>
       </template>
     </template>
-    <template #file="{ file, index }">
+    <template v-if="$slots.file" #file="{ file, index }">
       <slot name="file" :file="file" :index="index" />
     </template>
-    <template #tip>
+    <template v-if="$slots.tip" #tip>
       <slot name="tip" />
     </template>
-    <template #trigger>
+    <template v-if="$slots.trigger" #trigger>
       <slot name="trigger" />
     </template>
   </ElUpload>

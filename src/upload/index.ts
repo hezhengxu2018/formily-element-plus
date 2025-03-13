@@ -3,7 +3,7 @@ import FUpload from './upload.vue'
 
 export const Upload = connect(
   FUpload,
-  mapProps({ readOnly: 'readonly', value: 'fileList' }),
+  mapProps({ readOnly: 'readonly', dataSource: 'fileList' }),
 )
 
 export default Upload
