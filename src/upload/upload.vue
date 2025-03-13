@@ -1,17 +1,17 @@
 <script lang="ts" setup>
 import type { Field } from '@formily/core'
-import type { ImageViewerInstance, ImageViewerProps, UploadFile, UploadRawFile, UploadProps } from 'element-plus'
+import type { ImageViewerInstance, ImageViewerProps, UploadFile, UploadProps, UploadRawFile } from 'element-plus'
 import type { PropType } from 'vue'
 import {
   Plus as PlusIcon,
   UploadFilled as UploadFilledIcon,
   Upload as UploadIcon,
 } from '@element-plus/icons-vue'
+import { reaction } from '@formily/reactive'
 import { isFn } from '@formily/shared'
 import { useField } from '@formily/vue'
 import { ElIcon, ElImageViewer, ElUpload, genFileId } from 'element-plus'
-import { computed, ref, useAttrs, onBeforeUnmount, toRaw } from 'vue'
-import { reaction } from '@formily/reactive'
+import { computed, onBeforeUnmount, ref, useAttrs } from 'vue'
 
 defineOptions({
   name: 'FUpload',
@@ -25,7 +25,7 @@ const props = defineProps({
   },
   errorAdaptor: {
     type: Function as PropType<(error?: Error) => string>,
-    default: (error?: Error) => error?.message || '',
+    default: (error?: Error) => error?.message,
   },
   formatValue: {
     type: Function as PropType<(fileList?: UploadFile[]) => any>,
@@ -37,7 +37,7 @@ const props = defineProps({
   },
   imageViewerProps: {
     type: Object as PropType<ImageViewerProps>,
-    default: () => {},
+    default: () => ({ teleported: true, showProgress: true }),
   },
 })
 
@@ -78,7 +78,10 @@ function handleRemove(file: UploadFile, fileList: UploadFile[]) {
   setFeedBack()
 }
 
-function handleExceed(files: File[]) {
+function handleExceed(files: File[], uploadFIles) {
+  if (isFn(attrs.onExceed)) {
+    attrs.onExceed(files, uploadFIles)
+  }
   if (attrs.limit !== 1)
     return
   uploadRef.value!.clearFiles()
@@ -100,6 +103,10 @@ function handleError(error: Error, file: UploadFile, fileList: UploadFile[]) {
 }
 
 function onPreviewClick(uploadFile: UploadFile) {
+  if (isFn(attrs.onPreview)) {
+    (attrs.onPreview)(uploadFile)
+    return
+  }
   if (!uploadFile.url && !attrs.accept?.includes('image'))
     return
   const clickIndex = props.fileList.findIndex((element: UploadFile) => element.uid === uploadFile.uid)
@@ -116,7 +123,7 @@ const dispose = reaction(() => {
   const emitValue = props.formatValue(fieldRef.value.dataSource as UploadFile[])
   emit('change', emitValue)
 })
-onBeforeUnmount(()=> {
+onBeforeUnmount(() => {
   dispose()
 })
 </script>
@@ -125,7 +132,7 @@ onBeforeUnmount(()=> {
   <ElUpload
     ref="uploadRef"
     v-bind="attrs"
-    :fileList="$props.fileList"
+    :file-list="$props.fileList"
     @change="handleChange"
     @remove="handleRemove"
     @exceed="handleExceed"
@@ -169,8 +176,6 @@ onBeforeUnmount(()=> {
     ref="imgPreviewRef"
     :url-list="imgPreviewList"
     :initial-index="activeImageIndex"
-    show-progress
-    teleported
     v-bind="props.imageViewerProps"
     @close="isShowImgViewer = false"
   />
