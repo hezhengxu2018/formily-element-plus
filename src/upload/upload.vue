@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Field } from '@formily/core'
-import type { ImageViewerInstance, ImageViewerProps, UploadFile, UploadProps, UploadRawFile } from 'element-plus'
+import type { ImageViewerInstance, ImageViewerProps, UploadInstance, UploadFile, UploadProps, UploadRawFile } from 'element-plus'
 import type { PropType } from 'vue'
 import {
   Plus as PlusIcon,
@@ -10,7 +10,8 @@ import {
 import { reaction } from '@formily/reactive'
 import { isFn } from '@formily/shared'
 import { useField } from '@formily/vue'
-import { ElIcon, ElImageViewer, ElUpload, genFileId } from 'element-plus'
+import { ElButton, ElIcon, ElImageViewer, ElUpload, genFileId } from 'element-plus'
+import { omit } from 'lodash-es'
 import { computed, onBeforeUnmount, ref, useAttrs } from 'vue'
 
 defineOptions({
@@ -42,8 +43,20 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['change'])
-const uploadRef = ref()
+
+const uploadRef = ref<UploadInstance>()
 const attrs = useAttrs() as UploadProps
+const innerAttrs = computed(() => {
+  return omit(attrs, [
+    'onChange',
+    'onRemove',
+    'onExceed',
+    'onError',
+    'onPreview',
+    'fileList',
+    'onUpdate:fileList',
+  ])
+})
 const fieldRef = useField<Field>()
 
 const imgPreviewRef = ref<ImageViewerInstance>()
@@ -55,7 +68,7 @@ const imgPreviewList = computed(() => {
 
 function setFeedBack(error?: Error) {
   const message = props.errorAdaptor(error)
-  fieldRef.value.setFeedback({
+  fieldRef.value?.setFeedback({
     type: 'error',
     code: 'UploadError',
     messages: message ? [message] : [],
@@ -63,10 +76,7 @@ function setFeedBack(error?: Error) {
 }
 
 function handleChange(file: UploadFile, fileList: UploadFile[]) {
-  if (isFn(attrs.onChange)) {
-    attrs.onChange(file, fileList)
-  }
-  fieldRef.value.setDataSource([...fileList])
+  fieldRef.value?.setDataSource([...fileList])
   setFeedBack()
 }
 
@@ -117,7 +127,7 @@ function onPreviewClick(uploadFile: UploadFile) {
 const dispose = reaction(() => {
   // 是否在提交表单前完成上传，如果是则以获取response时触发，如果不是则以fileList状态改变时触发
   const isPreUpload = attrs.action !== '#' || attrs.httpRequest !== undefined
-  const responseList = isPreUpload ? fieldRef.value.dataSource?.map(item => item.response) : fieldRef.value.dataSource?.map(item => item.status)
+  const responseList = isPreUpload ? fieldRef.value.dataSource?.map(item => item.response) : fieldRef.value?.dataSource?.map(item => item.status)
   return responseList
 }, () => {
   const emitValue = props.formatValue(fieldRef.value.dataSource as UploadFile[])
@@ -131,7 +141,7 @@ onBeforeUnmount(() => {
 <template>
   <ElUpload
     ref="uploadRef"
-    v-bind="attrs"
+    v-bind="innerAttrs"
     :file-list="$props.fileList"
     @change="handleChange"
     @remove="handleRemove"
