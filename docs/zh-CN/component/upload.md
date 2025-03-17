@@ -48,7 +48,7 @@ upload/template
 | fileList | 文件列表，对应 Element Plus Upload 组件的 fileList 属性 | ^[array]`UploadFile[]` | `[]` |
 | imageViewerProps | 图片预览器的属性配置，当上传图片时可用于自定义预览行为 | ^[object]`ImageViewerProps` | `{ teleported: true, showProgress: true }` |
 
-除了onChange事件被占用之外，其余属性与事件请参考 [https://cn.element-plus.org/zh-CN/component/upload.html](https://cn.element-plus.org/zh-CN/component/upload.html)
+除了`onChange`事件被占用之外，其余属性与事件请参考 [https://cn.element-plus.org/zh-CN/component/upload.html](https://cn.element-plus.org/zh-CN/component/upload.html)
 
 ## 插槽
 
