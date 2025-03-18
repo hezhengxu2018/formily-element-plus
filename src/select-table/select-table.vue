@@ -93,9 +93,6 @@ const currentSelectLength = computed(() => {
 watch(
   () => props.dataSource,
   async () => {
-    if (isNil(props.dataSource)) {
-      return
-    }
     const selectedKeys = uniq(
       selectedFlatDataSource.value.map(item => item[rowKey]),
     )
@@ -155,13 +152,11 @@ watch(
 )
 
 function onSelect(newSelection: Record<string, any>[]) {
+  /* c8 ignore next 3 */
   if (!rowKey) {
     throw new Error('rowKey is required')
   }
 
-  if (props.mode === 'single') {
-    return
-  }
   const removedItemList
         = prevSelection.length > newSelection.length
           ? differenceWith(
@@ -258,7 +253,7 @@ function onClearSelectionClick() {
     </div>
     <ElTable
       ref="elTableRef"
-      v-loading="loading"
+      v-loading="props.loading"
       v-bind="$attrs"
       :row-key="rowKey"
       :row-class-name="props.clickRowToSelect ? `--click-row-select` : ''"

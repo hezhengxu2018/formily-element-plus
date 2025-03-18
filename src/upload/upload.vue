@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Field } from '@formily/core'
-import type { ImageViewerInstance, ImageViewerProps, UploadInstance, UploadFile, UploadProps, UploadRawFile } from 'element-plus'
+import type { ImageViewerInstance, ImageViewerProps, UploadFile, UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 import type { PropType } from 'vue'
 import {
   Plus as PlusIcon,
