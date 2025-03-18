@@ -58,6 +58,11 @@ const innerAttrs = computed(() => {
   ])
 })
 const fieldRef = useField<Field>()
+fieldRef.value?.inject({
+  getElUploadRef: () => {
+    return uploadRef
+  },
+})
 
 const imgPreviewRef = ref<ImageViewerInstance>()
 const activeImageIndex = ref(0)

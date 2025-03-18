@@ -363,5 +363,25 @@ describe('upload 组件', () => {
       await userEvent.keyboard('{Escape}')
       expect(document.querySelector('.el-image-viewer__wrapper')).toBeNull()
     })
+
+    it('支持获取ElUpload实例', async () => {
+      const form = createForm()
+
+      const { getByText } = render(() => (
+        <FormProvider form={form}>
+          <Field
+            name="upload"
+            component={[Upload, {
+              action: '#',
+              textContent: '上传文件',
+            }]}
+          />
+        </FormProvider>
+      ))
+
+      await expect.element(getByText('上传文件')).toBeInTheDocument()
+      const uploadRef = form.query('upload').take().invoke('getElUploadRef')
+      expect(uploadRef.value).toBeInstanceOf(Object)
+    })
   })
 })
