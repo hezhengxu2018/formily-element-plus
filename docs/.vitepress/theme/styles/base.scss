@@ -135,6 +135,10 @@ ul {
   list-style-type: disc;
 }
 
+ol > li {
+  list-style: auto;
+}
+
 a,
 area,
 button,
@@ -195,6 +199,10 @@ ol {
 li > ul,
 li > ol {
   margin: 0;
+}
+
+li + li {
+  margin-top: 8px;
 }
 
 .doc-content > div .vp-table {
