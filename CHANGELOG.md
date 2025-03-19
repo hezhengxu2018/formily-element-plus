@@ -1,3 +1,20 @@
+# 更新日志
+
+
+
+# [2.2.0](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.1.0...v2.2.0) (2025-03-19)
+
+
+### Bug Fixes
+
+* **upload:** 修复组件封装事件冲突导致的事件触发异常 ([5cdbb1a](https://github.com/hezhengxu2018/formily-element-plus/commit/5cdbb1ab1cc7fcea4265ed6e384a66130c01396c))
+
+
+### Features
+
+* **upload:** upload组件新增formatValue配置项 ([d5bcc9c](https://github.com/hezhengxu2018/formily-element-plus/commit/d5bcc9c3f48793db739794c06ba6145a0d48a9bc))
+* **upload:** upload组件新增获取实例的方法 ([56dad57](https://github.com/hezhengxu2018/formily-element-plus/commit/56dad57210d6dceef82611419dc707a194f980e3))
+
 # Changelog
 
 # [2.1.0](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.0.1...v2.1.0) (2025-03-10)
