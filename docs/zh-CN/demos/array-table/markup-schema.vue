@@ -29,7 +29,7 @@ const {
   },
 })
 
-function log(...v) {
+async function log(...v) {
   console.log(...v)
 }
 

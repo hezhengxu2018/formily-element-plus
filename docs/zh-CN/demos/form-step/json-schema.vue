@@ -83,7 +83,7 @@ const schema = {
 const form = createForm()
 const formStep = FormStep.createFormStep()
 
-function log() {
+async function log() {
   formStep.submit(console.log)
 }
 </script>

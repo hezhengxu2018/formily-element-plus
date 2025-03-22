@@ -12,7 +12,7 @@ import {
 
 const form = createForm()
 
-function log(values) {
+async function log(values) {
   console.log(values)
 }
 </script>

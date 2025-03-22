@@ -134,7 +134,7 @@ const schema = {
   },
 }
 
-function log(...v) {
+async function log(...v) {
   console.log(...v)
 }
 </script>
