@@ -17,7 +17,7 @@ function UploadButton() {
 
 const form = createForm()
 
-function onSubmit(value) {
+async function onSubmit(value) {
   console.log(value)
 }
 </script>

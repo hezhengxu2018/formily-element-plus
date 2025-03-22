@@ -74,7 +74,7 @@ const { SchemaField } = createSchemaField({
   },
 })
 
-async function onSubmit(value) {
+async async function onSubmit(value) {
   console.log(value)
 }
 </script>

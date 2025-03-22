@@ -5,7 +5,7 @@ import { SelectTable, Submit } from '@sliver/formily-element-plus'
 
 const form = createForm()
 
-function log(value) {
+async function log(value) {
   console.log(value)
 }
 </script>

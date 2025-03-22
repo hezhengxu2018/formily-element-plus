@@ -87,7 +87,7 @@ const schema = {
 const form = createForm()
 const formCollapse = FormCollapse.createFormCollapse()
 
-function log(values) {
+async function log(values) {
   console.log(values)
 }
 </script>

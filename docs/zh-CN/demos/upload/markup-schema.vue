@@ -23,7 +23,7 @@ const { SchemaField, SchemaArrayField } = createSchemaField({
   },
 })
 
-async function onSubmit(value) {
+async async function onSubmit(value) {
   console.log(value)
 }
 </script>

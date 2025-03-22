@@ -14,7 +14,7 @@ const { SchemaField, SchemaStringField } = createSchemaField({
 
 const form = createForm()
 
-function log(v) {
+async function log(v) {
   console.log(v)
 }
 </script>

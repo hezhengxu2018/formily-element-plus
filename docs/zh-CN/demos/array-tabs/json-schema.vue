@@ -62,7 +62,7 @@ const schema = {
   },
 }
 
-function log(values) {
+async function log(values) {
   console.log(values)
 }
 </script>

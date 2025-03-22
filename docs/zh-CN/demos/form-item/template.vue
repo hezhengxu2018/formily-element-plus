@@ -5,7 +5,7 @@ import { Form, FormItem, Input, Submit } from '@sliver/formily-element-plus'
 
 const form = createForm()
 
-function onSubmit(value) {
+async function onSubmit(value) {
   console.log(value)
 }
 </script>

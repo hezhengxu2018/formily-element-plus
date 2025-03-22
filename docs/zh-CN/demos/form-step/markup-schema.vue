@@ -20,7 +20,7 @@ const { SchemaField, SchemaVoidField, SchemaStringField } = createSchemaField({
 const formStep = FormStep.createFormStep()
 const form = createForm()
 
-function log() {
+async function log() {
   formStep.submit(console.log)
 }
 </script>

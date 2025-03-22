@@ -11,7 +11,7 @@ const { SchemaField, SchemaStringField } = createSchemaField({
   },
 })
 
-function log(value) {
+async function log(value) {
   console.log(value)
 }
 </script>
