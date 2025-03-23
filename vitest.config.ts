@@ -5,7 +5,7 @@ export default mergeConfig(viteConfig, defineConfig({
   test: {
     css: true,
     coverage: {
-      provider: 'v8',
+      provider: 'istanbul',
       reporter: ['clover', 'json', 'html'],
       include: ['src'],
     },

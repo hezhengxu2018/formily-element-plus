@@ -152,7 +152,7 @@ watch(
 )
 
 function onSelect(newSelection: Record<string, any>[]) {
-  /* c8 ignore next 3 */
+  /* istanbul ignore if -- @preserve */
   if (!rowKey) {
     throw new Error('rowKey is required')
   }

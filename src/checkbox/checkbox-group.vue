@@ -38,6 +38,7 @@ const compatiableProps = computed(() => {
         value: option,
       }
     }
+    /* istanbul ignore if -- @preserve */
     if (IS_LESS_THAN_2_6_0) {
       return {
         ...option,
