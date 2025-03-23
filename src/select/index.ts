@@ -4,7 +4,7 @@ import FSelect from './select.vue'
 
 export const Select = connect(
   FSelect,
-  mapProps({ dataSource: 'options', loading: true }),
+  mapProps({ dataSource: 'options', loading: true, disabled: true }),
   mapReadPretty(PreviewText.Select),
 )
 
