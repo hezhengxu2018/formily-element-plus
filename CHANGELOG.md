@@ -2,6 +2,13 @@
 
 
 
+## [2.2.1](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.2.0...v2.2.1) (2025-03-24)
+
+
+### Bug Fixes
+
+* **upload:** 移除上传失败时的field Error ([8c8e368](https://github.com/hezhengxu2018/formily-element-plus/commit/8c8e3682560e0afa542d0e59ab57bc84f55da01a))
+
 # [2.2.0](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.1.0...v2.2.0) (2025-03-19)
 
 
