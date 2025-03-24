@@ -112,9 +112,6 @@ function handleError(error: Error, file: UploadFile, fileList: UploadFile[]) {
   if (isFn(attrs.onError)) {
     (attrs.onError)(error, file, fileList)
   }
-  setTimeout(() => {
-    setFeedBack(error)
-  }, 0)
 }
 
 function onPreviewClick(uploadFile: UploadFile) {
@@ -130,10 +127,7 @@ function onPreviewClick(uploadFile: UploadFile) {
 }
 
 const dispose = reaction(() => {
-  // 是否在提交表单前完成上传，如果是则以获取response时触发，如果不是则以fileList状态改变时触发
-  const isPreUpload = attrs.action !== '#' || attrs.httpRequest !== undefined
-  const responseList = isPreUpload ? fieldRef.value.dataSource?.map(item => item.response) : fieldRef.value?.dataSource?.map(item => item.status)
-  return responseList
+  return fieldRef.value?.dataSource ?? []
 }, () => {
   const emitValue = props.formatValue(fieldRef.value.dataSource as UploadFile[])
   emit('change', emitValue)

@@ -364,6 +364,36 @@ describe('upload 组件', () => {
       expect(document.querySelector('.el-image-viewer__wrapper')).toBeNull()
     })
 
+    it('当文件类型不是图片时关闭图片预览', async () => {
+      const form = createForm()
+      const httpRequest = vi.fn().mockImplementation(async (options) => {
+        return `http://example.com/${options.file.name}`
+      })
+
+      const file = new File(['file'], 'file.txt', { type: 'text/plain' })
+
+      const { container, getByText } = render(() => (
+        <FormProvider form={form}>
+          <Field
+            name="upload"
+            component={[Upload, {
+              action: '#',
+              httpRequest,
+              textContent: '上传文件',
+              autoUpload: true,
+              accept: 'text/*',
+            }]}
+          />
+        </FormProvider>
+      ))
+
+      const input = container.querySelector('input')
+      await userEvent.upload(input, file)
+      await expect.element(getByText('file.txt')).toBeInTheDocument()
+      await getByText('file.txt').click()
+      expect(document.querySelector('.el-image-viewer__wrapper')).toBeNull()
+    })
+
     it('支持获取ElUpload实例', async () => {
       const form = createForm()
 
