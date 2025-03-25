@@ -1,8 +1,9 @@
 import type { Field } from '@formily/core'
+import type { ISelectProps } from 'element-plus'
 import type { Ref, StyleValue } from 'vue'
 import type { CascaderProps } from '../cascader'
 import type { DatePickerProps } from '../date-picker'
-import type { SelectProps } from '../select'
+import type { Select as FSelect } from '../select'
 import type { TimePickerProps } from '../time-picker'
 import { observer } from '@formily/reactive-vue'
 import { isArr, isValid } from '@formily/shared'
@@ -19,6 +20,8 @@ import {
 
 const prefixCls = `${stylePrefix}-preview-text`
 const PlaceholderContext = createContext('N/A')
+
+type SelectProps = ISelectProps & InstanceType<typeof FSelect>['$props']
 
 export function usePlaceholder(value?: Ref<any>) {
   const placeholderCtx = useContext(PlaceholderContext)
