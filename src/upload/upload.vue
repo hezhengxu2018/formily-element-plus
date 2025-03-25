@@ -13,6 +13,7 @@ import { useField } from '@formily/vue'
 import { ElButton, ElIcon, ElImageViewer, ElUpload, genFileId } from 'element-plus'
 import { omit } from 'lodash-es'
 import { computed, onBeforeUnmount, ref, useAttrs } from 'vue'
+import { hasSlotContent } from '../__builtins__'
 
 defineOptions({
   name: 'FUpload',
@@ -148,7 +149,7 @@ onBeforeUnmount(() => {
     @error="handleError"
     @preview="onPreviewClick"
   >
-    <slot v-if="$slots.default" />
+    <slot v-if="hasSlotContent($slots?.default)" />
     <template v-else>
       <template v-if="attrs.drag">
         <ElIcon style="font-size: 60px; margin: 40px 0 16px;">
