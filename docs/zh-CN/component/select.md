@@ -93,7 +93,8 @@ select/template-slot-header
 | options | [SelectOptionProps](https://cn.element-plus.org/zh-CN/component/select.html#option-api)[] | 选项配置数组，一般情况下请通过`dataSource`来配置   | []     |
 
 ::: tip 提示
-如果在options中有options数组则会渲染为OptionGroup，第一层的options属性会当作`ElOptionGroup`的属性。具体请参考Demo。
+1. 如果在options中有options数组则会渲染为OptionGroup，第一层的options属性会当作`ElOptionGroup`的属性。具体请参考Demo。
+2. 现在label属性会作为遍历的key值，请保证其唯一性。
 :::
 
 ### 插槽

@@ -48,7 +48,7 @@ function isGroup(option: OptionType | OptionGroupType): option is OptionGroupTyp
 
 <template>
   <ElSelect v-bind="innerAttrs" :model-value="props.value" @update:model-value="(val) => emit('change', val)">
-    <template v-for="option of props.options" :key="option.options ? option.label : option.value">
+    <template v-for="option of props.options" :key="option.label">
       <template v-if="isGroup(option)">
         <ElOptionGroup v-bind="omit(option, 'options')">
           <ElOption v-for="i of option.options" :key="i.label" v-bind="i">
@@ -57,7 +57,7 @@ function isGroup(option: OptionType | OptionGroupType): option is OptionGroupTyp
         </ElOptionGroup>
       </template>
       <ElOption v-else v-bind="option">
-        <slot v-if="slots.option" name="option" :option="option as OptionType" />
+        <slot v-if="slots.option" name="option" :option="option" />
       </ElOption>
     </template>
     <template v-if="slots.header" #header>
