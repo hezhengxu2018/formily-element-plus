@@ -2,6 +2,15 @@
 
 
 
+## [2.2.2](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.2.1...v2.2.2) (2025-03-25)
+
+
+### Bug Fixes
+
+* **preview-text:** 修复类型错误 ([93f19af](https://github.com/hezhengxu2018/formily-element-plus/commit/93f19af02caaf1cd981dccb85daa1b10efeee7e4))
+* **select:** 使用label作为select的key值 ([200da2d](https://github.com/hezhengxu2018/formily-element-plus/commit/200da2d20a516ef223496066ed1d62e15f46f1b7))
+* **upload:** 添加对upload组件default插槽空数组的检查 ([6b67d1c](https://github.com/hezhengxu2018/formily-element-plus/commit/6b67d1c28dae09a384bc66e96e9dc7022d4458db))
+
 ## [2.2.1](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.2.0...v2.2.1) (2025-03-24)
 
 
