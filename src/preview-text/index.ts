@@ -1,7 +1,6 @@
 import type { Field } from '@formily/core'
-import type { ISelectProps } from 'element-plus'
+import type { CascaderInstance, ISelectProps } from 'element-plus'
 import type { Ref, StyleValue } from 'vue'
-import type { CascaderProps } from '../cascader'
 import type { DatePickerProps } from '../date-picker'
 import type { Select as FSelect } from '../select'
 import type { TimePickerProps } from '../time-picker'
@@ -131,12 +130,12 @@ const Select = observer(
 )
 
 const Cascader = observer(
-  defineComponent<CascaderProps>({
+  defineComponent<CascaderInstance>({
     name: 'FPreviewTextCascader',
     setup(_props, { attrs }) {
       const fieldRef = useField<Field>()
       const field = fieldRef.value
-      const props = attrs as unknown as CascaderProps
+      const props = attrs as CascaderInstance['$props'] & { value?: any }
       const dataSource: any[] = field?.dataSource?.length
         ? field.dataSource
         : (props?.options?.length
