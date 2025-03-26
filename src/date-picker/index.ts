@@ -1,10 +1,8 @@
+import type { DatePickerProps } from 'element-plus'
 import { connect, mapProps, mapReadPretty } from '@formily/vue'
 import { ElDatePicker } from 'element-plus'
 import { transformComponent } from '../__builtins__/shared'
-
 import { PreviewText } from '../preview-text'
-
-export type DatePickerProps = typeof ElDatePicker
 
 const TransformElDatePicker = transformComponent<DatePickerProps>(
   ElDatePicker,
@@ -13,29 +11,36 @@ const TransformElDatePicker = transformComponent<DatePickerProps>(
   },
 )
 
-function getDefaultFormat(props: DatePickerProps, formatType = 'format') {
-  const type = props.type
-
+function getDefaultFormat(type: DatePickerProps['type'] = 'date', formatType = 'format') {
   if (type === 'week' && formatType === 'format') {
     return '[Week] ww'
   }
   else {
     switch (type) {
-      case 'month': {
+      case 'year':
+      case 'years':
+      case 'yearrange': {
+        return 'YYYY'
+      }
+      case 'month':
+      case 'months':
+      case 'monthrange': {
         return 'YYYY-MM'
       }
-      case 'year': {
-        return 'YYYY'
+      case 'week': {
+        return 'ww'
+      }
+      case 'date':
+      case 'dates':
+      case 'daterange': {
+        return 'YYYY-MM-DD'
       }
       case 'datetime':
       case 'datetimerange': {
         return 'YYYY-MM-DD HH:mm:ss'
       }
- // No default
     }
   }
-
-  return 'YYYY-MM-DD'
 }
 
 export const DatePicker = connect(
@@ -44,13 +49,15 @@ export const DatePicker = connect(
     {
       value: 'modelValue',
       readOnly: 'readonly',
+      disabled: true,
+      editable: true,
     },
     (props: any) => {
       return {
         ...props,
-        format: props.format || getDefaultFormat(props),
+        format: props.format || getDefaultFormat(props.type),
         valueFormat:
-          props.valueFormat || getDefaultFormat(props, 'valueFormat'),
+          props.valueFormat || getDefaultFormat(props.type, 'valueFormat'),
       }
     },
   ),
