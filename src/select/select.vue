@@ -73,7 +73,7 @@ function isGroup(option: OptionType | OptionGroupType): option is OptionGroupTyp
       <slot name="empty" />
     </template>
     <template v-if="slots.tag" #tag>
-      <slot name="tag" />
+      <slot name="tag" :field="fieldRef" />
     </template>
     <template v-if="slots.loading" #loading>
       <slot name="loading" />
