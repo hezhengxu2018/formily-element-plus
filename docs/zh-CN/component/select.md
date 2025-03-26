@@ -93,8 +93,8 @@ select/template-slot-header
 | options | [SelectOptionProps](https://cn.element-plus.org/zh-CN/component/select.html#option-api)[] | 选项配置数组，一般情况下请通过`dataSource`来配置   | []     |
 
 ::: tip 提示
-1. 如果在options中有options数组则会渲染为OptionGroup，第一层的options属性会当作`ElOptionGroup`的属性。具体请参考Demo。
-2. 现在label属性会作为遍历的key值，请保证其唯一性。
+1. 如果在`options`中有`options`数组则会渲染为OptionGroup，第一层的`options`属性会当作`ElOptionGroup`的属性。具体请参考Demo。
+2. 如果没有提供`valueKey`配置项的话`label`属性会作为遍历的key值，请保证其唯一性。
 :::
 
 ### 插槽
@@ -102,14 +102,17 @@ select/template-slot-header
 ::: tip 提示
 
 1. 组件继承了`ElSelect`的所有插槽。具体使用时请注意所使用的`element-plus`版本。
-2. 组件额外的为header和footer插槽提供了field作用域。其余插槽没有改动。
-3. 组件目前无法使用`OptionGroup`的插槽。
+2. 组件额外的为header、footer、tag插槽提供了field作用域。其余插槽没有改动。
+3. 组件目前无法使用`OptionGroup`的default插槽。
 
 :::
 
-| 插槽名 | 描述           | 类型                 |
-| ------ | -------------- | -------------------- |
-| header | 下拉框头部插槽 | ^[object]`{ field }` |
-| footer | 下拉框尾部插槽 | ^[object]`{ field }` |
-
-其余插槽请参考`ElSelect`文档。
+| 插槽名 | 描述           | 类型                        |
+| ------ | -------------- | --------------------------- |
+| header | 下拉框头部插槽 | ^[object]`{ field }`        |
+| footer | 下拉框尾部插槽 | ^[object]`{ field }`        |
+| prefix | Select头部插槽 | --                          |
+| empty  | 无选项时插槽   | --                          |
+| tag    | 自定义标签内容 | ^[object]`{ field }`        |
+| loading| 自定义loading  | --                          |
+| label  | 自定义标签内容 | ^[object]`{ label, value }` |

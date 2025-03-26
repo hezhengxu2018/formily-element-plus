@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ISelectProps } from 'element-plus'
 import { useField } from '@formily/vue'
 import { ElOption, ElOptionGroup, ElSelect } from 'element-plus'
 import { omit } from 'lodash-es'
@@ -35,7 +36,7 @@ type OptionGroupType = InstanceType<typeof ElOptionGroup>['$props'] & {
 }
 const attrs = useAttrs()
 
-const innerAttrs = computed(() => {
+const innerAttrs = computed<Partial<ISelectProps>>(() => {
   return omit(attrs, ['modelValue', 'onChange'])
 })
 
@@ -48,15 +49,15 @@ function isGroup(option: OptionType | OptionGroupType): option is OptionGroupTyp
 
 <template>
   <ElSelect v-bind="innerAttrs" :model-value="props.value" @update:model-value="(val) => emit('change', val)">
-    <template v-for="option of props.options" :key="option.label">
+    <template v-for="option of props.options">
       <template v-if="isGroup(option)">
-        <ElOptionGroup v-bind="omit(option, 'options')">
-          <ElOption v-for="i of option.options" :key="i.label" v-bind="i">
+        <ElOptionGroup v-bind="omit(option, 'options')" :key="option.label">
+          <ElOption v-for="i of option.options" :key="innerAttrs.valueKey ? i[innerAttrs.valueKey] : i.label" v-bind="i">
             <slot v-if="slots.option" name="option" :option="i" />
           </ElOption>
         </ElOptionGroup>
       </template>
-      <ElOption v-else v-bind="option">
+      <ElOption v-else v-bind="option" :key="innerAttrs.valueKey ? option[innerAttrs.valueKey] : option.label">
         <slot v-if="slots.option" name="option" :option="option" />
       </ElOption>
     </template>
