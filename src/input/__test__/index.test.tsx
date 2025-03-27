@@ -97,6 +97,88 @@ describe('Input 组件', () => {
       expect(onBlur).toHaveBeenCalled()
     })
   })
+
+  describe('插槽支持', () => {
+    it('支持前缀插槽', async () => {
+      const { getByText } = render(() => (
+        <FormProvider form={createForm()}>
+          <Field name="input" component={[Input]}>
+            {{
+              prefix: () => <span class="custom-prefix">前缀</span>
+            }}
+          </Field>
+        </FormProvider>
+      ))
+      
+      await expect.element(getByText('前缀')).toBeInTheDocument()
+      await expect.element(document.querySelector('.custom-prefix')).toBeInTheDocument()
+    })
+
+    it('支持后缀插槽', async () => {
+      const { getByText } = render(() => (
+        <FormProvider form={createForm()}>
+          <Field name="input" component={[Input]}>
+            {{
+              suffix: () => <span class="custom-suffix">后缀</span>
+            }}
+          </Field>
+        </FormProvider>
+      ))
+      
+      await expect.element(getByText('后缀')).toBeInTheDocument()
+      await expect.element(document.querySelector('.custom-suffix')).toBeInTheDocument()
+    })
+
+    it('支持前置插槽', async () => {
+      const { getByText } = render(() => (
+        <FormProvider form={createForm()}>
+          <Field name="input" component={[Input]}>
+            {{
+              prepend: () => <div class="custom-prepend">前置</div>
+            }}
+          </Field>
+        </FormProvider>
+      ))
+      
+      await expect.element(getByText('前置')).toBeInTheDocument()
+      await expect.element(document.querySelector('.custom-prepend')).toBeInTheDocument()
+    })
+
+    it('支持后置插槽', async () => {
+      const { getByText } = render(() => (
+        <FormProvider form={createForm()}>
+          <Field name="input" component={[Input]}>
+            {{
+              append: () => <div class="custom-append">后置</div>
+            }}
+          </Field>
+        </FormProvider>
+      ))
+      
+      await expect.element(getByText('后置')).toBeInTheDocument()
+      await expect.element(document.querySelector('.custom-append')).toBeInTheDocument()
+    })
+
+    it('支持多个插槽同时使用', async () => {
+      const { getByText } = render(() => (
+        <FormProvider form={createForm()}>
+          <Field name="input" component={[Input]}>
+            {{
+              prefix: () => <span>前缀</span>,
+              suffix: () => <span>后缀</span>,
+              prepend: () => <div>前置</div>,
+              append: () => <div>后置</div>
+            }}
+          </Field>
+        </FormProvider>
+      ))
+      
+      await expect.element(getByText('前缀')).toBeInTheDocument()
+      await expect.element(getByText('后缀')).toBeInTheDocument()
+      await expect.element(getByText('前置')).toBeInTheDocument()
+      await expect.element(getByText('后置')).toBeInTheDocument()
+    })
+  })
 })
 
 describe('TextArea 组件', () => {
