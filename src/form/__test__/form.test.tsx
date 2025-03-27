@@ -48,6 +48,78 @@ describe('form 组件测试', () => {
     expect(mockSubmit).toHaveBeenCalled()
   })
 
+  // 添加新的测试用例
+  it('表单提交失败处理', async () => {
+    const form = createForm()
+    form.createField({
+      name: 'name',
+      required: true,
+      validator: { required: true, message: '请输入姓名' },
+    })
+
+    const mockSubmit = vi.fn(() => Promise.resolve(true))
+    const mockSubmitFailed = vi.fn()
+
+    const { getByText } = render(() => (
+      <Form form={form} onAutoSubmit={mockSubmit} onAutoSubmitFailed={mockSubmitFailed}>
+        <Field name="name" component={[Input]} />
+        <button type="submit">提交</button>
+      </Form>
+    ))
+
+    await getByText('提交').click()
+
+    // 验证失败回调被调用
+    expect(mockSubmitFailed).toHaveBeenCalled()
+    expect(mockSubmit).not.toHaveBeenCalled()
+  })
+
+  it('在外部有FormProvider时表单提交事件正常触发', async () => {
+    const form = createForm()
+    const mockSubmit = vi.fn((val) => {
+      console.log('val', val)
+      return Promise.resolve(true)
+    })
+    const { getByText } = render(() => (
+      <FormProvider form={form}>
+        <Form onAutoSubmit={mockSubmit}>
+          <Field name="name" component={[Input]} />
+          <button type="submit">提交</button>
+        </Form>
+      </FormProvider>
+    ))
+
+    // 模拟事件对象
+    const submitButton = getByText('提交')
+
+    await submitButton.click()
+    expect(mockSubmit).toHaveBeenCalled()
+  })
+
+  it('表单提交后处理异步结果', async () => {
+    const form = createForm()
+    const mockSubmitResult = { success: true, data: { id: 1 } }
+    const mockSubmit = vi.fn(() => Promise.resolve(mockSubmitResult))
+
+    const { getByText } = render(() => (
+      <Form form={form} onAutoSubmit={mockSubmit}>
+        <Field name="name" component={[Input]} />
+        <button type="submit">提交</button>
+      </Form>
+    ))
+
+    await getByText('提交').click()
+
+    // 验证提交函数被调用
+    expect(mockSubmit).toHaveBeenCalled()
+
+    // 等待异步操作完成
+    await new Promise(resolve => setTimeout(resolve, 0))
+
+    // 验证提交函数返回了预期的结果
+    expect(mockSubmit).toHaveReturnedWith(Promise.resolve(mockSubmitResult))
+  })
+
   it('支持修改预览占位符', async () => {
     const form = createForm()
     const { getByText } = render(() => (

@@ -7,7 +7,7 @@ import InputNumber from '../index'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-input-number.css'
 
-describe('InputNumber 组件', () => {
+describe('inputNumber 组件', () => {
   describe('基础功能', () => {
     it('正常渲染', async () => {
       const page = render(() => (
@@ -40,7 +40,7 @@ describe('InputNumber 组件', () => {
 
       const increaseButton = document.querySelector('.el-input-number__increase')
       await userEvent.click(increaseButton)
-      
+
       expect(form.values.number).toBe(6)
     })
 
@@ -54,7 +54,7 @@ describe('InputNumber 组件', () => {
 
       const decreaseButton = document.querySelector('.el-input-number__decrease')
       await userEvent.click(decreaseButton)
-      
+
       expect(form.values.number).toBe(4)
     })
   })
@@ -94,7 +94,7 @@ describe('InputNumber 组件', () => {
       await userEvent.click(decreaseButton)
       await userEvent.click(decreaseButton)
       await userEvent.click(decreaseButton) // 尝试减到 2，但最小值是 3
-      
+
       expect(form.values.number).toBe(3)
     })
 
@@ -110,7 +110,7 @@ describe('InputNumber 组件', () => {
       await userEvent.click(increaseButton)
       await userEvent.click(increaseButton)
       await userEvent.click(increaseButton) // 尝试增加到 11，但最大值是 10
-      
+
       expect(form.values.number).toBe(10)
     })
 
@@ -124,7 +124,7 @@ describe('InputNumber 组件', () => {
 
       const increaseButton = document.querySelector('.el-input-number__increase')
       await userEvent.click(increaseButton)
-      
+
       expect(form.values.number).toBe(7) // 步长为 2，所以 5 + 2 = 7
     })
 
@@ -138,7 +138,7 @@ describe('InputNumber 组件', () => {
 
       const increaseButton = document.querySelector('.el-input-number__increase')
       await userEvent.click(increaseButton)
-      
+
       expect(form.values.number).toBe(5.1)
     })
 
@@ -165,7 +165,7 @@ describe('InputNumber 组件', () => {
 
       const input = document.querySelector('input')
       await userEvent.click(input)
-      
+
       expect(onFocus).toHaveBeenCalled()
     })
 
@@ -180,7 +180,6 @@ describe('InputNumber 组件', () => {
       const input = document.querySelector('input')
       await userEvent.click(input)
       await userEvent.tab()
-      
       expect(onBlur).toHaveBeenCalled()
     })
   })
