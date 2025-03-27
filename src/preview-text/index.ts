@@ -1,7 +1,7 @@
 import type { Field } from '@formily/core'
 import type { CascaderInstance, ISelectProps } from 'element-plus'
 import type { Ref, StyleValue } from 'vue'
-import type { DatePickerProps } from '../date-picker'
+import type { DatePickerProps } from 'element-plus'
 import type { Select as FSelect } from '../select'
 import type { TimePickerProps } from '../time-picker'
 import { observer } from '@formily/reactive-vue'
@@ -211,7 +211,7 @@ const Cascader = observer(
 const DatePicker = defineComponent<DatePickerProps>({
   name: 'FPreviewTextDatePicker',
   setup(_props, { attrs }) {
-    const props = attrs as unknown as DatePickerProps
+    const props = attrs as DatePickerProps & { value?: any }
     const placeholder = usePlaceholder()
     const getLabels = () => {
       if (isArr(props.value)) {
