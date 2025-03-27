@@ -20,12 +20,8 @@ export const InputNumber = connect(
       readOnly: 'readonly',
     },
     (props) => {
-      let controlsPosition = 'right'
-      if (props.controlsPosition) {
-        controlsPosition = props.controlsPosition
-      }
       return {
-        controlsPosition,
+        controlsPosition: props.controlsPosition ?? 'right',
         modelValue: props.modelValue,
       }
     },
