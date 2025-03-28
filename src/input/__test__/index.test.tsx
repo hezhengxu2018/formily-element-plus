@@ -7,7 +7,7 @@ import Input from '../index'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-input.css'
 
-describe('Input 组件', () => {
+describe('input 组件', () => {
   describe('基础功能', () => {
     it('正常渲染', async () => {
       const page = render(() => (
@@ -28,7 +28,7 @@ describe('Input 组件', () => {
 
       const input = document.querySelector('input')
       await userEvent.type(input, 'Hello World')
-      
+
       expect(form.values.input).toBe('Hello World')
     })
   })
@@ -78,7 +78,7 @@ describe('Input 组件', () => {
 
       const input = document.querySelector('input')
       await userEvent.click(input)
-      
+
       expect(onFocus).toHaveBeenCalled()
     })
 
@@ -93,7 +93,7 @@ describe('Input 组件', () => {
       const input = document.querySelector('input')
       await userEvent.click(input)
       await userEvent.tab()
-      
+
       expect(onBlur).toHaveBeenCalled()
     })
   })
@@ -104,12 +104,12 @@ describe('Input 组件', () => {
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input]}>
             {{
-              prefix: () => <span class="custom-prefix">前缀</span>
+              prefix: () => <span class="custom-prefix">前缀</span>,
             }}
           </Field>
         </FormProvider>
       ))
-      
+
       await expect.element(getByText('前缀')).toBeInTheDocument()
       await expect.element(document.querySelector('.custom-prefix')).toBeInTheDocument()
     })
@@ -119,12 +119,12 @@ describe('Input 组件', () => {
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input]}>
             {{
-              suffix: () => <span class="custom-suffix">后缀</span>
+              suffix: () => <span class="custom-suffix">后缀</span>,
             }}
           </Field>
         </FormProvider>
       ))
-      
+
       await expect.element(getByText('后缀')).toBeInTheDocument()
       await expect.element(document.querySelector('.custom-suffix')).toBeInTheDocument()
     })
@@ -134,12 +134,12 @@ describe('Input 组件', () => {
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input]}>
             {{
-              prepend: () => <div class="custom-prepend">前置</div>
+              prepend: () => <div class="custom-prepend">前置</div>,
             }}
           </Field>
         </FormProvider>
       ))
-      
+
       await expect.element(getByText('前置')).toBeInTheDocument()
       await expect.element(document.querySelector('.custom-prepend')).toBeInTheDocument()
     })
@@ -149,12 +149,12 @@ describe('Input 组件', () => {
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input]}>
             {{
-              append: () => <div class="custom-append">后置</div>
+              append: () => <div class="custom-append">后置</div>,
             }}
           </Field>
         </FormProvider>
       ))
-      
+
       await expect.element(getByText('后置')).toBeInTheDocument()
       await expect.element(document.querySelector('.custom-append')).toBeInTheDocument()
     })
@@ -167,12 +167,12 @@ describe('Input 组件', () => {
               prefix: () => <span>前缀</span>,
               suffix: () => <span>后缀</span>,
               prepend: () => <div>前置</div>,
-              append: () => <div>后置</div>
+              append: () => <div>后置</div>,
             }}
           </Field>
         </FormProvider>
       ))
-      
+
       await expect.element(getByText('前缀')).toBeInTheDocument()
       await expect.element(getByText('后缀')).toBeInTheDocument()
       await expect.element(getByText('前置')).toBeInTheDocument()
@@ -181,7 +181,7 @@ describe('Input 组件', () => {
   })
 })
 
-describe('TextArea 组件', () => {
+describe('textArea 组件', () => {
   describe('基础功能', () => {
     it('正常渲染', async () => {
       const page = render(() => (
@@ -189,7 +189,7 @@ describe('TextArea 组件', () => {
           <Field name="textarea" component={[Input.TextArea]} />
         </FormProvider>
       ))
-      
+
       const textarea = page.getByRole('textbox')
       await expect.element(textarea).toBeInTheDocument()
       expect(textarea.element().tagName.toLowerCase()).toBe('textarea')
@@ -205,7 +205,7 @@ describe('TextArea 组件', () => {
 
       const textarea = document.querySelector('textarea')
       await userEvent.type(textarea, 'Line 1\nLine 2')
-      
+
       expect(form.values.textarea).toBe('Line 1\nLine 2')
     })
   })
@@ -226,7 +226,7 @@ describe('TextArea 组件', () => {
   describe('表单交互', () => {
     it('在表单中正确更新值', async () => {
       const form = createForm()
-      
+
       render(() => (
         <FormProvider form={form}>
           <Field name="textarea" initialValue="Initial value" component={[Input.TextArea]} />
@@ -235,10 +235,10 @@ describe('TextArea 组件', () => {
 
       const textarea = document.querySelector('textarea')
       expect(textarea).toHaveValue('Initial value')
-      
+
       await userEvent.clear(textarea)
       await userEvent.type(textarea, 'Updated value')
-      
+
       expect(form.values.textarea).toBe('Updated value')
     })
   })
