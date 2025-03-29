@@ -1,5 +1,5 @@
 import type { SpaceProps, TagProps, TextProps } from 'element-plus'
-import { inject } from 'vue'
+import { computed, inject } from 'vue'
 
 export interface PreviewTextProps {
   placeholder?: string
@@ -11,16 +11,15 @@ export interface PreviewTextProps {
 export const previewTextConfigKey = Symbol('previewTextConfig')
 
 export function usePreviewConfig() {
-  const previewConfig = inject(previewTextConfigKey, {
-    placeholder: 'N/A',
-    tagProps: { type: 'info' },
-    spaceProps: {},
-    textProps: {},
-  }) as PreviewTextProps
+  const previewConfig = inject(previewTextConfigKey, {}) as PreviewTextProps
+  const placeholder = computed(() => previewConfig?.placeholder || 'N/A')
+  const tagProps = computed<Partial<TagProps>>(() => previewConfig?.tagProps ?? { type: 'info' })
+  const spaceProps = computed(() => previewConfig?.spaceProps || {})
+  const textProps = computed(() => previewConfig?.textProps || {})
   return {
-    placeholder: previewConfig.placeholder,
-    tagProps: previewConfig.tagProps,
-    spaceProps: previewConfig.spaceProps,
-    textProps: previewConfig.textProps,
+    placeholder,
+    tagProps,
+    spaceProps,
+    textProps,
   }
 }
