@@ -5,7 +5,7 @@ import { useField } from '@formily/vue'
 import { ElSpace, ElTag, ElText } from 'element-plus'
 import { useAttrs } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
-import { usePlaceholder } from './index'
+import { usePreviewConfig } from './utils'
 
 defineOptions({
   name: 'FPreviewTextCascader',
@@ -22,7 +22,7 @@ const attrs = useAttrs() as CascaderInstance['$props']
 const isMultiple = !!attrs.props?.multiple
 const isShowAllLevels = attrs.showAllLevels ?? true
 const dataSource: any[] = field?.dataSource ?? []
-const placeholder = usePlaceholder(props.value)
+const { spaceProps, textProps, tagProps, placeholder } = usePreviewConfig()
 
 const valueKey = attrs.props?.value || 'value'
 const labelKey = attrs.props?.label || 'label'
@@ -39,41 +39,32 @@ function findLabel(value: any, dataSource: any[]): any {
 
 <template>
   <div :class="prefixCls">
-    <template v-if="isMultiple">
-      <template v-if="Array.isArray(props.value) && Array.isArray($props.value[0])">
-        <ElSpace>
-          <ElTag v-for="(value, key) of props.value" :key="key">
-            <template v-if="isShowAllLevels">
-              {{ value.map(item => findLabel(item, dataSource) || placeholder.value).join(` ${attrs.separator ?? '/'} `) }}
-            </template>
-            <template v-else>
-              {{ findLabel(value[value.length - 1], dataSource) || placeholder.value }}
-            </template>
-          </ElTag>
-        </ElSpace>
-      </template>
-      <template v-else>
-        <ElText>
-          {{ placeholder }}
-        </ElText>
-      </template>
+    <template v-if="!Array.isArray(props.value)">
+      <ElText v-bind="textProps">
+        {{ placeholder }}
+      </ElText>
     </template>
-    <template v-else>
-      <template v-if="Array.isArray(props.value)">
-        <ElText>
+    <template v-else-if="isMultiple && Array.isArray(props.value[0])">
+      <ElSpace v-bind="spaceProps">
+        <ElTag v-for="(item, key) of props.value" :key="key" v-bind="tagProps">
           <template v-if="isShowAllLevels">
-            {{ props.value.map(item => findLabel(item, dataSource) || placeholder).join(` ${attrs.separator ?? '/'} `) }}
+            {{ item.map(val => findLabel(val, dataSource) || placeholder).join(` ${attrs.separator ?? '/'} `) }}
           </template>
           <template v-else>
-            {{ findLabel(props.value[props.value.length - 1], dataSource) || placeholder }}
+            {{ findLabel(item[item.length - 1], dataSource) || placeholder }}
           </template>
-        </ElText>
-      </template>
-      <template v-else>
-        <ElText>
-          {{ placeholder }}
-        </ElText>
-      </template>
+        </ElTag>
+      </ElSpace>
+    </template>
+    <template v-else>
+      <ElText v-bind="textProps">
+        <template v-if="isShowAllLevels">
+          {{ props.value.map(val => findLabel(val, dataSource) || placeholder).join(` ${attrs.separator ?? '/'} `) }}
+        </template>
+        <template v-else>
+          {{ findLabel(props.value[props.value.length - 1], dataSource) || placeholder }}
+        </template>
+      </ElText>
     </template>
   </div>
 </template>

@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ElSpace } from 'element-plus'
-import { toRef } from 'vue'
+import type { InputProps } from 'element-plus'
+import { ElSpace, ElText } from 'element-plus'
+import { isFunction, isNil } from 'lodash-es'
+import { useAttrs } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
-import { usePlaceholder } from './index'
+import { usePreviewConfig } from './utils'
 
 defineOptions({
   name: 'FPreviewTextInput',
@@ -18,19 +20,22 @@ const slots = defineSlots<{
   suffix?: () => any
   append?: () => any
 }>()
-
+const attrs = useAttrs() as InputProps
 const prefixCls = `${stylePrefix}-preview-text`
-
-const value = toRef(props, 'value')
-const placeholder = usePlaceholder(value)
+const { spaceProps, textProps, placeholder } = usePreviewConfig()
 </script>
 
 <template>
-  <ElSpace :class="prefixCls">
+  <ElSpace :class="prefixCls" v-bind="spaceProps">
     <slot v-if="slots.prepend" name="prepend" />
     <slot v-if="slots.prefix" name="prefix" />
-    <ElText>
-      {{ placeholder }}
+    <ElText v-bind="textProps">
+      <template v-if="isFunction(attrs.formatter)">
+        {{ attrs.formatter(props.value) }}
+      </template>
+      <template v-else>
+        {{ isNil(props.value) ? placeholder : props.value }}
+      </template>
     </ElText>
     <slot v-if="slots.suffix" name="suffix" />
     <slot v-if="slots.append" name="append" />

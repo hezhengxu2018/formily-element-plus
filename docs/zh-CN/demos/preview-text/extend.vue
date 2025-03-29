@@ -316,6 +316,16 @@ const options = [
       />
       <SchemaStringField
         x-decorator="FormItem"
+        title="文本预览Formatter"
+        x-component="Input"
+        default="1234567890"
+        :x-component-props="{
+          formatter: (value) => `$ ${value ?? 0}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+          parser: (value) => value.replace(/\$\s?|(,*)/g, ''),
+        }"
+      />
+      <SchemaStringField
+        x-decorator="FormItem"
         title="选择项预览"
         x-component="Select"
         :x-component-props="{

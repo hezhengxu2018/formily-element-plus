@@ -19,7 +19,7 @@ const props = defineProps({
     default: 'form',
   },
   previewTextPlaceholder: {
-    type: [String, Function] as PropType<string | (() => VNode)>,
+    type: String,
   },
   onAutoSubmit: {
     type: Function as PropType<(values: FormType['values']) => Promise<any>>,
@@ -42,7 +42,7 @@ function handleSubmit(e: Event, form: FormType) {
 
 <template>
   <FormProvider v-if="props.form" :form="props.form">
-    <PreviewText.Placeholder :value="props.previewTextPlaceholder">
+    <PreviewText :placeholder="props.previewTextPlaceholder">
       <FormLayout v-bind="$attrs">
         <component
           :is="props.component"
@@ -51,10 +51,10 @@ function handleSubmit(e: Event, form: FormType) {
           <slot />
         </component>
       </FormLayout>
-    </PreviewText.Placeholder>
+    </PreviewText>
   </FormProvider>
   <template v-else-if="top">
-    <PreviewText.Placeholder :value="props.previewTextPlaceholder">
+    <PreviewText :placeholder="props.previewTextPlaceholder">
       <FormLayout v-bind="$attrs">
         <component
           :is="props.component"
@@ -63,6 +63,6 @@ function handleSubmit(e: Event, form: FormType) {
           <slot />
         </component>
       </FormLayout>
-    </PreviewText.Placeholder>
+    </PreviewText>
   </template>
 </template>
