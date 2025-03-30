@@ -20,6 +20,6 @@ form/form
 | ---------------------- | ------------------------------------------------------------------------------------------------ | ---------------------------------- | ------ |
 | form                   | [Form](https://core.formilyjs.org/api/models/form)                                               | Form 实例                          | -      |
 | component              | string                                                                                           | 渲染组件，可以指定为自定义组件渲染 | `form` |
-| previewTextPlaceholder | string \| Vue Component                                                                          | 预览态占位符                       | `N/A`  |
+| previewTextPlaceholder | string                                                                                           | 预览态占位符                       | `N/A`  |
 | onAutoSubmit           | `(values:any)=>any`                                                                              | 回车提交事件回调                   | -      |
 | onAutoSubmitFailed     | (feedbacks: [IFormFeedback](https://core.formilyjs.org/api/models/form#iformfeedback)[]) => void | 回车提交校验失败事件回调           | -      |
