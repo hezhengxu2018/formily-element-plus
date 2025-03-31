@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-import { ElFormItem, ElSpace } from 'element-plus'
+import { ElSpace } from 'element-plus'
 import { stylePrefix } from '../__builtins__'
+import FormItem from '../form-item/index'
 
 defineOptions({
   name: 'FFormButtonGroup',
+  inheritAttrs: false,
 })
 
 const props = defineProps({
@@ -25,9 +27,9 @@ const prefixCls = `${stylePrefix}-form-button-group`
 </script>
 
 <template>
-  <ElFormItem
+  <FormItem
     v-if="props.alignFormItem"
-    colon="false"
+    :colon="false"
     label=" "
     v-bind="$attrs"
     :style="{
@@ -39,7 +41,7 @@ const prefixCls = `${stylePrefix}-form-button-group`
     <ElSpace :size="props.gutter">
       <slot />
     </ElSpace>
-  </ElFormItem>
+  </FormItem>
   <ElSpace
     v-else
     v-bind="$attrs"
