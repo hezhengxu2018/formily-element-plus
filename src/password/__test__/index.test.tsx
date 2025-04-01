@@ -1,7 +1,7 @@
 import { createForm } from '@formily/core'
 import { Field, FormProvider } from '@formily/vue'
 import { userEvent } from '@vitest/browser/context'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import Input from '../index'
 import 'element-plus/theme-chalk/base.css'
@@ -28,7 +28,7 @@ describe('Password 组件', () => {
 
       const input = document.querySelector('input')
       await userEvent.type(input, 'Hello World')
-      
+
       expect(form.values.input).toBe('Hello World')
     })
   })

@@ -1,50 +1,33 @@
 import type { Form, IFormProps } from '@formily/core'
 import type { IMiddleware } from '@formily/shared'
-import type {
-  ElButton as ElButtonProps,
-  ElDialog as ElDialogProps,
-} from 'element-plus'
-import type { Component, PropType, VNode } from 'vue'
+import type { ButtonProps, DialogProps } from 'element-plus'
+import type { App, Component, VNode } from 'vue'
 import { createForm } from '@formily/core'
 import { toJS } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
-import { applyMiddleware, isBool, isFn, isNum, isStr } from '@formily/shared'
-import { FormProvider } from '@formily/vue'
-import { ElButton, ElConfigProvider, ElDialog } from 'element-plus'
+import { applyMiddleware, isFn, isNum, isStr } from '@formily/shared'
+import { isNil } from 'lodash-es'
+import { createApp } from 'vue'
 import {
-  createApp,
-  defineComponent,
-  Fragment,
-  h,
-  onMounted,
-  ref,
-  Teleport,
-} from 'vue'
-import {
-  createPortalProvider,
-  getPortalProvides,
-  isValidElement,
   loadElConfigProvider,
   loading,
-  resolveComponent,
   stylePrefix,
 } from '../__builtins__'
+import DialogContent from './dialog-content.vue'
 
 interface FormDialogContentProps {
   form: Form
 }
 
-type FormDialogContent = Component | ((props: FormDialogContentProps) => VNode)
+type FormDialogContent = Component | ((props: FormDialogContentProps) => VNode) | { header: () => VNode, footer: () => VNode, default: ((props: FormDialogContentProps) => VNode) }
 
-type DialogTitle = string | number | Component | VNode | (() => VNode)
+type DialogTitle = string | number
 
-type IFormDialogProps = Omit<typeof ElDialogProps, 'title'> & {
-  title?: DialogTitle
-  footer?: null | Component | VNode | (() => VNode)
-  cancelText?: string | Component | VNode | (() => VNode)
-  cancelButtonProps?: typeof ElButtonProps
-  okText?: string | Component | VNode | (() => VNode)
-  okButtonProps?: typeof ElButtonProps
+type IFormDialogProps = DialogProps & {
+  cancelText?: string
+  cancelButtonProps?: ButtonProps
+  okText?: string
+  okButtonProps?: ButtonProps
   beforeClose?: (cb: () => void) => void
   onOpen?: () => void
   onOpend?: () => void
@@ -54,24 +37,13 @@ type IFormDialogProps = Omit<typeof ElDialogProps, 'title'> & {
   onOK?: () => void
   loadingText?: string
 }
-
-const PORTAL_TARGET_NAME = 'FormDialogFooter'
-
-function isDialogTitle(props: any): props is DialogTitle {
-  return isNum(props) || isStr(props) || isBool(props) || isValidElement(props)
-}
-
-function getDialogProps(props: any): IFormDialogProps {
-  return isDialogTitle(props)
-    ? ({
-        title: props,
-      } as IFormDialogProps)
-    : props
-}
-
 export interface IFormDialog {
   forOpen: (middleware: IMiddleware<IFormProps>) => IFormDialog
   forConfirm: (middleware: IMiddleware<IFormProps>) => IFormDialog
+  forExtra: (middleware: IMiddleware<IFormProps>) => IFormDialog
+  forExtra1: (middleware: IMiddleware<IFormProps>) => IFormDialog
+  forExtra2: (middleware: IMiddleware<IFormProps>) => IFormDialog
+  forExtra3: (middleware: IMiddleware<IFormProps>) => IFormDialog
   forCancel: (middleware: IMiddleware<IFormProps>) => IFormDialog
   open: (props?: IFormProps) => Promise<any>
   close: () => void
@@ -85,34 +57,24 @@ export interface IFormDialogComponentProps {
 
 export function FormDialog(
   title: IFormDialogProps | DialogTitle,
-  content: FormDialogContent
-): IFormDialog
-
-export function FormDialog(
-  title: IFormDialogProps | DialogTitle,
-  id: string | symbol,
-  content: FormDialogContent
-): IFormDialog
-
-export function FormDialog(
-  title: DialogTitle,
-  id: string,
-  content: FormDialogContent
-): IFormDialog
-
-export function FormDialog(
-  title: IFormDialogProps | DialogTitle,
-  id: string | symbol | FormDialogContent,
   content?: FormDialogContent,
 ): IFormDialog {
-  if (isFn(id) || isValidElement(id)) {
-    content = id as FormDialogContent
-    id = 'form-dialog'
-  }
   const elConfig = loadElConfigProvider()
-
   const prefixCls = `${stylePrefix}-form-dialog`
-  const env = {
+  const env: {
+    root?: HTMLElement
+    form?: Form
+    promise?: Promise<any>
+    instance?: InstanceType<typeof DialogContent>
+    app?: App<Element>
+    openMiddlewares: IMiddleware<IFormProps>[]
+    confirmMiddlewares: IMiddleware<Form>[]
+    extraMiddlewares: IMiddleware<Form>[]
+    extra1Middlewares: IMiddleware<Form>[]
+    extra2Middlewares: IMiddleware<Form>[]
+    extra3Middlewares: IMiddleware<Form>[]
+    cancelMiddlewares: IMiddleware<Form>[]
+  } = {
     root: document.createElement('div'),
     form: null,
     promise: null,
@@ -120,12 +82,16 @@ export function FormDialog(
     instance: null,
     openMiddlewares: [],
     confirmMiddlewares: [],
+    extraMiddlewares: [],
+    extra1Middlewares: [],
+    extra2Middlewares: [],
+    extra3Middlewares: [],
     cancelMiddlewares: [],
   }
 
   document.body.append(env.root)
 
-  const props = getDialogProps(title)
+  const props = ((isNum(title) || isStr(title)) ? ({ title }) : title) as IFormDialogProps
   const dialogProps = {
     ...props,
     onClosed: () => {
@@ -138,154 +104,20 @@ export function FormDialog(
     },
   }
 
-  const component = observer(
-    defineComponent({
-      setup() {
-        return () =>
-          h(Fragment, [
-            resolveComponent(content, {
-              form: env.form,
-            }),
-          ])
-      },
-    }),
-  )
-
-  const render = (visible = true, resolve?: () => any, reject?: () => any) => {
+  function render(visible = true, resolve?: (type?: string) => any, reject?: () => any) {
     if (!env.instance) {
-      const ComponentConstructor = observer(
-        defineComponent({
-          props: { dialogProps: Object as PropType<typeof ElDialogProps> },
-          data() {
-            return {
-              visible: false,
-            }
-          },
-          render() {
-            const {
-              onClose,
-              onClosed,
-              onOpen,
-              onOpend,
-              onOK,
-              onCancel,
-              title,
-              footer,
-              okText,
-              cancelText,
-              okButtonProps,
-              cancelButtonProps,
-              ...dialogProps
-            } = this.dialogProps
-
-            return h(
-              ElDialog,
-              {
-                'class': [`${prefixCls}`],
-                'zIndex': elConfig.zIndex,
-                ...dialogProps,
-                'modelValue': this.visible,
-                'onUpdate:modelValue': (val) => {
-                  this.visible = val
-                },
-                'onClose': () => {
-                  onClose?.()
-                },
-                'onClosed': () => {
-                  onClosed?.()
-                },
-                'onOpen': () => {
-                  onOpen?.()
-                },
-                'onOpened': () => {
-                  onOpend?.()
-                },
-                'beforeClose': (done) => {
-                  reject()
-                  done()
-                },
-              },
-              {
-                default: () =>
-                  h(FormProvider, { form: env.form }, () =>
-                    h(ElConfigProvider, elConfig, () => h(component))),
-                header: () =>
-                  h('div', {}, { default: () => resolveComponent(title) }),
-                footer: () =>
-                  h(
-                    'div',
-                    {
-                      class: `${prefixCls}-footer`,
-                    },
-                    {
-                      default: () => {
-                        const FooterPortalTarget = h(
-                          'span',
-                          {
-                            id: PORTAL_TARGET_NAME,
-                          },
-                          {},
-                        )
-                        if (footer === null) {
-                          return [null, FooterPortalTarget]
-                        }
-                        else if (footer) {
-                          return [resolveComponent(footer), FooterPortalTarget]
-                        }
-
-                        return [
-                          h(
-                            ElButton,
-                            {
-                              ...cancelButtonProps,
-                              onClick: (e) => {
-                                onCancel?.(e)
-                                reject()
-                              },
-                            },
-                            {
-                              default: () =>
-                                resolveComponent(cancelText || '取消'),
-                            },
-                          ),
-                          h(
-                            ElButton,
-                            {
-                              type: 'primary',
-                              ...okButtonProps,
-                              loading: env.form.submitting,
-                              onClick: (e) => {
-                                onOK?.(e)
-                                resolve()
-                              },
-                            },
-                            {
-                              default: () => resolveComponent(okText || '确定'),
-                            },
-                          ),
-                          FooterPortalTarget,
-                        ]
-                      },
-                    },
-                  ),
-              },
-            )
-          },
-        }),
-      )
+      const ComponentConstructor = observer(DialogContent)
       env.app = createApp(ComponentConstructor, {
         dialogProps,
+        prefixCls,
+        elConfig,
+        component: content,
+        form: env.form,
+        resolve,
+        reject,
       })
 
-      const provides = getPortalProvides(id as string)
-      for (const key in provides) {
-        if (Object.prototype.hasOwnProperty.call(provides, key)) {
-          const element = provides[key]
-          env.app.provide(key, element)
-        }
-      }
-
-      env.instance = env.app.mount(env.root)
+      env.instance = env.app.mount(env.root) as InstanceType<typeof DialogContent>
     }
     env.instance.visible = visible
   }
@@ -303,6 +135,30 @@ export function FormDialog(
       }
       return formDialog
     },
+    forExtra: (middleware: IMiddleware<Form>) => {
+      if (isFn(middleware)) {
+        env.extraMiddlewares.push(middleware)
+      }
+      return formDialog
+    },
+    forExtra1: (middleware: IMiddleware<Form>) => {
+      if (isFn(middleware)) {
+        env.extra1Middlewares.push(middleware)
+      }
+      return formDialog
+    },
+    forExtra2: (middleware: IMiddleware<Form>) => {
+      if (isFn(middleware)) {
+        env.extra2Middlewares.push(middleware)
+      }
+      return formDialog
+    },
+    forExtra3: (middleware: IMiddleware<Form>) => {
+      if (isFn(middleware)) {
+        env.extra3Middlewares.push(middleware)
+      }
+      return formDialog
+    },
     forCancel: (middleware: IMiddleware<Form>) => {
       if (isFn(middleware)) {
         env.cancelMiddlewares.push(middleware)
@@ -313,50 +169,42 @@ export function FormDialog(
       if (env.promise)
         return env.promise
 
-      env.promise = new Promise((resolve, reject) => {
-        loading(dialogProps.loadingText, () =>
-          applyMiddleware(props, env.openMiddlewares))
+      env.promise = new Promise((res, rej) => {
+        loading(dialogProps.loadingText, () => applyMiddleware(props, env.openMiddlewares))
           .then((props) => {
             env.form = env.form || createForm(props)
-
-            render(
-              true,
-              () => {
-                env.form
-                  .submit(async () => {
-                    await applyMiddleware(env.form, env.confirmMiddlewares)
-                    resolve(toJS(env.form.values))
-                    if (dialogProps.beforeClose) {
-                      setTimeout(() => {
-                        dialogProps.beforeClose(() => {
-                          formDialog.close()
-                        })
-                      })
-                    }
-                    else {
-                      formDialog.close()
-                    }
-                  })
-                  .catch((error) => {
-                    console.warn(error)
-                  })
-              },
-              async () => {
-                await loading(dialogProps.loadingText, () =>
-                  applyMiddleware(env.form, env.cancelMiddlewares))
+            render(true, (type: string) => {
+              env.form.submit(async () => {
+                await (isNil(type) ? applyMiddleware(env.form, env.confirmMiddlewares) : applyMiddleware(env.form, env[`${type}Middlewares`]))
+                res(toJS(env.form.values))
                 if (dialogProps.beforeClose) {
-                  dialogProps.beforeClose(() => {
-                    formDialog.close()
+                  setTimeout(() => {
+                    dialogProps.beforeClose(() => {
+                      formDialog.close()
+                    })
                   })
                 }
                 else {
                   formDialog.close()
                 }
-                reject(new Error('cancel'))
-              },
-            )
+              }).catch((error) => {
+                console.warn(error)
+              })
+            }, async () => {
+              await loading(dialogProps.loadingText, () =>
+                applyMiddleware(env.form, env.cancelMiddlewares))
+              if (dialogProps.beforeClose) {
+                dialogProps.beforeClose(() => {
+                  formDialog.close()
+                })
+              }
+              else {
+                formDialog.close()
+              }
+              rej(new Error('cancel'))
+            })
           })
-          .catch(error => reject(error))
+          .catch(error => rej(error))
       })
       return env.promise
     },
@@ -368,29 +216,5 @@ export function FormDialog(
   }
   return formDialog as never
 }
-
-const FormDialogFooter = defineComponent({
-  name: 'FFormDialogFooter',
-  setup(props, { slots }) {
-    const teleportComponent = ref<VNode | null>(null)
-
-    onMounted(() => {
-      if (document.querySelector(`#${PORTAL_TARGET_NAME}`)) {
-        teleportComponent.value = h(
-          Teleport as any,
-          {
-            to: `#${PORTAL_TARGET_NAME}`,
-          },
-          slots,
-        )
-      }
-    })
-
-    return () => teleportComponent.value
-  },
-})
-
-FormDialog.Footer = FormDialogFooter
-FormDialog.Portal = createPortalProvider('form-dialog')
 
 export default FormDialog

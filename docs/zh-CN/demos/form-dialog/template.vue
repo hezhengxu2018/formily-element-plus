@@ -34,9 +34,6 @@ function handleOpen() {
         decorator={[FormItem]}
         component={[Input]}
       />
-      <FormDialog.Footer>
-        <span style={{ marginLeft: '4px' }}>扩展文案</span>
-      </FormDialog.Footer>
     </FormLayout>
   ))
     .forOpen((payload, next) => {

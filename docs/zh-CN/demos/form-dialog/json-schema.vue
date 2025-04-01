@@ -54,9 +54,6 @@ const DialogForm = {
     return (
       <FormLayout labelCol={6} wrapperCol={10}>
         <SchemaField schema={this.schema} />
-        <FormDialog.Footer>
-          <span style={{ marginLeft: '4px' }}>扩展文案</span>
-        </FormDialog.Footer>
       </FormLayout>
     )
   },

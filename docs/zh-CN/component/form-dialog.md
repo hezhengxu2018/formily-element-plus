@@ -4,13 +4,6 @@
 
 ## Markup Schema 案例
 
-以下例子演示了 FormDialog 的几个能力：
-
-- 快速打开，关闭能力
-- 中间件能力，自动出现加载态
-- 渲染函数内可以响应式能力
-- 上下文共享能力
-
 :::demo
 
 form-dialog/markup-schema
@@ -30,6 +23,14 @@ form-dialog/json-schema
 :::demo
 
 form-dialog/template
+
+:::
+
+## Template 插槽案例
+
+:::demo
+
+form-dialog/template-slot
 
 :::
 

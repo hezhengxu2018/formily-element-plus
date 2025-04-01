@@ -2,7 +2,6 @@
 import { createSchemaField } from '@formily/vue'
 import { FormDialog, FormItem, FormLayout, Input } from '@sliver/formily-element-plus'
 import { ElButton } from 'element-plus'
-import { provide, ref } from 'vue'
 
 const { SchemaField, SchemaStringField } = createSchemaField({
   components: {
@@ -14,10 +13,7 @@ const { SchemaField, SchemaStringField } = createSchemaField({
 // 弹框表单组件
 const DialogForm = {
   props: ['form'],
-  inject: ['foo'],
   render() {
-    const form = this.form
-    console.log(this.foo)
     return (
       <FormLayout labelCol={6} wrapperCol={10}>
         <SchemaField>
@@ -50,23 +46,13 @@ const DialogForm = {
             x-component="Input"
           />
         </SchemaField>
-        <FormDialog.Footer>
-          <span style={{ marginLeft: '4px' }}>
-            扩展文案:
-            {form.values.aaa}
-          </span>
-        </FormDialog.Footer>
       </FormLayout>
     )
   },
 }
 
-const FormDialogPortal = FormDialog.Portal
-const portalId = ref('可以传，也可以不传的ID，默认是form-dialog')
-provide('foo', '自定义上下文可以直接传到弹窗内部，只需要ID一致即可')
-
 function handleOpen() {
-  FormDialog('弹框表单', portalId.value, DialogForm)
+  FormDialog('弹框表单', DialogForm)
     .forOpen((payload, next) => {
       setTimeout(() => {
         next({
@@ -95,9 +81,7 @@ function handleOpen() {
 </script>
 
 <template>
-  <FormDialogPortal :id="portalId">
-    <ElButton @click="handleOpen">
-      点击打开表单
-    </ElButton>
-  </FormDialogPortal>
+  <ElButton @click="handleOpen">
+    点击打开表单
+  </ElButton>
 </template>

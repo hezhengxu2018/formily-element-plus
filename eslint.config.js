@@ -12,5 +12,6 @@ export default antfu({
     'unicorn/filename-case': 'off',
     'unicorn/prefer-spread': 'off',
     'unicorn/no-array-reduce': 'off',
+    'test/prefer-lowercase-title': 'off',
   },
 })
