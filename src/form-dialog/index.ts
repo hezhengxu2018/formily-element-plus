@@ -1,19 +1,20 @@
 import type { Form, IFormProps } from '@formily/core'
 import type { IMiddleware } from '@formily/shared'
-import type { App, Slots, VNode } from 'vue'
+import type { App, Component, Slots, VNode } from 'vue'
 import type { IFormDialog, IFormDialogProps } from './types'
 import { createForm } from '@formily/core'
 import { toJS } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
-import { applyMiddleware, isFn, isStr } from '@formily/shared'
-import { isNil } from 'lodash-es'
+import { applyMiddleware, isArr, isFn, isStr } from '@formily/shared'
+import { capitalize, isNil } from 'lodash-es'
 import { createApp, h, ref } from 'vue'
 import { loading } from '../__builtins__'
 import DialogContent from './dialog-content.vue'
 
 export function FormDialog(
   title: IFormDialogProps | string,
-  content?: Slots | (() => VNode),
+  content?: Slots | (() => VNode) | Component,
+  dynamicMiddlewareNames?: string[],
 ): IFormDialog {
   const env: {
     root?: HTMLElement
@@ -23,11 +24,8 @@ export function FormDialog(
     app?: App<Element>
     openMiddlewares: IMiddleware<IFormProps>[]
     confirmMiddlewares: IMiddleware<Form>[]
-    extraMiddlewares: IMiddleware<Form>[]
-    // extra1Middlewares: IMiddleware<Form>[]
-    // extra2Middlewares: IMiddleware<Form>[]
-    // extra3Middlewares: IMiddleware<Form>[]
     cancelMiddlewares: IMiddleware<Form>[]
+    [key: `${string}Middlewares`]: IMiddleware<Form>[] | IMiddleware<IFormProps>[] | undefined
   } = {
     root: document.createElement('div'),
     form: null,
@@ -36,11 +34,20 @@ export function FormDialog(
     instance: null,
     openMiddlewares: [],
     confirmMiddlewares: [],
-    extraMiddlewares: [],
-    // extra1Middlewares: [],
-    // extra2Middlewares: [],
-    // extra3Middlewares: [],
     cancelMiddlewares: [],
+  }
+
+  if (isArr(dynamicMiddlewareNames)) {
+    for (const middlewareName of dynamicMiddlewareNames) {
+      if (isStr(middlewareName)) {
+        const _middlewareName = middlewareName.toLowerCase()
+        /* istanbul ignore if -- @preserve */
+        if (['open', 'cancel', 'confirm'].includes(_middlewareName)) {
+          throw new Error(`for${capitalize(_middlewareName)} is presved`)
+        }
+        (env[`${_middlewareName}Middlewares`] = [])
+      }
+    }
   }
 
   document.body.append(env.root)
@@ -72,7 +79,7 @@ export function FormDialog(
             resolve,
             reject,
             visible: visible.value,
-          }, content)
+          }, content as Slots)
         },
       })
       env.app = createApp(ComponentConstructor)
@@ -90,28 +97,6 @@ export function FormDialog(
       isFn(middleware) && env.confirmMiddlewares.push(middleware)
       return formDialog
     },
-    forExtra: (middleware: IMiddleware<Form>) => {
-      isFn(middleware) && env.extraMiddlewares.push(middleware)
-      return formDialog
-    },
-    // forExtra1: (middleware: IMiddleware<Form>) => {
-    //   if (isFn(middleware)) {
-    //     env.extra1Middlewares.push(middleware)
-    //   }
-    //   return formDialog
-    // },
-    // forExtra2: (middleware: IMiddleware<Form>) => {
-    //   if (isFn(middleware)) {
-    //     env.extra2Middlewares.push(middleware)
-    //   }
-    //   return formDialog
-    // },
-    // forExtra3: (middleware: IMiddleware<Form>) => {
-    //   if (isFn(middleware)) {
-    //     env.extra3Middlewares.push(middleware)
-    //   }
-    //   return formDialog
-    // },
     forCancel: (middleware: IMiddleware<Form>) => {
       isFn(middleware) && env.cancelMiddlewares.push(middleware)
       return formDialog
@@ -151,6 +136,16 @@ export function FormDialog(
       render(false)
     },
   }
+  if (isArr(dynamicMiddlewareNames)) {
+    for (const middlewareName of dynamicMiddlewareNames) {
+      const _middlewareName = middlewareName.toLowerCase()
+      formDialog[`for${capitalize(_middlewareName)}`] = (middleware: IMiddleware<Form>) => {
+        isFn(middleware) && env[`${_middlewareName}Middlewares`].push(middleware)
+        return formDialog
+      }
+    }
+  }
+
   return formDialog as never
 }
 

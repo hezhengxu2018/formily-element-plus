@@ -220,7 +220,7 @@ describe('FormDialog 组件', () => {
                 </ElButton>,
               ]
             },
-          }).forExtra((form, next) => {
+          }, ['extra']).forExtra((form, next) => {
             forExtra(form.values)
             next()
           }).open()

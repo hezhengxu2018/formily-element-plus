@@ -34,11 +34,8 @@ export interface FormDialogSlotContent {
 export interface IFormDialog {
   forOpen: (middleware: IMiddleware<IFormProps>) => IFormDialog
   forConfirm: (middleware: IMiddleware<IFormProps>) => IFormDialog
-  forExtra: (middleware: IMiddleware<IFormProps>) => IFormDialog
-  forExtra1: (middleware: IMiddleware<IFormProps>) => IFormDialog
-  forExtra2: (middleware: IMiddleware<IFormProps>) => IFormDialog
-  forExtra3: (middleware: IMiddleware<IFormProps>) => IFormDialog
   forCancel: (middleware: IMiddleware<IFormProps>) => IFormDialog
+  [key: `for${string}`]: (middleware: IMiddleware<IFormProps>) => IFormDialog
   open: (props?: IFormProps) => Promise<any>
   close: () => void
 }

@@ -51,6 +51,7 @@ function handleOpen() {
         >
           取消
         </ElButton>,
+        <ElButton loading={form.submitting} onClick={() => resolve('extra1')}>extra1</ElButton>,
         <ElButton loading={form.submitting} onClick={() => resolve('extra')}>保存草稿</ElButton>,
         <ElButton
           type="primary"
@@ -61,7 +62,7 @@ function handleOpen() {
         </ElButton>,
       ]
     },
-  })
+  }, ['extra', 'extra1'])
     .forOpen((payload, next) => {
       next({
         initialValues: {
@@ -77,6 +78,12 @@ function handleOpen() {
     .forExtra((payload, next) => {
       setTimeout(() => {
         console.log('extra')
+        next(payload)
+      }, 1000)
+    })
+    .forExtra1((payload, next) => {
+      setTimeout(() => {
+        console.log('extra1')
         next(payload)
       }, 1000)
     })
