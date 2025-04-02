@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { Form } from '@formily/core'
 import type { PropType } from 'vue'
-import type { FormDialogContent, FormDialogSlotContent, IFormDialogProps } from './types'
+import type { FormDialogSlotContent, IFormDialogProps } from './types'
 import { FormProvider } from '@formily/vue'
 import { ElButton, ElConfigProvider, ElDialog } from 'element-plus'
-import { isPlainObject, omit } from 'lodash-es'
-import { computed, ref } from 'vue'
+import { omit } from 'lodash-es'
+import { computed } from 'vue'
 import { loadElConfigProvider, stylePrefix } from '../__builtins__'
 
 defineOptions({
@@ -18,8 +18,8 @@ const props = defineProps({
     type: Object as PropType<IFormDialogProps>,
     required: true,
   },
-  component: {
-    type: [Object, Function] as PropType<FormDialogContent>,
+  visible: {
+    type: Boolean,
     required: true,
   },
   form: {
@@ -36,14 +36,7 @@ const props = defineProps({
   },
 })
 
-const visible = ref(false)
-defineExpose({
-  visible,
-})
-
-function isSlotContent(content): content is FormDialogSlotContent {
-  return isPlainObject(content) && content.default
-}
+const slots = defineSlots<FormDialogSlotContent>()
 
 const innerProps = computed(() => {
   return omit(props.dialogProps, [
@@ -64,22 +57,19 @@ const innerProps = computed(() => {
     <template #default>
       <FormProvider :form="props.form">
         <ElConfigProvider v-bind="elConfig">
-          <template v-if="isSlotContent(props.component) && props.component?.default">
-            <component :is="props.component.default" />
-          </template>
-          <component :is="props.component" v-else />
+            <slot />
         </ElConfigProvider>
       </FormProvider>
     </template>
 
-    <template v-if="isSlotContent(props.component) && props.component?.header" #header>
-      <component :is="props.component.header({ resolve, reject, form })" />
+    <template v-if="slots.header" #header>
+      <slot name="header" :resolve :reject :form />
     </template>
 
     <template #footer>
       <div :class="`${prefixCls}-footer`">
-        <template v-if="isSlotContent(props.component) && props.component?.footer">
-          <component :is="props.component.footer({ resolve, reject, form })" />
+        <template v-if="slots.footer">
+          <slot name="footer" :resolve :reject :form />
         </template>
         <template v-else>
           <ElButton

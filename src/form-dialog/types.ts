@@ -19,27 +19,18 @@ export type IFormDialogProps = Partial<DialogProps> & {
 }
 
 export interface FormDialogSlotContent {
-  header: ({
-    resolve,
-    reject,
-    form,
-  }: {
+  header(props: {
     resolve: (type?: string) => void
     reject: () => void
     form: Form
-  }) => VNode
-  default: () => VNode
-  footer: ({ resolve, reject, form }: {
+  }): any
+  default(): any
+  footer(props: {
     resolve: (type?: string) => void
     reject: () => void
     form: Form
-  }) => VNode
+  }): any
 }
-
-export type FormDialogContent =
-  | Component
-  | (() => VNode)
-  | FormDialogSlotContent
 
 export interface IFormDialog {
   forOpen: (middleware: IMiddleware<IFormProps>) => IFormDialog

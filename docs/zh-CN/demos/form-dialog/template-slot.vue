@@ -45,16 +45,13 @@ function handleOpen() {
       </FormLayout>
     ),
     footer: ({ form, resolve, reject }) => {
-      return () => [
+      return [
           <ElButton
             onClick={() => reject()}
           >
             取消
           </ElButton>,
           <ElButton loading={form.submitting} onClick={() => resolve('extra')}>保存草稿</ElButton>,
-          <ElButton loading={form.submitting} onClick={() => resolve('extra1')}>额外按钮1</ElButton>,
-          <ElButton loading={form.submitting} onClick={() => resolve('extra2')}>额外按钮2</ElButton>,
-          <ElButton loading={form.submitting} onClick={() => resolve('extra3')}>额外按钮3</ElButton>,
           <ElButton
             type="primary"
             loading={form.submitting}
@@ -80,24 +77,6 @@ function handleOpen() {
     .forExtra((payload, next) => {
       setTimeout(() => {
         console.log('extra')
-        next(payload)
-      }, 1000)
-    })
-    .forExtra1((payload, next) => {
-      setTimeout(() => {
-        console.log('extra1')
-        next(payload)
-      }, 1000)
-    })
-    .forExtra2((payload, next) => {
-      setTimeout(() => {
-        console.log('extra2')
-        next(payload)
-      }, 1000)
-    })
-    .forExtra3((payload, next) => {
-      setTimeout(() => {
-        console.log('extra3')
         next(payload)
       }, 1000)
     })

@@ -205,7 +205,7 @@ describe('FormDialog 组件', () => {
             </SchemaField>
             ),
             footer: ({ form, resolve, reject }) => {
-              return () => [
+              return [
                   <ElButton
                     onClick={() => reject()}
                   >

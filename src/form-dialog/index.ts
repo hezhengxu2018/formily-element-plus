@@ -1,27 +1,25 @@
 import type { Form, IFormProps } from '@formily/core'
 import type { IMiddleware } from '@formily/shared'
-import type { App } from 'vue'
-import type { FormDialogContent, IFormDialog, IFormDialogProps } from './types'
+import type { App, Slots, VNode } from 'vue'
+import type { IFormDialog, IFormDialogProps } from './types'
 import { createForm } from '@formily/core'
 import { toJS } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
-import { applyMiddleware, isFn, isNum, isStr } from '@formily/shared'
+import { applyMiddleware, isFn, isStr } from '@formily/shared'
 import { isNil } from 'lodash-es'
-import { createApp } from 'vue'
-import {
-  loading,
-} from '../__builtins__'
+import { createApp, h, ref } from 'vue'
+import { loading } from '../__builtins__'
 import DialogContent from './dialog-content.vue'
 
 export function FormDialog(
   title: IFormDialogProps | string,
-  content?: FormDialogContent,
+  content?: Slots | (() => VNode),
 ): IFormDialog {
   const env: {
     root?: HTMLElement
     form?: Form
     promise?: Promise<any>
-    instance?: InstanceType<typeof DialogContent>
+    instance?: any
     app?: App<Element>
     openMiddlewares: IMiddleware<IFormProps>[]
     confirmMiddlewares: IMiddleware<Form>[]
@@ -62,16 +60,23 @@ export function FormDialog(
 
   function render(visible: boolean, resolve?: (type?: string) => any, reject?: () => any) {
     if (!env.instance) {
-      const ComponentConstructor = observer(DialogContent)
-      env.app = createApp(ComponentConstructor, {
-        dialogProps,
-        component: content,
-        form: env.form,
-        resolve,
-        reject,
+      const ComponentConstructor = observer({
+        setup(_, { expose }) {
+          const visible = ref(false)
+          expose({
+            visible,
+          })
+          return () => h(DialogContent, {
+            dialogProps,
+            form: env.form,
+            resolve,
+            reject,
+            visible: visible.value
+          }, content)
+        }
       })
-
-      env.instance = env.app.mount(env.root) as InstanceType<typeof DialogContent>
+      env.app = createApp(ComponentConstructor)
+      env.instance = env.app.mount(env.root)
     }
     env.instance.visible = visible
   }
