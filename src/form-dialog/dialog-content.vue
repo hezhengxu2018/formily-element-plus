@@ -11,8 +11,6 @@ import { loadElConfigProvider, stylePrefix } from '../__builtins__'
 defineOptions({
   name: 'FormDialogContent',
 })
-const prefixCls = `${stylePrefix}-form-dialog`
-const elConfig = loadElConfigProvider()
 const props = defineProps({
   dialogProps: {
     type: Object as PropType<IFormDialogProps>,
@@ -35,9 +33,9 @@ const props = defineProps({
     required: true,
   },
 })
-
 const slots = defineSlots<FormDialogSlotContent>()
-
+const prefixCls = `${stylePrefix}-form-dialog`
+const elConfig = loadElConfigProvider()
 const innerProps = computed(() => {
   return omit(props.dialogProps, [
     'modelValue',
@@ -57,7 +55,7 @@ const innerProps = computed(() => {
     <template #default>
       <FormProvider :form="props.form">
         <ElConfigProvider v-bind="elConfig">
-            <slot />
+          <slot />
         </ElConfigProvider>
       </FormProvider>
     </template>

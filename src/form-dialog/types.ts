@@ -1,7 +1,6 @@
 import type { Form, IFormProps } from '@formily/core'
 import type { IMiddleware } from '@formily/shared'
 import type { ButtonProps, DialogProps } from 'element-plus'
-import type { Component, VNode } from 'vue'
 
 export type IFormDialogProps = Partial<DialogProps> & {
   cancelText?: string
@@ -19,17 +18,17 @@ export type IFormDialogProps = Partial<DialogProps> & {
 }
 
 export interface FormDialogSlotContent {
-  header(props: {
+  header: (props: {
     resolve: (type?: string) => void
     reject: () => void
     form: Form
-  }): any
-  default(): any
-  footer(props: {
+  }) => any
+  default: () => any
+  footer: (props: {
     resolve: (type?: string) => void
     reject: () => void
     form: Form
-  }): any
+  }) => any
 }
 
 export interface IFormDialog {

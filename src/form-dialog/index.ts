@@ -71,9 +71,9 @@ export function FormDialog(
             form: env.form,
             resolve,
             reject,
-            visible: visible.value
+            visible: visible.value,
           }, content)
-        }
+        },
       })
       env.app = createApp(ComponentConstructor)
       env.instance = env.app.mount(env.root)

@@ -29,7 +29,7 @@ describe('date-picker 组件', () => {
 
       const datePickerDOM = document.querySelector('.el-input__wrapper')
       await userEvent.click(datePickerDOM)
-      
+
       // 检查日期面板是否显示
       const datePanel = document.querySelector('.el-picker__popper')
       expect(datePanel).toBeInTheDocument()
@@ -99,11 +99,11 @@ describe('date-picker 组件', () => {
 
       const datePickerDOM = document.querySelector('.el-input__wrapper')
       await userEvent.click(datePickerDOM)
-      
+
       // 选择当前月份
       const monthCell = document.querySelector('.el-month-table td.today')
       await userEvent.click(monthCell)
-      
+
       // 验证格式是否为 YYYY-MM
       const monthValue = form.values.month
       expect(monthValue).toMatch(/^\d{4}-\d{2}$/)
@@ -119,11 +119,11 @@ describe('date-picker 组件', () => {
 
       const datePickerDOM = document.querySelector('.el-input__wrapper')
       await userEvent.click(datePickerDOM)
-      
+
       // 选择当前周
       const weekCell = document.querySelector('.el-date-table tr td.available')
       await userEvent.click(weekCell)
-      
+
       // 验证格式是否正确
       const weekValue = form.values.week
       expect(weekValue).not.toBeUndefined()
@@ -139,12 +139,12 @@ describe('date-picker 组件', () => {
 
       const datePickerDOM = document.querySelector('.el-input__wrapper')
       await userEvent.click(datePickerDOM)
-      
+
       // 选择日期范围
       const dateCells = document.querySelectorAll('.el-date-table tr td.available')
       await userEvent.click(dateCells[0])
       await userEvent.click(dateCells[5])
-      
+
       // 验证格式是否为 YYYY-MM-DD,YYYY-MM-DD
       const daterangeValue = form.values.daterange
       expect(daterangeValue).toHaveLength(2)
@@ -162,12 +162,12 @@ describe('date-picker 组件', () => {
 
       const datePickerDOM = document.querySelector('.el-input__wrapper')
       await userEvent.click(datePickerDOM)
-      
+
       // 选择月份范围
       const monthCells = document.querySelectorAll('.el-date-table-cell')
       await userEvent.click(monthCells[0])
       await userEvent.click(monthCells[3])
-      
+
       // 验证格式是否为 YYYY-MM,YYYY-MM
       const monthrangeValue = form.values.monthrange
       expect(monthrangeValue).toHaveLength(2)
@@ -187,11 +187,11 @@ describe('date-picker 组件', () => {
 
       const datePickerDOM = document.querySelector('.el-input__wrapper')
       await userEvent.click(datePickerDOM)
-      
+
       // 选择一个日期
       const dateCell = document.querySelector('.el-date-table tr td.available')
       await userEvent.click(dateCell)
-      
+
       // 验证表单值已更新
       expect(form.values.date).not.toBeUndefined()
     })
@@ -231,7 +231,7 @@ describe('date-picker 组件', () => {
       const todayButton = document.querySelector('.today')
       await userEvent.click(todayButton)
       const dateValue = form.values.date
-      expect(dateValue).toMatch(/^\d{2}\/\d{2}\/\d{4}$/)
+      expect(dateValue).toMatch(/^(?:\d{2}\/){2}\d{4}$/)
     })
   })
 })

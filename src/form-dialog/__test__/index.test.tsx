@@ -1,5 +1,4 @@
 /* eslint-disable unicorn/consistent-function-scoping */
-import { createForm } from '@formily/core'
 import { createSchemaField } from '@formily/vue'
 import { userEvent } from '@vitest/browser/context'
 import { ElButton } from 'element-plus'
@@ -137,7 +136,7 @@ describe('FormDialog 组件', () => {
         expect(document.querySelector('.el-dialog__wrapper')).toBeNull()
       })
     })
-    
+
     it('支持 forCancel 中间件', async () => {
       const forCancel = vi.fn()
       const TestComponent = () => {
@@ -192,34 +191,34 @@ describe('FormDialog 组件', () => {
           FormDialog('表单对话框', {
             default: () => (
               <SchemaField>
-              <SchemaStringField
-                name="input"
-                title="输入框"
-                x-decorator="FormItem"
-                x-component="Input"
-                x-component-props={{
-                  placeholder: '请输入',
-                }}
-                required={true}
-              />
-            </SchemaField>
+                <SchemaStringField
+                  name="input"
+                  title="输入框"
+                  x-decorator="FormItem"
+                  x-component="Input"
+                  x-component-props={{
+                    placeholder: '请输入',
+                  }}
+                  required={true}
+                />
+              </SchemaField>
             ),
             footer: ({ form, resolve, reject }) => {
               return [
-                  <ElButton
-                    onClick={() => reject()}
-                  >
-                    取消
-                  </ElButton>,
-                  <ElButton loading={form.submitting} onClick={() => resolve('extra')}>保存草稿</ElButton>,
-                  <ElButton
-                    type="primary"
-                    loading={form.submitting}
-                    onClick={() => resolve()}
-                  >
-                    确定
-                  </ElButton>,
-                ]
+                <ElButton
+                  onClick={() => reject()}
+                >
+                  取消
+                </ElButton>,
+                <ElButton loading={form.submitting} onClick={() => resolve('extra')}>保存草稿</ElButton>,
+                <ElButton
+                  type="primary"
+                  loading={form.submitting}
+                  onClick={() => resolve()}
+                >
+                  确定
+                </ElButton>,
+              ]
             },
           }).forExtra((form, next) => {
             forExtra(form.values)
@@ -247,24 +246,24 @@ describe('FormDialog 组件', () => {
           FormDialog({ title: '表单对话框', okText: '确认提交', cancelText: '我不想要了' }, {
             default: () => (
               <SchemaField>
-              <SchemaStringField
-                name="input"
-                title="输入框"
-                x-decorator="FormItem"
-                x-component="Input"
-                x-component-props={{
-                  placeholder: '请输入',
-                }}
-                required={true}
-              />
-            </SchemaField>
+                <SchemaStringField
+                  name="input"
+                  title="输入框"
+                  x-decorator="FormItem"
+                  x-component="Input"
+                  x-component-props={{
+                    placeholder: '请输入',
+                  }}
+                  required={true}
+                />
+              </SchemaField>
             ),
             header: ({ reject }) => (
               <div>
                 <ElButton onClick={() => reject()}>关闭</ElButton>
                 <span>这是标题</span>
               </div>
-        
+
             ),
           }).forCancel((form, next) => {
             forCancel(form.values)

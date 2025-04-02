@@ -149,7 +149,7 @@ describe('upload 组件', () => {
       }
 
       const mockFormatValue = vi.fn((fileList: UploadFiles) => fileList.map(file => file.response))
-      const mockOnError = vi.fn((error) => {})
+      const mockOnError = vi.fn()
 
       const { container } = render(() => (
         <FormProvider form={form}>

@@ -1,7 +1,7 @@
 import { connect, mapProps, mapReadPretty } from '@formily/vue'
-import FInput from './input.vue'
 import { composeExport } from '../__builtins__'
 import { PreviewText } from '../preview-text'
+import FInput from './input.vue'
 
 const InnerInput = connect(
   FInput,

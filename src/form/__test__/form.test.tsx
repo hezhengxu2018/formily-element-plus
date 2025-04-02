@@ -76,7 +76,7 @@ describe('form 组件测试', () => {
 
   it('在外部有FormProvider时表单提交事件正常触发', async () => {
     const form = createForm()
-    const mockSubmit = vi.fn((val) => {
+    const mockSubmit = vi.fn(() => {
       return Promise.resolve(true)
     })
     const { getByText } = render(() => (

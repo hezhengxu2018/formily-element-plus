@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CascaderOption, CascaderProps } from 'element-plus'
+import type { CascaderOption } from 'element-plus'
 import { ElCascader } from 'element-plus'
 import { omit } from 'lodash-es'
 import { computed, useAttrs } from 'vue'

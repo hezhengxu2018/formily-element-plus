@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { InputProps } from 'element-plus'
-import { useField } from '@formily/vue'
 import { ElInput } from 'element-plus'
 import { omit } from 'lodash-es'
 import { computed, useAttrs } from 'vue'

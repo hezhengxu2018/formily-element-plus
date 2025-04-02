@@ -46,20 +46,20 @@ function handleOpen() {
     ),
     footer: ({ form, resolve, reject }) => {
       return [
-          <ElButton
-            onClick={() => reject()}
-          >
-            取消
-          </ElButton>,
-          <ElButton loading={form.submitting} onClick={() => resolve('extra')}>保存草稿</ElButton>,
-          <ElButton
-            type="primary"
-            loading={form.submitting}
-            onClick={() => resolve()}
-          >
-            确定
-          </ElButton>,
-        ]
+        <ElButton
+          onClick={() => reject()}
+        >
+          取消
+        </ElButton>,
+        <ElButton loading={form.submitting} onClick={() => resolve('extra')}>保存草稿</ElButton>,
+        <ElButton
+          type="primary"
+          loading={form.submitting}
+          onClick={() => resolve()}
+        >
+          确定
+        </ElButton>,
+      ]
     },
   })
     .forOpen((payload, next) => {
