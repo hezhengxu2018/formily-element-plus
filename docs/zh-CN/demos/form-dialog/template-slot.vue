@@ -5,7 +5,7 @@ import { ElButton } from 'element-plus'
 
 function handleOpen() {
   FormDialog('弹框表单', {
-    header: ({ form, reject }) => (
+    header: ({ reject }) => (
       <div>
         <ElButton onClick={() => reject()}>关闭</ElButton>
         <span>这是标题</span>
@@ -44,18 +44,25 @@ function handleOpen() {
         />
       </FormLayout>
     ),
-    footer: ({ doms, form, resolve }) => {
-      return () => {
-        const defaultButtons = doms()
-        return [
-          defaultButtons[0],
+    footer: ({ form, resolve, reject }) => {
+      return () => [
+          <ElButton
+            onClick={() => reject()}
+          >
+            取消
+          </ElButton>,
           <ElButton loading={form.submitting} onClick={() => resolve('extra')}>保存草稿</ElButton>,
           <ElButton loading={form.submitting} onClick={() => resolve('extra1')}>额外按钮1</ElButton>,
           <ElButton loading={form.submitting} onClick={() => resolve('extra2')}>额外按钮2</ElButton>,
           <ElButton loading={form.submitting} onClick={() => resolve('extra3')}>额外按钮3</ElButton>,
-          defaultButtons[1],
+          <ElButton
+            type="primary"
+            loading={form.submitting}
+            onClick={() => resolve()}
+          >
+            确定
+          </ElButton>,
         ]
-      }
     },
   })
     .forOpen((payload, next) => {
@@ -95,7 +102,7 @@ function handleOpen() {
       }, 1000)
     })
     .forCancel((payload, next) => {
-      setTimeout(() => {        
+      setTimeout(() => {
         next(payload)
       }, 1000)
     })
