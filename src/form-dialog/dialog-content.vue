@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Form } from '@formily/core'
 import type { PropType } from 'vue'
-import type { FormDialogSlotContent, IFormDialogProps } from './types'
+import type { FormDialogSlots, IFormDialogProps } from './types'
 import { FormProvider } from '@formily/vue'
 import { ElButton, ElConfigProvider, ElDialog } from 'element-plus'
 import { omit } from 'lodash-es'
@@ -33,7 +33,7 @@ const props = defineProps({
     required: true,
   },
 })
-const slots = defineSlots<FormDialogSlotContent>()
+const slots = defineSlots<FormDialogSlots>()
 const prefixCls = `${stylePrefix}-form-dialog`
 const elConfig = loadElConfigProvider()
 const innerProps = computed(() => {

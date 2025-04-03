@@ -1,8 +1,7 @@
 import type { Form, IFormProps } from '@formily/core'
 import type { IMiddleware } from '@formily/shared'
-import type { App, Component } from 'vue'
-import type { SlotTypes } from '../__builtins__'
-import type { IFormDialog, IFormDialogProps } from './types'
+import type { App, Component, SlotsType } from 'vue'
+import type { FormDialogSlotContent, FormDialogSlots, IFormDialog, IFormDialogProps } from './types'
 import { createForm } from '@formily/core'
 import { toJS } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
@@ -14,7 +13,7 @@ import DialogContent from './dialog-content.vue'
 
 export function FormDialog(
   title: IFormDialogProps | string,
-  content?: Component | { header: SlotTypes, default: SlotTypes, footer: SlotTypes },
+  content?: Component | FormDialogSlotContent,
   dynamicMiddlewareNames?: string[],
 ): IFormDialog {
   const env: {
@@ -67,7 +66,9 @@ export function FormDialog(
   }
 
   function render(visible: boolean, resolve?: (type?: string) => any, reject?: () => any) {
-    const _content = isVueOptions(content) ? { default: () => h(content) } : content
+    const _content = isVueOptions(content)
+      ? { default: () => h(content) }
+      : content
     if (!env.instance) {
       const ComponentConstructor = observer({
         setup(_, { expose }) {

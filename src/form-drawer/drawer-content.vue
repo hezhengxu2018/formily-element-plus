@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Form } from '@formily/core'
 import type { PropType } from 'vue'
-import type { FormDrawerSlotContent, IFormDrawerProps } from './types'
+import type { FormDrawerSlots, IFormDrawerProps } from './types'
 import { FormProvider } from '@formily/vue'
 import { ElButton, ElConfigProvider, ElDrawer } from 'element-plus'
 import { omit } from 'lodash-es'
@@ -26,7 +26,7 @@ const props = defineProps({
     required: true,
   },
   resolve: {
-    type: Function as PropType<() => void>,
+    type: Function as PropType<(type?: string) => void>,
     required: true,
   },
   reject: {
@@ -34,7 +34,7 @@ const props = defineProps({
     required: true,
   },
 })
-const slots = defineSlots<FormDrawerSlotContent>()
+const slots = defineSlots<FormDrawerSlots>()
 const prefixCls = `${stylePrefix}-form-drawer`
 const elConfig = loadElConfigProvider()
 
@@ -54,7 +54,7 @@ const innerProps = computed(() => {
     :class="prefixCls"
     :z-index="elConfig.zIndex"
   >
-    <template #header>
+    <template v-if="slots.header" #header>
       <slot name="header" :resolve :reject :form />
     </template>
 

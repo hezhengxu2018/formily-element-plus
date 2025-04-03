@@ -1,8 +1,7 @@
 import type { Form, IFormProps } from '@formily/core'
 import type { IMiddleware } from '@formily/shared'
 import type { App, Component } from 'vue'
-import type { SlotTypes } from '../__builtins__'
-import type { IFormDrawer, IFormDrawerProps } from './types'
+import type { FormDrawerSlotContent, IFormDrawer, IFormDrawerProps } from './types'
 import { createForm } from '@formily/core'
 import { toJS } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
@@ -11,11 +10,10 @@ import { capitalize, isNil } from 'lodash-es'
 import { createApp, h, ref } from 'vue'
 import { isVueOptions, loading } from '../__builtins__'
 import DrawerContent from './drawer-content.vue'
-import './style.scss'
 
 export function FormDrawer(
   title: IFormDrawerProps | string,
-  content?: Component | { header: SlotTypes, default: SlotTypes, footer: SlotTypes },
+  content?: Component | FormDrawerSlotContent,
   dynamicMiddlewareNames?: string[],
 ): IFormDrawer {
   const env: {
