@@ -46,6 +46,76 @@ describe('FormDialog 组件', () => {
       await getByRole('button', { name: 'Close this dialog' }).click()
       expect(document.querySelector('.el-dialog__wrapper')).toBeNull()
     })
+
+    it('支持渲染组件', async () => {
+      const { SchemaField } = createSchemaField({
+        components: {
+          FormItem,
+          Input,
+        },
+      })
+      const DialogForm = {
+        data() {
+          const schema = {
+            type: 'object',
+            properties: {
+              aaa: {
+                'type': 'string',
+                'title': '输入框1',
+                'required': true,
+                'x-decorator': 'FormItem',
+                'x-component': 'Input',
+              },
+              bbb: {
+                'type': 'string',
+                'title': '输入框2',
+                'required': true,
+                'x-decorator': 'FormItem',
+                'x-component': 'Input',
+              },
+              ccc: {
+                'type': 'string',
+                'title': '输入框3',
+                'required': true,
+                'x-decorator': 'FormItem',
+                'x-component': 'Input',
+              },
+              ddd: {
+                'type': 'string',
+                'title': '输入框4',
+                'required': true,
+                'x-decorator': 'FormItem',
+                'x-component': 'Input',
+              },
+            },
+          }
+          return {
+            schema,
+          }
+        },
+        render() {
+          return (<SchemaField schema={this.schema} />)
+        },
+      }
+      const TestComponent = () => {
+        const handleOpen = () => {
+          FormDialog('测试标题', DialogForm).open().catch(console.log)
+        }
+        return <ElButton onClick={handleOpen}>打开抽屉</ElButton>
+      }
+
+      const { getByText } = render(() => <TestComponent />, {
+        global: {
+          stubs: {
+            Transition: false,
+          },
+        },
+      })
+      await getByText('打开抽屉').click()
+      await expect.element(getByText('输入框4')).toBeInTheDocument()
+      await getByText('取消').click()
+      expect(document.querySelector('.el-drawer__wrapper')).toBeNull()
+    })
   })
 
   describe('中间件功能', () => {
