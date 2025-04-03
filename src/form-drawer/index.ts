@@ -138,6 +138,16 @@ export function FormDrawer(
     },
   }
 
+  if (isArr(dynamicMiddlewareNames)) {
+    for (const middlewareName of dynamicMiddlewareNames) {
+      const _middlewareName = middlewareName.toLowerCase()
+      formDrawer[`for${capitalize(_middlewareName)}`] = (middleware: IMiddleware<Form>) => {
+        isFn(middleware) && env[`${_middlewareName}Middlewares`].push(middleware)
+        return formDrawer
+      }
+    }
+  }
+
   return formDrawer as never
 }
 
