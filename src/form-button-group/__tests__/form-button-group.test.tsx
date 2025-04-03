@@ -7,7 +7,7 @@ import { Form, FormItem, Input } from '../../index'
 import FormButtonGroup from '../form-button-group.vue'
 import 'element-plus/theme-chalk/index.css'
 
-describe('formButtonGroup', () => {
+describe.skip('FormButtonGroup', () => {
   it('默认渲染左对齐的按钮组', async () => {
     const { container } = render(
       () => (

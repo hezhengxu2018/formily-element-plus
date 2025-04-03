@@ -21,7 +21,7 @@ describe('FormDialog 组件', () => {
         const handleOpen = () => {
           FormDialog('测试标题', () => (
             <div data-testid="dialog-content">对话框内容</div>
-          )).open()
+          )).open().catch(console.log)
         }
         return <ElButton onClick={handleOpen}>打开对话框</ElButton>
       }
@@ -69,6 +69,7 @@ describe('FormDialog 组件', () => {
           ))
             .forOpen(openMiddleware)
             .open()
+            .catch(console.log)
         }
         return <ElButton onClick={handleOpen}>打开对话框</ElButton>
       }
@@ -111,6 +112,7 @@ describe('FormDialog 组件', () => {
               }, 200)
             })
             .open()
+            .catch(console.log)
         }
         return <ElButton onClick={handleOpen}>支持 forConfirm</ElButton>
       }
@@ -162,6 +164,7 @@ describe('FormDialog 组件', () => {
               }, 200)
             })
             .open()
+            .catch(console.log)
         }
         return <ElButton onClick={handleOpen}>打开对话框</ElButton>
       }
@@ -223,7 +226,7 @@ describe('FormDialog 组件', () => {
           }, ['extra']).forExtra((form, next) => {
             forExtra(form.values)
             next()
-          }).open()
+          }).open().catch(console.log)
         }
 
         return <ElButton onClick={handleOpen}>打开表单</ElButton>
@@ -268,7 +271,7 @@ describe('FormDialog 组件', () => {
           }).forCancel((form, next) => {
             forCancel(form.values)
             next()
-          }).open()
+          }).open().catch(console.log)
         }
         return <ElButton onClick={handleOpen}>打开表单</ElButton>
       }
@@ -367,6 +370,7 @@ describe('FormDialog 组件', () => {
               }, 200)
             })
             .open()
+            .catch(console.log)
           fn1()
         }
         return <ElButton onClick={handleOpen}>打开对话框</ElButton>

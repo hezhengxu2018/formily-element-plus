@@ -39,14 +39,15 @@ export function FormDialog(
 
   if (isArr(dynamicMiddlewareNames)) {
     for (const middlewareName of dynamicMiddlewareNames) {
-      if (isStr(middlewareName)) {
-        const _middlewareName = middlewareName.toLowerCase()
-        /* istanbul ignore if -- @preserve */
-        if (['open', 'cancel', 'confirm'].includes(_middlewareName)) {
-          throw new Error(`for${capitalize(_middlewareName)} is presved`)
-        }
-        (env[`${_middlewareName}Middlewares`] = [])
+      /* istanbul ignore if -- @preserve */
+      if (!isStr(middlewareName))
+        return
+      const _middlewareName = middlewareName.toLowerCase()
+      /* istanbul ignore if -- @preserve */
+      if (['open', 'cancel', 'confirm'].includes(_middlewareName)) {
+        throw new Error(`for${capitalize(_middlewareName)} is presved`)
       }
+      (env[`${_middlewareName}Middlewares`] = [])
     }
   }
 
