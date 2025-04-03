@@ -34,9 +34,6 @@ function handleOpen() {
         decorator={[FormItem]}
         component={[Input]}
       />
-      <FormDrawer.Footer>
-        <span style={{ marginLeft: '4px' }}>扩展文案</span>
-      </FormDrawer.Footer>
     </FormLayout>
   ))
     .forConfirm(async (form, next) => {

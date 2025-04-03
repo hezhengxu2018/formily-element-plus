@@ -1,4 +1,4 @@
-import type { Slot, VNode } from 'vue'
+import type { Component, Slot, VNode } from 'vue'
 import { Fragment } from 'vue'
 
 export function isValidElement(element) {
@@ -22,7 +22,7 @@ export function isVnode(element: any): boolean {
   )
 }
 
-export function isVueOptions(options: any) {
+export function isVueOptions(options: any): options is Component {
   return (
     options
     && (typeof options.template === 'string'
