@@ -52,16 +52,16 @@ const innerProps = computed(() => {
     :class="prefixCls"
     :z-index="elConfig.zIndex"
   >
+    <template v-if="slots.header" #header>
+      <slot name="header" :resolve :reject :form />
+    </template>
+
     <template #default>
       <FormProvider :form="props.form">
         <ElConfigProvider v-bind="elConfig">
           <slot />
         </ElConfigProvider>
       </FormProvider>
-    </template>
-
-    <template v-if="slots.header" #header>
-      <slot name="header" :resolve :reject :form />
     </template>
 
     <template #footer>

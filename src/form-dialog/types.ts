@@ -7,13 +7,6 @@ export type IFormDialogProps = Partial<DialogProps> & {
   cancelButtonProps?: ButtonProps
   okText?: string
   okButtonProps?: ButtonProps
-  beforeClose?: (cb: () => void) => void
-  onOpen?: () => void
-  onOpened?: () => void
-  onClose?: () => void
-  onClosed?: () => void
-  onCancel?: () => void
-  onOK?: () => void
   loadingText?: string
 }
 
