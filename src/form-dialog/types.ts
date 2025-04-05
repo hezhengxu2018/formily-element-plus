@@ -3,6 +3,7 @@ import type { IMiddleware } from '@formily/shared'
 import type { ButtonProps, DialogProps } from 'element-plus'
 import type { SlotsType, VNode } from 'vue'
 
+// #region props
 export type IFormDialogProps = Partial<DialogProps> & {
   cancelText?: string
   cancelButtonProps?: ButtonProps
@@ -10,7 +11,9 @@ export type IFormDialogProps = Partial<DialogProps> & {
   okButtonProps?: ButtonProps
   loadingText?: string
 }
+// #endregion props
 
+// #region slots
 export interface FormDialogSlotProps {
   resolve: (type?: string) => void
   reject: () => void
@@ -22,11 +25,13 @@ export interface FormDialogSlots {
   default?: () => VNode
   footer?: (props: FormDialogSlotProps) => VNode
 }
+// #endregion slots
 
 export type FormDialogSlotContent = SlotsType<FormDialogSlots> | {
   [key in keyof FormDialogSlots]?: FormDialogSlots[key]
 }
 
+// #region iformdialog
 export interface IFormDialog {
   forOpen: (middleware: IMiddleware<IFormProps>) => IFormDialog
   forConfirm: (middleware: IMiddleware<IFormProps>) => IFormDialog
@@ -35,3 +40,4 @@ export interface IFormDialog {
   open: (props?: IFormProps) => Promise<any>
   close: () => void
 }
+// #endregion iformdialog

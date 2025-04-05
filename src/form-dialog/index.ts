@@ -6,7 +6,7 @@ import { createForm } from '@formily/core'
 import { toJS } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
 import { applyMiddleware, isArr, isFn, isStr } from '@formily/shared'
-import { capitalize, isNil } from 'lodash-es'
+import { camelCase, capitalize, isNil } from 'lodash-es'
 import { createApp, h, ref } from 'vue'
 import { isVueOptions, loading } from '../__builtins__'
 import DialogContent from './dialog-content.vue'
@@ -42,7 +42,7 @@ export function FormDialog(
       /* istanbul ignore if -- @preserve */
       if (!isStr(middlewareName))
         return
-      const _middlewareName = middlewareName.toLowerCase()
+      const _middlewareName = camelCase(middlewareName)
       /* istanbul ignore if -- @preserve */
       if (['open', 'cancel', 'confirm'].includes(_middlewareName)) {
         throw new Error(`for${capitalize(_middlewareName)} is presved`)
@@ -141,7 +141,7 @@ export function FormDialog(
   }
   if (isArr(dynamicMiddlewareNames)) {
     for (const middlewareName of dynamicMiddlewareNames) {
-      const _middlewareName = middlewareName.toLowerCase()
+      const _middlewareName = camelCase(middlewareName)
       formDialog[`for${capitalize(_middlewareName)}`] = (middleware: IMiddleware<Form>) => {
         isFn(middleware) && env[`${_middlewareName}Middlewares`].push(middleware)
         return formDialog

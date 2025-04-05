@@ -2,6 +2,10 @@
 
 > 弹窗表单，主要用在简单的事件打开表单场景
 
+::: warning 注意
+该组件经过重构，完全摒弃了通过id传递上下文的方式，使用时请注意函数入参的改动。现在通过Vue中[JSX的插槽写法](https://cn.vuejs.org/guide/extras/render-function.html#passing-slots)实现类似的功能。
+:::
+
 ## Markup Schema 案例
 
 :::demo
@@ -36,55 +40,82 @@ form-dialog/template-slot
 
 ## API
 
-### FormDialog
+### FormDialog 函数入参
 
-```ts pure
-import { Form, IFormProps } from '@formily/core'
+| 参数                       | 说明                                                | 类型                                                   |
+| -------------------------- | --------------------------------------------------- | ----------------------------------------------------   |
+| `title`或`formDialogProps` | 标题或Dialog组件的props                             | `string` `FormDialogProps`                             |
+| `formDialogSlots`          | 表单弹窗组件的内容，支持组件，VNode和插槽的写法     | `Component` `VNode[]` `()=>VNode[]` `FormDialogSlots`  |
+| `dynamicMiddlewareNames`   | 动态中间件名称列表，使用时会转成Camel Case命名风格。| `string[]`除了`cancel` `confirm` `open`                |
 
-interface FormDialogContentProps { form: Form }
-
-type FormDialogContent = Component | ((props: FormDialogContentProps) => VNode)
-
-type DialogTitle = string | number | Component | VNode | (() => VNode)
-
-type IFormDialogProps = Omit<DialogProps, 'title'> & {
-  title?: DialogTitle
-  footer?: null | Component | VNode | (() => VNode)
-  cancelText?: string | Component | VNode | (() => VNode)
-  cancelButtonProps?: ButtonProps
-  okText?: string | Component | VNode | (() => VNode)
-  okButtonProps?: ButtonProps
-  onOpen?: () => void
-  onOpend?: () => void
-  onClose?: () => void
-  onClosed?: () => void
-  onCancel?: () => void
-  onOK?: () => void
-  loadingText?: string
-}
-
-interface IFormDialog {
-  forOpen: (middleware: IMiddleware<IFormProps>) => IFormDialog
-  forConfirm: (middleware: IMiddleware<IFormProps>) => IFormDialog
-  forCancel: (middleware: IMiddleware<IFormProps>) => IFormDialog
-  open: (props?: IFormProps) => Promise<any>
-  close: () => void
-}
-
+完整函数类型声明（参数的具体类型参见类型声明）：
+``` ts
 interface FormDialog {
-  (title: IFormDialogProps, id: string, content: FormDialogContent): IFormDialog
-  (title: IFormDialogProps, id: FormDialogContent): IFormDialog
-  (title: DialogTitle, id: string, content: FormDialogContent): IFormDialog
-  (title: DialogTitle, id: FormDialogContent): IFormDialog
+  (
+    title: IFormDrawerProps | string,
+    content?: Component | FormDrawerSlotContent,
+    dynamicMiddlewareNames?: string[]
+  ): IFormDialog
 }
 ```
 
-`DialogProps`类型定义参考 [Element-Plus Dialog API](https://cn.element-plus.org/zh-CN/component/dialog.html#dialog-属性)
+#### title
 
-### FormDialog.Footer
+函数的第一个参数，传入字符串时会作为标题显示。可以传入`IFormDialogProps`来进行自定义。重构时移除了事件的支持，请优先使用`forOpen`、`forConfirm`、`forCancel`等中间件来控制弹框的生命周期。
 
-无属性，只接收子节点
+| 参数                  | 说明                                                                             | 类型                | 默认值    |
+| --------------------- | -------------------------------------------------------------------------------- | ------------------- | --------- |
+| `cancelText`          | 取消按钮文字                                                                     | `string`            | `取消`    |
+| `cancelButtonProps`   | 取消按钮的props                                                                  | `ButtonProps`       | -         |
+| `okText`              | 确定按钮文字                                                                     | `string`            | `确定`    |
+| `okButtonProps`       | 确定按钮的props                                                                  | `ButtonProps`       | -         |
+| `loadingText`         | 加载中文字                                                                       | `string`            | `loading` |
 
-### FormDialog.Portal
+其余参数请参考参考 [https://cn.element-plus.org/zh-CN/component/dialog.html](https://cn.element-plus.org/zh-CN/component/dialog.html#attributes)
 
-接收可选的 id 属性，默认值为 form-dialog，如果一个应用存在多个 prefixCls，不同区域的弹窗内部 prefixCls 不一样，那推荐指定 id 为区域级 id
+#### content
+
+函数的第二个参数，除了可以传入组件和VNode之外还可以接受Vue中[JSX的插槽写法](https://cn.vuejs.org/guide/extras/render-function.html#passing-slots)自定义`header`与`footer`。
+
+| 插槽名    | 说明                                                                                                          | 类型                   |
+| --------- | ------------------------------------------------------------------------------------------------------------- | ----                   |
+| `default` | 表单弹窗组件的内容，支持组件，VNode和插槽的写法                                                               | -                      |
+| `header`  | 头部插槽，可以通过作用域插槽调用resolve或reject来关闭，resovle可以接受`dynamicMiddlewareNames`中传入的字符串  | `FormDialogSlotProps`  |
+| `footer`  | 底部插槽，可以通过作用域插槽调用resolve或reject来关闭，resovle可以接受`dynamicMiddlewareNames`中传入的字符串  | `FormDialogSlotProps`  |
+
+#### dynamicMiddlewareNames
+
+函数的第三个参数，是一个字符串数组，用于触发自定义footer或header中的按钮事件。
+
+比如需要在弹框中额外添加保存草稿的功能，那么就可以在`dynamicMiddlewareNames`中传入`'saveDraft'`，然后在`footer`中的按钮上绑定事件`resolve('saveDraft')`。
+最后在可以像`forConfirm`一样添加`forSaveDraft`的相关逻辑。具体使用可以参考Demo中的例子。
+
+::: tip 提示
+传入`dynamicMiddlewareNames`中的字符串会被转成Camel Case命名风格，比如`'save-draft'`会被转成`'saveDraft'`。
+:::
+
+### IFormDialog 函数返回
+函数的返回值，是一个是一个Promise对象，因此可以进行await操作来优化逻辑书写，需要调用`open`方法来打开弹框。可以进行链式调用来处理不同逻辑下的事件处理。现在支持通过`dynamicMiddlewareNames`来传入自定义的事件来处理业务逻辑。
+
+| 方法名          | 说明                                                                             | 类型                |
+| --------------- | -------------------------------------------------------------------------------- | ------------------- |
+| `open`          | 打开弹框                                                                         | `(IMiddleware<IFormProps>)=>IFormDialog`   |
+| `forOpen`       | 打开弹框事件                                                                     | `(IMiddleware<IFormProps>)=>IFormDialog`   |
+| `forConfirm`    | 确认事件                                                                         | `(IMiddleware<IFormProps>)=>IFormDialog`   |
+| `forCancel`     | 取消事件                                                                         | `(IMiddleware<IFormProps>)=>IFormDialog`   |
+| `for${Dynamic}` | 自定义事件，需要传入`dynamicMiddlewareNames`中传入的字符串，通过作用域插槽中的resolve方法来触发对应的事件。  | `(IMiddleware<IFormProps>)=>IFormDialog` |
+
+::: tip 提示
+传入`dynamicMiddlewareNames`中的字符串在调用方法时会被转成Pascal Case命名风格，比如传入`['save-draft']`应该调用`'forSaveDraft'`。
+:::
+
+### 类型声明
+
+##### IFormDialogProps
+<<< @/../src/form-dialog/types.ts#props
+
+##### FormDialogSlots
+<<< @/../src/form-dialog/types.ts#slots
+
+##### IFormDialog
+<<< @/../src/form-dialog/types.ts#iformdialog
