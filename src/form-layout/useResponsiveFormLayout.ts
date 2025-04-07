@@ -1,27 +1,14 @@
-import type { ComponentInternalInstance } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
+import type { IFormLayoutProps } from './types'
 import { isArr, isValid } from '@formily/shared'
-import { getCurrentInstance, onMounted, ref } from 'vue'
-
-interface IProps {
-  breakpoints?: number[]
-  layout?:
-    | 'vertical'
-    | 'horizontal'
-    | 'inline'
-    | ('vertical' | 'horizontal' | 'inline')[]
-  labelCol?: number | number[]
-  wrapperCol?: number | number[]
-  labelAlign?: 'right' | 'left' | ('right' | 'left')[]
-  wrapperAlign?: 'right' | 'left' | ('right' | 'left')[]
-  [props: string]: any
-}
+import { inject, onMounted, onUnmounted, ref, watch } from 'vue'
 
 interface ICalcBreakpointIndex {
   (originalBreakpoints: number[], width: number): number
 }
 
 interface ICalculateProps {
-  (target: Element, props: IProps): IProps
+  (target: Element, props: IFormLayoutProps): IFormLayoutProps
 }
 
 const calcBreakpointIndex: ICalcBreakpointIndex = (breakpoints, width) => {
@@ -33,19 +20,16 @@ const calcBreakpointIndex: ICalcBreakpointIndex = (breakpoints, width) => {
   return -1
 }
 
-function calcFactor<T>(value: T | T[], breakpointIndex: number): T {
-  if (Array.isArray(value)) {
-    if (breakpointIndex === -1)
-      return value[0]
-    return value[breakpointIndex] ?? value.at(-1)
+function calcFactor<T>(value: T | readonly T[], breakpointIndex: number): T {
+  if (!Array.isArray(value) || value.length === 0) {
+    return value as T
   }
-  else {
-    return value
-  }
+  const safeIndex = Math.max(0, Math.min(breakpointIndex, value.length - 1))
+  return value[safeIndex]
 }
 
 function factor<T>(value: T | T[], breakpointIndex: number): T {
-  return isValid(value) ? calcFactor(value as any, breakpointIndex) : value
+  return isValid(value) ? calcFactor<T>(value, breakpointIndex) : value as T
 }
 
 const calculateProps: ICalculateProps = (target, props) => {
@@ -74,42 +58,79 @@ const calculateProps: ICalculateProps = (target, props) => {
   }
 }
 
-function useRefs(): Record<string, unknown> {
-  const vm: ComponentInternalInstance | null = getCurrentInstance()
-  return vm?.refs || {}
-}
-
-export function useResponsiveFormLayout(props: any) {
+export function useResponsiveFormLayout(props: IFormLayoutProps, root: Ref<HTMLElement | null>) {
   const { breakpoints } = props
   if (!isArr(breakpoints)) {
     return {
       props: ref(props),
     }
   }
-  const layoutProps = ref<IProps>({})
 
+  const layoutProps = ref<IFormLayoutProps>({})
   const updateUI = (target: HTMLElement) => {
     layoutProps.value = calculateProps(target, props)
   }
 
+  const observer: ResizeObserverCallback = () => {
+    if (root.value)
+      updateUI(root.value)
+  }
+
+  const resizeObserver = new ResizeObserver(observer)
+
   onMounted(() => {
-    const { root } = useRefs()
-    const observer = () => {
-      updateUI(root as HTMLElement)
-    }
-    const resizeObserver = new ResizeObserver(observer)
-    if (root) {
-      resizeObserver.observe(root as Element)
+    if (!root?.value) {
+      console.warn('Root element not found for responsive form layout')
+      return
     }
 
-    updateUI(root as HTMLElement)
+    resizeObserver.observe(root.value)
+    updateUI(root.value)
+  })
 
-    return () => {
-      resizeObserver.disconnect()
-    }
+  onUnmounted(() => {
+    resizeObserver.disconnect()
   })
 
   return {
     props: layoutProps,
   }
+}
+
+export const formLayoutDeepContext: InjectionKey<Ref<IFormLayoutProps>> = Symbol(
+  'formLayoutDeepContext',
+)
+
+export const formLayoutShallowContext: InjectionKey<Ref<IFormLayoutProps>>
+  = Symbol('formLayoutShallowContext')
+
+export function useFormDeepLayout(): Ref<IFormLayoutProps> {
+  return inject(formLayoutDeepContext, ref({}))
+}
+
+export function useFormShallowLayout(): Ref<IFormLayoutProps> {
+  return inject(formLayoutShallowContext, ref({}))
+}
+
+export function useFormLayout(): Ref<IFormLayoutProps> {
+  const shallowLayout = inject(formLayoutShallowContext, ref({}))
+  const deepLayout = inject(formLayoutDeepContext, ref({}))
+  const formLayout = ref({
+    ...deepLayout.value,
+    ...shallowLayout.value,
+  })
+
+  watch(
+    [shallowLayout, deepLayout],
+    () => {
+      formLayout.value = {
+        ...deepLayout.value,
+        ...shallowLayout.value,
+      }
+    },
+    {
+      deep: true,
+    },
+  )
+  return formLayout
 }

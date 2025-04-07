@@ -23,7 +23,7 @@ import {
   stylePrefix,
 } from '../__builtins__'
 import { FormGrid } from '../form-grid'
-import { FormLayoutShallowContext, useFormLayout } from '../form-layout'
+import { formLayoutShallowContext, useFormLayout } from '../form-layout'
 import './style.scss'
 
 export interface FormItemProps {
@@ -162,7 +162,7 @@ export const FormBaseItem = defineComponent({
     const containerRef = ref<HTMLElement>(null)
     const overflow = useOverflow(containerRef)
 
-    provide(FormLayoutShallowContext, ref({}))
+    provide(formLayoutShallowContext, ref({}))
 
     return () => {
       const gridColumn = FormGrid.useGridColumn(props.gridSpan as string)
