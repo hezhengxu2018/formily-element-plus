@@ -2,6 +2,21 @@
 
 
 
+# [2.3.0](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.2.2...v2.3.0) (2025-04-08)
+
+
+### Bug Fixes
+
+* **form-dialog:** 修复无法渲染普通组件的问题 ([de75045](https://github.com/hezhengxu2018/formily-element-plus/commit/de75045d4d02556441b828df60d21b6220e1fe99))
+* **preview:** 修复preview组件继承配置失败的问题 ([bb673cc](https://github.com/hezhengxu2018/formily-element-plus/commit/bb673cc9284a87f57696408631d0ce41d679183a))
+
+
+### Features
+
+* **form-dialog:** formDialog支持插槽渲染即额外的自定义按钮 ([249be0c](https://github.com/hezhengxu2018/formily-element-plus/commit/249be0c8cc5b1bfcd0eefe22a1ceaad223f46da2))
+* **form-dialog:** formDialog组件支持动态添加中间件 ([ced7c73](https://github.com/hezhengxu2018/formily-element-plus/commit/ced7c736402b5c7cda453c3bcf4b6ef18b481af9))
+* **form-dialog:** 支持通过插槽的形式自定义渲染节点 ([9921bcc](https://github.com/hezhengxu2018/formily-element-plus/commit/9921bcc4e696a768a2419c7c8520588f320a045e))
+
 ## [2.2.2](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.2.1...v2.2.2) (2025-03-25)
 
 
