@@ -3,15 +3,7 @@ import type { IFormLayoutProps } from './types'
 import { isArr, isValid } from '@formily/shared'
 import { inject, onMounted, onUnmounted, ref, watch } from 'vue'
 
-interface ICalcBreakpointIndex {
-  (originalBreakpoints: number[], width: number): number
-}
-
-interface ICalculateProps {
-  (target: Element, props: IFormLayoutProps): IFormLayoutProps
-}
-
-const calcBreakpointIndex: ICalcBreakpointIndex = (breakpoints, width) => {
+function calcBreakpointIndex(breakpoints: number[], width: number): number {
   for (const [i, breakpoint] of breakpoints.entries()) {
     if (width <= breakpoint) {
       return i
@@ -32,7 +24,7 @@ function factor<T>(value: T | T[], breakpointIndex: number): T {
   return isValid(value) ? calcFactor<T>(value, breakpointIndex) : value as T
 }
 
-const calculateProps: ICalculateProps = (target, props) => {
+function calculateProps(target: Element, props: IFormLayoutProps): IFormLayoutProps {
   const { clientWidth } = target
   const {
     breakpoints,
@@ -105,7 +97,7 @@ export const formLayoutShallowContext: InjectionKey<Ref<IFormLayoutProps>>
   = Symbol('formLayoutShallowContext')
 
 export function useFormDeepLayout(): Ref<IFormLayoutProps> {
-  return inject(formLayoutDeepContext, ref({}))
+  return inject(formLayoutDeepContext)
 }
 
 export function useFormShallowLayout(): Ref<IFormLayoutProps> {
@@ -134,3 +126,24 @@ export function useFormLayout(): Ref<IFormLayoutProps> {
   )
   return formLayout
 }
+
+export const FORM_LAYOUT_PROPS_KEYS: ReadonlyArray<keyof IFormLayoutProps> = [
+  'colon',
+  'labelAlign',
+  'wrapperAlign',
+  'labelWrap',
+  'labelWidth',
+  'wrapperWidth',
+  'wrapperWrap',
+  'labelCol',
+  'wrapperCol',
+  'fullness',
+  'size',
+  'layout',
+  'feedbackLayout',
+  'tooltipLayout',
+  'breakpoints',
+  'spaceGap',
+  'gridColumnGap',
+  'gridRowGap',
+] as const

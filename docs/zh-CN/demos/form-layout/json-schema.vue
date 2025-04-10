@@ -27,6 +27,7 @@ const schema = {
           'x-decorator': 'FormItem',
           'x-decorator-props': {
             tooltip: '123',
+            labelWrap: true,
           },
           'x-component': 'Input',
         },

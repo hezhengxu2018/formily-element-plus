@@ -1,4 +1,14 @@
-export interface IFormLayoutProps {
+export interface IFormItemProps {
+  required?: boolean
+  label?: string
+  for?: string
+  tooltip?: string
+  addonBefore?: string
+  addonAfter?: string
+  extra?: string
+  feedbackText?: string
+  feedbackStatus?: 'error' | 'warning' | 'success' | 'pending'
+  asterisk?: boolean
   colon?: boolean
   labelAlign?: 'right' | 'left'
   wrapperAlign?: 'right' | 'left'
