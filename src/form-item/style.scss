@@ -5,278 +5,41 @@
 @use './animation.scss' as *;
 
 .#{$form-item-prefix} {
-  display: flex;
-  margin-bottom: $form-item-margin-bottom;
-  position: relative;
-  line-height: $form-item-medium-line-height;
-  font-size: $form-font-size;
-
-  &-label * {
-    line-height: $form-item-medium-line-height;
-  }
-
-  &-label-content {
-    min-height: $form-item-medium-line-height;
-  }
-
-  &-content-component {
-    line-height: $form-item-medium-line-height;
-  }
-
-  .#{$namespace}-input,
-  .#{$namespace}-input-number,
-  .#{$namespace}-input-number.is-controls-right,
-  .#{$namespace}-select,
-  .#{$namespace}-cascader,
-  .#{$namespace}-date-editor--daterange,
-  .#{$namespace}-date-editor--timerange,
-  .#{$namespace}-date-editor--datetimerange,
-  .#{$namespace}-date-editor.#{$namespace}-input,
-  .#{$namespace}-date-editor.#{$namespace}-input__inner,
-  .#{$namespace}-tree-select {
-    width: 100%;
-  }
-
-  .#{$namespace}-input-group {
-    vertical-align: top;
-  }
+  --el-form-label-font-size: var(--el-font-size-base);
 }
 
-.#{$form-item-prefix}-label {
-  position: relative;
+.#{$form-item-prefix}-label__wrapper {
   display: flex;
+  overflow: hidden;
+}
+.is-warp .#{$form-item-prefix}-label-content > span {
+  overflow: visible;
+  white-space: wrap;
+}
+.is-warp .el-form-item__content {
+  align-items: flex-start;
+}
+.is-warp .el-form-item__label {
+  height: auto;
+}
 
-  &-content {
+.#{$form-item-prefix}-label-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  overflow: hidden;
+
+  & > span {
+    display: inline;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  &-tooltip {
-    cursor: help;
-
-    * {
-      cursor: help;
-    }
-
-    label {
-      border-bottom: 1px dashed currentColor;
-    }
+  &.is-tooltip {
+    border-bottom: 1px dashed;
+    border-color: var(--el-border-color);
   }
-}
-
-.#{$form-item-prefix}-label label {
-  color: var(--el-text-color-regular);
-}
-
-.#{$form-item-prefix}-label-align-left {
-  > .#{$form-item-prefix}-label {
-    justify-content: flex-start;
-  }
-}
-
-.#{$form-item-prefix}-label-align-right {
-  > .#{$form-item-prefix}-label {
-    justify-content: flex-end;
-  }
-}
-
-.#{$form-item-prefix}-label-wrap {
-  .#{$form-item-prefix}-label {
-    label {
-      white-space: pre-line;
-    }
-  }
-}
-
-.#{$form-item-prefix}-feedback-layout-terse {
-  margin-bottom: 8px;
-
-  &.#{$form-item-prefix}-feedback-has-text:not(.#{$form-item-prefix}-inset) {
-    margin-bottom: 0;
-  }
-}
-
-.#{$form-item-prefix}-feedback-layout-loose {
-  margin-bottom: $form-error-line-height;
-
-  &.#{$form-item-prefix}-feedback-has-text:not(.#{$form-item-prefix}-inset) {
-    margin-bottom: 0;
-  }
-}
-
-.#{$form-item-prefix}-feedback-layout-none {
-  margin-bottom: 0;
-
-  &.#{$form-item-prefix}-feedback-has-text:not(.#{$form-item-prefix}-inset) {
-    margin-bottom: 0;
-  }
-}
-
-.#{$form-item-prefix}-control {
-  width: 100%;
-  flex: 1;
-
-  .#{$form-item-prefix}-control-content {
-    display: flex;
-
-    .#{$form-item-prefix}-control-content-component {
-      width: 100%;
-      min-height: $form-item-medium-line-height;
-      line-height: $form-item-medium-line-height;
-
-      &-has-feedback-icon {
-        flex: 1;
-        position: relative;
-        display: flex;
-        align-items: center;
-      }
-    }
-
-    .#{$form-item-prefix}-addon-before {
-      margin-right: 8px;
-      display: inline-flex;
-      align-items: center;
-      min-height: $form-item-medium-line-height;
-      flex-shrink: 0;
-    }
-
-    .#{$form-item-prefix}-addon-after {
-      margin-left: 8px;
-      display: inline-flex;
-      align-items: center;
-      min-height: $form-item-medium-line-height;
-      flex-shrink: 0;
-    }
-  }
-}
-
-.#{$form-item-prefix}-size-small {
-  font-size: $namespace;
-
-  .#{$form-item-prefix}-label * {
-    line-height: $form-item-small-line-height;
-  }
-
-  .#{$form-item-prefix}-label-content {
-    min-height: $form-item-small-line-height;
-  }
-
-  .#{$form-item-prefix}-control-content {
-    .#{$form-item-prefix}-control-content-component {
-      line-height: $form-item-small-line-height;
-      min-height: $form-item-small-line-height;
-    }
-  }
-
-  .#{$form-item-prefix}-help,
-  .#{$form-item-prefix}-extra {
-    min-height: $form-error-line-height;
-  }
-
-  .#{$form-item-prefix}-control-content {
-    min-height: $form-item-small-line-height;
-  }
-
-  .#{$form-item-prefix}-label > label {
-    height: $form-item-small-line-height;
-  }
-
-  .#{$namespace}-input {
-    input {
-      height: $form-item-small-line-height;
-      line-height: $form-item-small-line-height;
-    }
-  }
-
-  .#{$namespace}-input-number {
-    line-height: $form-item-small-line-height;
-    &.is-controls-right {
-      .#{$namespace}-input-number__increase,
-      .#{$namespace}-input-number__decrease {
-        line-height: calc($form-item-small-line-height / 2);
-        height: calc($form-item-small-line-height / 2);
-        font-size: $font-size-extra-small;
-        box-sizing: border-box;
-      }
-    }
-  }
-}
-
-.#{$form-item-prefix}-size-large {
-  font-size: $font-size-medium;
-
-  .#{$form-item-prefix}-label * {
-    line-height: $form-item-large-line-height;
-  }
-
-  .#{$form-item-prefix}-label-content {
-    min-height: $form-item-large-line-height;
-  }
-
-  .#{$form-item-prefix}-control-content {
-    .#{$form-item-prefix}-control-content-component {
-      line-height: $form-item-large-line-height;
-      min-height: $form-item-large-line-height;
-    }
-  }
-
-  .#{$form-item-prefix}-help,
-  .#{$form-item-prefix}-extra {
-    min-height: $form-error-line-height;
-  }
-
-  .#{$form-item-prefix}-control-content {
-    min-height: $form-item-large-line-height;
-  }
-
-  .#{$namespace}-input {
-    input {
-      height: $form-item-large-line-height;
-      line-height: $form-item-large-line-height;
-    }
-  }
-
-  .#{$namespace}-select {
-    input {
-      height: $form-item-large-line-height !important;
-      line-height: $form-item-large-line-height;
-    }
-  }
-
-  .#{$namespace}-select__tags .el-tag {
-    height: $form-item-large-line-height - 12px;
-    line-height: $form-item-large-line-height - 12px;
-  }
-
-  .#{$namespace}-input-number {
-    line-height: $form-item-large-line-height;
-    &.is-controls-right {
-      .#{$namespace}-input-number__increase,
-      .#{$namespace}-input-number__decrease {
-        line-height: calc($form-item-large-line-height / 2) - 1;
-        font-size: $font-size-medium;
-      }
-    }
-  }
-}
-
-.#{$form-item-prefix} {
-  &-layout-vertical {
-    display: block;
-
-    .#{$form-item-prefix}-label * {
-      line-height: $form-item-label-top-line-height;
-    }
-
-    .#{$form-item-prefix}-label-content {
-      min-height: $form-item-label-top-line-height;
-    }
-  }
-}
-
-.#{$form-item-prefix}-feedback-layout-popover {
-  margin-bottom: 8px;
 }
 
 .#{$form-item-prefix}-label-tooltip {
@@ -291,228 +54,64 @@
   }
 }
 
-.#{$form-item-prefix}-control-align-left {
-  .#{$form-item-prefix}-control-content {
-    justify-content: flex-start;
-  }
-}
-
-.#{$form-item-prefix}-control-align-right {
-  .#{$form-item-prefix}-control-content {
-    justify-content: flex-end;
-  }
-}
-
-.#{$form-item-prefix}-control-wrap {
-  .#{$form-item-prefix}-control {
-    white-space: pre-line;
-  }
-}
-
-.#{$form-item-prefix}-asterisk {
-  color: var(--el-color-danger);
-  margin-right: 4px;
-  display: inline-block;
-  font-family: SimSun, sans-serif;
-}
-
 .#{$form-item-prefix}-colon {
+  display: flex;
   margin-left: 2px;
+  line-height: 2.3;
+}
+
+.#{$form-item-prefix}-content__wrapper {
+  display: flex;
+  flex: 1;
+  & .is-fullness > div {
+    width: 100%;
+  }
+}
+
+.#{$form-item-prefix}-addon-before {
   margin-right: 8px;
 }
+.#{$form-item-prefix}-addon-after {
+  margin-left: 8px;
+}
 
-.#{$form-item-prefix}-help,
-.#{$form-item-prefix}-extra {
-  clear: both;
-  min-height: $form-error-line-height;
-  line-height: $form-error-line-height;
+.#{$form-item-prefix}-addon-before,
+.#{$form-item-prefix}-addon-after {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  flex-shrink: 0;
+}
+
+// feedback
+.el-form-item.is-warning .el-input__wrapper, .el-form-item.is-warning .el-input__wrapper:hover, .el-form-item.is-warning .el-input__wrapper:focus, .el-form-item.is-warning .el-input__wrapper.is-focus, .el-form-item.is-warning .el-textarea__inner, .el-form-item.is-warning .el-textarea__inner:hover, .el-form-item.is-warning .el-textarea__inner:focus, .el-form-item.is-warning .el-textarea__inner.is-focus, .el-form-item.is-warning .el-select__wrapper, .el-form-item.is-warning .el-select__wrapper:hover, .el-form-item.is-warning .el-select__wrapper:focus, .el-form-item.is-warning .el-select__wrapper.is-focus, .el-form-item.is-warning .el-input-tag__wrapper, .el-form-item.is-warning .el-input-tag__wrapper:hover, .el-form-item.is-warning .el-input-tag__wrapper:focus, .el-form-item.is-warning .el-input-tag__wrapper.is-focus {
+  box-shadow: 0 0 0 1px var(--el-color-warning) inset;
+}
+.#{$form-item-prefix}-feedback {
   color: var(--el-text-color-secondary);
-  transition: var(--el-transition-all);
-  padding-top: 0;
-}
+  font-size: 12px;
+  line-height: 1;
+  padding-top: 2px;
 
-.#{$form-item-prefix}-fullness {
-  > .#{$form-item-prefix}-control {
-    > .#{$form-item-prefix}-control-content {
-      > .#{$form-item-prefix}-control-content-component {
-        > *:first-child {
-          width: 100%;
-        }
-      }
-    }
+  &.is-error {
+    color: var(--el-color-danger);
+  }
+  &.is-success {
+    color: var(--el-color-success);
+  }
+  &.is-warning {
+    color: var(--el-color-warning);
   }
 }
 
-.#{$form-item-prefix}-control-content-component-has-feedback-icon {
-  border-radius: var(--el-border-radius-base);
-  border: var(--el-border);
-  padding-right: 8px;
-  transition: var(--el-transition-duration);
-  touch-action: manipulation;
-  outline: none;
-
-  .#{$namespace}-input-number,
-  .#{$namespace}-date-editor .#{$namespace}-input__inner,
-  .#{$namespace}-select .#{$namespace}-input__inner,
-  .#{$namespace}-input .#{$namespace}-input__inner {
-    border: none !important;
-    box-shadow: none !important;
-  }
-  .#{$namespace}-input-number.is-controls-right .#{$namespace}-input__inner {
-    padding-right: 40px;
-  }
-  .#{$namespace}-input-number.is-controls-right
-    .#{$namespace}-input-number__increase {
-    top: 0;
-    right: 8px;
-    border-right: var(--el-border);
-  }
-  .#{$namespace}-input-number.is-controls-right
-    .#{$namespace}-input-number__decrease {
-    bottom: 0;
-    right: 8px;
-    border-right: var(--el-border);
-  }
+.#{$form-item-prefix}-extra {
+  color: var(--el-text-color-secondary);
+  font-size: 12px;
+  line-height: 1;
+  padding-top: 2px;
 }
 
-.#{$form-item-prefix} {
-  &:hover {
-    .#{$form-item-prefix}-control-content-component-has-feedback-icon {
-      @include hover;
-    }
-  }
-}
-
-.#{$form-item-prefix}-active {
-  .#{$form-item-prefix}-control-content-component-has-feedback-icon {
-    @include active;
-  }
-}
-
-.#{$form-item-prefix}-error {
-  & .#{$namespace}-input__inner,
-  & .#{$namespace}-textarea__inner {
-    &,
-    &.hover {
-      border-color: var(--el-color-danger);
-    }
-  }
-
-  & .#{$namespace}-input__inner,
-  & .#{$namespace}-textarea__inner {
-    &:focus {
-      border-color: var(--el-color-danger);
-    }
-  }
-
-  & .#{$namespace}-input-group__append,
-  & .#{$namespace}-input-group__prepend {
-    & .#{$namespace}-input__inner {
-      border-color: transparent;
-    }
-  }
-  .#{$namespace}-input__validateIcon {
-    color: var(--el-color-danger) !important;
-  }
-}
-
-.#{$form-item-prefix}-error-help,
-.#{$form-item-prefix}-warning-help,
-.#{$form-item-prefix}-success-help {
-  i {
-    margin-right: 8px;
-  }
-}
-
-.#{$form-item-prefix}-error-help {
-  color: var(--el-color-danger);
-}
-
-.#{$form-item-prefix}-warning-help {
-  color: var(--el-color-warning);
-}
-
-.#{$form-item-prefix}-success-help {
-  color: var(--el-color-success);
-}
-
-.#{$form-item-prefix}-warning {
-  & .#{$namespace}-input__inner,
-  & .#{$namespace}-textarea__inner {
-    &,
-    &.hover {
-      border-color: var(--el-color-warning);
-    }
-  }
-
-  & .#{$namespace}-input__inner,
-  & .#{$namespace}-textarea__inner {
-    &:focus {
-      border-color: var(--el-color-warning);
-    }
-  }
-
-  & .#{$namespace}-input-group__append,
-  & .#{$namespace}-input-group__prepend {
-    & .#{$namespace}-input__inner {
-      border-color: transparent;
-    }
-  }
-  .#{$namespace}-input__validateIcon {
-    color: var(--el-color-warning) !important;
-  }
-}
-
-.#{$form-item-prefix}-success {
-  & .#{$namespace}-input__inner,
-  & .#{$namespace}-textarea__inner {
-    &,
-    &.hover {
-      border-color: var(--el-color-success);
-    }
-  }
-
-  & .#{$namespace}-input__inner,
-  & .#{$namespace}-textarea__inner {
-    &:focus {
-      border-color: var(--el-color-success);
-    }
-  }
-
-  & .#{$namespace}-input-group__append,
-  & .#{$namespace}-input-group__prepend {
-    & .#{$namespace}-input__inner {
-      border-color: transparent;
-    }
-  }
-  .#{$namespace}-input__validateIcon {
-    color: var(--el-color-success) !important;
-  }
-}
-
-.#{$form-item-prefix}-bordered-none {
-  .#{$namespace}-input__inner {
-    border: none !important;
-  }
-
-  .#{$namespace}-input-number__decrease,
-  .#{$namespace}-input-number__increase {
-    border: none !important;
-    background: transparent !important;
-  }
-}
-
-.#{$form-item-prefix}-inset {
-  border-radius: var(--el-border-radius-base);
-  border: var(--el-border);
-  padding-left: 12px;
-  transition: 0.3s all;
-
-  &:hover {
-    @include hover;
-  }
-}
-
-.#{$form-item-prefix}-inset-active {
-  @include active;
+// layout
+.#{$form-item-prefix}.is-terse {
+  margin-bottom: 8px;
 }

@@ -2,30 +2,6 @@
 
 > 全新的 FormItem 组件，相比于 Element 的 FormItem，它支持的功能更多，同时它的定位是纯样式组件，不管理表单状态，所以也会更轻量，更方便定制
 
-## Markup Schema 案例
-
-:::demo
-
-form-item/markup-schema
-
-:::
-
-## JSON Schema 案例
-
-:::demo
-
-form-item/json-schema
-
-:::
-
-## Template 案例
-
-:::demo
-
-form-item/template
-
-:::
-
 ## 常用属性案例
 
 :::demo
@@ -33,45 +9,6 @@ form-item/template
 form-item/common
 
 :::
-
-## 无边框案例
-
-设置去除组件边框
-
-:::demo
-
-form-item/bordered-none
-
-:::
-
-## 内嵌模式案例
-
-设置表单组件为内嵌模式
-
-:::demo
-
-form-item/inset
-
-:::
-
-## 反馈信息定制案例
-
-可通过 `feedbackIcon` 传入指定反馈的按钮
-
-:::demo
-
-form-item/feedback
-
-:::
-
-## 尺寸控制案例
-
-:::demo
-
-form-item/size
-
-:::
-
 ## API
 
 ### FormItem
