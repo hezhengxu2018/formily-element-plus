@@ -9,6 +9,15 @@
 form-item/common
 
 :::
+
+## 尺寸控制案例
+
+:::demo
+
+form-item/size
+
+:::
+
 ## API
 
 ### FormItem
