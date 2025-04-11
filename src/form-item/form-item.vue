@@ -8,16 +8,12 @@ import type {
 import type { IFormLayoutProps } from 'src/form-layout/types'
 import type { CSSProperties, Ref } from 'vue'
 import type { IFormItemProps } from './types'
-import { InfoFilled } from '@element-plus/icons-vue'
+import { InfoFilled, Warning, CircleClose, CircleCheck } from '@element-plus/icons-vue'
 import { isArr } from '@formily/shared'
 import { useField } from '@formily/vue'
-import { refDebounced } from '@vueuse/core'
 import { ElIcon, ElTooltip, formContextKey, formItemContextKey, useFormSize, useId, useNamespace } from 'element-plus'
-import {
-  addUnit,
-  isBoolean,
-} from 'element-plus/es/utils/index'
-import { pick } from 'lodash-es'
+import { addUnit } from 'element-plus/es/utils/index'
+import { pick, isNil } from 'lodash-es'
 import {
   computed,
   inject,
@@ -27,7 +23,8 @@ import {
   useSlots,
 } from 'vue'
 import { stylePrefix } from '../__builtins__'
-import { FORM_LAYOUT_PROPS_KEYS, formLayoutDeepContext, formLayoutShallowContext, useFormDeepLayout } from '../form-layout/utils'
+import { FORM_LAYOUT_PROPS_KEYS, formLayoutDeepContext, formLayoutShallowContext } from '../form-layout/utils'
+import type { Field } from '@formily/core'
 
 defineOptions({
   name: 'FFormItem',
@@ -43,24 +40,22 @@ const prefixCls = `${stylePrefix}-form-item`
 const formContext = inject(formContextKey, {} as FormContext)
 const formItemConfig: Partial<IFormLayoutProps> = Object.fromEntries(
   Object.entries(pick(props, FORM_LAYOUT_PROPS_KEYS))
-    .filter(([_, value]) => value !== undefined && value !== null),
+    .filter(([_, value]) => !isNil(value)),
 )
 provide(formLayoutShallowContext, ref(formItemConfig) as Ref<IFormLayoutProps>)
 const formDeepLayout = inject(formLayoutDeepContext, {})
 const formlayout = Object.assign({}, formDeepLayout, formItemConfig)
-const field = useField()
+const field = useField<Field>()
 
 const _size = useFormSize(undefined, { formItem: false })
-const _colon = computed(() => {
-  if (isBoolean(formlayout.colon)) {
-    return formlayout.colon ?? true
-  }
-  return formlayout?.colon ?? true
-})
+console.log(_size.value)
 
 const _validateState = computed(() => {
   if (props.feedbackStatus === 'pending') {
     return 'validating'
+  }
+  if (props.feedbackStatus === 'warning') {
+    return ''
   }
   return props.feedbackStatus
 })
@@ -69,8 +64,6 @@ const labelId = useId().value
 const inputIds = ref<string[]>([])
 
 const validateState = ref<FormItemValidateState>('')
-const validateStateDebounced = refDebounced(validateState, 100)
-const validateMessage = ref('')
 const formItemRef = ref<HTMLDivElement>()
 const labelRef = ref<HTMLElement>()
 
@@ -113,7 +106,7 @@ const isRequired = computed(() =>
 
 const formItemClasses = computed(() => [
   ns.b(),
-  ns.m(_size.value),
+  ns.m(_size.value || 'default'),
   ns.is(props.feedbackStatus),
   ns.is('validating', validateState.value === 'validating'),
   ns.is('success', validateState.value === 'success'),
@@ -129,7 +122,11 @@ const formItemClasses = computed(() => [
   },
 ])
 
-const validateClasses = computed(() => [`${prefixCls}-feedback`, ns.is(props.feedbackStatus)])
+const validateClasses = computed(() => [
+  `${prefixCls}-feedback`,
+  ns.is(props.feedbackStatus),
+  ns.is('loose', props.feedbackLayout === 'loose')
+])
 
 const hasLabel = computed<boolean>(() => {
   return !!(props.label || slots.label)
@@ -145,34 +142,13 @@ const isGroup = computed<boolean>(() => {
   return !labelFor.value && hasLabel.value
 })
 
-const shouldShowError = computed(
-  () =>
-    validateStateDebounced.value === 'error',
-)
-
 async function validate(): FormValidationResult {
   return true
 }
 
 const clearValidate: FormItemContext['clearValidate'] = () => {}
 
-const resetField: FormItemContext['resetField'] = async () => {
-  // const model = formContext?.model
-  // if (!model || !props.prop)
-  //   return
-
-  // const computedValue = getProp(model, props.prop)
-
-  // // prevent validation from being triggered
-  // isResettingField = true
-
-  // computedValue.value = clone(initialValue)
-
-  // await nextTick()
-  // clearValidate()
-
-  // isResettingField = false
-}
+const resetField: FormItemContext['resetField'] = async () => {}
 
 const addInputId: FormItemContext['addInputId'] = (id: string) => {
   if (!inputIds.value.includes(id)) {
@@ -273,7 +249,7 @@ provide(formItemContextKey, context)
             <InfoFilled />
           </ElIcon>
         </ElTooltip>
-        <span v-if="_colon" :class="`${prefixCls}-colon`">:</span>
+        <span v-if="props.colon" :class="`${prefixCls}-colon`">:</span>
       </div>
     </component>
     <!-- content -->
@@ -282,15 +258,35 @@ provide(formItemContextKey, context)
         {{ props.addonBefore }}
       </div>
       <div :class="[ns.e('content'), formlayout.fullness && 'is-fullness']" :style="contentStyle">
-        <slot />
+        <ElTooltip
+          v-if="props.feedbackLayout === 'popover'"
+          :visible="!!props.feedbackText"
+          effect="light"
+          :offset="6"
+        >
+          <template #default>
+            <slot />
+          </template>
+          <template #content>
+            <div :class="[...validateClasses, ns.is('tooltip') ]">
+              <ElIcon>              
+                <CircleClose v-if="props.feedbackStatus === 'error'" />
+                <CircleCheck v-if="props.feedbackStatus === 'success'" />
+                <Warning v-if="props.feedbackStatus === 'warning'" />
+              </ElIcon>
+              {{ props.feedbackText }}
+            </div>
+          </template>
+        </ElTooltip>
+        <slot v-else />
         <transition-group :name="`${ns.namespace.value}-zoom-in-top`">
-          <slot name="error" :error="validateMessage">
-            <div :class="validateClasses">
+          <slot name="error">
+            <div v-if="props.feedbackText && props.feedbackLayout !== 'popover'" :class="validateClasses">
               {{ props.feedbackText }}
             </div>
           </slot>
           <slot name="extra">
-            <div :class="`${prefixCls}-extra`">
+            <div v-if="props.extra" :class="`${prefixCls}-extra`">
               {{ props.extra }}
             </div>
           </slot>
