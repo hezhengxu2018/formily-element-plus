@@ -16,8 +16,8 @@ export interface IFormItemProps {
   labelWidth?: number
   wrapperWidth?: number
   wrapperWrap?: boolean
-  labelCol?: number | number[]
-  wrapperCol?: number | number[]
+  labelCol?: number
+  wrapperCol?: number
   fullness?: boolean
   size?: 'small' | 'default' | 'large'
   layout?:
@@ -27,7 +27,6 @@ export interface IFormItemProps {
     | ('vertical' | 'horizontal' | 'inline')[]
   feedbackLayout?: 'loose' | 'terse' | 'popover'
   tooltipLayout?: 'icon' | 'text'
-  breakpoints?: number[]
   spaceGap?: number
   gridColumnGap?: number
   gridRowGap?: number

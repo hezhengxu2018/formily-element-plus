@@ -26,6 +26,14 @@ form-layout/template
 
 :::
 
+## Template 栅格布局案例
+
+:::demo
+
+form-layout/template-grid
+
+:::
+
 ## API
 
 | 属性名         | 类型                                                                                   | 描述                    | 默认值     |
