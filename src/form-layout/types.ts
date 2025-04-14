@@ -21,4 +21,8 @@ export interface IFormLayoutProps {
   spaceGap?: number
   gridColumnGap?: number
   gridRowGap?: number
+  shallow?: boolean
+  // element-plus form props
+  hideRequiredAsterisk?: boolean
+  statusIcon?: boolean
 }

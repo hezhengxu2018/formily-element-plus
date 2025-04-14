@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { Field } from '@formily/core'
 import type {
   FormContext,
   FormItemContext,
@@ -6,14 +7,15 @@ import type {
   FormValidationResult,
 } from 'element-plus'
 import type { IFormLayoutProps } from 'src/form-layout/types'
-import type { CSSProperties, Ref } from 'vue'
+import type { CSSProperties } from 'vue'
 import type { IFormItemProps } from './types'
-import { InfoFilled, Warning, CircleClose, CircleCheck } from '@element-plus/icons-vue'
+import { CircleCheck, CircleClose, InfoFilled, Warning } from '@element-plus/icons-vue'
 import { isArr } from '@formily/shared'
 import { useField } from '@formily/vue'
+import { useResizeObserver } from '@vueuse/core'
 import { ElIcon, ElTooltip, formContextKey, formItemContextKey, useFormSize, useId, useNamespace } from 'element-plus'
 import { addUnit } from 'element-plus/es/utils/index'
-import { pick, isNil } from 'lodash-es'
+import { isNil, pick } from 'lodash-es'
 import {
   computed,
   inject,
@@ -23,8 +25,7 @@ import {
   useSlots,
 } from 'vue'
 import { stylePrefix } from '../__builtins__'
-import { FORM_LAYOUT_PROPS_KEYS, formLayoutDeepContext, formLayoutShallowContext } from '../form-layout/utils'
-import type { Field } from '@formily/core'
+import { FORM_LAYOUT_PROPS_KEYS, useFormLayout } from '../form-layout/utils'
 
 defineOptions({
   name: 'FFormItem',
@@ -42,13 +43,12 @@ const formItemConfig: Partial<IFormLayoutProps> = Object.fromEntries(
   Object.entries(pick(props, FORM_LAYOUT_PROPS_KEYS))
     .filter(([_, value]) => !isNil(value)),
 )
-provide(formLayoutShallowContext, ref(formItemConfig) as Ref<IFormLayoutProps>)
-const formDeepLayout = inject(formLayoutDeepContext, {})
-const formlayout = Object.assign({}, formDeepLayout, formItemConfig)
+const formlayoutConfig = useFormLayout()
+const formlayout = computed(() => Object.assign({}, formlayoutConfig.value, formItemConfig))
+
 const field = useField<Field>()
 
 const _size = useFormSize(undefined, { formItem: false })
-console.log(_size.value)
 
 const _validateState = computed(() => {
   if (props.feedbackStatus === 'pending') {
@@ -69,10 +69,10 @@ const labelRef = ref<HTMLElement>()
 
 const labelPosition = computed(
   () => {
-    if (formlayout.layout === 'vertical' || (isArr(formlayout.layout) && formlayout.layout.includes('vertical' as any))) {
+    if (formlayout.value.layout === 'vertical' || (isArr(formlayout.value.layout) && formlayout.value.layout.includes('vertical' as any))) {
       return 'top'
     }
-    return formlayout.labelAlign
+    return formlayout.value.labelAlign
   },
 )
 
@@ -81,14 +81,14 @@ const labelStyle = computed<CSSProperties>(() => {
     return {}
   }
 
-  const labelWidth = addUnit(formlayout.labelWidth || formContext?.labelWidth || '')
+  const labelWidth = addUnit(formlayout.value.labelWidth || formContext?.labelWidth || '')
   if (labelWidth)
     return { width: labelWidth }
   return {}
 })
 
 const contentStyle = computed<CSSProperties>(() => {
-  const contentWidth = addUnit(formlayout?.wrapperWidth || '')
+  const contentWidth = addUnit(formlayout.value?.wrapperWidth || '')
   if (contentWidth)
     return { width: contentWidth, flex: 'unset' }
   return {}
@@ -96,7 +96,7 @@ const contentStyle = computed<CSSProperties>(() => {
 
 const contentWrapperStyle = computed<CSSProperties>(() => {
   return {
-    justifyContent: formlayout?.wrapperAlign === 'right' && 'flex-end',
+    justifyContent: formlayout.value?.wrapperAlign === 'right' && 'flex-end',
   }
 })
 
@@ -112,7 +112,7 @@ const formItemClasses = computed(() => [
   ns.is('success', validateState.value === 'success'),
   ns.is('required', isRequired.value || props.asterisk),
   ns.is('no-asterisk', formContext?.hideRequiredAsterisk),
-  ns.is(formlayout.feedbackLayout),
+  ns.is(formlayout.value.feedbackLayout),
   formContext?.requireAsteriskPosition === 'right'
     ? 'asterisk-right'
     : 'asterisk-left',
@@ -125,7 +125,7 @@ const formItemClasses = computed(() => [
 const validateClasses = computed(() => [
   `${prefixCls}-feedback`,
   ns.is(props.feedbackStatus),
-  ns.is('loose', props.feedbackLayout === 'loose')
+  ns.is('loose', props.feedbackLayout === 'loose'),
 ])
 
 const hasLabel = computed<boolean>(() => {
@@ -160,30 +160,17 @@ const removeInputId: FormItemContext['removeInputId'] = (id: string) => {
   inputIds.value = inputIds.value.filter(listId => listId !== id)
 }
 
-// watch(
-//   () => props.error,
-//   (val) => {
-//     validateMessage.value = val || ''
-//     setValidationState(val ? 'error' : '')
-//   },
-//   { immediate: true },
-// )
-
-// watch(
-//   () => props.validateStatus,
-//   val => setValidationState(val || ''),
-// )
-function isEllipsisActive(element) {
-  if (!element)
-    return false
-  return element.scrollWidth > element.clientWidth
-}
-const isEllipsis = computed(() => {
-  return isEllipsisActive(labelRef.value) && !formlayout.labelWrap
+const isEllipsisActive = ref(false)
+useResizeObserver(labelRef, () => {
+  isEllipsisActive.value = labelRef.value?.scrollWidth > labelRef.value?.clientWidth
 })
+const isEllipsis = computed(() => {
+  return isEllipsisActive.value && !formlayout.value.labelWrap
+})
+
 const context: FormItemContext = reactive({
   $el: formItemRef,
-  labelWidth: formlayout?.labelWidth,
+  labelWidth: formlayout.value?.labelWidth,
   size: _size,
   validateState: _validateState.value,
   labelId,
@@ -198,7 +185,7 @@ const context: FormItemContext = reactive({
   labelPosition,
   inlineMessage: true,
   showMessage: true,
-  fieldValue: undefined,
+  fieldValue: field.value?.value,
 })
 
 provide(formItemContextKey, context)
@@ -215,9 +202,7 @@ provide(formItemContextKey, context)
       :is="labelFor ? 'label' : 'div'"
       v-if="hasLabel"
       :id="labelId" :for="labelFor"
-      :class="{
-        [ns.e('label')]: true,
-      }"
+      :class="[ns.e('label'), !isNil(formlayout.labelCol) && `${prefixCls}-col-${formlayout.labelCol}`]"
       :style="labelStyle"
     >
       <!-- label -->
@@ -253,8 +238,17 @@ provide(formItemContextKey, context)
       </div>
     </component>
     <!-- content -->
-    <div :class="`${prefixCls}-content__wrapper`" :style="contentWrapperStyle">
-      <div v-if="props.addonBefore" :class="`${prefixCls}-addon-before`">
+    <div
+      :class="[
+        `${prefixCls}-content__wrapper`,
+        !isNil(formlayout.wrapperCol) && `${prefixCls}-col-${formlayout.wrapperCol}`,
+      ]"
+      :style="contentWrapperStyle"
+    >
+      <div
+        v-if="props.addonBefore"
+        :class="`${prefixCls}-addon-before`"
+      >
         {{ props.addonBefore }}
       </div>
       <div :class="[ns.e('content'), formlayout.fullness && 'is-fullness']" :style="contentStyle">
@@ -268,8 +262,8 @@ provide(formItemContextKey, context)
             <slot />
           </template>
           <template #content>
-            <div :class="[...validateClasses, ns.is('tooltip') ]">
-              <ElIcon>              
+            <div :class="[...validateClasses, ns.is('tooltip')]">
+              <ElIcon>
                 <CircleClose v-if="props.feedbackStatus === 'error'" />
                 <CircleCheck v-if="props.feedbackStatus === 'success'" />
                 <Warning v-if="props.feedbackStatus === 'warning'" />

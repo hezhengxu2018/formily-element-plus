@@ -1,7 +1,8 @@
 import type { InjectionKey, Ref } from 'vue'
 import type { IFormLayoutProps } from './types'
 import { isArr, isValid } from '@formily/shared'
-import { inject, onMounted, onUnmounted, ref, watch } from 'vue'
+import { useResizeObserver } from '@vueuse/core'
+import { inject, ref, watch } from 'vue'
 
 function calcBreakpointIndex(breakpoints: number[], width: number): number {
   for (const [i, breakpoint] of breakpoints.entries()) {
@@ -59,29 +60,9 @@ export function useResponsiveFormLayout(props: IFormLayoutProps, root: Ref<HTMLE
   }
 
   const layoutProps = ref<IFormLayoutProps>({})
-  const updateUI = (target: HTMLElement) => {
-    layoutProps.value = calculateProps(target, props)
-  }
 
-  const observer: ResizeObserverCallback = () => {
-    if (root.value)
-      updateUI(root.value)
-  }
-
-  const resizeObserver = new ResizeObserver(observer)
-
-  onMounted(() => {
-    if (!root?.value) {
-      console.warn('Root element not found for responsive form layout')
-      return
-    }
-
-    resizeObserver.observe(root.value)
-    updateUI(root.value)
-  })
-
-  onUnmounted(() => {
-    resizeObserver.disconnect()
+  useResizeObserver(root, () => {
+    layoutProps.value = calculateProps(root.value, props)
   })
 
   return {

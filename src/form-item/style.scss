@@ -13,6 +13,17 @@ $form-item-prefix: '#{$formily-prefix}-form-item';
     display: inline-flex;
     align-items: center;
   }
+
+  @for $i from 0 through 24 {
+    .#{$form-item-prefix}-col-#{$i} {
+      @if $i == 0 {
+        display: none;
+      } @else {
+        flex: 0 0 math.percentage(math.div($i, 24));
+        max-width: math.percentage(math.div($i, 24));
+      }
+    }
+  }
 }
 
 // 标签包装器样式

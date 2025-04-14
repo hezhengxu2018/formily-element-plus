@@ -21,8 +21,8 @@ const Item = connect(
 
       const feedbackText = getFeedbackMessage(field, props)
       const feedbackStatus = determineFeedbackStatus(field)
-      const asterisk = 'asterisk' in props 
-        ? props.asterisk 
+      const asterisk = 'asterisk' in props
+        ? props.asterisk
         : field.required && field.pattern !== 'readPretty'
 
       return {
