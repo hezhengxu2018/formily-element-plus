@@ -4,10 +4,10 @@ import type { IFormLayoutProps } from './types'
 import { isEmpty } from '@formily/shared'
 import { useThrottleFn } from '@vueuse/core'
 import { formContextKey } from 'element-plus'
+import { isNil } from 'lodash-es'
 import { provide, ref, watch } from 'vue'
 import { stylePrefix } from '../__builtins__'
 import { formLayoutDeepContext, formLayoutShallowContext, useFormDeepLayout, useResponsiveFormLayout } from './utils'
-import { isNil } from 'lodash-es'
 
 defineOptions({
   name: 'FFormLayout',
@@ -33,10 +33,12 @@ const { props: responsiveProps } = useResponsiveFormLayout(props, rootHTMLRef)
 // 2. 统一管理深层布局配置
 const deepLayout = ref({
   ...formLayoutDeepConfig.value,
-  ...(!props.shallow ? props : {
-    ...(!isNil(props.size) && { size: props.size }),
-    ...(!isNil(props.colon) && { colon: props.colon })
-  })
+  ...(props.shallow
+    ? {
+        ...(!isNil(props.size) && { size: props.size }),
+        ...(!isNil(props.colon) && { colon: props.colon }),
+      }
+    : props),
 })
 provide(formLayoutDeepContext, deepLayout)
 
@@ -52,13 +54,13 @@ const updateLayout = useThrottleFn(() => {
 
 watch(() => [props, responsiveProps], updateLayout, {
   deep: true,
-  immediate: true
+  immediate: true,
 })
 
 provide(formContextKey, {
   statusIcon: props.statusIcon,
   hideRequiredAsterisk: props.hideRequiredAsterisk,
-  requireAsteriskPosition: props.requireAsteriskPosition
+  requireAsteriskPosition: props.requireAsteriskPosition,
 } as FormContext)
 </script>
 

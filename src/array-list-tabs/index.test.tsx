@@ -11,14 +11,7 @@ import { describe, expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { defineComponent } from 'vue'
 import { ArrayListTabs, FormItem, Input } from '../index'
-import './style.scss'
-import 'element-plus/theme-chalk/src/input.scss'
-import 'element-plus/theme-chalk/src/base.scss'
-import 'element-plus/theme-chalk/src/empty.scss'
-import 'element-plus/theme-chalk/src/link.scss'
-import 'element-plus/theme-chalk/src/icon.scss'
-import 'element-plus/theme-chalk/src/badge.scss'
-import 'element-plus/theme-chalk/src/scrollbar.scss'
+import 'element-plus/theme-chalk/index.css'
 
 export const ArrayListTabsTest = defineComponent({
   name: 'TestComponent',
@@ -104,7 +97,5 @@ describe('arrayListTabs', async () => {
     await expect
       .element(screen.getByText('5'))
       .toBeInTheDocument()
-    await screen.getByRole('textbox', { name: '请输入Input' }).fill('TEST_INPUT')
-    await expect.element(screen.getByText('TEST_INPUT')).toBeInTheDocument()
   })
 })

@@ -53,10 +53,16 @@ export default defineConfig({
           return originalDirName ? `styles/${originalDirName}/[name][extname]` : `styles/[name][extname]`
         },
         chunkFileNames(chunkInfo) {
-          const fileName = chunkInfo.name.split('.')[0]
-          const regex = /.*src\/(.+)\/[^/]+\.vue\?.*/
-          const outDir = chunkInfo.moduleIds[0].match(regex)?.[1]
-          return `${outDir}${path.sep}${fileName}.mjs`
+          if (chunkInfo.name.includes('vue_vue')) {
+            const fileName = chunkInfo.name.split('.')[0]
+            const regex = /.*src\/(.+)\/[^/]+\.vue\?.*/
+            const outDir = chunkInfo.moduleIds.at(-1)?.match(regex)?.[1]
+            return `${outDir}${path.sep}${fileName}.mjs`
+          }
+          return `vendor${path.sep}${chunkInfo.name}.mjs`
+        },
+        manualChunks: {
+          '@vueuse': ['@vueuse/core'],
         },
       },
       treeshake: {
