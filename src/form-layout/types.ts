@@ -18,11 +18,9 @@ export interface IFormLayoutProps {
   feedbackLayout?: 'loose' | 'terse' | 'popover'
   tooltipLayout?: 'icon' | 'text'
   breakpoints?: number[]
-  spaceGap?: number
-  gridColumnGap?: number
-  gridRowGap?: number
   shallow?: boolean
   // element-plus form props
   hideRequiredAsterisk?: boolean
   statusIcon?: boolean
+  requireAsteriskPosition?: 'left' | 'right'
 }

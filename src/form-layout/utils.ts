@@ -78,7 +78,7 @@ export const formLayoutShallowContext: InjectionKey<Ref<IFormLayoutProps>>
   = Symbol('formLayoutShallowContext')
 
 export function useFormDeepLayout(): Ref<IFormLayoutProps> {
-  return inject(formLayoutDeepContext)
+  return inject(formLayoutDeepContext, ref({}))
 }
 
 export function useFormShallowLayout(): Ref<IFormLayoutProps> {
@@ -124,7 +124,6 @@ export const FORM_LAYOUT_PROPS_KEYS: ReadonlyArray<keyof IFormLayoutProps> = [
   'feedbackLayout',
   'tooltipLayout',
   'breakpoints',
-  'spaceGap',
-  'gridColumnGap',
-  'gridRowGap',
+  'hideRequiredAsterisk',
+  'statusIcon',
 ] as const

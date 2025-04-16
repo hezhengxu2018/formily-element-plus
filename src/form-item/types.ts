@@ -1,5 +1,4 @@
 export interface IFormItemProps {
-  required?: boolean
   label?: string
   for?: string
   tooltip?: string
@@ -27,7 +26,4 @@ export interface IFormItemProps {
     | ('vertical' | 'horizontal' | 'inline')[]
   feedbackLayout?: 'loose' | 'terse' | 'popover'
   tooltipLayout?: 'icon' | 'text'
-  spaceGap?: number
-  gridColumnGap?: number
-  gridRowGap?: number
 }
