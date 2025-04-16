@@ -2,6 +2,13 @@
 
 
 
+## [2.3.1](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.3.0...v2.3.1) (2025-04-16)
+
+
+### Bug Fixes
+
+* **form-dialog,form-drawer:** 修复由于element-plus内置动画导致弹框关闭前的一小段时间仍然可以提交的bug ([a39a35b](https://github.com/hezhengxu2018/formily-element-plus/commit/a39a35b81d74b4d963eb255f0cf159d1598276a2))
+
 # [2.3.0](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.2.2...v2.3.0) (2025-04-08)
 
 
