@@ -5,7 +5,6 @@ import { Grid } from '@formily/grid'
 import { markRaw } from '@formily/reactive'
 import { computed, provide, ref, watchEffect } from 'vue'
 import { stylePrefix } from '../__builtins__'
-import { useFormLayout } from '../form-layout'
 import { FormGridSymbol } from './hooks'
 
 defineOptions({

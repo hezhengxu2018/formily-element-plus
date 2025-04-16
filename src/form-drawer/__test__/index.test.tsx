@@ -464,7 +464,7 @@ describe('FormDrawer 组件', () => {
       const confirmButton = document.querySelector('.el-button--primary')
       expect(fn1).not.toHaveBeenCalled()
       await userEvent.click(confirmButton)
-      await expect.element(document.querySelector('.formily-element-plus-form-item-error-help')).toBeInTheDocument()
+      await expect.element(document.querySelector('.el-form-item__content .is-error')).toBeInTheDocument()
       await vi.waitFor(() => {
         expect(fn1).not.toHaveBeenCalled()
       })

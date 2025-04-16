@@ -23,7 +23,7 @@ import {
   useSlots,
 } from 'vue'
 import { stylePrefix } from '../__builtins__'
-import { FORM_LAYOUT_PROPS_KEYS, useFormLayout, formLayoutShallowContext } from '../form-layout/utils'
+import { FORM_LAYOUT_PROPS_KEYS, formLayoutShallowContext, useFormLayout } from '../form-layout/utils'
 
 defineOptions({
   name: 'FFormItem',
