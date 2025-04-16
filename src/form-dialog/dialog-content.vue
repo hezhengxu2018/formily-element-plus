@@ -6,7 +6,7 @@ import { FormProvider } from '@formily/vue'
 import { ElButton, ElConfigProvider, ElDialog } from 'element-plus'
 import { omit } from 'lodash-es'
 import { computed } from 'vue'
-import { loadElConfigProvider, stylePrefix } from '../__builtins__'
+import { loadElConfigProvider, stylePrefix, useDebonceSubmitting } from '../__builtins__'
 
 defineOptions({
   name: 'FormDialogContent',
@@ -33,6 +33,7 @@ const props = defineProps({
     required: true,
   },
 })
+
 const slots = defineSlots<FormDialogSlots>()
 const prefixCls = `${stylePrefix}-form-dialog`
 const elConfig = loadElConfigProvider()
@@ -43,6 +44,7 @@ const innerProps = computed(() => {
     'beforeClose',
   ])
 })
+const { internalSubmitting } = useDebonceSubmitting(props.form)
 </script>
 
 <template>
@@ -79,7 +81,7 @@ const innerProps = computed(() => {
           <ElButton
             type="primary"
             v-bind="props.dialogProps.okButtonProps"
-            :loading="props.form.submitting"
+            :loading="internalSubmitting"
             @click="props.resolve()"
           >
             {{ props.dialogProps.okText || '确定' }}

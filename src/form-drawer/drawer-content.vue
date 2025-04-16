@@ -6,7 +6,7 @@ import { FormProvider } from '@formily/vue'
 import { ElButton, ElConfigProvider, ElDrawer } from 'element-plus'
 import { omit } from 'lodash-es'
 import { computed } from 'vue'
-import { loadElConfigProvider, stylePrefix } from '../__builtins__'
+import { loadElConfigProvider, stylePrefix, useDebonceSubmitting } from '../__builtins__'
 
 defineOptions({
   name: 'FormDrawerContent',
@@ -45,6 +45,7 @@ const innerProps = computed(() => {
     'beforeClose',
   ])
 })
+const { internalSubmitting } = useDebonceSubmitting(props.form)
 </script>
 
 <template>
@@ -81,7 +82,7 @@ const innerProps = computed(() => {
           <ElButton
             type="primary"
             v-bind="drawerProps.okButtonProps"
-            :loading="form.submitting"
+            :loading="internalSubmitting"
             @click="resolve()"
           >
             {{ drawerProps.okText || '确定' }}
