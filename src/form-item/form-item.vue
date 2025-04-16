@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { Field } from '@formily/core'
 import type {
-  FormContext,
   FormItemContext,
   FormItemValidateState,
   FormValidationResult,
@@ -13,19 +12,18 @@ import { CircleCheck, CircleClose, InfoFilled, Warning } from '@element-plus/ico
 import { isArr } from '@formily/shared'
 import { useField } from '@formily/vue'
 import { useResizeObserver } from '@vueuse/core'
-import { ElIcon, ElTooltip, formContextKey, formItemContextKey, useFormSize, useId, useNamespace } from 'element-plus'
+import { ElIcon, ElTooltip, formItemContextKey, useFormSize, useId, useNamespace } from 'element-plus'
 import { addUnit } from 'element-plus/es/utils/index'
 import { isNil, pick } from 'lodash-es'
 import {
   computed,
-  inject,
   provide,
   reactive,
   ref,
   useSlots,
 } from 'vue'
 import { stylePrefix } from '../__builtins__'
-import { FORM_LAYOUT_PROPS_KEYS, useFormLayout } from '../form-layout/utils'
+import { FORM_LAYOUT_PROPS_KEYS, useFormLayout, formLayoutShallowContext } from '../form-layout/utils'
 
 defineOptions({
   name: 'FFormItem',
@@ -38,7 +36,6 @@ const props = withDefaults(defineProps<IFormItemProps>(), {
 const slots = useSlots()
 const ns = useNamespace('form-item')
 const prefixCls = `${stylePrefix}-form-item`
-const formContext = inject(formContextKey, {} as FormContext)
 const formItemConfig: Partial<IFormLayoutProps> = Object.fromEntries(
   Object.entries(pick(props, FORM_LAYOUT_PROPS_KEYS))
     .filter(([_, value]) => !isNil(value)),
@@ -81,7 +78,7 @@ const labelStyle = computed<CSSProperties>(() => {
     return {}
   }
 
-  const labelWidth = addUnit(formlayout.value.labelWidth || formContext?.labelWidth || '')
+  const labelWidth = addUnit(formlayout.value.labelWidth || '')
   if (labelWidth)
     return { width: labelWidth }
   return {}
@@ -101,7 +98,7 @@ const contentWrapperStyle = computed<CSSProperties>(() => {
 })
 
 const isRequired = computed(() =>
-  props.required && field.value.pattern !== 'readPretty',
+  props.asterisk && field.value.pattern !== 'readPretty',
 )
 
 const formItemClasses = computed(() => [
@@ -111,13 +108,13 @@ const formItemClasses = computed(() => [
   ns.is('validating', validateState.value === 'validating'),
   ns.is('success', validateState.value === 'success'),
   ns.is('required', isRequired.value || props.asterisk),
-  ns.is('no-asterisk', formContext?.hideRequiredAsterisk),
+  ns.is('no-asterisk', formlayout.value?.hideRequiredAsterisk),
   ns.is(formlayout.value.feedbackLayout),
-  formContext?.requireAsteriskPosition === 'right'
+  formlayout.value?.requireAsteriskPosition === 'right'
     ? 'asterisk-right'
     : 'asterisk-left',
   {
-    [ns.m('feedback')]: formContext?.statusIcon,
+    [ns.m('feedback')]: formlayout.value?.statusIcon,
     [ns.m(`label-${labelPosition.value}`)]: labelPosition.value,
   },
 ])
@@ -129,7 +126,7 @@ const validateClasses = computed(() => [
 ])
 
 const hasLabel = computed<boolean>(() => {
-  return !!(props.label || slots.label)
+  return (props.label !== '' && !isNil(props.label)) || !isNil(slots.label)
 })
 
 const labelFor = computed<string | undefined>(() => {
@@ -189,6 +186,7 @@ const context: FormItemContext = reactive({
 })
 
 provide(formItemContextKey, context)
+provide(formLayoutShallowContext, ref({}))
 </script>
 
 <template>

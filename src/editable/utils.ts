@@ -1,6 +1,6 @@
 import type { Field } from '@formily/core'
 import type { Ref } from 'vue'
-import type { FormItemProps } from '../form-item/types'
+import type { IFormItemProps } from '../form-item/types'
 import { isVoidField } from '@formily/core'
 
 export function getParentPattern(fieldRef: Ref<Field>) {
@@ -8,7 +8,7 @@ export function getParentPattern(fieldRef: Ref<Field>) {
   return field?.parent?.pattern || field?.form?.pattern
 }
 
-export function getFormItemProps(fieldRef: Ref<Field>): FormItemProps {
+export function getFormItemProps(fieldRef: Ref<Field>): IFormItemProps {
   const field = fieldRef.value
 
   if (isVoidField(field))
