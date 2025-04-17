@@ -5,7 +5,7 @@ import type {
   FormItemValidateState,
   FormValidationResult,
 } from 'element-plus'
-import type { IFormLayoutProps } from 'src/form-layout/types'
+import type { ICalculatedFormLayoutProps, IFormLayoutProps } from 'src/form-layout/types'
 import type { CSSProperties } from 'vue'
 import type { IFormItemProps } from './types'
 import { CircleCheck, CircleClose, InfoFilled, Warning } from '@element-plus/icons-vue'
@@ -36,7 +36,7 @@ const props = withDefaults(defineProps<IFormItemProps>(), {
 const slots = useSlots()
 const ns = useNamespace('form-item')
 const prefixCls = `${stylePrefix}-form-item`
-const formItemConfig: Partial<IFormLayoutProps> = Object.fromEntries(
+const formItemConfig: Partial<ICalculatedFormLayoutProps> = Object.fromEntries(
   Object.entries(pick(props, FORM_LAYOUT_PROPS_KEYS))
     .filter(([_, value]) => !isNil(value)),
 )
@@ -103,7 +103,8 @@ const isRequired = computed(() =>
 
 const formItemClasses = computed(() => [
   ns.b(),
-  ns.m(_size.value || 'default'),
+  // eslint-disable-next-line unicorn/explicit-length-check
+  ns.m(props.size || _size.value || 'default'),
   ns.is(props.feedbackStatus),
   ns.is('validating', validateState.value === 'validating'),
   ns.is('success', validateState.value === 'success'),

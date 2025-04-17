@@ -2,9 +2,9 @@ import type { InjectionKey, Ref } from 'vue'
 import type { IFormLayoutProps } from './types'
 import { isArr, isValid } from '@formily/shared'
 import { useResizeObserver } from '@vueuse/core'
-import { inject, ref, watch } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 
-function calcBreakpointIndex(breakpoints: number[], width: number): number {
+export function calcBreakpointIndex(breakpoints: number[], width: number): number {
   for (const [i, breakpoint] of breakpoints.entries()) {
     if (width <= breakpoint) {
       return i
@@ -13,19 +13,19 @@ function calcBreakpointIndex(breakpoints: number[], width: number): number {
   return -1
 }
 
-function calcFactor<T>(value: T | readonly T[], breakpointIndex: number): T {
+export function calcFactor<T>(value: T | readonly T[], breakpointIndex: number): T {
   if (!Array.isArray(value) || value.length === 0) {
     return value as T
   }
-  const safeIndex = Math.max(0, Math.min(breakpointIndex, value.length - 1))
-  return value[safeIndex]
+  const safeIndex = Math.max(-1, Math.min(breakpointIndex, value.length - 1))
+  return value.at(safeIndex)
 }
 
-function factor<T>(value: T | T[], breakpointIndex: number): T {
+export function factor<T>(value: T | T[], breakpointIndex: number): T {
   return isValid(value) ? calcFactor<T>(value, breakpointIndex) : value as T
 }
 
-function calculateProps(target: Element, props: IFormLayoutProps): IFormLayoutProps {
+export function calculateProps(target: Element, props: IFormLayoutProps): IFormLayoutProps {
   const { clientWidth } = target
   const {
     breakpoints,
@@ -81,30 +81,17 @@ export function useFormDeepLayout(): Ref<IFormLayoutProps> {
   return inject(formLayoutDeepContext, ref({}))
 }
 
-export function useFormShallowLayout(): Ref<IFormLayoutProps> {
-  return inject(formLayoutShallowContext, ref({}))
-}
-
 export function useFormLayout(): Ref<IFormLayoutProps> {
   const shallowLayout = inject(formLayoutShallowContext, ref({}))
   const deepLayout = inject(formLayoutDeepContext, ref({}))
-  const formLayout = ref({
-    ...deepLayout.value,
-    ...shallowLayout.value,
-  })
 
-  watch(
-    [shallowLayout, deepLayout],
-    () => {
-      formLayout.value = {
-        ...deepLayout.value,
-        ...shallowLayout.value,
-      }
-    },
-    {
-      deep: true,
-    },
-  )
+  const formLayout = computed(() => {
+    return {
+      ...deepLayout.value,
+      ...shallowLayout.value,
+    }
+  })
+  
   return formLayout
 }
 
@@ -127,3 +114,10 @@ export const FORM_LAYOUT_PROPS_KEYS: ReadonlyArray<keyof IFormLayoutProps> = [
   'hideRequiredAsterisk',
   'statusIcon',
 ] as const
+
+export function filterValidFormLayoutProps(props: IFormLayoutProps): IFormLayoutProps {
+  return Object.fromEntries(
+    Object.entries(props)
+      .filter(([_, value]) => isValid(value)),
+  )
+}
