@@ -18,10 +18,11 @@ import {
   Select,
   Submit,
 } from '@sliver/formily-element-plus'
+import { Grid } from '@formily/grid'
 import { defineComponent, onUnmounted, ref } from 'vue'
 
 function useCollapseGrid(maxRows) {
-  const grid = FormGrid.createFormGrid({
+  const grid = new Grid({
     maxColumns: 4,
     maxWidth: 240,
     maxRows,
