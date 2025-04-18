@@ -8,11 +8,11 @@ import { render } from 'vitest-browser-vue'
 import { defineComponent, ref } from 'vue'
 import FormLayout from '../index'
 import {
-  useFormLayout,
   calcBreakpointIndex,
   calcFactor,
   calculateProps,
   factor,
+  useFormLayout,
 } from '../utils'
 
 import 'element-plus/theme-chalk/base.css'
@@ -28,7 +28,7 @@ const FormLayoutTest = defineComponent({
   setup(props) {
     const formLayout = useFormLayout()
     return () =>
-      props.displayKey.map((keyName) => (
+      props.displayKey.map(keyName => (
         <div key={keyName} data-testid={keyName}>
           {typeof formLayout.value[keyName] === 'boolean'
             ? String(formLayout.value[keyName])
@@ -86,13 +86,13 @@ describe('form-layout 组件', () => {
     it('支持设置 labelWidth', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
-          <FormLayout labelWidth="120px">
+          <FormLayout labelWidth={120}>
             <FormLayoutTest displayKey={['labelWidth']} />
           </FormLayout>
         </FormProvider>
       ))
 
-      await expect.element(getByTestId('labelWidth')).toHaveTextContent('120px')
+      await expect.element(getByTestId('labelWidth')).toHaveTextContent('120')
     })
 
     it('支持设置 size', async () => {
@@ -139,31 +139,35 @@ describe('form-layout 组件', () => {
       // 非shallow模式下，内部布局会覆盖外部布局的属性
       await expect
         .element(getByTestId('labelWidth'))
-        .not.toHaveTextContent('100')
+        .not
+        .toHaveTextContent('100')
     })
 
     it('支持嵌套 FormLayout 并会动态修改', async () => {
-      
       const { getByTestId, getByRole } = render(
         defineComponent({
           setup() {
             const labelWidth = ref(100)
-            return ()=> (
+            return () => (
               <FormProvider form={createForm()}>
                 <FormLayout layout="horizontal">
                   <FormLayout layout="vertical" labelWidth={labelWidth.value}>
                     <FormLayoutTest displayKey={['layout', 'labelWidth']} />
                     <button onClick={() => {
-                      labelWidth.value === 100 ?
-                      labelWidth.value = 200 : labelWidth.value = 100
-                      }}>setLabel</button>
+                      labelWidth.value === 100
+                        ? labelWidth.value = 200
+                        : labelWidth.value = 100
+                    }}
+                    >
+                      setLabel
+                    </button>
                     { labelWidth.value}
                   </FormLayout>
                 </FormLayout>
               </FormProvider>
             )
           },
-        })
+        }),
       )
       await expect.element(getByTestId('labelWidth')).toHaveTextContent('100')
       await getByRole('button').click()

@@ -1,10 +1,10 @@
-import type { ConfigProviderProps } from 'element-plus'
 /*
  * @Author: Hezhengxu
  * @Date: 2024-08-28 11:15:56
  * @LastEditors: Hezhengxu
  * @Description: 加载现有项目中的element-plus配置项
  */
+import type { ConfigProviderProps } from 'element-plus'
 import type { App } from 'vue'
 import { useGlobalConfig, useZIndex } from 'element-plus'
 

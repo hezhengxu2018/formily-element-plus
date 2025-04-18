@@ -98,7 +98,7 @@ const contentWrapperStyle = computed<CSSProperties>(() => {
 })
 
 const isRequired = computed(() =>
-  props.asterisk && field.value.pattern !== 'readPretty',
+  props.asterisk && field.value?.pattern !== 'readPretty',
 )
 
 const formItemClasses = computed(() => [

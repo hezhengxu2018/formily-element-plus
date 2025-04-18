@@ -1,6 +1,5 @@
 export * from './load-config-provider'
 export * from './loading'
-export * from './portal'
 export * from './transform-component'
 export * from './types'
 export * from './utils'
