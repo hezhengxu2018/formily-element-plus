@@ -24,19 +24,20 @@ const parentPattern = observable.computed(() => getParentPattern(fieldRef))
 </script>
 
 <template>
-  <ElPopover
-    v-bind="$attrs"
-    :class="[prefixCls, $attrs.class]"
-    :title="$attrs.title || fieldRef.title"
-    :model-value="visible"
-    trigger="click"
-    @update:model-value="handleInput"
-  >
-    <template #default>
-      <slot />
-    </template>
-    <template #reference>
-      <div :class="prefixCls">
+  <div :class="prefixCls">
+    <ElPopover
+      v-bind="$attrs"
+      :class="[prefixCls, $attrs.class]"
+      :title="$attrs.title || fieldRef.title"
+      :model-value="visible"
+      trigger="click"
+      width="auto"
+      @update:model-value="handleInput"
+    >
+      <template #default>
+        <slot />
+      </template>
+      <template #reference>
         <FormBaseItem :class="`${prefixCls}-trigger`">
           <div :class="`${prefixCls}-content`">
             <span :class="`${prefixCls}-preview`">
@@ -48,7 +49,7 @@ const parentPattern = observable.computed(() => getParentPattern(fieldRef))
             />
           </div>
         </FormBaseItem>
-      </div>
-    </template>
-  </ElPopover>
+      </template>
+    </ElPopover>
+  </div>
 </template>
