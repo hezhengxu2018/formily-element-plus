@@ -2,6 +2,18 @@
 
 > 区块级布局批量控制组件，借助该组件，我们可以轻松的控制被 FormLayout 圈住的所有 FormItem 组件的布局模式
 
+::: tip 提示
+该组件经过重构，请注意更新后的文档。移除了全部 Antd 内置的而 Element-Plus 没有开发的功能。本组件库主要是 Element-Plus 的 Formily 封装，
+不应考虑将设计风格与 Antd 对齐。但是在布局配置项上保留了原本Formily的配置方式。
+
+1. 移除了`inset`配置项
+2. 移除了`bordered`配置项
+3. 移除了`gridColumnGap` `gridRowGap`配置项，应该通过网格布局组件完成。
+4. 移除了`spaceGap`配置项，现在应该通过`Space`组件完成配置。
+5. 添加了`hideRequiredAsterisk` `statusIcon` `requireAsteriskPosition`这三个 Element-Plus 组件提供的配置项
+
+:::
+
 ## Markup Schema 案例
 
 :::demo
@@ -36,29 +48,24 @@ form-layout/template-grid
 
 ## API
 
-| 属性名         | 类型                                                                                   | 描述                    | 默认值     |
-| -------------- | -------------------------------------------------------------------------------------- | ----------------------- | ---------- |
-| style          | CSSProperties                                                                          | 样式                    | -          |
-| className      | string                                                                                 | 类名                    | -          |
-| colon          | boolean                                                                                | 是否有冒号              | true       |
-| labelAlign     | `'right' \| 'left' \| ('right' \| 'left')[]`                                           | 标签内容对齐            | -          |
-| wrapperAlign   | `'right' \| 'left' \| ('right' \| 'left')[]`                                           | 组件容器内容对齐        | -          |
-| labelWrap      | boolean                                                                                | 标签内容换行            | false      |
-| labelWidth     | number                                                                                 | 标签宽度(px)            | -          |
-| wrapperWidth   | number                                                                                 | 组件容器宽度(px)        | -          |
-| wrapperWrap    | boolean                                                                                | 组件容器换行            | false      |
-| labelCol       | `number \| number[]`                                                                   | 标签宽度(24 column)     | -          |
-| wrapperCol     | `number \| number[]`                                                                   | 组件容器宽度(24 column) | -          |
-| fullness       | boolean                                                                                | 组件容器宽度 100%       | false      |
-| size           | `'small' \| 'default' \| 'large'`                                                      | 组件尺寸                | default    |
-| layout         | `'vertical' \| 'horizontal' \| 'inline' \| ('vertical' \| 'horizontal' \| 'inline')[]` | 布局模式                | horizontal |
-| direction      | `'rtl' \| 'ltr'`                                                                       | 方向(暂不支持)          | ltr        |
-| inset          | boolean                                                                                | 内联布局                | false      |
-| shallow        | boolean                                                                                | 上下文浅层传递          | true       |
-| feedbackLayout | `'loose' \| 'terse' \| 'popover' \| 'none'`                                            | 反馈布局                | true       |
-| tooltipLayout  | `'icon' \| 'text'`                                                                     | 问提示布局              | `'icon'`   |
-| bordered       | boolean                                                                                | 是否有边框              | true       |
-| breakpoints    | number[]                                                                               | 容器尺寸断点            | -          |
-| gridColumnGap  | number                                                                                 | 网格布局列间距          | 8          |
-| gridRowGap     | number                                                                                 | 网格布局行间距          | 4          |
-| spaceGap       | number                                                                                 | 弹性间距                | 8          |
+| 属性名                  | 说明                    | 类型                                                                                   | 默认值     |
+| ----------------------- | ----------------------- | -------------------------------------------------------------------------------------- | ---------- |
+| colon                   | 是否有冒号              | ^[boolean]                                                                             | `true`     |
+| labelAlign              | 标签内容对齐            | ^[enum]`'right' \| 'left' \| ('right' \| 'left')[]`                                    | -          |
+| wrapperAlign            | 组件容器内容对齐        | ^[enum]`'right' \| 'left' \| ('right' \| 'left')[]`                                    | -          |
+| labelWrap               | 标签内容换行            | ^[boolean]                                                                             | `false`    |
+| labelWidth              | 标签宽度(px)            | ^[number]                                                                              | -          |
+| wrapperWidth            | 组件容器宽度(px)        | ^[number]                                                                              | -          |
+| wrapperWrap             | 组件容器换行            | ^[boolean]                                                                             | `false`    |
+| labelCol                | 标签宽度(24 column)     | ^[number] \| ^[array]`number[]`                                                           | -          |
+| wrapperCol              | 组件容器宽度(24 column) | ^[number] \| ^[array]`number[]`                                                           | -          |
+| fullness                | 组件容器宽度 100%       | ^[boolean]                                                                             | `false`    |
+| size                    | 组件尺寸                | ^[enum]`'small' \| 'default' \| 'large'`                                               | `'default'` |
+| layout                  | 布局模式                | ^[enum]`'vertical' \| 'horizontal' \| 'inline' \| ('vertical' \| 'horizontal' \| 'inline')[]` | `'horizontal'` |
+| feedbackLayout          | 反馈布局                | ^[enum]`'loose' \| 'terse' \| 'popover'`                                              | -          |
+| tooltipLayout           | 提示布局                | ^[enum]`'icon' \| 'text'`                                                              | `'icon'`   |
+| breakpoints             | 容器尺寸断点            | ^[array]`number[]`                                                                     | -          |
+| shallow                 | 上下文浅层传递          | ^[boolean]                                                                             | `true`     |
+| hideRequiredAsterisk    | 隐藏必填星号            | ^[boolean]                                                                             | -          |
+| statusIcon              | 显示状态图标            | ^[boolean]                                                                             | -          |
+| requireAsteriskPosition | 必填星号位置            | ^[enum]`'left' \| 'right'`                                                             | -          |

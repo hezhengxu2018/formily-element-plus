@@ -2,15 +2,11 @@
 import { createForm } from '@formily/core'
 import { Field, FormProvider } from '@formily/vue'
 import { FormItem, FormLayout, Input, Select } from '@sliver/formily-element-plus'
-import { ElSlider } from 'element-plus'
-import { ref } from 'vue'
 
 const form = createForm()
-const labelCol = ref(6)
 </script>
 
 <template>
-  <ElSlider v-model:model-value="labelCol" :step="1" :min="3" :max="12" />
   <FormProvider :form="form">
     <FormLayout
       :breakpoints="[600, 700, 780]"

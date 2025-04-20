@@ -10,7 +10,5 @@ declare module 'vue' {
     IRiCodeLine: typeof import('~icons/ri/code-line')['default']
     IRiExternalLinkLine: typeof import('~icons/ri/external-link-line')['default']
     IRiFileCopyLine: typeof import('~icons/ri/file-copy-line')['default']
-    IRiFlaskLine: typeof import('~icons/ri/flask-line')['default']
-    IRiGithubLine: typeof import('~icons/ri/github-line')['default']
   }
 }
