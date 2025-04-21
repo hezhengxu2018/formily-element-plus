@@ -13,6 +13,12 @@
 
 :::
 
+::: warning 注意
+
+由于该组件的样式与交互基本沿用了 Element-Plus 的 FormItem，因此移除了原来浅层封装的`ElFormItem`组件。
+
+:::
+
 ## 常用属性案例
 
 :::demo

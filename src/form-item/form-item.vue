@@ -166,11 +166,6 @@ const isEllipsis = computed(() => {
   return isEllipsisActive.value && !formlayout.value.labelWrap
 })
 
-provide(formLayoutShallowContext, ref({
-  ...(isValid(props.size) && { size: props.size }),
-  ...(isValid(props.colon) && { colon: props.colon }),
-}))
-
 const context: FormItemContext = reactive({
   $el: formItemRef,
   labelWidth: formlayout.value?.labelWidth,
@@ -191,8 +186,11 @@ const context: FormItemContext = reactive({
   fieldValue: field.value?.value,
 })
 
+provide(formLayoutShallowContext, ref({
+  ...(isValid(props.size) && { size: props.size }),
+  ...(isValid(props.colon) && { colon: props.colon }),
+}))
 provide(formItemContextKey, context)
-provide(formLayoutShallowContext, ref({}))
 </script>
 
 <template>
