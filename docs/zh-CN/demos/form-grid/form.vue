@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import { createForm } from '@formily/core'
+import { Grid } from '@formily/grid'
 import { autorun } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
 import {
@@ -18,7 +19,6 @@ import {
   Select,
   Submit,
 } from '@sliver/formily-element-plus'
-import { Grid } from '@formily/grid'
 import { defineComponent, onUnmounted, ref } from 'vue'
 
 function useCollapseGrid(maxRows) {

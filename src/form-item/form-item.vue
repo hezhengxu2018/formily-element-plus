@@ -5,7 +5,7 @@ import type {
   FormItemValidateState,
   FormValidationResult,
 } from 'element-plus'
-import type { ICalculatedFormLayoutProps, IFormLayoutProps } from 'src/form-layout/types'
+import type { ICalculatedFormLayoutProps } from 'src/form-layout/types'
 import type { CSSProperties } from 'vue'
 import type { IFormItemProps } from './types'
 import { CircleCheck, CircleClose, InfoFilled, Warning } from '@element-plus/icons-vue'

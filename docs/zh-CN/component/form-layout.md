@@ -14,6 +14,11 @@
 
 :::
 
+::: warning 注意
+由于功能上 FormLayout 组件实际替代了Element-Plus的Form组件，所以现在添加了tag属性且默认值是`form`，按照HTML规范所有表单都应该被包裹在`form`标签内。
+如果仅提供布局请自行修改。
+:::
+
 ## Markup Schema 案例
 
 :::demo
@@ -48,24 +53,24 @@ form-layout/template-grid
 
 ## API
 
-| 属性名                  | 说明                    | 类型                                                                                   | 默认值     |
+| 属性名                  | 说明                    | 类型                                                                                   | 默认值       |
 | ----------------------- | ----------------------- | -------------------------------------------------------------------------------------- | ---------- |
-| colon                   | 是否有冒号              | ^[boolean]                                                                             | `true`     |
-| labelAlign              | 标签内容对齐            | ^[enum]`'right' \| 'left' \| ('right' \| 'left')[]`                                    | -          |
-| wrapperAlign            | 组件容器内容对齐        | ^[enum]`'right' \| 'left' \| ('right' \| 'left')[]`                                    | -          |
-| labelWrap               | 标签内容换行            | ^[boolean]                                                                             | `false`    |
-| labelWidth              | 标签宽度(px)            | ^[number]                                                                              | -          |
-| wrapperWidth            | 组件容器宽度(px)        | ^[number]                                                                              | -          |
-| wrapperWrap             | 组件容器换行            | ^[boolean]                                                                             | `false`    |
+| colon                   | 是否有冒号              | ^[boolean]                                                                             | `true`       |
+| labelAlign              | 标签内容对齐            | ^[enum]`'right' \| 'left' \| ('right' \| 'left')[]`                                    | -            |
+| wrapperAlign            | 组件容器内容对齐        | ^[enum]`'right' \| 'left' \| ('right' \| 'left')[]`                                    | -            |
+| labelWrap               | 标签内容换行            | ^[boolean]                                                                             | `false`      |
+| labelWidth              | 标签宽度(px)            | ^[number]                                                                              | -            |
+| wrapperWidth            | 组件容器宽度(px)        | ^[number]                                                                              | -            |
+| wrapperWrap             | 组件容器换行            | ^[boolean]                                                                             | `false`      |
 | labelCol                | 标签宽度(24 column)     | ^[number] \| ^[array]`number[]`                                                           | -          |
 | wrapperCol              | 组件容器宽度(24 column) | ^[number] \| ^[array]`number[]`                                                           | -          |
-| fullness                | 组件容器宽度 100%       | ^[boolean]                                                                             | `false`    |
-| size                    | 组件尺寸                | ^[enum]`'small' \| 'default' \| 'large'`                                               | `'default'` |
+| fullness                | 组件容器宽度 100%       | ^[boolean]                                                                             | `false`      |
+| size                    | 组件尺寸                | ^[enum]`'small' \| 'default' \| 'large'`                                               | `'default'`  |
 | layout                  | 布局模式                | ^[enum]`'vertical' \| 'horizontal' \| 'inline' \| ('vertical' \| 'horizontal' \| 'inline')[]` | `'horizontal'` |
-| feedbackLayout          | 反馈布局                | ^[enum]`'loose' \| 'terse' \| 'popover'`                                              | -          |
-| tooltipLayout           | 提示布局                | ^[enum]`'icon' \| 'text'`                                                              | `'icon'`   |
-| breakpoints             | 容器尺寸断点            | ^[array]`number[]`                                                                     | -          |
-| shallow                 | 上下文浅层传递          | ^[boolean]                                                                             | `true`     |
-| hideRequiredAsterisk    | 隐藏必填星号            | ^[boolean]                                                                             | -          |
-| statusIcon              | 显示状态图标            | ^[boolean]                                                                             | -          |
-| requireAsteriskPosition | 必填星号位置            | ^[enum]`'left' \| 'right'`                                                             | -          |
+| feedbackLayout          | 反馈布局                | ^[enum]`'loose' \| 'terse' \| 'popover'`                                               | -            |
+| tooltipLayout           | 提示布局                | ^[enum]`'icon' \| 'text'`                                                              | `'icon'`     |
+| breakpoints             | 容器尺寸断点            | ^[array]`number[]`                                                                     | -            |
+| shallow                 | 上下文浅层传递          | ^[boolean]                                                                             | `true`       |
+| hideRequiredAsterisk    | 隐藏必填星号            | ^[boolean]                                                                             | -            |
+| statusIcon              | 显示状态图标            | ^[boolean]                                                                             | -            |
+| requireAsteriskPosition | 必填星号位置            | ^[enum]`'left' \| 'right'`                                                             | -            |

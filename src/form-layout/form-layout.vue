@@ -13,6 +13,7 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<IFormLayoutProps>(), {
+  tag: 'form',
   colon: true,
   labelWrap: true,
   wrapperWrap: false,
@@ -62,10 +63,11 @@ provide(formContextKey, {
 </script>
 
 <template>
-  <div
+  <component
+    :is="props.tag"
     ref="rootHTMLRef"
     :class="[formPrefixCls]"
   >
     <slot />
-  </div>
+  </component>
 </template>

@@ -1,4 +1,5 @@
 export interface IFormLayoutProps {
+  tag?: string
   colon?: boolean
   labelAlign?: 'right' | 'left' | ('right' | 'left')[]
   wrapperAlign?: 'right' | 'left' | ('right' | 'left')[]
@@ -24,7 +25,6 @@ export interface IFormLayoutProps {
   statusIcon?: boolean
   requireAsteriskPosition?: 'left' | 'right'
 }
-
 
 export interface ICalculatedFormLayoutProps {
   colon?: boolean

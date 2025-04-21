@@ -1,12 +1,11 @@
 import type { PropType } from 'vue'
 import { createForm } from '@formily/core'
 import { FormProvider } from '@formily/vue'
-import { page } from '@vitest/browser/context'
 import { describe, expect, it, vi } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { defineComponent } from 'vue'
-import FormGrid from '../form-grid.vue'
 import FormGridItem from '../form-grid-column.vue'
+import FormGrid from '../form-grid.vue'
 import { useFormGrid } from '../hooks'
 import '../style.scss'
 
@@ -128,7 +127,7 @@ describe('form-grid 组件', () => {
       const gridItem = container.querySelector('[data-testid="grid-item"]')
       await expect.element(gridItem).toBeInTheDocument()
       await vi.waitFor(() => {
-        expect(gridItem).toHaveStyle({ 'grid-column':'span 2' })
+        expect(gridItem).toHaveStyle({ 'grid-column': 'span 2' })
       })
     })
 

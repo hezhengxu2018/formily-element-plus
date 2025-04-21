@@ -2,7 +2,7 @@ import type { InjectionKey, Ref } from 'vue'
 import type { IFormLayoutProps } from './types'
 import { isArr, isValid } from '@formily/shared'
 import { useResizeObserver } from '@vueuse/core'
-import { computed, inject, ref, watch } from 'vue'
+import { computed, inject, ref } from 'vue'
 
 export function calcBreakpointIndex(breakpoints: number[], width: number): number {
   for (const [i, breakpoint] of breakpoints.entries()) {
@@ -91,7 +91,7 @@ export function useFormLayout(): Ref<IFormLayoutProps> {
       ...shallowLayout.value,
     }
   })
-  
+
   return formLayout
 }
 
