@@ -300,6 +300,23 @@ const form = createForm()
           fullness: true,
         }"
       />
+      <SchemaStringField
+        title="InputNumber撑满(fullness=true)"
+        x-decorator="FormItem"
+        x-component="InputNumber"
+        :x-decorator-props="{
+          fullness: true,
+        }"
+      />
+      <SchemaStringField
+        title="InputNumber不撑满(fullness=false)"
+        x-decorator="FormItem"
+        :x-decorator-props="{
+          addonBefore: 'addonBefore',
+          addonAfter: 'addonAfter',
+        }"
+        x-component="InputNumber"
+      />
       <SchemaVoidField x-component="Title" x-content="辅助信息: " />
       <SchemaStringField
         title="必填星号"

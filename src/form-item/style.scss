@@ -93,6 +93,7 @@ $form-item-prefix: '#{$formily-prefix}-form-item';
 
 .#{$form-item-prefix}-addon-before {
   margin-right: 8px;
+  font-size: var(--el-font-size-base);
 }
 
 .#{$form-item-prefix}-addon-after {
@@ -105,6 +106,12 @@ $form-item-prefix: '#{$formily-prefix}-form-item';
   align-items: center;
   min-height: 32px;
   flex-shrink: 0;
+  font-size: var(--el-font-size-base);
+  color: var(--el-text-color-regular);
+}
+
+.el-form-item__content.is-addon-after {
+  flex: unset;
 }
 
 

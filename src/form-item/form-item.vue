@@ -9,7 +9,7 @@ import type { ICalculatedFormLayoutProps } from 'src/form-layout/types'
 import type { CSSProperties } from 'vue'
 import type { IFormItemProps } from './types'
 import { CircleCheck, CircleClose, InfoFilled, Warning } from '@element-plus/icons-vue'
-import { isArr } from '@formily/shared'
+import { isArr, isValid } from '@formily/shared'
 import { useField } from '@formily/vue'
 import { useResizeObserver } from '@vueuse/core'
 import { ElIcon, ElTooltip, formItemContextKey, useFormSize, useId, useNamespace } from 'element-plus'
@@ -166,6 +166,11 @@ const isEllipsis = computed(() => {
   return isEllipsisActive.value && !formlayout.value.labelWrap
 })
 
+provide(formLayoutShallowContext, ref({
+  ...(isValid(props.size) && { size: props.size }),
+  ...(isValid(props.colon) && { colon: props.colon }),
+}))
+
 const context: FormItemContext = reactive({
   $el: formItemRef,
   labelWidth: formlayout.value?.labelWidth,
@@ -250,7 +255,14 @@ provide(formLayoutShallowContext, ref({}))
       >
         {{ props.addonBefore }}
       </div>
-      <div :class="[ns.e('content'), formlayout.fullness && 'is-fullness']" :style="contentStyle">
+      <div
+        :class="[
+          ns.e('content'),
+          formlayout.fullness && 'is-fullness',
+          ns.is('addon-after', !!props.addonAfter),
+        ]"
+        :style="contentStyle"
+      >
         <ElTooltip
           v-if="props.feedbackLayout === 'popover'"
           :visible="!!props.feedbackText"

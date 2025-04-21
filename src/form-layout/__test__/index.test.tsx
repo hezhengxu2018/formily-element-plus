@@ -144,33 +144,34 @@ describe('form-layout 组件', () => {
     })
 
     it('支持嵌套 FormLayout 并会动态修改', async () => {
-      const { getByTestId, getByRole } = render(
+      const { getByTestId } = render(
         defineComponent({
           setup() {
             const labelWidth = ref(100)
             return () => (
-              <FormProvider form={createForm()}>
-                <FormLayout layout="horizontal">
-                  <FormLayout layout="vertical" labelWidth={labelWidth.value}>
-                    <FormLayoutTest displayKey={['layout', 'labelWidth']} />
-                    <button onClick={() => {
-                      labelWidth.value === 100
-                        ? labelWidth.value = 200
-                        : labelWidth.value = 100
-                    }}
-                    >
-                      setLabel
-                    </button>
-                    { labelWidth.value}
+              <div>
+                <FormProvider form={createForm()}>
+                  <FormLayout layout="horizontal">
+                    <FormLayout layout="vertical" labelWidth={labelWidth.value}>
+                      <FormLayoutTest displayKey={['layout', 'labelWidth']} />
+                    </FormLayout>
                   </FormLayout>
-                </FormLayout>
-              </FormProvider>
+                </FormProvider>
+                <button
+                  data-testid="button"
+                  onClick={() => {
+                    labelWidth.value = 200
+                  }}
+                >
+                  setLabel
+                </button>
+              </div>
             )
           },
         }),
       )
       await expect.element(getByTestId('labelWidth')).toHaveTextContent('100')
-      await getByRole('button').click()
+      await getByTestId('button').click()
       await expect.element(getByTestId('labelWidth')).toHaveTextContent('200')
     })
   })
