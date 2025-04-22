@@ -2,6 +2,8 @@
 
 
 
+# [2.4.0](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.3.1...v2.4.0) (2025-04-22)
+
 ## [2.3.1](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.3.0...v2.3.1) (2025-04-16)
 
 
