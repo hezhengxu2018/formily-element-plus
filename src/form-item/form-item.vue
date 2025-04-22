@@ -21,6 +21,7 @@ import {
   reactive,
   ref,
   useSlots,
+  watch,
 } from 'vue'
 import { stylePrefix } from '../__builtins__'
 import { FORM_LAYOUT_PROPS_KEYS, formLayoutShallowContext, useFormLayout } from '../form-layout/utils'
@@ -46,16 +47,6 @@ const formlayout = computed(() => Object.assign({}, formlayoutConfig.value, form
 const field = useField<Field>()
 
 const _size = useFormSize(undefined, { formItem: false })
-
-const _validateState = computed(() => {
-  if (props.feedbackStatus === 'pending') {
-    return 'validating'
-  }
-  if (props.feedbackStatus === 'warning') {
-    return ''
-  }
-  return props.feedbackStatus
-})
 
 const labelId = useId().value
 const inputIds = ref<string[]>([])
@@ -166,6 +157,8 @@ const isEllipsis = computed(() => {
   return isEllipsisActive.value && !formlayout.value.labelWrap
 })
 
+// HACK computed无法监听到props.feedbackStatus的变化
+const _validateState = ref<FormItemValidateState>('')
 const context: FormItemContext = reactive({
   $el: formItemRef,
   labelWidth: formlayout.value?.labelWidth,
@@ -185,6 +178,17 @@ const context: FormItemContext = reactive({
   showMessage: true,
   fieldValue: field.value?.value,
 })
+watch(() => props.feedbackStatus, (val) => {
+  if (val === 'pending') {
+    context.validateState = 'validating'
+    return
+  }
+  if (val === 'warning') {
+    context.validateState = ''
+    return
+  }
+  context.validateState = val
+})
 
 provide(formLayoutShallowContext, ref({
   ...(isValid(props.size) && { size: props.size }),
@@ -195,15 +199,11 @@ provide(formItemContextKey, context)
 
 <template>
   <div
-    ref="formItemRef"
-    :class="[prefixCls, formlayout.labelWrap && 'is-warp', ...formItemClasses]"
-    :role="isGroup ? 'group' : undefined"
-    :aria-labelledby="isGroup ? labelId : undefined"
+    ref="formItemRef" :class="[prefixCls, formlayout.labelWrap && 'is-warp', ...formItemClasses]"
+    :role="isGroup ? 'group' : undefined" :aria-labelledby="isGroup ? labelId : undefined"
   >
     <component
-      :is="labelFor ? 'label' : 'div'"
-      v-if="hasLabel"
-      :id="labelId" :for="labelFor"
+      :is="labelFor ? 'label' : 'div'" v-if="hasLabel" :id="labelId" :for="labelFor"
       :class="[ns.e('label'), !isNil(formlayout.labelCol) && `${prefixCls}-col-${formlayout.labelCol}`]"
       :style="labelStyle"
     >
@@ -244,13 +244,9 @@ provide(formItemContextKey, context)
       :class="[
         `${prefixCls}-content__wrapper`,
         !isNil(formlayout.wrapperCol) && `${prefixCls}-col-${formlayout.wrapperCol}`,
-      ]"
-      :style="contentWrapperStyle"
+      ]" :style="contentWrapperStyle"
     >
-      <div
-        v-if="props.addonBefore"
-        :class="`${prefixCls}-addon-before`"
-      >
+      <div v-if="props.addonBefore" :class="`${prefixCls}-addon-before`">
         {{ props.addonBefore }}
       </div>
       <div
@@ -258,15 +254,9 @@ provide(formItemContextKey, context)
           ns.e('content'),
           formlayout.fullness && 'is-fullness',
           ns.is('addon-after', !!props.addonAfter),
-        ]"
-        :style="contentStyle"
+        ]" :style="contentStyle"
       >
-        <ElTooltip
-          v-if="props.feedbackLayout === 'popover'"
-          :visible="!!props.feedbackText"
-          effect="light"
-          :offset="6"
-        >
+        <ElTooltip v-if="props.feedbackLayout === 'popover'" :visible="!!props.feedbackText" effect="light" :offset="6">
           <template #default>
             <slot />
           </template>
