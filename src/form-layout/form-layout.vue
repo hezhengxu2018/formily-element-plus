@@ -67,6 +67,7 @@ provide(formContextKey, {
     :is="props.tag"
     ref="rootHTMLRef"
     :class="[formPrefixCls]"
+    @submit.prevent.stop
   >
     <slot />
   </component>

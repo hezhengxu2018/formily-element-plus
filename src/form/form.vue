@@ -28,8 +28,6 @@ const props = defineProps({
 const top = useForm()
 
 function handleSubmit(e: Event, form: FormType) {
-  e?.stopPropagation?.()
-  e?.preventDefault?.()
   form
     .submit(values => props.onAutoSubmit?.(values))
     .catch(error => props.onAutoSubmitFailed?.(error))
@@ -48,7 +46,7 @@ function handleSubmit(e: Event, form: FormType) {
     <PreviewText :placeholder="props.previewTextPlaceholder">
       <FormLayout
         v-bind="$attrs"
-        @submit="(e) => handleSubmit(e, top)"
+        @submit.prevent.stop="(e) => handleSubmit(e, top)"
       >
         <slot />
       </FormLayout>
