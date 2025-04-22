@@ -3,11 +3,12 @@ import { Field } from '@formily/vue'
 import { ElButton } from 'element-plus'
 import { describe, expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
+import { stylePrefix } from '../../__builtins__/configs/index'
 import { Form, FormItem, Input } from '../../index'
 import FormButtonGroup from '../form-button-group.vue'
 import 'element-plus/theme-chalk/index.css'
 
-describe.skip('FormButtonGroup', () => {
+describe('FormButtonGroup', () => {
   it('默认渲染左对齐的按钮组', async () => {
     const { container } = render(
       () => (
@@ -97,12 +98,12 @@ describe.skip('FormButtonGroup', () => {
       ),
     )
 
-    const formItem = container.querySelector('.formily-element-plus-form-item-item-col-6')
+    const formItem = container.querySelector(`.${stylePrefix}-form-item-col-6`)
     expect(formItem).not.toBeNull()
 
     const formItemStyle = window.getComputedStyle(formItem!)
     expect(formItemStyle.margin).toBe('0px')
-    expect(formItemStyle.padding).toBe('0px')
+    expect(formItemStyle.paddingTop).toBe('0px')
 
     const space = container.querySelector('.el-space')
     expect(space).not.toBeNull()

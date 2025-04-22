@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import { createForm } from '@formily/core'
+import { Grid } from '@formily/grid'
 import { autorun } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
 import {
@@ -21,7 +22,7 @@ import {
 import { defineComponent, onUnmounted, ref } from 'vue'
 
 function useCollapseGrid(maxRows) {
-  const grid = FormGrid.createFormGrid({
+  const grid = new Grid({
     maxColumns: 4,
     maxWidth: 240,
     maxRows,

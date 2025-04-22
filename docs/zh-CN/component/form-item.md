@@ -2,28 +2,22 @@
 
 > 全新的 FormItem 组件，相比于 Element 的 FormItem，它支持的功能更多，同时它的定位是纯样式组件，不管理表单状态，所以也会更轻量，更方便定制
 
-## Markup Schema 案例
+该组件经过重构，请注意更新后的文档。移除了全部 Antd 内置的而 Element-Plus 没有开发的功能。本组件库主要是 Element-Plus 的 Formily 封装，
+不应考虑将设计风格与 Antd 对齐。但是在布局配置项上保留了原本Formily的配置方式。
 
-:::demo
+1. 移除了`inset`配置项
+2. 移除了`bordered`配置项
+3. 移除了天然会被Vue继承的属性，如`class`、`style`
+4. 移除了其他Antd中实现的，并非Formily实现的功能
 
-form-item/markup-schema
+::: warning 注意
 
-:::
-
-## JSON Schema 案例
-
-:::demo
-
-form-item/json-schema
+由于该组件的样式与交互基本沿用了 Element-Plus 的 FormItem，因此移除了原来浅层封装的`ElFormItem`组件。
 
 :::
 
-## Template 案例
-
-:::demo
-
-form-item/template
-
+::: warning 注意
+原来支持VNode的属性现在都无法生效了，如`label` `tooltip`。请通过插槽的方式实现。
 :::
 
 ## 常用属性案例
@@ -31,36 +25,6 @@ form-item/template
 :::demo
 
 form-item/common
-
-:::
-
-## 无边框案例
-
-设置去除组件边框
-
-:::demo
-
-form-item/bordered-none
-
-:::
-
-## 内嵌模式案例
-
-设置表单组件为内嵌模式
-
-:::demo
-
-form-item/inset
-
-:::
-
-## 反馈信息定制案例
-
-可通过 `feedbackIcon` 传入指定反馈的按钮
-
-:::demo
-
-form-item/feedback
 
 :::
 
@@ -76,36 +40,31 @@ form-item/size
 
 ### FormItem
 
-| 属性名         | 类型                                                   | 描述                                        | 默认值    |
-| -------------- | ------------------------------------------------------ | ------------------------------------------- | --------- |
-| style          | CSSProperties                                          | 样式                                        | -         |
-| label          | String \| Vue Component                                | 标签                                        | -         |
-| labelStyle     | CSSProperties                                          | 标签样式                                    | -         |
-| wrapperStyle   | CSSProperties                                          | 组件容器样式                                | -         |
-| className      | string                                                 | 组件样式类名                                | -         |
-| colon          | boolean                                                | 冒号                                        | -         |
-| tooltip        | String \| Vue Component                                | 问号提示                                    | -         |
-| tooltipLayout  | `"icon" \| "text"`                                     | 问提示布局                                  | `"icon"`  |
-| labelAlign     | `"left"` \| `"right"`                                  | 标签文本对齐方式                            | `"right"` |
-| labelWrap      | boolean                                                | 标签换⾏，否则出现省略号，hover 有 tooltip  | false     |
-| labelWidth     | `number`                                               | 标签固定宽度                                | -         |
-| wrapperWidth   | `number`                                               | 内容固定宽度                                | -         |
-| labelCol       | number                                                 | 标签⽹格所占列数，和内容列数加起来总和为 24 | -         |
-| wrapperCol     | number                                                 | 内容⽹格所占列数，和标签列数加起来总和为 24 | -         |
-| wrapperAlign   | `"left"` \| `"right"`                                  | 内容文本对齐方式⻬                          | `"left"`  |
-| wrapperWrap    | boolean                                                | 内容换⾏，否则出现省略号，hover 有 tooltip  | false     |
-| fullness       | boolean                                                | 内容撑满                                    | false     |
-| addonBefore    | String \| Vue Component                                | 前缀内容                                    | -         |
-| addonAfter     | String \| Vue Component                                | 后缀内容                                    | -         |
-| size           | `"small"` \| `"default"` \| `"large"`                  | 尺⼨                                        | -         |
-| extra          | ReactNode                                              | 扩展描述⽂案                                | -         |
-| feedbackText   | ReactNode                                              | 反馈⽂案                                    | -         |
-| feedbackLayout | `"loose"` \| `"terse"` \| `"popover"` \| `"none"`      | 反馈布局                                    | -         |
-| feedbackStatus | `"error"` \| `"warning"` \| `"success"` \| `"pending"` | 反馈布局                                    | -         |
-| feedbackIcon   | string                                                 | 反馈图标                                    | -         |
-| required       | boolean                                                | 星号提醒                                    | -         |
-| asterisk       | boolean                                                | 星号提醒                                    | -         |
-| gridSpan       | number                                                 | ⽹格布局占宽                                | -         |
+| 属性名           | 类型                                                    | 描述                                        | 默认值      |
+| ---------------- | ------------------------------------------------------- | ------------------------------------------- | ---------   |
+| label            | `string`                                                | 标签                                        | -           |
+| for              | `string`                                                | 关联的表单字段                              | -           |
+| tooltip          | `string`                                                | 问号提示                                    | -           |
+| addonBefore      | `string`                                                | 前缀内容                                    | -           |
+| addonAfter       | `string`                                                | 后缀内容                                    | -           |
+| extra            | `string`                                                | 扩展描述文案                                | -           |
+| feedbackText     | `string`                                                | 反馈文案                                    | -           |
+| feedbackStatus   | ^[enum]`'error' \| 'warning' \| 'success' \| 'pending'` | 反馈状态                                    | -           |
+| asterisk         | `boolean`                                               | 星号提醒                                    | -           |
+| colon            | `boolean`                                               | 是否显示冒号                                | `true`      |
+| labelAlign       | ^[enum]`'right' \| 'left'`                              | 标签文本对齐方式                            | -           |
+| wrapperAlign     | ^[enum]`'right' \| 'left'`                              | 内容文本对齐方式                            | -           |
+| labelWrap        | `boolean`                                               | 标签换行，超出部分显示省略号，hover 显示 tooltip | `false`|
+| labelWidth       | `number`                                                | 标签固定宽度                                | -           |
+| wrapperWidth     | `number`                                                | 内容固定宽度                                | -           |
+| wrapperWrap      | `boolean`                                               | 内容换行，超出部分显示省略号，hover 显示 tooltip | `false`|
+| labelCol         | `number`                                                | 标签网格所占列数，和内容列数加起来总和为 24 | -           |
+| wrapperCol       | `number`                                                | 内容网格所占列数，和标签列数加起来总和为 24 | -           |
+| fullness         | `boolean`                                               | 内容是否撑满                                | `false`     |
+| size             | ^[enum]`'small' \| 'default' \| 'large'`                | 尺寸                                        | `default`   |
+| layout           | ^[enum]`'vertical' \| 'horizontal' \| 'inline' \| ('vertical' \| 'horizontal' \| 'inline')[]` | 布局模式 | -        |
+| feedbackLayout   | ^[enum]`'loose' \| 'terse' \| 'popover'`                | 反馈布局                                    | `'loose'`   |
+| tooltipLayout    | ^[enum]`'icon' \| 'text'`                               | 提示布局                                    | -           |
 
 ### FormItem.BaseItem
 

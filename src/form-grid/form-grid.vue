@@ -5,7 +5,6 @@ import { Grid } from '@formily/grid'
 import { markRaw } from '@formily/reactive'
 import { computed, provide, ref, watchEffect } from 'vue'
 import { stylePrefix } from '../__builtins__'
-import { useFormLayout } from '../form-layout'
 import { FormGridSymbol } from './hooks'
 
 defineOptions({
@@ -56,13 +55,11 @@ const props = defineProps({
 const prefixCls = `${stylePrefix}-form-grid`
 const rootRef = ref<HTMLElement>()
 
-const layout = useFormLayout()
-
 const gridInstance = computed(() => {
   const { grid, ...restProps } = props
   const options = {
-    columnGap: layout.value?.gridColumnGap ?? 8,
-    rowGap: layout.value?.gridRowGap ?? 4,
+    columnGap: props?.columnGap ?? 8,
+    rowGap: props.rowGap ?? 4,
     ...Object.fromEntries(
       Object.entries(restProps)
         .filter(([_, v]) => v !== undefined)

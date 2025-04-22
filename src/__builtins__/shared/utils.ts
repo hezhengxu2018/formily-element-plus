@@ -1,27 +1,6 @@
 import type { Component, Slot, VNode } from 'vue'
 import { Fragment } from 'vue'
 
-export function isValidElement(element) {
-  return (
-    isVueOptions(element)
-    || (element
-      && typeof element === 'object'
-      && 'componentOptions' in element
-      && 'context' in element
-      && element.tag !== undefined)
-  ) // remove text node
-}
-
-export function isVnode(element: any): boolean {
-  return (
-    element
-    && typeof element === 'object'
-    && 'componentOptions' in element
-    && 'context' in element
-    && element.tag !== undefined
-  )
-}
-
 export function isVueOptions(options: any): options is Component {
   return (
     options

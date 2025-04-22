@@ -50,6 +50,7 @@ export default {
         title="输入框"
         x-decorator="FormItem"
         x-component="Input"
+        :x-validator="[{ min: 5 }, { format: 'url' }]"
         :required="true"
       />
       <SchemaStringField
