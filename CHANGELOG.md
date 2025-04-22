@@ -2,6 +2,18 @@
 
 
 
+## [2.4.1](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.4.0...v2.4.1) (2025-04-22)
+
+
+### Bug Fixes
+
+* **form-layout:** 移除表单提交的默认行为 ([796fa0c](https://github.com/hezhengxu2018/formily-element-plus/commit/796fa0ca1b3cafa60d80f3abe02f2121d28f0241))
+
+
+### Features
+
+* **form-item:** 添加组件对插槽的支持 ([8154a51](https://github.com/hezhengxu2018/formily-element-plus/commit/8154a515c1fc7013bf0a5e791b1eeeb1b7914158))
+
 # [2.4.0](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.3.1...v2.4.0) (2025-04-22)
 
 ## [2.3.1](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.3.0...v2.3.1) (2025-04-16)
