@@ -38,7 +38,7 @@ form-item/size
 
 ## API
 
-### FormItem
+### FormItem Attributes
 
 | 属性名           | 类型                                                    | 描述                                        | 默认值      |
 | ---------------- | ------------------------------------------------------- | ------------------------------------------- | ---------   |
@@ -65,6 +65,17 @@ form-item/size
 | layout           | ^[enum]`'vertical' \| 'horizontal' \| 'inline' \| ('vertical' \| 'horizontal' \| 'inline')[]` | 布局模式 | -        |
 | feedbackLayout   | ^[enum]`'loose' \| 'terse' \| 'popover'`                | 反馈布局                                    | `'loose'`   |
 | tooltipLayout    | ^[enum]`'icon' \| 'text'`                               | 提示布局                                    | -           |
+
+### FormItem Slot
+
+| 插槽名      | 描述         | 类型 |
+| ----------- | ------------ | ---- |
+| default     | 内容         | -    |
+| label       | 标签         | -    |
+| tooltip     | 问号提示     | -    |
+| addonBefore | 前缀内容     | -    |
+| addonAfter  | 后缀内容     | -    |
+| extra       | 扩展描述文案 | -    |
 
 ### FormItem.BaseItem
 
