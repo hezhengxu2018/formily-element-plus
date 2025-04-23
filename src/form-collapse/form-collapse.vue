@@ -19,7 +19,6 @@ const props = defineProps({
     type: [String, Number],
   },
 })
-const attrs = useAttrs()
 const prefixCls = `${stylePrefix}-form-collapse`
 
 const field = useField()
@@ -34,8 +33,6 @@ function takeActiveKeys(panelList) {
     return props.activeKey
   if (formCollapseRef.value?.activeKeys)
     return formCollapseRef.value?.activeKeys
-  if (attrs.accordion)
-    return panels[0]?.name
   return panelList.map(item => item.name)
 }
 
@@ -65,37 +62,29 @@ const panelErrorCounts = observable.computed(() => {
           <RecursionField :schema="itemSchema" :name="name" />
         </template>
         <template #title>
-          <template v-if="itemSchema['x-content']?.title">
-            <template v-if="isFn(itemSchema['x-content']?.title)">
-              <template v-if="panelErrorCounts.value[index] !== 0">
-                <ElBadge :class="`${prefixCls}-errors-badge`" :value="panelErrorCounts.value[index]">
-                  <component :is="() => itemSchema['x-content']?.title(panelErrorCounts.value[index])" />
-                </ElBadge>
-              </template>
-              <template v-else>
-                <component :is="() => itemSchema['x-content']?.title(panelErrorCounts.value[index])" />
-              </template>
-            </template>
-            <template v-else>
-              <template v-if="panelErrorCounts.value[index] !== 0">
-                <ElBadge :class="`${prefixCls}-errors-badge`" :value="panelErrorCounts.value[index]">
-                  <component :is="() => itemSchema['x-content']?.title" />
-                </ElBadge>
-              </template>
-              <template v-else>
-                <component :is="() => itemSchema['x-content']?.title" />
-              </template>
-            </template>
-          </template>
-          <template v-else-if="panelErrorCounts.value[index] !== 0">
-            <ElBadge :class="`${prefixCls}-errors-badge`" :value="panelErrorCounts.value[index]">
-              <span>
-                {{ itemSchema['x-component-props']?.title }}
-              </span>
-            </ElBadge>
-          </template>
+          <ElBadge
+            v-if="panelErrorCounts.value[index] !== 0"
+            :class="`${prefixCls}-errors-badge`"
+            :value="panelErrorCounts.value[index]"
+          >
+            <component
+              :is="() => isFn(itemSchema['x-content']?.title)
+                ? itemSchema['x-content']?.title(panelErrorCounts.value[index])
+                : itemSchema['x-content']?.title"
+              v-if="itemSchema['x-content']?.title"
+            />
+            <span v-else>{{ itemSchema['x-component-props']?.title }}</span>
+          </ElBadge>
           <template v-else>
-            {{ itemSchema['x-component-props']?.title }}
+            <component
+              :is="() => isFn(itemSchema['x-content']?.title)
+                ? itemSchema['x-content']?.title(panelErrorCounts.value[index])
+                : itemSchema['x-content']?.title"
+              v-if="itemSchema['x-content']?.title"
+            />
+            <template v-else>
+              {{ itemSchema['x-component-props']?.title }}
+            </template>
           </template>
         </template>
       </ElCollapseItem>

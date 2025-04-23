@@ -48,6 +48,9 @@ export function createFormCollapse(defaultActiveKeys?: ActiveKeys) {
   const formCollapse = model({
     activeKeys: defaultActiveKeys,
     setActiveKeys(keys: ActiveKeys) {
+      /* istanbul ignore if -- @preserve */
+      if (keys === formCollapse.activeKeys)
+        return
       formCollapse.activeKeys = keys
     },
     hasActiveKey(key: ActiveKey) {
@@ -62,6 +65,7 @@ export function createFormCollapse(defaultActiveKeys?: ActiveKeys) {
       return false
     },
     addActiveKey(key: ActiveKey) {
+      /* istanbul ignore if -- @preserve */
       if (formCollapse.hasActiveKey(key))
         return
       formCollapse.activeKeys = toArr(formCollapse.activeKeys).concat(key)

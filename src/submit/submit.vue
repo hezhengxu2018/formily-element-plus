@@ -23,12 +23,12 @@ const formRef = useParentForm()
 function handleClick(e: MouseEvent) {
   if (props.onClick?.(e) === false)
     return
-
+  console.log('onSubmit', props.onSubmit)
   if (props.onSubmit) {
     const form = formRef?.value
     form?.submit(props.onSubmit)
       .then(props.onSubmitSuccess)
-      .catch(props.onSubmitFailed)
+      .catch(props.onSubmitFailed ?? console.log)
   }
 }
 </script>
