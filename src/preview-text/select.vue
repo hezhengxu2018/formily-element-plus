@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Field } from '@formily/core'
+import { isValid } from '@formily/shared'
 import { useField } from '@formily/vue'
 import { ElSpace, ElTag, ElText } from 'element-plus'
-import { isNil } from 'lodash-es'
 import { useAttrs } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { usePreviewConfig } from './utils'
@@ -25,7 +25,7 @@ const { spaceProps, textProps, tagProps, placeholder } = usePreviewConfig()
 
 <template>
   <div :class="prefixCls">
-    <template v-if="isNil(props.value)">
+    <template v-if="!isValid(props.value)">
       <ElText v-bind="textProps">
         {{ placeholder }}
       </ElText>

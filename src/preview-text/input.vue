@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { InputProps } from 'element-plus'
+import { isFn, isValid } from '@formily/shared'
 import { ElSpace, ElText } from 'element-plus'
-import { isFunction, isNil } from 'lodash-es'
 import { useAttrs } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { usePreviewConfig } from './utils'
@@ -30,11 +30,11 @@ const { spaceProps, textProps, placeholder } = usePreviewConfig()
     <slot v-if="slots.prepend" name="prepend" />
     <slot v-if="slots.prefix" name="prefix" />
     <ElText v-bind="textProps">
-      <template v-if="isFunction(attrs.formatter)">
+      <template v-if="isFn(attrs.formatter)">
         {{ attrs.formatter(props.value) }}
       </template>
       <template v-else>
-        {{ isNil(props.value) ? placeholder : props.value }}
+        {{ isValid(props.value) ? props.value : placeholder }}
       </template>
     </ElText>
     <slot v-if="slots.suffix" name="suffix" />

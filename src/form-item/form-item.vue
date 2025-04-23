@@ -14,7 +14,7 @@ import { useField } from '@formily/vue'
 import { useResizeObserver } from '@vueuse/core'
 import { ElIcon, ElTooltip, formItemContextKey, useFormSize, useId, useNamespace } from 'element-plus'
 import { addUnit } from 'element-plus/es/utils/index'
-import { isNil, pick } from 'lodash-es'
+import { pick } from 'lodash-es'
 import {
   computed,
   provide,
@@ -39,7 +39,7 @@ const ns = useNamespace('form-item')
 const prefixCls = `${stylePrefix}-form-item`
 const formItemConfig: Partial<ICalculatedFormLayoutProps> = Object.fromEntries(
   Object.entries(pick(props, FORM_LAYOUT_PROPS_KEYS))
-    .filter(([_, value]) => !isNil(value)),
+    .filter(([_, value]) => isValid(value)),
 )
 const formlayoutConfig = useFormLayout()
 const formlayout = computed(() => Object.assign({}, formlayoutConfig.value, formItemConfig))
@@ -118,7 +118,7 @@ const validateClasses = computed(() => [
 ])
 
 const hasLabel = computed<boolean>(() => {
-  return (props.label !== '' && !isNil(props.label)) || !isNil(slots.label)
+  return (props.label !== '' && isValid(props.label)) || isValid(slots.label)
 })
 
 const labelFor = computed<string | undefined>(() => {
@@ -206,7 +206,7 @@ provide(formItemContextKey, context)
   >
     <component
       :is="labelFor ? 'label' : 'div'" v-if="hasLabel" :id="labelId" :for="labelFor"
-      :class="[ns.e('label'), !isNil(formlayout.labelCol) && `${prefixCls}-col-${formlayout.labelCol}`]"
+      :class="[ns.e('label'), isValid(formlayout.labelCol) && `${prefixCls}-col-${formlayout.labelCol}`]"
       :style="labelStyle"
     >
       <!-- label -->
@@ -249,7 +249,7 @@ provide(formItemContextKey, context)
     <div
       :class="[
         `${prefixCls}-content__wrapper`,
-        !isNil(formlayout.wrapperCol) && `${prefixCls}-col-${formlayout.wrapperCol}`,
+        isValid(formlayout.wrapperCol) && `${prefixCls}-col-${formlayout.wrapperCol}`,
       ]" :style="contentWrapperStyle"
     >
       <slot name="addonBefore">

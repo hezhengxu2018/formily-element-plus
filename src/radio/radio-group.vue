@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { RadioProps } from 'element-plus'
 import type { PropType } from 'vue'
+import { isPlainObj } from '@formily/shared'
 import { ElRadio, ElRadioButton, ElRadioGroup, version } from 'element-plus'
-import { isPlainObject } from 'lodash-es'
-import { lt } from 'semver'
+import lt from 'semver/functions/lt'
 import { computed, useSlots } from 'vue'
 
 defineOptions({
@@ -31,7 +31,7 @@ const OptionType = computed(() => {
 const IS_LESS_THAN_2_6_0 = lt(version, '2.6.0')
 
 function isRadioPropsObject(option: any): option is RadioProps {
-  return isPlainObject(option)
+  return isPlainObj(option)
 }
 
 function getOptionLabel(option: any, index: number) {

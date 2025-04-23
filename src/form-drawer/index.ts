@@ -5,8 +5,7 @@ import type { FormDrawerSlotContent, IFormDrawer, IFormDrawerProps } from './typ
 import { createForm } from '@formily/core'
 import { toJS } from '@formily/reactive'
 import { observer } from '@formily/reactive-vue'
-import { applyMiddleware, isArr, isFn, isStr } from '@formily/shared'
-import { camelCase, capitalize, isNil } from 'lodash-es'
+import { applyMiddleware, camelCase, isArr, isFn, isStr, isValid, pascalCase } from '@formily/shared'
 import { createApp, h, ref } from 'vue'
 import { isVueOptions, loading } from '../__builtins__'
 import DrawerContent from './drawer-content.vue'
@@ -45,7 +44,7 @@ export function FormDrawer(
       const _middlewareName = camelCase(middlewareName)
       /* istanbul ignore if -- @preserve */
       if (['open', 'cancel', 'confirm'].includes(_middlewareName)) {
-        throw new Error(`for${capitalize(_middlewareName)} is presved`)
+        throw new Error(`for${pascalCase(_middlewareName)} is presved`)
       }
       (env[`${_middlewareName}Middlewares`] = [])
     }
@@ -113,7 +112,7 @@ export function FormDrawer(
             env.form = env.form || createForm(props)
             render(true, (type: string) => {
               env.form.submit(async () => {
-                await (isNil(type) ? applyMiddleware(env.form, env.confirmMiddlewares) : applyMiddleware(env.form, env[`${type}Middlewares`]))
+                await (isValid(type) ? applyMiddleware(env.form, env[`${type}Middlewares`]) : applyMiddleware(env.form, env.confirmMiddlewares))
                 res(toJS(env.form.values))
                 formDrawer.close()
               }).catch((error) => {
@@ -141,7 +140,7 @@ export function FormDrawer(
   if (isArr(dynamicMiddlewareNames)) {
     for (const middlewareName of dynamicMiddlewareNames) {
       const _middlewareName = camelCase(middlewareName)
-      formDrawer[`for${capitalize(_middlewareName)}`] = (middleware: IMiddleware<Form>) => {
+      formDrawer[`for${pascalCase(_middlewareName)}`] = (middleware: IMiddleware<Form>) => {
         isFn(middleware) && env[`${_middlewareName}Middlewares`].push(middleware)
         return formDrawer
       }

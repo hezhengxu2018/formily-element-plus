@@ -40,8 +40,6 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
-    "lodash-es": "^4",
-    "semver": "^7",
     "vue-draggable-plus": "^0.5.0"
   },
   "devDependencies": {
@@ -57,6 +55,7 @@
     "@types/markdown-it": "^14.1.2",
     "@types/markdown-it-container": "^2.0.10",
     "@types/node": "^20.17.19",
+    "@types/semver": "^7.7.0",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vitejs/plugin-vue-jsx": "^4.1.1",
     "@vitest/browser": "^3",
@@ -75,6 +74,7 @@
     "globals": "^15.15.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
+    "lodash-es": "^4",
     "markdown-it": "^14.1.0",
     "markdown-it-container": "^4.0.0",
     "normalize.css": "^8.0.1",
@@ -83,6 +83,7 @@
     "release-it": "^18.1.2",
     "rimraf": "^6.0.1",
     "sass-embedded": "^1.85.0",
+    "semver": "^7",
     "tsx": "^4.19.3",
     "typescript": "^5.7.3",
     "unocss": "^65.5.0",

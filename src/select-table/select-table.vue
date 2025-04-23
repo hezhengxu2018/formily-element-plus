@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Column, TableInstance, TableProps } from 'element-plus'
+import { isEqual, isValid } from '@formily/shared'
 import {
   ElLink,
   ElRadio,
@@ -9,8 +10,8 @@ import {
   version,
   vLoading,
 } from 'element-plus'
-import { differenceWith, isEqual, isNil, remove, uniq, uniqWith, xor } from 'lodash-es'
-import { gt } from 'semver'
+import { differenceWith, remove, uniq, uniqWith, xor } from 'lodash-es'
+import lt from 'semver/functions/lt'
 import { computed, nextTick, ref, watch } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 
@@ -45,7 +46,7 @@ export interface ISelectTableProps extends TableProps<any> {
 }
 
 function compatibleRadioValue(key: string) {
-  return gt(version, '2.6.0') ? { value: key } : { label: key }
+  return lt(version, '2.6.0') ? { label: key } : { value: key }
 }
 
 const elTableRef = ref<TableInstance>()
@@ -77,7 +78,7 @@ const currentSelectLength = computed(() => {
     return Array.isArray(props.value) ? props.value.length : 0
   }
   else {
-    return isNil(radioSelectedKey.value) ? 0 : 1
+    return isValid(radioSelectedKey.value) ? 1 : 0
   }
 })
 
