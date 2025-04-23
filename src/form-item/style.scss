@@ -5,10 +5,6 @@ $form-item-prefix: '#{$formily-prefix}-form-item';
 
 .#{$form-item-prefix} {
   
-  .el-form-item__content {
-    display: block;
-  }
-  
   &.el-form-item--label-top .el-form-item__label {
     display: inline-flex;
     align-items: center;
@@ -40,6 +36,7 @@ $form-item-prefix: '#{$formily-prefix}-form-item';
   
   .el-form-item__content {
     align-items: flex-start;
+    flex-direction: column;
   }
   
   .el-form-item__label {
