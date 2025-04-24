@@ -16,6 +16,8 @@ export function composeExport<T0 extends object, T1 extends object>(
   return Object.assign(s0, s1)
 }
 
+// Adapted from https://github.com/vuejs/vue-next/blob/ca17162e377e0a0bf3fae9d92d0fdcb32084a9fe/packages/runtime-core/src/helpers/renderSlot.ts#L77
+/* istanbul ignore next -- @preserve */
 export function isVnodeEmpty(vnodes: Array<VNode>) {
   return vnodes.every((node: VNode) => {
     if (node.type === Comment) {
