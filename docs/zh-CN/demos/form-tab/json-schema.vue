@@ -42,6 +42,13 @@ const schema = {
               'required': true,
               'x-component': 'Input',
             },
+            aaaa: {
+              'type': 'string',
+              'title': 'AAAA',
+              'x-decorator': 'FormItem',
+              'required': true,
+              'x-component': 'Input',
+            },
           },
         },
         tab2: {
