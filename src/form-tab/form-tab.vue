@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Tabs } from './hooks'
 import type { IFormTabProps } from './types.ts'
 import { observable, reaction } from '@formily/reactive'
 import { RecursionField, useField } from '@formily/vue'
@@ -20,8 +19,8 @@ const field = useField()
 const prefixCls = `${stylePrefix}-form-tab`
 const formTabRef = computed(() => props.formTab ?? createFormTab())
 const tabs = useTabs()
+const _activeKey = ref(props?.value ?? formTabRef.value.activeKey ?? tabs?.[0]?.name)
 
-const _activeKey = ref(props?.value ?? tabs?.[0]?.name)
 reaction(() => {
   return tabs.length
 }, () => {
@@ -43,6 +42,7 @@ const errorList = observable.computed(() => {
 })
 
 function handleTabChange(key: string) {
+  /* istanbul ignore if -- @preserve */
   if (typeof key !== 'string')
     return
   emit('input', key)

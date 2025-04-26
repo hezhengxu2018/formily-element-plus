@@ -9,7 +9,7 @@ export function useTabs() {
   const schema = useFieldSchema()
   const tabs: Tabs = observable([])
   reaction(() => {
-    const tabDisplayStatus = schema.value.mapProperties((schema, name) => {
+    const tabDisplayStatus = schema.value?.mapProperties((schema, name) => {
       const field = tabsField.value
         .query(tabsField.value.address.concat(name))
         .take()
@@ -18,7 +18,7 @@ export function useTabs() {
     return tabDisplayStatus
   }, () => {
     tabs.length = 0
-    schema.value.mapProperties((schema, name) => {
+    schema.value?.mapProperties((schema, name) => {
       const field = tabsField.value
         .query(tabsField.value.address.concat(name))
         .take()
