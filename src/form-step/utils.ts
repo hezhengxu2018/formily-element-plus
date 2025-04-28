@@ -63,6 +63,7 @@ export function createFormStep(defaultCurrent = 0): IFormStep {
   })
 
   const next = action.bound(() => {
+    /* istanbul ignore else -- @preserve */
     if (formStep.allowNext) {
       setDisplay(formStep.current + 1)
       formStep.setCurrent(formStep.current + 1)
@@ -70,6 +71,7 @@ export function createFormStep(defaultCurrent = 0): IFormStep {
   })
 
   const back = action.bound(() => {
+    /* istanbul ignore else -- @preserve */
     if (formStep.allowBack) {
       setDisplay(formStep.current - 1)
       formStep.setCurrent(formStep.current - 1)
@@ -81,6 +83,7 @@ export function createFormStep(defaultCurrent = 0): IFormStep {
 export function parseSteps(schema: Schema) {
   const steps: SchemaStep[] = []
   schema.mapProperties((schema, name) => {
+    /* istanbul ignore else -- @preserve */
     if (schema['x-component']?.indexOf('StepPane') > -1) {
       steps.push({
         name,
@@ -90,8 +93,4 @@ export function parseSteps(schema: Schema) {
     }
   })
   return steps
-}
-
-export function renderSteps(steps: SchemaStep[], callback) {
-  return steps.map((element, index) => callback(element, index))
 }

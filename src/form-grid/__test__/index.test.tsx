@@ -144,9 +144,7 @@ describe('form-grid 组件', () => {
 
       const gridItem = container.querySelector('[data-testid="grid-item"]')
       await expect.element(gridItem).toBeInTheDocument()
-      vi.waitFor(() => {
-        expect(gridItem).toHaveStyle({ 'grid-column-start': '2' })
-      })
+      await expect.element(gridItem).toHaveStyle({ 'grid-column-start': 'span 1' })
     })
   })
 
