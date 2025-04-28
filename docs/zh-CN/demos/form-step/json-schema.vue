@@ -26,6 +26,7 @@ const schema = {
       'x-component': 'FormStep',
       'x-component-props': {
         formStep: '{{formStep}}',
+        finishStatus: 'success',
       },
       'properties': {
         step1: {
