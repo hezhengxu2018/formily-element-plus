@@ -1,4 +1,5 @@
 import type { Schema, SchemaKey } from '@formily/json-schema'
+import type { Slots } from 'vue'
 import type { FormStepEnv, IFormStep } from './types'
 import { action, model, observable } from '@formily/reactive'
 
@@ -6,6 +7,7 @@ export interface SchemaStep {
   name: SchemaKey
   props: any
   schema: Schema
+  slots: Slots
 }
 
 export function createFormStep(defaultCurrent = 0): IFormStep {
@@ -89,6 +91,7 @@ export function parseSteps(schema: Schema) {
         name,
         props: schema['x-component-props'],
         schema,
+        slots: schema['x-content'],
       })
     }
   })

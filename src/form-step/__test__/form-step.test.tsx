@@ -325,4 +325,316 @@ describe('FormStep 组件', () => {
       })
     })
   })
+
+  describe('插槽功能', () => {
+    it('支持自定义 title 插槽', async () => {
+      const CustomTitle = defineComponent({
+        setup() {
+          return () => <span class="custom-title">自定义标题</span>
+        },
+      })
+
+      const { SchemaField } = createSchemaField({
+        components: {
+          FormItem,
+          FormStep,
+          Input,
+        },
+      })
+
+      const form = createForm()
+      const formStep = FormStep.createFormStep()
+
+      const schema = {
+        type: 'object',
+        properties: {
+          collapse: {
+            'type': 'void',
+            'x-component': 'FormStep',
+            'x-component-props': {
+              formStep: '{{formStep}}',
+            },
+            'properties': {
+              step1: {
+                'type': 'void',
+                'x-component': 'FormStep.StepPane',
+                'x-component-props': {
+                  title: '默认标题',
+                },
+                'x-content': {
+                  title: CustomTitle,
+                },
+                'properties': {
+                  aaa: {
+                    'type': 'string',
+                    'title': 'AAA',
+                    'required': true,
+                    'x-decorator': 'FormItem',
+                    'x-component': 'Input',
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
+
+      const { container } = render(() => (
+        <FormProvider form={form}>
+          <FormLayout>
+            <SchemaField schema={schema} scope={{ formStep }} />
+          </FormLayout>
+        </FormProvider>
+      ))
+
+      await expect.element(container.querySelector('.custom-title')).toBeInTheDocument()
+      await expect.element(container.querySelector('.custom-title')).toHaveTextContent('自定义标题')
+    })
+
+    it('支持自定义 icon 插槽', async () => {
+      const CustomIcon = defineComponent({
+        setup() {
+          return () => <span class="custom-icon">图标</span>
+        },
+      })
+
+      const { SchemaField } = createSchemaField({
+        components: {
+          FormItem,
+          FormStep,
+          Input,
+        },
+      })
+
+      const form = createForm()
+      const formStep = FormStep.createFormStep()
+
+      const schema = {
+        type: 'object',
+        properties: {
+          collapse: {
+            'type': 'void',
+            'x-component': 'FormStep',
+            'x-component-props': {
+              formStep: '{{formStep}}',
+            },
+            'properties': {
+              step1: {
+                'type': 'void',
+                'x-component': 'FormStep.StepPane',
+                'x-component-props': {
+                  title: '第一步',
+                },
+                'x-content': {
+                  icon: CustomIcon,
+                },
+                'properties': {
+                  aaa: {
+                    'type': 'string',
+                    'title': 'AAA',
+                    'required': true,
+                    'x-decorator': 'FormItem',
+                    'x-component': 'Input',
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
+
+      const { container } = render(() => (
+        <FormProvider form={form}>
+          <FormLayout>
+            <SchemaField schema={schema} scope={{ formStep }} />
+          </FormLayout>
+        </FormProvider>
+      ))
+
+      await expect.element(container.querySelector('.custom-icon')).toBeInTheDocument()
+      await expect.element(container.querySelector('.custom-icon')).toHaveTextContent('图标')
+    })
+
+    it('支持自定义 description 插槽', async () => {
+      const CustomDescription = defineComponent({
+        setup() {
+          return () => <span class="custom-description">自定义描述</span>
+        },
+      })
+
+      const { SchemaField } = createSchemaField({
+        components: {
+          FormItem,
+          FormStep,
+          Input,
+        },
+      })
+
+      const form = createForm()
+      const formStep = FormStep.createFormStep()
+
+      const schema = {
+        type: 'object',
+        properties: {
+          collapse: {
+            'type': 'void',
+            'x-component': 'FormStep',
+            'x-component-props': {
+              formStep: '{{formStep}}',
+            },
+            'properties': {
+              step1: {
+                'type': 'void',
+                'x-component': 'FormStep.StepPane',
+                'x-component-props': {
+                  title: '第一步',
+                },
+                'x-content': {
+                  description: CustomDescription,
+                },
+                'properties': {
+                  aaa: {
+                    'type': 'string',
+                    'title': 'AAA',
+                    'required': true,
+                    'x-decorator': 'FormItem',
+                    'x-component': 'Input',
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
+
+      const { container } = render(() => (
+        <FormProvider form={form}>
+          <FormLayout>
+            <SchemaField schema={schema} scope={{ formStep }} />
+          </FormLayout>
+        </FormProvider>
+      ))
+
+      await expect.element(container.querySelector('.custom-description')).toBeInTheDocument()
+      await expect.element(container.querySelector('.custom-description')).toHaveTextContent('自定义描述')
+    })
+
+    it('支持字符串类型的插槽内容', async () => {
+      const { SchemaField } = createSchemaField({
+        components: {
+          FormItem,
+          FormStep,
+          Input,
+        },
+      })
+
+      const form = createForm()
+      const formStep = FormStep.createFormStep()
+
+      const schema = {
+        type: 'object',
+        properties: {
+          collapse: {
+            'type': 'void',
+            'x-component': 'FormStep',
+            'x-component-props': {
+              formStep: '{{formStep}}',
+            },
+            'properties': {
+              step1: {
+                'type': 'void',
+                'x-component': 'FormStep.StepPane',
+                'x-component-props': {
+                  title: '默认标题',
+                },
+                'x-content': {
+                  title: '自定义字符串标题',
+                  description: '自定义字符串描述',
+                },
+                'properties': {
+                  aaa: {
+                    'type': 'string',
+                    'title': 'AAA',
+                    'required': true,
+                    'x-decorator': 'FormItem',
+                    'x-component': 'Input',
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
+
+      const { getByText } = render(() => (
+        <FormProvider form={form}>
+          <FormLayout>
+            <SchemaField schema={schema} scope={{ formStep }} />
+          </FormLayout>
+        </FormProvider>
+      ))
+
+      await expect.element(getByText('自定义字符串标题')).toBeInTheDocument()
+      await expect.element(getByText('自定义字符串描述')).toBeInTheDocument()
+    })
+
+    it('支持数字类型的插槽内容', async () => {
+      const { SchemaField } = createSchemaField({
+        components: {
+          FormItem,
+          FormStep,
+          Input,
+        },
+      })
+
+      const form = createForm()
+      const formStep = FormStep.createFormStep()
+
+      const schema = {
+        type: 'object',
+        properties: {
+          collapse: {
+            'type': 'void',
+            'x-component': 'FormStep',
+            'x-component-props': {
+              formStep: '{{formStep}}',
+            },
+            'properties': {
+              step1: {
+                'type': 'void',
+                'x-component': 'FormStep.StepPane',
+                'x-component-props': {
+                  title: '默认标题',
+                },
+                'x-content': {
+                  title: 123,
+                  description: 456,
+                },
+                'properties': {
+                  aaa: {
+                    'type': 'string',
+                    'title': 'AAA',
+                    'required': true,
+                    'x-decorator': 'FormItem',
+                    'x-component': 'Input',
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
+
+      const { getByText } = render(() => (
+        <FormProvider form={form}>
+          <FormLayout>
+            <SchemaField schema={schema} scope={{ formStep }} />
+          </FormLayout>
+        </FormProvider>
+      ))
+
+      await expect.element(getByText('123')).toBeInTheDocument()
+      await expect.element(getByText('456')).toBeInTheDocument()
+    })
+  })
 })

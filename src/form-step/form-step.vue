@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { VoidField } from '@formily/core'
 import type { IFormStepProps } from './types'
+import { isObj } from '@formily/shared'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElStep, ElSteps } from 'element-plus'
 import { computed } from 'vue'
@@ -35,10 +36,35 @@ const current = computed(() => props.active ?? props.formStep?.current ?? 0)
       :style="[{ marginBottom: '10px' }]"
     >
       <ElStep
-        v-for="({ props: stepProps }, key) of steps"
+        v-for="({ props: stepProps, slots: stepSlots }, key) of steps"
         :key="key"
         v-bind="stepProps"
-      />
+      >
+        <template v-if="stepSlots?.title" #title>
+          <template v-if="isObj(stepSlots.title)">
+            <component :is="stepSlots.title" />
+          </template>
+          <template v-else>
+            {{ stepSlots.title }}
+          </template>
+        </template>
+        <template v-if="stepSlots?.icon" #icon>
+          <template v-if="isObj(stepSlots.icon)">
+            <component :is="stepSlots.icon" />
+          </template>
+          <template v-else>
+            {{ stepSlots.icon }}
+          </template>
+        </template>
+        <template v-if="stepSlots?.description" #description>
+          <template v-if="isObj(stepSlots.description)">
+            <component :is="stepSlots.description" />
+          </template>
+          <template v-else>
+            {{ stepSlots.description }}
+          </template>
+        </template>
+      </ElStep>
     </ElSteps>
 
     <template v-for="({ name, schema }, key) of steps" :key="name">
