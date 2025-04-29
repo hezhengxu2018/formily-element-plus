@@ -6,16 +6,6 @@ $editable-prefix-cls: '#{$formily-prefix}-editable';
   cursor: pointer;
   display: inline-block !important;
 
-  .#{$formily-prefix}-form-text {
-    .#{$formily-prefix}-tag {
-      transition: none !important;
-    }
-
-    .#{$formily-prefix}-tag:last-child {
-      margin-right: 0 !important;
-    }
-  }
-
   &-content {
     display: flex;
     align-items: center;
@@ -39,19 +29,5 @@ $editable-prefix-cls: '#{$formily-prefix}-editable';
     &:hover {
       color: var(--el-color-primary);
     }
-  }
-
-  .#{$formily-prefix}-form-text {
-    display: flex;
-    align-items: center;
-  }
-
-  .#{$editable-prefix-cls}-preview {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    word-break: break-all;
-    max-width: 100px;
-    display: block;
   }
 }

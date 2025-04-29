@@ -3,6 +3,7 @@ import type { Field } from '@formily/core'
 import { ChatDotRound, Edit } from '@element-plus/icons-vue'
 import { observable } from '@formily/reactive'
 import { useField } from '@formily/vue'
+import { ClickOutside as vClickOutside } from 'element-plus'
 import { ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { FormBaseItem } from '../form-item'
@@ -15,34 +16,45 @@ defineOptions({
 
 const fieldRef = useField<Field>()
 const prefixCls = `${stylePrefix}-editable`
+const contentRef = ref<HTMLElement>()
 const visible = ref(false)
 
-function handleInput(value: boolean) {
-  visible.value = value
-}
 const parentPattern = observable.computed(() => getParentPattern(fieldRef))
+function onClickOutside(e) {
+  const popoverDOM = contentRef.value.parentElement
+  if (!popoverDOM.contains(e.target)) {
+    visible.value = false
+  }
+}
+function onClick(val) {
+  if (val) {
+    visible.value = true
+  }
+}
 </script>
 
 <template>
   <div :class="prefixCls">
     <ElPopover
       v-bind="$attrs"
+      :visible="visible"
       :class="[prefixCls, $attrs.class]"
       :title="$attrs.title || fieldRef.title"
-      :model-value="visible"
       trigger="click"
       width="auto"
-      @update:model-value="handleInput"
+      @update:visible="onClick"
     >
       <template #default>
-        <slot />
+        <div ref="contentRef" :class="`${prefixCls}-popover-wrapper`">
+          <slot />
+        </div>
       </template>
       <template #reference>
-        <FormBaseItem :class="`${prefixCls}-trigger`">
+        <FormBaseItem v-click-outside="onClickOutside" :class="`${prefixCls}-trigger`">
           <div :class="`${prefixCls}-content`">
-            <span :class="`${prefixCls}-preview`">
+            <ElText>
               {{ fieldRef.title }}
-            </span>
+            </ElText>
             <component
               :is="parentPattern.value === 'editable' ? Edit : ChatDotRound"
               :class="`${prefixCls}-edit-btn`"
