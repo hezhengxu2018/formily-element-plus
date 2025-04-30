@@ -42,7 +42,7 @@ export default {
     :label-col="6"
     :wrapper-col="10"
     @auto-submit="log"
-    @auto-submit-failed="log"
+    @auto-submit-failed="log('failed')"
   >
     <SchemaField>
       <SchemaStringField
