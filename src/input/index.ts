@@ -1,5 +1,5 @@
-import { connect, mapProps, mapReadPretty } from '@formily/vue'
-import { composeExport } from '../__builtins__'
+import { connect, mapProps } from '@formily/vue'
+import { composeExport, mapReadPretty } from '../__builtins__'
 import { PreviewText } from '../preview-text'
 import FInput from './input.vue'
 

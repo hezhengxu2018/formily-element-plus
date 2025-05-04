@@ -1,0 +1,10 @@
+diff --git a/esm/annotations/computed.d.ts b/esm/annotations/computed.d.ts
+index 2c202bdeb5d2790bb7f39be1f85ff56553aa47f2..65991b029ada79414df655ad34abc2b82a758381 100644
+--- a/esm/annotations/computed.d.ts
++++ b/esm/annotations/computed.d.ts
+@@ -1,4 +1,4 @@
+-interface IValue<T = any> {
++export interface IValue<T = any> {
+     value?: T;
+ }
+ export interface IComputed {

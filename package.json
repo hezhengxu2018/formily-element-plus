@@ -104,6 +104,11 @@
       "path": "./node_modules/cz-git"
     }
   },
+  "pnpm": {
+    "patchedDependencies": {
+      "@formily/reactive": "patches/@formily__reactive.patch"
+    }
+  },
   "lint-staged": {
     "*.{vue,js,ts,jsx,tsx,md,json}": "eslint --fix"
   }

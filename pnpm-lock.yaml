@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@formily/reactive':
+    hash: 67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628
+    path: patches/@formily__reactive.patch
+
 importers:
 
   .:
@@ -22,7 +27,7 @@ importers:
         version: 2.3.2(typescript@5.7.3)
       '@formily/reactive':
         specifier: ^2.0.8
-        version: 2.3.2
+        version: 2.3.2(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)
       '@formily/reactive-vue':
         specifier: ^2.0.8
         version: 2.3.2(vue@3.5.13(typescript@5.7.3))
@@ -35,9 +40,6 @@ importers:
       element-plus:
         specifier: ^2.1.8
         version: 2.9.5(vue@3.5.13(typescript@5.7.3))
-      semver:
-        specifier: ^7
-        version: 7.7.1
       vue:
         specifier: ^3.3.0
         version: 3.5.13(typescript@5.7.3)
@@ -165,6 +167,9 @@ importers:
       sass-embedded:
         specifier: ^1.85.0
         version: 1.85.0
+      semver:
+        specifier: ^7
+        version: 7.7.1
       tsx:
         specifier: ^4.19.3
         version: 4.19.3
@@ -361,24 +366,28 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@ast-grep/napi-linux-arm64-musl@0.32.3':
     resolution: {integrity: sha512-7+u7F5rzaV0/N5WdP2q+kGl3v+l8iGFRx4p7NUcbNumYqGDS2mkfRkaesRDSd7BH94ZulGtJnpmu3imX7spolQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@ast-grep/napi-linux-x64-gnu@0.32.3':
     resolution: {integrity: sha512-XwUjw+W1QWDAPjx+Hsa8ZwONN3MDPINdRkRM6Q1vV3pl0p9YrMpwL72xrWQA1G7r7ej9BI1fLiXWB4YEOeYzJw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@ast-grep/napi-linux-x64-musl@0.32.3':
     resolution: {integrity: sha512-894fQNqBDUfCP/qYbrPcK6+tMTEskc+vV2IKOKqgCfDryeptaiJJTJL9+Vbj38rO1LWhY8MIZ8W5ZyjxuhDRBA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@ast-grep/napi-win32-arm64-msvc@0.32.3':
     resolution: {integrity: sha512-T8nrZm3E+h2VgHuQ3THQLvqhou4MkSbNcyIOgLZ0l2NatHIckeHuly5fmnkd6KQsGP/AqAEGxZBoOVYvoDl7DA==}
@@ -1539,21 +1548,25 @@ packages:
     resolution: {integrity: sha512-eEwxY+0Cf76HnQwr1+Qy48qwf4dAebTHaKhzEgxLqLK6szbglnK6SThjY95YHrYWwsH1GujWiFoX51jwZNYfSw==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@oxc-resolver/binding-linux-arm64-musl@3.0.3':
     resolution: {integrity: sha512-LdxbLv8qVkzro4/ZoP9MuytIL6NOVsbhoZ5Wl1KXOa/2DSxBiksrAPMSChCTyeLy6P3ebSHxQSb52ku18t1LBA==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@oxc-resolver/binding-linux-x64-gnu@3.0.3':
     resolution: {integrity: sha512-bN8elR9AV/DZZPdcteOWWElkz8KyxLtOvmfVl7Dnehcs6f9e+fWYKyqiKvva1jsxG4znGKCPT1gfMhpYW8QuKg==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@oxc-resolver/binding-linux-x64-musl@3.0.3':
     resolution: {integrity: sha512-Zy1U49BjriwbAds2ho6CGjZIk2KVn0+lrc/G5bvhQg7UJYxEkAueMGBuA5rULIhx9xVtIPsT9Q+J5Xhb4ffVNw==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@oxc-resolver/binding-wasm32-wasi@3.0.3':
     resolution: {integrity: sha512-7rteQnn7i5f9nkFZs1VRdBqFhvOx3zWavyKkWjXYVxc9vsSLTg0moh2MRZw5dw5m/bEi1u/p3YAKJ9gdHyBhNQ==}
@@ -1642,51 +1655,61 @@ packages:
     resolution: {integrity: sha512-A4iphFGNkWRd+5m3VIGuqHnG3MVnqKe7Al57u9mwgbyZ2/xF9Jio72MaY7xxh+Y87VAHmGQr73qoKL9HPbXj1g==}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-arm-musleabihf@4.34.8':
     resolution: {integrity: sha512-S0lqKLfTm5u+QTxlFiAnb2J/2dgQqRy/XvziPtDd1rKZFXHTyYLoVL58M/XFwDI01AQCDIevGLbQrMAtdyanpA==}
     cpu: [arm]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-linux-arm64-gnu@4.34.8':
     resolution: {integrity: sha512-jpz9YOuPiSkL4G4pqKrus0pn9aYwpImGkosRKwNi+sJSkz+WU3anZe6hi73StLOQdfXYXC7hUfsQlTnjMd3s1A==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.34.8':
     resolution: {integrity: sha512-KdSfaROOUJXgTVxJNAZ3KwkRc5nggDk+06P6lgi1HLv1hskgvxHUKZ4xtwHkVYJ1Rep4GNo+uEfycCRRxht7+Q==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-linux-loongarch64-gnu@4.34.8':
     resolution: {integrity: sha512-NyF4gcxwkMFRjgXBM6g2lkT58OWztZvw5KkV2K0qqSnUEqCVcqdh2jN4gQrTn/YUpAcNKyFHfoOZEer9nwo6uQ==}
     cpu: [loong64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-powerpc64le-gnu@4.34.8':
     resolution: {integrity: sha512-LMJc999GkhGvktHU85zNTDImZVUCJ1z/MbAJTnviiWmmjyckP5aQsHtcujMjpNdMZPT2rQEDBlJfubhs3jsMfw==}
     cpu: [ppc64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-gnu@4.34.8':
     resolution: {integrity: sha512-xAQCAHPj8nJq1PI3z8CIZzXuXCstquz7cIOL73HHdXiRcKk8Ywwqtx2wrIy23EcTn4aZ2fLJNBB8d0tQENPCmw==}
     cpu: [riscv64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-s390x-gnu@4.34.8':
     resolution: {integrity: sha512-DdePVk1NDEuc3fOe3dPPTb+rjMtuFw89gw6gVWxQFAuEqqSdDKnrwzZHrUYdac7A7dXl9Q2Vflxpme15gUWQFA==}
     cpu: [s390x]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.34.8':
     resolution: {integrity: sha512-8y7ED8gjxITUltTUEJLQdgpbPh1sUQ0kMTmufRF/Ns5tI9TNMNlhWtmPKKHCU0SilX+3MJkZ0zERYYGIVBYHIA==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.34.8':
     resolution: {integrity: sha512-SCXcP0ZpGFIe7Ge+McxY5zKxiEI5ra+GT3QRxL0pMMtxPfpyLAKleZODi1zdRHkz5/BhueUrYtYVgubqe9JBNQ==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-win32-arm64-msvc@4.34.8':
     resolution: {integrity: sha512-YHYsgzZgFJzTRbth4h7Or0m5O74Yda+hLin0irAIobkLQFRQd1qWmnoVfwmKm9TXIZVAD0nZ+GEb2ICicLyCnQ==}
@@ -6628,20 +6651,20 @@ snapshots:
 
   '@formily/core@2.3.2':
     dependencies:
-      '@formily/reactive': 2.3.2
+      '@formily/reactive': 2.3.2(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)
       '@formily/shared': 2.3.2
       '@formily/validator': 2.3.2
 
   '@formily/grid@2.3.2(typescript@5.7.3)':
     dependencies:
-      '@formily/reactive': 2.3.2
+      '@formily/reactive': 2.3.2(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)
       '@juggle/resize-observer': 3.4.0
       typescript: 5.7.3
 
   '@formily/json-schema@2.3.2(typescript@5.7.3)':
     dependencies:
       '@formily/core': 2.3.2
-      '@formily/reactive': 2.3.2
+      '@formily/reactive': 2.3.2(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)
       '@formily/shared': 2.3.2
       typescript: 5.7.3
 
@@ -6649,11 +6672,11 @@ snapshots:
 
   '@formily/reactive-vue@2.3.2(vue@3.5.13(typescript@5.7.3))':
     dependencies:
-      '@formily/reactive': 2.3.2
+      '@formily/reactive': 2.3.2(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)
       vue: 3.5.13(typescript@5.7.3)
       vue-demi: 0.14.10(vue@3.5.13(typescript@5.7.3))
 
-  '@formily/reactive@2.3.2': {}
+  '@formily/reactive@2.3.2(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)': {}
 
   '@formily/shared@2.3.2':
     dependencies:
@@ -6673,7 +6696,7 @@ snapshots:
     dependencies:
       '@formily/core': 2.3.2
       '@formily/json-schema': 2.3.2(typescript@5.7.3)
-      '@formily/reactive': 2.3.2
+      '@formily/reactive': 2.3.2(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)
       '@formily/reactive-vue': 2.3.2(vue@3.5.13(typescript@5.7.3))
       '@formily/shared': 2.3.2
       '@formily/validator': 2.3.2

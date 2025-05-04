@@ -1,4 +1,5 @@
-import { connect, mapProps, mapReadPretty } from '@formily/vue'
+import { connect, mapProps } from '@formily/vue'
+import { mapReadPretty } from '../__builtins__'
 import { PreviewText } from '../preview-text'
 import FSelect from './select.vue'
 

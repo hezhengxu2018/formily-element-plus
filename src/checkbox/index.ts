@@ -1,6 +1,6 @@
-import { connect, mapProps, mapReadPretty } from '@formily/vue'
+import { connect, mapProps } from '@formily/vue'
 import { ElCheckbox } from 'element-plus'
-import { composeExport } from '../__builtins__/shared'
+import { composeExport, mapReadPretty } from '../__builtins__'
 import { PreviewText } from '../preview-text'
 import FCheckboxGroup from './checkbox-group.vue'
 
