@@ -5,7 +5,7 @@ import { observable } from '@formily/reactive'
 import { isFn } from '@formily/shared'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElBadge, ElCollapse, ElCollapseItem } from 'element-plus'
-import { computed, useAttrs } from 'vue'
+import { computed } from 'vue'
 import { stylePrefix } from '../__builtins__'
 import { createFormCollapse, usePanels } from './utils'
 

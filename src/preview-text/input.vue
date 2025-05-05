@@ -33,8 +33,11 @@ const { spaceProps, textProps, placeholder } = usePreviewConfig()
       <template v-if="isFn(attrs.formatter)">
         {{ attrs.formatter(props.value) }}
       </template>
+      <template v-else-if="isValid(props.value)">
+        {{ props.value === '' ? '&nbsp;' : props.value }}
+      </template>
       <template v-else>
-        {{ isValid(props.value) ? props.value : placeholder }}
+        {{ placeholder }}
       </template>
     </ElText>
     <slot v-if="slots.suffix" name="suffix" />

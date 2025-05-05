@@ -41,7 +41,7 @@ export function mapReadPretty<T extends VueComponent, C extends VueComponent>(
           const fieldRef = useField()
           return () => {
             const field = fieldRef.value
-            const isEditableReadPretty = field.data?.readPretty === 'readPretty'
+            const isEditableReadPretty = !!field?.data?.readPretty
             return h(
               field && !isVoidField(field) && (field.pattern === 'readPretty' || isEditableReadPretty)
                 ? component

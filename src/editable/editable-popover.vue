@@ -1,17 +1,23 @@
 <script lang="ts" setup>
 import type { Field } from '@formily/core'
-import { ChatDotRound, Edit } from '@element-plus/icons-vue'
-import { observable } from '@formily/reactive'
+import type { IFormItemProps } from '../form-item/types'
+import { Edit } from '@element-plus/icons-vue'
+import { reaction } from '@formily/reactive'
+import { isValid } from '@formily/shared'
 import { useField } from '@formily/vue'
 import { ElPopover, ElText, ClickOutside as vClickOutside } from 'element-plus'
 import { ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { FormBaseItem } from '../form-item'
-import { getParentPattern } from './utils'
 
 defineOptions({
   name: 'FEditablePopover',
   inheritAttrs: false,
+})
+
+const props = withDefaults(defineProps<IFormItemProps>(), {
+  feedbackLayout: 'popover',
+  size: 'default',
 })
 
 const fieldRef = useField<Field>()
@@ -19,18 +25,37 @@ const prefixCls = `${stylePrefix}-editable`
 const contentRef = ref<HTMLElement>()
 const visible = ref(false)
 
-const parentPattern = observable.computed(() => getParentPattern(fieldRef))
+if (isValid(fieldRef.value.data)) {
+  if (!isValid(fieldRef.value.data.readPretty)) {
+    fieldRef.value.data.readPretty = true
+  }
+}
+else {
+  fieldRef.value.data = {}
+  fieldRef.value.data.readPretty = true
+}
+
 function onClickOutside(e) {
   const popoverDOM = contentRef.value.parentElement
   if (!popoverDOM.contains(e.target)) {
     visible.value = false
   }
 }
-function onClick(val) {
-  if (val) {
-    visible.value = true
-  }
+function onClick() {
+  visible.value = true
 }
+
+reaction(
+  () => fieldRef.value.form.queryFeedbacks({
+    type: 'error',
+    address: `${fieldRef.value.address.entire}.*`,
+  }),
+  (errorList) => {
+    if (errorList.length > 0) {
+      visible.value = true
+    }
+  },
+)
 </script>
 
 <template>
@@ -38,11 +63,7 @@ function onClick(val) {
     <ElPopover
       v-bind="$attrs"
       :visible="visible"
-      :class="[prefixCls, $attrs.class]"
-      :title="$attrs.title || fieldRef.title"
-      trigger="click"
-      width="auto"
-      @update:visible="onClick"
+      :title="$attrs.title || fieldRef.title" trigger="click" width="auto"
     >
       <template #default>
         <div ref="contentRef" :class="`${prefixCls}-popover-wrapper`">
@@ -50,15 +71,12 @@ function onClick(val) {
         </div>
       </template>
       <template #reference>
-        <FormBaseItem v-click-outside="onClickOutside" :class="`${prefixCls}-trigger`">
-          <div :class="`${prefixCls}-content`">
+        <FormBaseItem v-click-outside="onClickOutside" v-bind="props" :class="`${prefixCls}-trigger`">
+          <div :class="`${prefixCls}-content`" @click="onClick">
             <ElText>
               {{ fieldRef.title }}
             </ElText>
-            <component
-              :is="parentPattern.value === 'editable' ? Edit : ChatDotRound"
-              :class="`${prefixCls}-edit-btn`"
-            />
+            <Edit :class="`${prefixCls}-edit-btn`" />
           </div>
         </FormBaseItem>
       </template>

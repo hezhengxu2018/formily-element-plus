@@ -1,68 +1,77 @@
 <script lang="ts" setup>
 import type { Field } from '@formily/core'
+import type { IFormItemProps } from '../form-item/types'
 import { Close, Edit } from '@element-plus/icons-vue'
-import { observable, reaction } from '@formily/reactive'
+import { isValid } from '@formily/shared'
 import { useField } from '@formily/vue'
 import { ClickOutside as vClickOutside } from 'element-plus'
-import { nextTick, onBeforeUnmount, ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { FormBaseItem } from '../form-item'
-import { getFormItemProps, getParentPattern } from './utils'
 
 defineOptions({
   name: 'FEditable',
   inheritAttrs: false,
 })
 
+const props = withDefaults(defineProps<IFormItemProps>(), {
+  feedbackLayout: 'popover',
+  size: 'default',
+})
+
 const fieldRef = useField<Field>()
 const innerRef = ref<HTMLElement>(null)
 const prefixCls = `${stylePrefix}-editable`
+const formItemRef = ref<InstanceType<typeof FormBaseItem>>(null)
 
-function setEditable(payload: boolean) {
-  const pattern = getParentPattern(fieldRef)
-  if (pattern !== 'editable')
-    return
-  fieldRef.value.setPattern(payload ? 'editable' : 'readPretty')
+if (isValid(fieldRef.value.data)) {
+  if (!isValid(fieldRef.value.data.readPretty)) {
+    fieldRef.value.data.readPretty = true
+  }
+}
+else {
+  fieldRef.value.data = {}
+  fieldRef.value.data.readPretty = true
 }
 
-const dispose = reaction(
-  () => getParentPattern(fieldRef),
-  (pattern) => {
-    if (pattern === 'editable')
-      fieldRef.value.setPattern('readPretty')
-  },
-  { fireImmediately: true },
-)
-
-onBeforeUnmount(dispose)
-
 async function onClick() {
-  setEditable(true)
+  /* istanbul ignore if -- @preserve */
+  if (!fieldRef.value.data.readPretty) {
+    return
+  }
+  fieldRef.value.data.readPretty = false
   await nextTick()
+  formItemRef.value.feedbackTooltipRef.updatePopper()
   innerRef.value?.querySelector('input')?.focus()
 }
 
-function onClickOutside() {
-  setEditable(false)
+async function onClickOutside() {
+  /* istanbul ignore if -- @preserve */
+  if (fieldRef.value.data.readPretty) {
+    return
+  }
+  fieldRef.value.data.readPretty = true
+  await nextTick()
+  formItemRef.value.feedbackTooltipRef.updatePopper()
 }
-
-const formItemProps = observable.computed(() => getFormItemProps(fieldRef))
 </script>
 
 <template>
   <div ref="innerRef" :class="prefixCls">
     <div v-click-outside="onClickOutside" :class="`${prefixCls}-content`">
-      <FormBaseItem v-bind="{ ...$attrs, ...formItemProps.value }" @click="onClick">
-        <slot />
+      <FormBaseItem ref="formItemRef" v-bind="props" @click="onClick">
+        <div>
+          <slot />
+        </div>
       </FormBaseItem>
       <template v-if="!fieldRef.disabled">
-        <template v-if="!(fieldRef.pattern === 'editable')">
-          <FormBaseItem v-bind="{ ...$attrs, ...formItemProps.value }">
+        <template v-if="fieldRef.data?.readPretty === true">
+          <FormBaseItem :size="props.size" :feedback-layout="props.feedbackLayout">
             <Edit :class="`${prefixCls}-edit-btn`" @click="onClick" />
           </FormBaseItem>
         </template>
         <template v-else>
-          <FormBaseItem v-bind="$attrs">
+          <FormBaseItem :size="props.size" :feedback-layout="props.feedbackLayout">
             <Close :class="`${prefixCls}-close-btn`" @click="onClickOutside" />
           </FormBaseItem>
         </template>

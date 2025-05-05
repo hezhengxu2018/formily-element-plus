@@ -4,6 +4,7 @@ import type {
   FormItemContext,
   FormItemValidateState,
   FormValidationResult,
+  TooltipInstance,
 } from 'element-plus'
 import type { ICalculatedFormLayoutProps } from 'src/form-layout/types'
 import type { CSSProperties } from 'vue'
@@ -54,6 +55,10 @@ const inputIds = ref<string[]>([])
 const validateState = ref<FormItemValidateState>('')
 const formItemRef = ref<HTMLDivElement>()
 const labelRef = ref<HTMLElement>()
+const feedbackTooltipRef = ref<TooltipInstance>()
+defineExpose({
+  feedbackTooltipRef,
+})
 
 const labelPosition = computed(
   () => {
@@ -264,7 +269,13 @@ provide(formItemContextKey, context)
           ns.is('addon-after', !!props.addonAfter),
         ]" :style="contentStyle"
       >
-        <ElTooltip v-if="props.feedbackLayout === 'popover'" :visible="!!props.feedbackText" effect="light" :offset="6">
+        <ElTooltip
+          v-if="props.feedbackLayout === 'popover'"
+          ref="feedbackTooltipRef"
+          :visible="!!props.feedbackText"
+          effect="light"
+          :offset="6"
+        >
           <template #default>
             <slot />
           </template>

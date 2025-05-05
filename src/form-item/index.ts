@@ -5,6 +5,25 @@ import FormBaseItem from './form-item.vue'
 import { determineFeedbackStatus, getFeedbackMessage } from './utils'
 import './style.scss'
 
+export function fieldFeedbackMapper(props, field) {
+  if (isVoidField(field) || !field) {
+    return props
+  }
+
+  const feedbackText = getFeedbackMessage(field, props)
+  const feedbackStatus = determineFeedbackStatus(field)
+  const asterisk = 'asterisk' in props
+    ? props.asterisk
+    : field.required && field.pattern !== 'readPretty'
+
+  return {
+    ...props,
+    feedbackText,
+    feedbackStatus,
+    asterisk,
+  }
+}
+
 const Item = connect(
   FormBaseItem,
   mapProps(
@@ -14,24 +33,7 @@ const Item = connect(
       required: true,
       description: 'extra',
     },
-    (props, field) => {
-      if (isVoidField(field) || !field) {
-        return props
-      }
-
-      const feedbackText = getFeedbackMessage(field, props)
-      const feedbackStatus = determineFeedbackStatus(field)
-      const asterisk = 'asterisk' in props
-        ? props.asterisk
-        : field.required && field.pattern !== 'readPretty'
-
-      return {
-        ...props,
-        feedbackText,
-        feedbackStatus,
-        asterisk,
-      }
-    },
+    fieldFeedbackMapper,
   ),
 )
 

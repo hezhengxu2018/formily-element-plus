@@ -121,6 +121,9 @@ describe('Editable', () => {
           'title': '输入框',
           'x-decorator': 'Editable',
           'x-component': 'Input',
+          'x-data': {
+            test: 'test',
+          },
         },
       },
     }
@@ -147,5 +150,7 @@ describe('Editable', () => {
       expect(container.querySelector('.formily-element-plus-editable-close-btn')).toBeNull()
       expect(container.querySelector('.formily-element-plus-editable-edit-btn')).not.toBeNull()
     })
+
+    expect(form.getFieldState('input').data.test).toEqual('test')
   })
 })

@@ -105,10 +105,13 @@ describe('Editable.Popover', () => {
     const schema = {
       type: 'object',
       properties: {
-        void: {
-          'type': 'void',
-          'title': '虚拟节点容器',
+        object: {
+          'type': 'object',
+          'title': '对象节点容器',
           'x-component': 'Editable.Popover',
+          'x-data': {
+            test: 'test',
+          },
           'properties': {
             date: {
               'type': 'string',
@@ -123,6 +126,7 @@ describe('Editable.Popover', () => {
               'x-component': 'Input',
             },
           },
+
         },
       },
     }
@@ -139,5 +143,6 @@ describe('Editable.Popover', () => {
     await vi.waitFor(() => {
       expect(document.querySelector('.el-popover')).not.toBeVisible()
     })
+    expect(form.getFieldState('object').data.test).toEqual('test')
   })
 })
