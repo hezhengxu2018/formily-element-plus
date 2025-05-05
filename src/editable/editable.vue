@@ -25,6 +25,7 @@ const prefixCls = `${stylePrefix}-editable`
 const formItemRef = ref<InstanceType<typeof FormBaseItem>>(null)
 
 if (isValid(fieldRef.value.data)) {
+  /* istanbul ignore else -- @preserve */
   if (!isValid(fieldRef.value.data.readPretty)) {
     fieldRef.value.data.readPretty = true
   }

@@ -3,7 +3,7 @@ import { createSchemaField, FormProvider } from '@formily/vue'
 import { userEvent } from '@vitest/browser/context'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render } from 'vitest-browser-vue'
-import { Editable, FormItem, Input } from '../../index'
+import { Editable, FormItem, Input, Submit } from '../../index'
 import 'element-plus/theme-chalk/index.css'
 
 describe('Editable', () => {
@@ -41,11 +41,7 @@ describe('Editable', () => {
         <SchemaField schema={schema} />
       </FormProvider>
     ))
-
-    // 检查是否渲染了 Editable 组件
     expect(container.querySelector('.formily-element-plus-editable')).not.toBeNull()
-
-    // 检查是否渲染了编辑按钮
     expect(container.querySelector('.formily-element-plus-editable-edit-btn')).not.toBeNull()
   })
 
@@ -67,12 +63,8 @@ describe('Editable', () => {
         <SchemaField schema={schema} />
       </FormProvider>
     ))
-
-    // 点击编辑按钮
     const editBtn = container.querySelector('.formily-element-plus-editable-edit-btn')
     await userEvent.click(editBtn)
-
-    // 检查是否显示关闭按钮（表示进入编辑模式）
     expect(container.querySelector('.formily-element-plus-editable-close-btn')).not.toBeNull()
   })
 
@@ -152,5 +144,45 @@ describe('Editable', () => {
     })
 
     expect(form.getFieldState('input').data.test).toEqual('test')
+  })
+
+  it('应该正确触发表单校验', async () => {
+    const fn = vi.fn()
+    const schema = {
+      type: 'object',
+      properties: {
+        input: {
+          'type': 'string',
+          'title': '输入框',
+          'x-decorator': 'Editable',
+          'x-component': 'Input',
+          'x-validator': [
+            { required: true, message: '输入框不能为空' },
+            { max: 10, message: '输入内容不能超过10个字符' },
+          ],
+        },
+      },
+    }
+
+    const { container, getByRole } = render(() => (
+      <FormProvider form={form}>
+        <SchemaField schema={schema} />
+        <Submit onSubmit={fn}>
+          提交
+        </Submit>
+      </FormProvider>
+    ))
+
+    const editBtn = container.querySelector('.formily-element-plus-editable-edit-btn')
+    await userEvent.click(editBtn)
+    const input = container.querySelector('input')
+    expect(input).not.toBeNull()
+    await userEvent.type(input, '超过十个字符的内容内容内容内容内容')
+    await userEvent.click(document.body)
+    await getByRole('button', { name: '提交' }).click()
+    const errorMessage = document.querySelector('.formily-element-plus-form-item-feedback.is-error')
+    expect(errorMessage).not.toBeNull()
+    expect(errorMessage.textContent).toContain('输入内容不能超过10个字符')
+    expect(fn).not.toHaveBeenCalled()
   })
 })

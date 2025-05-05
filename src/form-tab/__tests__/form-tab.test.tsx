@@ -1,7 +1,7 @@
 import { createForm } from '@formily/core'
 import { createSchemaField, FormProvider } from '@formily/vue'
 import { ElButton } from 'element-plus'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { FormItem, Input } from '../../index'
 import { FormTab } from '../index'

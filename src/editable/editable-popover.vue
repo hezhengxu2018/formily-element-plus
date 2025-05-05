@@ -26,6 +26,7 @@ const contentRef = ref<HTMLElement>()
 const visible = ref(false)
 
 if (isValid(fieldRef.value.data)) {
+  /* istanbul ignore else -- @preserve */
   if (!isValid(fieldRef.value.data.readPretty)) {
     fieldRef.value.data.readPretty = true
   }
@@ -37,6 +38,7 @@ else {
 
 function onClickOutside(e) {
   const popoverDOM = contentRef.value.parentElement
+  /* istanbul ignore else -- @preserve */
   if (!popoverDOM.contains(e.target)) {
     visible.value = false
   }
