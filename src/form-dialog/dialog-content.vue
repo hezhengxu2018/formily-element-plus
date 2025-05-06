@@ -61,7 +61,7 @@ const { internalSubmitting } = useDebonceSubmitting(props.form)
     <template #default>
       <FormProvider :form="props.form">
         <ElConfigProvider v-bind="elConfig">
-          <slot />
+          <slot :resolve :reject :form />
         </ElConfigProvider>
       </FormProvider>
     </template>

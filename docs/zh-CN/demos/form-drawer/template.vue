@@ -4,38 +4,41 @@ import { FormDrawer, FormItem, FormLayout, Input } from '@sliver/formily-element
 import { ElButton } from 'element-plus'
 
 function handleOpen() {
-  FormDrawer('抽屉表单', () => (
-    <FormLayout labelCol={6} wrapperCol={10}>
-      <Field
-        name="aaa"
-        required
-        title="输入框1"
-        decorator={[FormItem]}
-        component={[Input]}
-      />
-      <Field
-        name="bbb"
-        required
-        title="输入框2"
-        decorator={[FormItem]}
-        component={[Input]}
-      />
-      <Field
-        name="ccc"
-        required
-        title="输入框3"
-        decorator={[FormItem]}
-        component={[Input]}
-      />
-      <Field
-        name="ddd"
-        required
-        title="输入框4"
-        decorator={[FormItem]}
-        component={[Input]}
-      />
-    </FormLayout>
-  ))
+  FormDrawer('抽屉表单', ({ form }) => {
+    console.log('form', form)
+    return (
+      <FormLayout labelCol={6} wrapperCol={10}>
+        <Field
+          name="aaa"
+          required
+          title="输入框1"
+          decorator={[FormItem]}
+          component={[Input]}
+        />
+        <Field
+          name="bbb"
+          required
+          title="输入框2"
+          decorator={[FormItem]}
+          component={[Input]}
+        />
+        <Field
+          name="ccc"
+          required
+          title="输入框3"
+          decorator={[FormItem]}
+          component={[Input]}
+        />
+        <Field
+          name="ddd"
+          required
+          title="输入框4"
+          decorator={[FormItem]}
+          component={[Input]}
+        />
+      </FormLayout>
+    )
+  })
     .forConfirm(async (form, next) => {
       setTimeout(() => {
         console.log('form', form)

@@ -6,6 +6,10 @@
 该组件经过重构，完全摒弃了通过id传递上下文的方式，使用时请注意函数入参的改动。现在通过Vue中[JSX的插槽写法](https://cn.vuejs.org/guide/extras/render-function.html#passing-slots)实现类似的功能。
 :::
 
+::: tip 提示
+使用函数式组件时可以通过解构的方式快速拿到`form`,具体请参考template案例。
+:::
+
 ## Markup Schema 案例
 
 :::demo
