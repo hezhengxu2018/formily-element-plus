@@ -10,9 +10,9 @@ export default mergeConfig(viteConfig, defineConfig({
       include: ['src'],
     },
     browser: {
-      provider: 'playwright', // or 'webdriverio'
+      provider: 'playwright',
       enabled: true,
-      name: 'chromium', // browser name is required
+      instances: [{ browser: 'chromium' }],
     },
   },
 }))

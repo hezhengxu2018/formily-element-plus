@@ -175,7 +175,7 @@ describe('form-item 组件', () => {
       ))
 
       const labelElement = container.querySelector('.el-form-item__label')
-      await expect(labelElement).toHaveStyle({ 'justify-content': 'flex-start' })
+      await expect(labelElement).toHaveStyle({ justifyContent: 'flex-start' })
     })
 
     it('设置 labelAlign=right 标签右对齐（默认）', async () => {
@@ -192,7 +192,7 @@ describe('form-item 组件', () => {
       ))
 
       const labelElement = container.querySelector('.el-form-item__label')
-      expect(labelElement).toHaveStyle({ 'justify-content': 'flex-end' })
+      expect(labelElement).toHaveStyle({ justifyContent: 'flex-end' })
     })
 
     it('设置 wrapperAlign=left 内容左对齐（默认）', async () => {
@@ -210,7 +210,7 @@ describe('form-item 组件', () => {
       ))
 
       const contentElement = container.querySelector('.formily-element-plus-form-item-content__wrapper')
-      expect(contentElement).toHaveStyle({ 'justify-content': 'normal' })
+      expect(contentElement).toHaveStyle({ justifyContent: 'normal' })
     })
 
     it('设置 wrapperAlign=right 内容右对齐', async () => {
@@ -228,7 +228,7 @@ describe('form-item 组件', () => {
       ))
 
       const contentElement = container.querySelector('.formily-element-plus-form-item-content__wrapper')
-      expect(contentElement).toHaveStyle({ 'justify-content': 'flex-end' })
+      expect(contentElement).toHaveStyle({ justifyContent: 'flex-end' })
     })
   })
 
