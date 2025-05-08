@@ -245,7 +245,7 @@ function onClearSelectionClick() {
       <span>已选择 {{ currentSelectLength }} 项</span>
       <ElLink
         type="primary"
-        :underline="false"
+        :underline="lt(version, '2.9.9') ? false : 'never'"
         style="margin-left: 8px;"
         @click="onClearSelectionClick"
       >
