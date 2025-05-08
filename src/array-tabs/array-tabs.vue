@@ -20,13 +20,11 @@ const prefixCls = `${stylePrefix}-array-tabs`
 const activeKey = ref<TabPaneName>('tab-0')
 
 const field = fieldRef.value
+/* istanbul ignore else -- @preserve */
 if (field.value.length === 0) {
   field.value.push(null)
 }
 const schema = computed(() => schemaRef.value)
-const value = computed(() => Array.isArray(field.value) ? field.value : [])
-const dataSource = computed(() => value.value?.length ? value.value : [{}])
-
 function getTabTitle(index: number) {
   return `${field.title || 'Untitled'} ${index + 1}`
 }
@@ -45,11 +43,10 @@ const errorList = observable.computed(() => {
 <template>
   <ElTabs
     v-bind="$attrs"
-    v-model="activeKey"
+    :model-value="activeKey"
     :class="prefixCls"
     type="card"
     :addable="true"
-    @update:model-value="(key) => activeKey = key"
     @tab-remove="(target) => {
       const index = target.toString().match(/tab-(\d+)/)?.[1]
       field.remove(Number(index))
@@ -62,7 +59,7 @@ const errorList = observable.computed(() => {
       }
     }"
     @tab-add="() => {
-      const id = dataSource.length
+      const id = field.value.length
       field.value.push(null)
       activeKey = `tab-${id}`
       if (isFn($attrs['tab-add'])) {
@@ -84,7 +81,7 @@ const errorList = observable.computed(() => {
         />
       </template>
       <template #label>
-        <span v-if="errorList.value[index].length > 0">
+        <span v-if="errorList.value[index]?.length > 0">
           <ElBadge
             :class="[`${prefixCls}-errors-badge`]"
             :value="errorList.value[index].length"
