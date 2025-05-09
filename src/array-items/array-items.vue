@@ -2,6 +2,7 @@
 import type { ArrayField } from '@formily/core'
 import type { ISchema } from '@formily/json-schema'
 import { autorun } from '@formily/reactive'
+import { isArr } from '@formily/shared'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ref } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
@@ -31,14 +32,14 @@ function isAdditionComponent(schema: ISchema) {
 }
 
 function getItems(element: any, index: number) {
-  return Array.isArray(schema.items)
+  return isArr(schema.items)
     ? schema.items[index] || schema.items[0]
     : schema.items
 }
 
 function handleDragEnd(evt: { oldIndex: number, newIndex: number }) {
   const { oldIndex, newIndex } = evt
-  if (Array.isArray(keyMap)) {
+  if (isArr(keyMap)) {
     keyMap.splice(newIndex, 0, keyMap.splice(oldIndex, 1)[0])
   }
   field.move(oldIndex, newIndex)
