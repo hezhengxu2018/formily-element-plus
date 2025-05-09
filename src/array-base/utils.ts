@@ -1,0 +1,90 @@
+import type { Schema } from '@formily/json-schema'
+import type { IArrayBaseItemProps } from './types'
+import { clone, isValid, uid } from '@formily/shared'
+import { version } from 'element-plus'
+import lt from 'semver/functions/lt'
+import { inject, onBeforeUnmount, ref, toRefs } from 'vue'
+import { stylePrefix } from '../__builtins__'
+import { ArrayBaseSymbol, ItemSymbol } from './symbols'
+
+export const prefixCls = `${stylePrefix}-array-base`
+
+export function compatibleUnderlineProp() {
+  return lt(version, '2.9.9') ? false : 'never'
+}
+
+export function useArray() {
+  return inject(ArrayBaseSymbol, null)
+}
+
+export function useIndex() {
+  const { index: indexRef } = toRefs(inject(ItemSymbol) as IArrayBaseItemProps)
+  return indexRef ?? ref()
+}
+
+export function useRecord(record?: number) {
+  const { record: recordRef } = toRefs(
+    inject(ItemSymbol) as IArrayBaseItemProps,
+  )
+  return recordRef ?? ref(record)
+}
+
+const isObjectValue: (schema: Schema) => boolean = (schema: Schema) => {
+  if (Array.isArray(schema?.items))
+    return isObjectValue(schema.items[0])
+
+  if (schema?.items?.type === 'array' || schema?.items?.type === 'object') {
+    return true
+  }
+  return false
+}
+
+export function useKey(schema: Schema) {
+  const isObject = isObjectValue(schema)
+  let keyMap: WeakMap<Record<string, unknown>, string> | string[] | null = null
+
+  keyMap = isObject ? new WeakMap() : []
+
+  onBeforeUnmount(() => {
+    keyMap = null
+  })
+
+  return {
+    keyMap,
+    getKey: (record: any, index: number) => {
+      if (keyMap instanceof WeakMap) {
+        if (!keyMap.has(record)) {
+          keyMap.set(record, uid())
+        }
+        return `${keyMap.get(record)}-${index}`
+      }
+
+      if (keyMap && !keyMap[index]) {
+        keyMap[index] = uid()
+      }
+      return keyMap ? `${keyMap[index]}-${index}` : undefined
+    },
+  }
+}
+
+export function getDefaultValue(defaultValue: any, schema: Schema): any {
+  if (isValid(defaultValue))
+    return clone(defaultValue)
+  if (Array.isArray(schema?.items))
+    return getDefaultValue(defaultValue, schema.items[0])
+  if (schema?.items?.type === 'array')
+    return []
+  if (schema?.items?.type === 'boolean')
+    return true
+  if (schema?.items?.type === 'date')
+    return ''
+  if (schema?.items?.type === 'datetime')
+    return ''
+  if (schema?.items?.type === 'number')
+    return 0
+  if (schema?.items?.type === 'object')
+    return {}
+  if (schema?.items?.type === 'string')
+    return ''
+  return null
+}

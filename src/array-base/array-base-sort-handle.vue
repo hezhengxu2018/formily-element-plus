@@ -1,0 +1,21 @@
+<script lang="ts" setup>
+import { Rank } from '@element-plus/icons-vue'
+import { ElLink } from 'element-plus'
+import { compatibleUnderlineProp, prefixCls, useArray } from './utils'
+
+defineOptions({
+  name: 'ArrayBaseSortHandle',
+})
+
+const array = useArray()
+</script>
+
+<template>
+  <ElLink
+    v-if="array.field.value?.pattern === 'editable'"
+    :class="`${prefixCls}-sort-handle`"
+    size="small"
+    :icon="Rank"
+    :underline="compatibleUnderlineProp()"
+  />
+</template>
