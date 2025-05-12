@@ -56,13 +56,13 @@ export function useKey(schema: Schema) {
         if (!keyMap.has(record)) {
           keyMap.set(record, uid())
         }
-        return `${keyMap.get(record)}-${index}`
+        return `${keyMap.get(record)}`
       }
 
       if (keyMap && !keyMap[index]) {
         keyMap[index] = uid()
       }
-      return keyMap ? `${keyMap[index]}-${index}` : undefined
+      return keyMap ? `${keyMap[index]}` : undefined
     },
   }
 }

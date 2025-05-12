@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import type { ArrayField } from '@formily/core'
 import type { ISchema } from '@formily/json-schema'
-import { autorun } from '@formily/reactive'
 import { isArr } from '@formily/shared'
-import { RecursionField, useField, useFieldSchema } from '@formily/vue'
-import { ref } from 'vue'
+import { FormConsumer, RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { stylePrefix } from '../__builtins__/configs'
 import { ArrayBase } from '../array-base'
+import { useKey } from '../array-base/utils'
 
 defineOptions({
   name: 'FArrayItems',
@@ -16,25 +15,15 @@ defineOptions({
 
 const fieldRef = useField<ArrayField>()
 const schemaRef = useFieldSchema()
-const dataSource = ref([])
-autorun(() => {
-  dataSource.value = [...fieldRef.value.value]
-})
 
 const prefixCls = `${stylePrefix}-array-items`
-const { getKey, keyMap } = ArrayBase.useKey(schemaRef.value)
+const { getKey, keyMap } = useKey(schemaRef.value)
 
 const field = fieldRef.value
 const schema = schemaRef.value
 
 function isAdditionComponent(schema: ISchema) {
   return schema['x-component']?.indexOf('Addition') > -1
-}
-
-function getItems(element: any, index: number) {
-  return isArr(schema.items)
-    ? schema.items[index] || schema.items[0]
-    : schema.items
 }
 
 function handleDragEnd(evt: { oldIndex: number, newIndex: number }) {
@@ -47,29 +36,32 @@ function handleDragEnd(evt: { oldIndex: number, newIndex: number }) {
 </script>
 
 <template>
-  <ArrayBase :key-map="keyMap">
-    <div :class="prefixCls">
-      <VueDraggable
-        :class="[`${prefixCls}-list`]"
-        :model-value="dataSource"
-        :handle="`.${stylePrefix}-array-base-sort-handle`"
-        :animation="150"
-        @end="handleDragEnd"
-      >
-        <ArrayBase.Item
-          v-for="(element, index) of dataSource"
-          :key="getKey(element, index)"
-          :index="index" :record="element"
+  <FormConsumer>
+    <ArrayBase :key-map="keyMap">
+      <div :class="prefixCls">
+        <VueDraggable
+          :class="`${prefixCls}-list`"
+          :model-value="fieldRef.value"
+          :handle="`.${stylePrefix}-array-base-sort-handle`"
+          :animation="150"
+          @end="handleDragEnd"
         >
-          <div :key="getKey(element, index)" :class="[`${prefixCls}-item-inner`]" :index="index">
-            <RecursionField :schema="getItems(element, index)" :name="index" />
-          </div>
-        </ArrayBase.Item>
-      </VueDraggable>
+          <ArrayBase.Item
+            v-for="(element, index) of fieldRef.value"
+            :key="getKey(element, index)"
+            :index="index"
+            :record="element"
+          >
+            <div :key="getKey(element, index)" :class="[`${prefixCls}-item-inner`]" :index="index">
+              <RecursionField :schema="schema.items" :name="index" />
+            </div>
+          </ArrayBase.Item>
+        </VueDraggable>
 
-      <template v-for="(itemSchema, key) of schema.properties" :key="key">
-        <RecursionField v-if="isAdditionComponent(itemSchema)" :schema="itemSchema" name="addition" />
-      </template>
-    </div>
-  </ArrayBase>
+        <template v-for="(itemSchema, key) of schema.properties" :key="key">
+          <RecursionField v-if="isAdditionComponent(itemSchema)" :schema="itemSchema" name="addition" />
+        </template>
+      </div>
+    </ArrayBase>
+  </FormConsumer>
 </template>

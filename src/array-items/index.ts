@@ -1,17 +1,8 @@
-import { observer } from '@formily/reactive-vue'
 import { composeExport } from '../__builtins__/shared'
 import { ArrayBase } from '../array-base'
-import FArrayItemsItem from './array-items-item.vue'
-import FArrayItemsInner from './array-items.vue'
+import ArrayItemsItem from './array-items-item.vue'
+import ArrayItemsInner from './array-items.vue'
 import './style.scss'
-
-export interface IArrayItemsItemProps {
-  type?: 'card' | 'divide'
-}
-
-export const ArrayItemsInner = observer(FArrayItemsInner)
-
-export const ArrayItemsItem = observer(FArrayItemsItem)
 
 export const ArrayItems = composeExport(ArrayItemsInner, {
   Item: ArrayItemsItem,
