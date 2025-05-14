@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { PropType } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 
 defineOptions({
@@ -7,7 +8,7 @@ defineOptions({
 
 const props = defineProps({
   type: {
-    type: String,
+    type: String as PropType<'card' | 'divide'>,
     default: 'card',
   },
 })

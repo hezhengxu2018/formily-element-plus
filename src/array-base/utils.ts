@@ -1,4 +1,4 @@
-import type { Schema } from '@formily/json-schema'
+import type { ISchema, Schema } from '@formily/json-schema'
 import type { IArrayBaseItemProps } from './types'
 import { clone, isValid, uid } from '@formily/shared'
 import { version } from 'element-plus'
@@ -87,4 +87,33 @@ export function getDefaultValue(defaultValue: any, schema: Schema): any {
   if (schema?.items?.type === 'string')
     return ''
   return null
+}
+
+export function isAdditionComponent(schema: ISchema) {
+  return schema['x-component']?.indexOf('Addition') > -1
+}
+
+export function isIndexComponent(schema: ISchema) {
+  return schema['x-component']?.indexOf('Index') > -1
+}
+
+export function isRemoveComponent(schema: ISchema) {
+  return schema['x-component']?.indexOf('Remove') > -1
+}
+
+export function isMoveUpComponent(schema: ISchema) {
+  return schema['x-component']?.indexOf('MoveUp') > -1
+}
+
+export function isMoveDownComponent(schema: ISchema) {
+  return schema['x-component']?.indexOf('MoveDown') > -1
+}
+
+export function isOperationComponent(schema: ISchema) {
+  return (
+    isAdditionComponent(schema)
+    || isRemoveComponent(schema)
+    || isMoveDownComponent(schema)
+    || isMoveUpComponent(schema)
+  )
 }
