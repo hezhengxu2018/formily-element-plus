@@ -4,6 +4,7 @@ $array-base-prefix-cls: '#{$formily-prefix}-array-base';
 
 .#{$array-base-prefix-cls}-addition {
   transition: var(--el-transition-duration);
+  user-select: none;
 
   .el-icon + .el-link__inner {
     margin-left: 8px;
