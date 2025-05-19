@@ -17,5 +17,8 @@ const array = useArray()
     size="small"
     :icon="Rank"
     :underline="compatibleUnderlineProp()"
+    role="button"
+    aria-label="拖拽排序"
+    aria-dropeffect="move"
   />
 </template>

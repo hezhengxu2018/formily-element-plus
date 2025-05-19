@@ -23,18 +23,12 @@ const prefixCls = `${stylePrefix}-array-items`
 const { getKey, keyMap } = useKey(schemaRef.value)
 const dataSource = ref(field.value ?? [])
 
-// HACK 不知道为什么为什么拖动会导致删除时DOM与Vue的数据失去绑定
+// HACK 不知道为什么拖动会导致删除时DOM与Vue的数据失去绑定
 const isShow = ref(true)
 
 autorun(() => {
   dataSource.value = [...field.value]
 })
-
-function getItems(element: any, index: number) {
-  return isArr(schema.items)
-    ? schema.items[index] || schema.items[0]
-    : schema.items
-}
 
 async function handleDragEnd(evt: { oldIndex: number, newIndex: number }) {
   const { oldIndex, newIndex } = evt
@@ -66,7 +60,7 @@ async function handleDragEnd(evt: { oldIndex: number, newIndex: number }) {
           :record="element"
         >
           <div :key="getKey(element, index)" :class="[`${prefixCls}-item-inner`]" :index="index">
-            <RecursionField :schema="getItems(schema.items, index)" :name="index" />
+            <RecursionField :schema="schema.items" :name="index" />
           </div>
         </ArrayBase.Item>
       </VueDraggable>
