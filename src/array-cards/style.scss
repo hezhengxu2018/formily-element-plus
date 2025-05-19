@@ -3,6 +3,7 @@
 $array-cards-prefix-cls: '#{$formily-prefix}-array-cards';
 
 .#{$array-cards-prefix-cls} {
+  width: 100%;
   .el-card__header {
     padding-top: 12.5px;
     padding-bottom: 12.5px;
