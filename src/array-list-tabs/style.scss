@@ -6,6 +6,7 @@ $array-list-prefix-cls: '#{$formily-prefix}-array-list-tabs';
   display: flex;
   border: 1px solid var(--el-border-color);
   border-radius: var(--el-border-radius-base);
+  width: 100%;
 
   .el-empty {
     padding: 0;

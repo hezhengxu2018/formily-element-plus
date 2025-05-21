@@ -1,16 +1,10 @@
-/*
- * @Author: Hezhengxu
- * @Date: 2024-11-19 09:52:46
- * @LastEditors: Hezhengxu
- * @Description:
- */
 import { Close } from '@element-plus/icons-vue'
 import { createForm } from '@formily/core'
 import { createSchemaField, FormProvider } from '@formily/vue'
 import { describe, expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { defineComponent } from 'vue'
-import { ArrayListTabs, FormItem, Input } from '../index'
+import { ArrayListTabs, FormItem, Input } from '../../index'
 import 'element-plus/theme-chalk/index.css'
 
 export const ArrayListTabsTest = defineComponent({
