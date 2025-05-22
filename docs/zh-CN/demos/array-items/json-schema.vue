@@ -4,6 +4,7 @@ import { createSchemaField, FormProvider } from '@formily/vue'
 import {
   ArrayItems,
   DatePicker,
+  Editable,
   FormItem,
   Input,
   Select,
@@ -15,6 +16,7 @@ const { SchemaField } = createSchemaField({
   components: {
     FormItem,
     Space,
+    Editable,
     Input,
     Select,
     DatePicker,
@@ -71,6 +73,7 @@ const schema = {
           space: {
             'type': 'void',
             'x-component': 'Space',
+            'x-component-props': { style: { paddingTop: '18px' } },
             'properties': {
               sort: {
                 'type': 'void',
@@ -143,30 +146,37 @@ const schema = {
             'properties': {
               sort: {
                 'type': 'void',
-                'x-decorator': 'FormItem',
                 'x-component': 'ArrayItems.SortHandle',
               },
               date: {
                 'type': 'string',
                 'title': '日期',
-                'x-decorator': 'FormItem',
+                'x-decorator': 'Editable',
                 'x-component': 'DatePicker',
-                'x-component-props': {
-                  type: 'daterange',
-                  style: {
-                    width: '250px',
+              },
+              iobject: {
+                'type': 'object',
+                'title': '对象节点容器',
+                'x-component': 'Editable.Popover',
+                'x-reactions':
+        '{{(field) => field.title = field.value && field.value.date || field.title}}',
+                'properties': {
+                  date: {
+                    'type': 'string',
+                    'title': '日期',
+                    'x-decorator': 'FormItem',
+                    'x-component': 'DatePicker',
+                  },
+                  input: {
+                    'type': 'string',
+                    'title': '输入框',
+                    'x-decorator': 'FormItem',
+                    'x-component': 'Input',
                   },
                 },
               },
-              input: {
-                'type': 'string',
-                'title': '输入框',
-                'x-decorator': 'FormItem',
-                'x-component': 'Input',
-              },
               remove: {
                 'type': 'void',
-                'x-decorator': 'FormItem',
                 'x-component': 'ArrayItems.Remove',
               },
             },

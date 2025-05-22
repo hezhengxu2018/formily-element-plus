@@ -131,7 +131,7 @@ async function log(values) {
         :x-component-props="{ style: { width: '600px' } }"
       >
         <SchemaObjectField x-decorator="ArrayItems.Item">
-          <SchemaVoidField x-component="Space">
+          <SchemaVoidField x-component="Space" :x-component-props="{ style: { paddingTop: '18px' } }">
             <SchemaVoidField
               x-decorator="FormItem"
               x-component="ArrayItems.SortHandle"

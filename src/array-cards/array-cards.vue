@@ -12,7 +12,6 @@ import { isAdditionComponent, isIndexComponent, isOperationComponent } from '../
 
 defineOptions({
   name: 'FArrayCards',
-  inheritAttrs: false,
 })
 
 const props = withDefaults(defineProps<{

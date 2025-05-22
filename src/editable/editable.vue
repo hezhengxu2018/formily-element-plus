@@ -11,7 +11,6 @@ import { FormBaseItem } from '../form-item'
 
 defineOptions({
   name: 'FEditable',
-  inheritAttrs: false,
 })
 
 const props = withDefaults(defineProps<IFormItemProps>(), {
