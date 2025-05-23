@@ -45,10 +45,6 @@ export function useKey(schema: Schema) {
 
   keyMap = isObject ? new WeakMap() : []
 
-  onBeforeUnmount(() => {
-    keyMap = null
-  })
-
   return {
     keyMap,
     getKey: (record: any, index: number) => {

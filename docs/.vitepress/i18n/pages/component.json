@@ -126,6 +126,10 @@
           "text": "ArrayItems 自增列表"
         },
         {
+          "link": "/array-collapse",
+          "text": "ArrayCollapse 自增折叠面板"
+        },
+        {
           "link": "/array-table",
           "text": "ArrayTable 自增表格"
         },
