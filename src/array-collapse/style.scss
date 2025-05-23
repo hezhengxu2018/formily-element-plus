@@ -37,4 +37,8 @@ $array-table-prefix-cls: '#{$formily-prefix}-array-collapse';
       border-color: var(--el-color-primary);
     }
   }
+
+  .el-collapse-item__title {
+    display: flex;
+  }
 }

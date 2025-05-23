@@ -13,8 +13,12 @@ const props = defineProps<IArrayBaseOperationProps>()
 
 const indexRef = useIndex()
 const base = useArray()
+const lastIndex = base?.field.value.value?.length - 1
 
 function handleClick() {
+  if (indexRef.value === lastIndex) {
+    return
+  }
   if (isArr(base?.keyMap)) {
     base.keyMap.splice(
       indexRef.value + 1,
