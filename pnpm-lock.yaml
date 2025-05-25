@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@formily/reactive':
+    hash: 67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628
+    path: patches/@formily__reactive.patch
+
 importers:
 
   .:
@@ -22,7 +27,7 @@ importers:
         version: 2.3.7(typescript@5.8.3)
       '@formily/reactive':
         specifier: ^2.0.8
-        version: 2.3.7
+        version: 2.3.7(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)
       '@formily/reactive-vue':
         specifier: ^2.0.8
         version: 2.3.7(vue@3.5.14(typescript@5.8.3))
@@ -39,20 +44,20 @@ importers:
         specifier: ^3.3.0
         version: 3.5.14(typescript@5.8.3)
       vue-draggable-plus:
-        specifier: ^0.5.6
+        specifier: ^0.5.0
         version: 0.5.6(@types/sortablejs@1.15.8)
     devDependencies:
       '@antfu/eslint-config':
-        specifier: ^4.13.2
+        specifier: ^4.13.0
         version: 4.13.2(@vue/compiler-sfc@3.5.14)(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)(vitest@3.1.4)
       '@commitlint/cli':
-        specifier: ^19.8.1
+        specifier: ^19.8.0
         version: 19.8.1(@types/node@20.17.50)(typescript@5.8.3)
       '@commitlint/config-conventional':
-        specifier: ^19.8.1
+        specifier: ^19.8.0
         version: 19.8.1
       '@eslint/js':
-        specifier: ^9.27.0
+        specifier: ^9.26.0
         version: 9.27.0
       '@eslint/markdown':
         specifier: ^6.4.0
@@ -76,28 +81,28 @@ importers:
         specifier: ^2.0.10
         version: 2.0.10
       '@types/node':
-        specifier: ^20.17.50
+        specifier: ^20.17.43
         version: 20.17.50
       '@types/semver':
         specifier: ^7.7.0
         version: 7.7.0
       '@vitejs/plugin-vue':
-        specifier: ^5.2.4
+        specifier: ^5.2.3
         version: 5.2.4(vite@6.3.5(@types/node@20.17.50)(jiti@2.4.2)(sass-embedded@1.89.0)(sass@1.78.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.14(typescript@5.8.3))
       '@vitejs/plugin-vue-jsx':
-        specifier: ^4.2.0
+        specifier: ^4.1.2
         version: 4.2.0(vite@6.3.5(@types/node@20.17.50)(jiti@2.4.2)(sass-embedded@1.89.0)(sass@1.78.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.14(typescript@5.8.3))
       '@vitest/browser':
-        specifier: ^3.1.4
+        specifier: ^3.1.3
         version: 3.1.4(msw@2.7.1(@types/node@20.17.50)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.17.50)(jiti@2.4.2)(sass-embedded@1.89.0)(sass@1.78.0)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.1.4)
       '@vitest/coverage-istanbul':
-        specifier: ^3.1.4
+        specifier: ^3.1.3
         version: 3.1.4(vitest@3.1.4)
       '@vitest/ui':
-        specifier: ^3.1.4
+        specifier: ^3.1.3
         version: 3.1.4(vitest@3.1.4)
       '@vue/shared':
-        specifier: ^3.5.14
+        specifier: ^3.5.13
         version: 3.5.14
       '@vueuse/core':
         specifier: ^11.3.0
@@ -109,7 +114,7 @@ importers:
         specifier: ^1.11.1
         version: 1.11.1
       eslint:
-        specifier: ^9.27.0
+        specifier: ^9.26.0
         version: 9.27.0(jiti@2.4.2)
       eslint-plugin-unicorn:
         specifier: ^55.0.0
@@ -118,7 +123,7 @@ importers:
         specifier: ^9.33.0
         version: 9.33.0(eslint@9.27.0(jiti@2.4.2))
       execa:
-        specifier: ^9.5.3
+        specifier: ^9.5.2
         version: 9.5.3
       fast-glob:
         specifier: ^3.3.3
@@ -160,10 +165,10 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       sass-embedded:
-        specifier: ^1.89.0
+        specifier: ^1.87.0
         version: 1.89.0
       semver:
-        specifier: ^7.7.2
+        specifier: ^7.7.1
         version: 7.7.2
       tsx:
         specifier: ^4.19.4
@@ -187,7 +192,7 @@ importers:
         specifier: ^6.3.5
         version: 6.3.5(@types/node@20.17.50)(jiti@2.4.2)(sass-embedded@1.89.0)(sass@1.78.0)(tsx@4.19.4)(yaml@2.8.0)
       vite-plugin-dts:
-        specifier: ^4.5.4
+        specifier: ^4.5.3
         version: 4.5.4(@types/node@20.17.50)(rollup@4.41.0)(typescript@5.8.3)(vite@6.3.5(@types/node@20.17.50)(jiti@2.4.2)(sass-embedded@1.89.0)(sass@1.78.0)(tsx@4.19.4)(yaml@2.8.0))
       vite-plugin-lib-inject-css:
         specifier: ^2.2.2
@@ -199,7 +204,7 @@ importers:
         specifier: ^0.0.4
         version: 0.0.4
       vitest:
-        specifier: ^3.1.4
+        specifier: ^3.1.3
         version: 3.1.4(@types/debug@4.1.12)(@types/node@20.17.50)(@vitest/browser@3.1.4)(@vitest/ui@3.1.4)(jiti@2.4.2)(msw@2.7.1(@types/node@20.17.50)(typescript@5.8.3))(sass-embedded@1.89.0)(sass@1.78.0)(tsx@4.19.4)(yaml@2.8.0)
       vitest-browser-vue:
         specifier: ^0.2.0
@@ -6561,20 +6566,20 @@ snapshots:
 
   '@formily/core@2.3.7':
     dependencies:
-      '@formily/reactive': 2.3.7
+      '@formily/reactive': 2.3.7(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)
       '@formily/shared': 2.3.7
       '@formily/validator': 2.3.7
 
   '@formily/grid@2.3.7(typescript@5.8.3)':
     dependencies:
-      '@formily/reactive': 2.3.7
+      '@formily/reactive': 2.3.7(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)
       '@juggle/resize-observer': 3.4.0
       typescript: 5.8.3
 
   '@formily/json-schema@2.3.7(typescript@5.8.3)':
     dependencies:
       '@formily/core': 2.3.7
-      '@formily/reactive': 2.3.7
+      '@formily/reactive': 2.3.7(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)
       '@formily/shared': 2.3.7
       typescript: 5.8.3
 
@@ -6582,11 +6587,11 @@ snapshots:
 
   '@formily/reactive-vue@2.3.7(vue@3.5.14(typescript@5.8.3))':
     dependencies:
-      '@formily/reactive': 2.3.7
+      '@formily/reactive': 2.3.7(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)
       vue: 3.5.14(typescript@5.8.3)
       vue-demi: 0.14.10(vue@3.5.14(typescript@5.8.3))
 
-  '@formily/reactive@2.3.7': {}
+  '@formily/reactive@2.3.7(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)': {}
 
   '@formily/shared@2.3.7':
     dependencies:
@@ -6606,7 +6611,7 @@ snapshots:
     dependencies:
       '@formily/core': 2.3.7
       '@formily/json-schema': 2.3.7(typescript@5.8.3)
-      '@formily/reactive': 2.3.7
+      '@formily/reactive': 2.3.7(patch_hash=67a7204263d1f2a8c3911739a166b3ac66663c85cdc8cf65a5d77cb4f94fd628)
       '@formily/reactive-vue': 2.3.7(vue@3.5.14(typescript@5.8.3))
       '@formily/shared': 2.3.7
       '@formily/validator': 2.3.7

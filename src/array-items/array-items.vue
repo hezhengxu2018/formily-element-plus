@@ -3,12 +3,12 @@ import type { ArrayField } from '@formily/core'
 import { autorun } from '@formily/reactive'
 import { isArr } from '@formily/shared'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
+import { omit } from 'lodash-es'
 import { ref, useAttrs } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { stylePrefix } from '../__builtins__/configs'
 import { ArrayBase } from '../array-base'
 import { isAdditionComponent, useKey } from '../array-base/utils'
-import { omit } from 'lodash-es'
 
 defineOptions({
   name: 'FArrayItems',

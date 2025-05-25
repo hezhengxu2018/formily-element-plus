@@ -3,7 +3,7 @@ import type { IArrayBaseItemProps } from './types'
 import { clone, isValid, uid } from '@formily/shared'
 import { version } from 'element-plus'
 import lt from 'semver/functions/lt'
-import { inject, onBeforeUnmount, ref, toRefs } from 'vue'
+import { inject, ref, toRefs } from 'vue'
 import { stylePrefix } from '../__builtins__'
 import { ArrayBaseSymbol, ItemSymbol } from './symbols'
 

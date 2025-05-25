@@ -9,6 +9,7 @@ import {
   ElCollapse,
   ElEmpty,
 } from 'element-plus'
+import { omit } from 'lodash-es'
 import { ref, useAttrs, watchEffect } from 'vue'
 import { ArrayBase } from '../array-base'
 import { isAdditionComponent, isIndexComponent, isOperationComponent } from '../array-base/utils'
@@ -40,7 +41,8 @@ const { getKey, keyMap } = ArrayBase.useKey(schemaRef.value)
 const dataSource = ref(field.value)
 
 autorun(() => {
-  dataSource.value = [...field.value]
+  console.log('dataSource', field.value)
+  isArr(field.value) && (dataSource.value = [...field.value])
 })
 
 function range(count: number) {
@@ -86,21 +88,23 @@ watchEffect(() => {
 function handleCollapseChange(keys: number[] | number) {
   activeKeys.value = keys
 }
+
+const _attrs = omit(attrs, ['onBlur', 'onFocus', 'onChange', 'value', 'modelValue'])
 </script>
 
 <template>
-  <ArrayBase
-    :key="dataSource.length"
-    :key-map="keyMap"
-    :add="(index: number) => {
-      activeKeys = insertActiveKeys(
-        activeKeys,
-        index,
-        attrs.accordion as boolean,
-      )
-    }"
-  >
-    <div :class="prefixCls">
+  <div :class="prefixCls">
+    <ArrayBase
+      :key="dataSource.length"
+      :key-map="keyMap"
+      :add="(index: number) => {
+        activeKeys = insertActiveKeys(
+          activeKeys,
+          index,
+          attrs.accordion as boolean,
+        )
+      }"
+    >
       <!-- 空状态渲染 -->
       <template v-if="!Array.isArray(props.value) || props.value.length === 0">
         <ElCard :class="[`${prefixCls}-item`]" shadow="never" v-bind="attrs" :header="attrs.title || field.title">
@@ -112,7 +116,8 @@ function handleCollapseChange(keys: number[] | number) {
       <template v-else>
         <ElCollapse
           :model-value="activeKeys"
-          :class="[`${prefixCls}-item`]"
+          :class="`${prefixCls}-item`"
+          v-bind="_attrs"
           @change="handleCollapseChange"
         >
           <ArrayBase.Item v-for="(item, index) of dataSource" :key="getKey(item, index)" :index="index" :record="item">
@@ -129,6 +134,6 @@ function handleCollapseChange(keys: number[] | number) {
       <template v-for="(itemSchema, key) in schema.properties" :key="key">
         <RecursionField v-if="isAdditionComponent(itemSchema)" :schema="itemSchema" name="addition" />
       </template>
-    </div>
-  </ArrayBase>
+    </ArrayBase>
+  </div>
 </template>
