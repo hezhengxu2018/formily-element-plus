@@ -3,7 +3,7 @@ import type { ArrayField } from '@formily/core'
 import type { ISchema } from '@formily/vue'
 import { observable } from '@formily/reactive'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
-import { ElCollapseItem } from 'element-plus'
+import { ElBadge, ElCollapseItem } from 'element-plus'
 import { isIndexComponent, isOperationComponent, useIndex } from '../array-base/utils'
 import { prefixCls } from './utils'
 

@@ -27,7 +27,7 @@ const slots = defineSlots<{
 const attrs = useAttrs()
 
 const innerAttrs = computed<Partial<InputProps>>(() => {
-  return omit(attrs, ['modelValue', 'onChange', 'attrs', 'on', 'onBlur', 'onFocus', 'readOnly'])
+  return omit(attrs, ['modelValue', 'onChange', 'attrs', 'on', 'readOnly'])
 })
 </script>
 

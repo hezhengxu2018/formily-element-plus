@@ -229,7 +229,7 @@ describe('ArrayCards', async () => {
     await inputs.nth(1).fill('第二项')
 
     // 点击下移按钮
-    const moveDownButtons = screen.getByRole('button', { name: /下移/ })
+    const moveDownButtons = screen.getByRole('button', { name: '下移条目', exact: true })
     await moveDownButtons.nth(0).click()
 
     // 验证顺序已经改变
