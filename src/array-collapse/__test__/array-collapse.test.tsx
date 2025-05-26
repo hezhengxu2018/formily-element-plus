@@ -1,5 +1,6 @@
 import { createForm } from '@formily/core'
 import { createSchemaField, FormProvider } from '@formily/vue'
+import { userEvent } from '@vitest/browser/context'
 import { describe, expect, it, vi } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { defineComponent } from 'vue'
@@ -402,8 +403,7 @@ describe('ArrayCollapse', async () => {
     })
   })
 
-  // 测试默认展开面板数量
-  it.skip('默认展开面板数量', async () => {
+  it('默认展开面板数量', async () => {
     const form = createForm({
       initialValues: {
         string_array: [
@@ -414,28 +414,271 @@ describe('ArrayCollapse', async () => {
       },
     })
     const screen = render(ArrayCollapseDefaultOpenTest(form))
-
-    // 验证只有前两个面板是展开的
-    const collapseItems = screen.container.querySelectorAll('.el-collapse-item__wrap')
+    const collapseItems = screen.container.querySelectorAll('.el-collapse-item__header.is-active')
     expect(collapseItems.length).toBe(2)
   })
 
   // 测试折叠/展开功能
-  it.skip('折叠/展开功能', async () => {
+  it('折叠/展开功能', async () => {
     const screen = render(ArrayCollapseStringTestFactory())
     await screen.getByText('添加条目').click()
 
     // 验证面板是展开的
-    let collapseItem = screen.container.querySelector('.el-collapse-item__wrap')
+    let collapseItem = screen.container.querySelector('.el-collapse-item__header.is-active')
     expect(collapseItem).toBeInTheDocument()
-
-    // 点击折叠面板
     await screen.getByText('字符串数组').click()
-
-    // 验证面板已折叠
     await vi.waitFor(() => {
-      collapseItem = screen.container.querySelector('.el-collapse-item__wrap')
+      collapseItem = screen.container.querySelector('.el-collapse-item__header.is-active')
       expect(collapseItem).not.toBeInTheDocument()
     })
+  })
+
+  it('非手风琴模式下 defaultOpenPanelCount 与数据源长度的联动', async () => {
+    // 测试数据源长度小于 defaultOpenPanelCount 的情况
+    const formLess = createForm({
+      initialValues: {
+        string_array: [
+          { input: '第一项' },
+          { input: '第二项' },
+        ],
+      },
+    })
+
+    const screenLess = render(defineComponent({
+      name: 'ArrayCollapseDefaultOpenLessTest',
+      setup() {
+        const { SchemaField } = createSchemaField({
+          components: {
+            FormItem,
+            Input,
+            ArrayCollapse,
+          },
+        })
+
+        const schema = {
+          type: 'object',
+          properties: {
+            string_array: {
+              'type': 'array',
+              'x-component': 'ArrayCollapse',
+              'x-component-props': {
+                defaultOpenPanelCount: 3, // 设置为3，大于数据源长度2
+              },
+              'x-decorator': 'FormItem',
+              'items': {
+                'type': 'object',
+                'x-component': 'ArrayCollapse.Item',
+                'x-component-props': {
+                  title: '字符串数组',
+                },
+                'properties': {
+                  index: {
+                    'type': 'void',
+                    'x-component': 'ArrayCollapse.Index',
+                  },
+                  input: {
+                    'type': 'string',
+                    'x-decorator': 'FormItem',
+                    'title': 'Input',
+                    'required': true,
+                    'x-component': 'Input',
+                  },
+                  remove: {
+                    'type': 'void',
+                    'x-component': 'ArrayCollapse.Remove',
+                  },
+                },
+              },
+            },
+          },
+        }
+
+        return () => (
+          <FormProvider form={formLess}>
+            <SchemaField schema={schema} />
+          </FormProvider>
+        )
+      },
+    }))
+
+    // 验证所有面板都展开（数据源长度为2，小于defaultOpenPanelCount=3）
+    const collapseItemsLess = screenLess.container.querySelectorAll('.el-collapse-item__header.is-active')
+    expect(collapseItemsLess.length).toBe(2) // 应该有2个展开的面板
+
+    // 测试数据源长度大于 defaultOpenPanelCount 的情况
+    const formMore = createForm({
+      initialValues: {
+        string_array: [
+          { input: '第一项' },
+          { input: '第二项' },
+          { input: '第三项' },
+          { input: '第四项' },
+          { input: '第五项' },
+        ],
+      },
+    })
+
+    const screenMore = render(defineComponent({
+      name: 'ArrayCollapseDefaultOpenMoreTest',
+      setup() {
+        const { SchemaField } = createSchemaField({
+          components: {
+            FormItem,
+            Input,
+            ArrayCollapse,
+          },
+        })
+
+        const schema = {
+          type: 'object',
+          properties: {
+            string_array: {
+              'type': 'array',
+              'x-component': 'ArrayCollapse',
+              'x-component-props': {
+                defaultOpenPanelCount: 3, // 设置为3，小于数据源长度5
+              },
+              'x-decorator': 'FormItem',
+              'items': {
+                'type': 'object',
+                'x-component': 'ArrayCollapse.Item',
+                'x-component-props': {
+                  title: '字符串数组',
+                },
+                'properties': {
+                  index: {
+                    'type': 'void',
+                    'x-component': 'ArrayCollapse.Index',
+                  },
+                  input: {
+                    'type': 'string',
+                    'x-decorator': 'FormItem',
+                    'title': 'Input',
+                    'required': true,
+                    'x-component': 'Input',
+                  },
+                  remove: {
+                    'type': 'void',
+                    'x-component': 'ArrayCollapse.Remove',
+                  },
+                },
+              },
+            },
+          },
+        }
+
+        return () => (
+          <FormProvider form={formMore}>
+            <SchemaField schema={schema} />
+          </FormProvider>
+        )
+      },
+    }))
+
+    // 验证只有前3个面板展开（数据源长度为5，大于defaultOpenPanelCount=3）
+    const collapseItemsMore = screenMore.container.querySelectorAll('.el-collapse-item__header.is-active')
+    expect(collapseItemsMore.length).toBe(3) // 应该有3个展开的面板
+  })
+})
+
+// 测试手风琴模式
+it('手风琴模式下的面板展开行为', async () => {
+  // 创建带有初始值的表单
+  const form = createForm({
+    initialValues: {
+      string_array: [
+        { input: '第一项' },
+        { input: '第二项' },
+        { input: '第三项' },
+      ],
+    },
+  })
+
+  const screen = render(defineComponent({
+    name: 'ArrayCollapseAccordionTest',
+    setup() {
+      const { SchemaField } = createSchemaField({
+        components: {
+          FormItem,
+          Input,
+          ArrayCollapse,
+        },
+      })
+
+      const schema = {
+        type: 'object',
+        properties: {
+          string_array: {
+            'type': 'array',
+            'x-component': 'ArrayCollapse',
+            'x-component-props': {
+              accordion: true,
+              defaultOpenPanelCount: 3, // 即使设置了较大的默认展开数，在手风琴模式下也只会展开一个
+            },
+            'x-decorator': 'FormItem',
+            'items': {
+              'type': 'object',
+              'x-component': 'ArrayCollapse.Item',
+              'x-component-props': {
+                title: '字符串数组',
+              },
+              'properties': {
+                index: {
+                  'type': 'void',
+                  'x-component': 'ArrayCollapse.Index',
+                },
+                input: {
+                  'type': 'string',
+                  'x-decorator': 'FormItem',
+                  'title': 'Input',
+                  'required': true,
+                  'x-component': 'Input',
+                },
+                remove: {
+                  'type': 'void',
+                  'x-component': 'ArrayCollapse.Remove',
+                },
+              },
+            },
+            'properties': {
+              addition: {
+                'type': 'void',
+                'title': '添加条目',
+                'x-component': 'ArrayCollapse.Addition',
+              },
+            },
+          },
+        },
+      }
+
+      return () => (
+        <FormProvider form={form}>
+          <SchemaField schema={schema} />
+        </FormProvider>
+      )
+    },
+  }))
+
+  // 验证初始状态只有第一个面板展开
+  const collapseItems = screen.container.querySelectorAll('.el-collapse-item__header.is-active')
+  expect(collapseItems.length).toBe(1)
+
+  // 点击第二个面板标题
+  const panelHeaders = screen.container.querySelectorAll('.el-collapse-item__header')
+  await userEvent.click(panelHeaders[1])
+
+  // 验证只有第二个面板展开
+  await vi.waitFor(() => {
+    const activeItems = screen.container.querySelectorAll('.el-collapse-item__header.is-active')
+    expect(activeItems.length).toBe(1)
+  })
+
+  // 添加新面板
+  await screen.getByText('添加条目').click()
+
+  // 验证只有新添加的面板（第四个）展开
+  await vi.waitFor(() => {
+    const activeItems = screen.container.querySelectorAll('.el-collapse-item__header.is-active')
+    expect(activeItems.length).toBe(1)
   })
 })

@@ -4,11 +4,14 @@ import type { ISchema } from '@formily/vue'
 import { observable } from '@formily/reactive'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElBadge, ElCollapseItem } from 'element-plus'
+import { omit } from 'lodash-es'
+import { computed, useAttrs } from 'vue'
 import { isIndexComponent, isOperationComponent, useIndex } from '../array-base/utils'
 import { prefixCls } from './utils'
 
 defineOptions({
   name: 'FArrayCollapseItem',
+  inheritAttrs: false,
 })
 
 const fieldRef = useField<ArrayField>()
@@ -23,10 +26,12 @@ const errorCount = observable.computed(() => {
     address: `${path}.**`,
   }).length
 })
+const attrs = useAttrs()
+const innerAtts = omit(attrs, ['value', 'onChange', 'readOnly'])
 </script>
 
 <template>
-  <ElCollapseItem :name="index">
+  <ElCollapseItem :name="index" v-bind="innerAtts">
     <template #title>
       <div style="flex: 1;">
         <RecursionField

@@ -41,7 +41,6 @@ const { getKey, keyMap } = ArrayBase.useKey(schemaRef.value)
 const dataSource = ref(field.value)
 
 autorun(() => {
-  console.log('dataSource', field.value)
   isArr(field.value) && (dataSource.value = [...field.value])
 })
 
@@ -62,13 +61,12 @@ function takeDefaultActiveKeys(dataSourceLength: number, defaultOpenPanelCount: 
 function insertActiveKeys(activeKeys: number[] | number, index: number, accordion = false) {
   if (accordion)
     return index
+  /* istanbul ignore if -- @preserve */
   if (!isArr(activeKeys))
     return index
-  if ((activeKeys).length <= index)
+  if (activeKeys.length <= index)
     return (activeKeys).concat(index)
   return (activeKeys).reduce((buf, key) => {
-    if (key < index)
-      return buf.concat(key)
     if (key === index)
       return [...buf, key, key + 1]
     return buf.concat(key + 1)
@@ -105,14 +103,11 @@ const _attrs = omit(attrs, ['onBlur', 'onFocus', 'onChange', 'value', 'modelValu
         )
       }"
     >
-      <!-- 空状态渲染 -->
       <template v-if="!Array.isArray(props.value) || props.value.length === 0">
         <ElCard :class="[`${prefixCls}-item`]" shadow="never" v-bind="attrs" :header="attrs.title || field.title">
           <ElEmpty />
         </ElCard>
       </template>
-
-      <!-- 数据项渲染 -->
       <template v-else>
         <ElCollapse
           :model-value="activeKeys"
@@ -129,8 +124,6 @@ const _attrs = omit(attrs, ['onBlur', 'onFocus', 'onChange', 'value', 'modelValu
           </ArrayBase.Item>
         </ElCollapse>
       </template>
-
-      <!-- 渲染添加按钮 -->
       <template v-for="(itemSchema, key) in schema.properties" :key="key">
         <RecursionField v-if="isAdditionComponent(itemSchema)" :schema="itemSchema" name="addition" />
       </template>
