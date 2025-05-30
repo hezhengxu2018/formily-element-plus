@@ -11,7 +11,11 @@ import {
 } from '@sliver/formily-element-plus'
 import { ElAlert, ElButton } from 'element-plus'
 
-const form = createForm()
+const form = createForm({
+  initialValues: {
+    array: [{ a1: '1', a2: '2', a3: '3' }, { a1: '2', a2: '3', a3: '4' }],
+  },
+})
 
 const {
   SchemaField,

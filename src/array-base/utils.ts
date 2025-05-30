@@ -47,7 +47,7 @@ export function useKey(schema: Schema) {
 
   return {
     keyMap,
-    getKey: (record: any, index: number) => {
+    getKey: (record: any, index?: number) => {
       if (keyMap instanceof WeakMap) {
         if (!keyMap.has(record)) {
           keyMap.set(record, uid())

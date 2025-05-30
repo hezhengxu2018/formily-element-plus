@@ -25,7 +25,7 @@ const formItemRef = ref<InstanceType<typeof FormBaseItem>>(null)
 
 if (isValid(fieldRef.value.data)) {
   /* istanbul ignore else -- @preserve */
-  if (!isValid(fieldRef.value.data.readPretty)) {
+  if (!isValid(fieldRef.value.data?.readPretty)) {
     fieldRef.value.data.readPretty = true
   }
 }
@@ -47,7 +47,7 @@ async function onClick() {
 
 async function onClickOutside() {
   /* istanbul ignore if -- @preserve */
-  if (fieldRef.value.data.readPretty) {
+  if (fieldRef.value.data?.readPretty) {
     return
   }
   fieldRef.value.data.readPretty = true
