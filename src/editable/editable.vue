@@ -50,6 +50,9 @@ async function onClickOutside() {
   if (fieldRef.value.data?.readPretty) {
     return
   }
+  if (!isValid(fieldRef.value.data)) {
+    fieldRef.value.data = {}
+  }
   fieldRef.value.data.readPretty = true
   await nextTick()
   formItemRef.value.feedbackTooltipRef.updatePopper()

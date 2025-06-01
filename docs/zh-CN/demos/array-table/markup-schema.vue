@@ -116,7 +116,7 @@ function range(count) {
             </SchemaVoidField>
           </SchemaVoidField>
         </SchemaObjectField>
-        <SchemaVoidField x-component="ArrayTable.Addition" title="添加条目" />
+        <SchemaVoidField x-component="ArrayTable.Addition" :x-component-props="{ defaultValue: { a1: '', a2: '', a3: '' } }" title="添加条目" />
       </SchemaArrayField>
     </SchemaField>
     <Submit @submit="log">

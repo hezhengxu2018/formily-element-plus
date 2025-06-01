@@ -6,10 +6,9 @@ import { isArr } from '@formily/shared'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElTable, ElTableColumn, vLoading } from 'element-plus'
 import { computed, ref } from 'vue'
-import { stylePrefix } from '../__builtins__'
 import { ArrayBase } from '../array-base'
-import { isAdditionComponent, isOperationComponent } from '../array-base/utils'
-import { isColumnComponent, isTableComponent } from './utils'
+import { isAdditionComponent } from '../array-base/utils'
+import { isColumnComponent, isTableComponent, prefixCls } from './utils'
 
 defineOptions({
   name: 'FArrayTable',
@@ -19,7 +18,6 @@ defineOptions({
 const fieldRef = useField<ArrayField>()
 const field = fieldRef.value
 const schemaRef = useFieldSchema()
-const prefixCls = `${stylePrefix}-array-table`
 const { getKey, keyMap } = ArrayBase.useKey(schemaRef.value)
 
 function extractTableSources(schema: Schema): any[] {
@@ -102,7 +100,6 @@ const stateManagerColumns = computed(() => {
       <ElTable
         v-loading="field.loading"
         :row-key="getKey"
-        v-bind="$attrs"
         :data="dataSource"
       >
         <template v-for="(column, colIndex) of columns.value" :key="column.key">
