@@ -5,9 +5,10 @@ import { autorun, observable } from '@formily/reactive'
 import { isArr } from '@formily/shared'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElTable, ElTableColumn, vLoading } from 'element-plus'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { ArrayBase } from '../array-base'
 import { isAdditionComponent } from '../array-base/utils'
+import ElPagination from '../pagination/pagination'
 import { isColumnComponent, isTableComponent, prefixCls } from './utils'
 
 defineOptions({
@@ -15,10 +16,20 @@ defineOptions({
   inheritAttrs: false,
 })
 
+const props = defineProps({
+  value: {
+    type: Array,
+    default: () => [],
+  },
+})
+
 const fieldRef = useField<ArrayField>()
 const field = fieldRef.value
 const schemaRef = useFieldSchema()
 const { getKey, keyMap } = ArrayBase.useKey(schemaRef.value)
+
+const pageSize = ref(10)
+const currentPage = ref(1)
 
 function extractTableSources(schema: Schema): any[] {
   if (isTableComponent(schema)) {
@@ -66,7 +77,10 @@ const sources = observable.computed(() => {
 
 const dataSource = ref([])
 autorun(() => {
-  dataSource.value = [...field.value]
+  dataSource.value = field.value.slice((currentPage.value - 1) * pageSize.value, (currentPage.value) * pageSize.value)
+})
+watch([pageSize, currentPage], () => {
+  dataSource.value = field.value.slice((currentPage.value - 1) * pageSize.value, (currentPage.value) * pageSize.value)
 })
 
 const columns = observable.computed(() => {
@@ -92,21 +106,26 @@ const columns = observable.computed(() => {
 const stateManagerColumns = computed(() => {
   return sources.value.filter(column => isColumnComponent(column.schema))
 })
+
+const baseIndex = computed(() => {
+  return (currentPage.value - 1) * pageSize.value
+})
 </script>
 
 <template>
   <div :class="prefixCls">
     <ArrayBase :key-map="keyMap">
-      <ElTable
-        v-loading="field.loading"
-        :row-key="getKey"
-        :data="dataSource"
-      >
+      <ElTable v-loading="field.loading" :row-key="getKey" :data="dataSource">
         <template v-for="(column, colIndex) of columns.value" :key="column.key">
           <ElTableColumn v-bind="column.props">
             <template #default="{ row, $index }">
-              <ArrayBase.Item :key="getKey(row)" :index="$index" :record="row">
-                <RecursionField :key="`${getKey(row)}-${colIndex}`" :schema="sources.value[colIndex].schema" :name="$index" only-render-properties />
+              <ArrayBase.Item :key="getKey(row)" :index="$index + baseIndex" :record="row">
+                <RecursionField
+                  :key="`${getKey(row)}`"
+                  :schema="sources.value[colIndex].schema"
+                  :name="$index + baseIndex"
+                  only-render-properties
+                />
               </ArrayBase.Item>
             </template>
             <template v-if="column.asterisk" #header="{ column: col }">
@@ -121,15 +140,19 @@ const stateManagerColumns = computed(() => {
 
       <!-- 状态管理器 -->
       <template v-for="(column, key) of stateManagerColumns" :key="key">
-        <RecursionField
-          :name="column.name"
-          :schema="column.schema"
-          :only-render-self="true"
-        />
+        <RecursionField :name="column.name" :schema="column.schema" :only-render-self="true" />
       </template>
       <template v-for="(itemSchema, key) of schemaRef.properties" :key="key">
         <RecursionField v-if="isAdditionComponent(itemSchema)" :schema="itemSchema" name="addition" />
       </template>
     </ArrayBase>
+    <ElPagination
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize" :class="`${prefixCls}-pagination`"
+      background
+      layout="total, sizes, prev, pager, next"
+      :page-sizes="[10, 20, 30, 50]"
+      :total="props.value.length"
+    />
   </div>
 </template>

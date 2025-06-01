@@ -11,11 +11,7 @@ import {
 } from '@sliver/formily-element-plus'
 import { ElAlert, ElButton } from 'element-plus'
 
-const form = createForm({
-  initialValues: {
-    array: [{ a1: '1', a2: '2', a3: '3' }, { a1: '2', a2: '3', a3: '4' }],
-  },
-})
+const form = createForm()
 
 const {
   SchemaField,
@@ -38,9 +34,7 @@ async function log(...v) {
 }
 
 function range(count) {
-  return Array.from({ length: count }).map((_, key) => ({
-    aaa: key,
-  }))
+  return Array.from({ length: count }).map(_ => ({ a1: null, a2: null, a3: null }))
 }
 </script>
 
@@ -72,7 +66,6 @@ function range(count) {
             <SchemaStringField
               x-decorator="Editable"
               name="a1"
-              :required="true"
               x-component="Input"
             />
           </SchemaVoidField>
@@ -116,7 +109,7 @@ function range(count) {
             </SchemaVoidField>
           </SchemaVoidField>
         </SchemaObjectField>
-        <SchemaVoidField x-component="ArrayTable.Addition" :x-component-props="{ defaultValue: { a1: '', a2: '', a3: '' } }" title="添加条目" />
+        <SchemaVoidField x-component="ArrayTable.Addition" :x-component-props="{ defaultValue: { a1: null, a2: '', a3: '' } }" title="添加条目" />
       </SchemaArrayField>
     </SchemaField>
     <Submit @submit="log">

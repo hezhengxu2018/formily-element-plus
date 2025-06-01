@@ -5,7 +5,7 @@ import { observable } from '@formily/reactive'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElBadge, ElCollapseItem } from 'element-plus'
 import { omit } from 'lodash-es'
-import { computed, useAttrs } from 'vue'
+import { useAttrs } from 'vue'
 import { isIndexComponent, isOperationComponent, useIndex } from '../array-base/utils'
 import { prefixCls } from './utils'
 

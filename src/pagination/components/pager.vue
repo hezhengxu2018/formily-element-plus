@@ -1,6 +1,10 @@
 <script lang="ts" setup>
+import type { ArrayField } from '@formily/core'
 import { DArrowLeft, DArrowRight, MoreFilled } from '@element-plus/icons-vue'
-import { CHANGE_EVENT, useLocale, useNamespace } from 'element-plus'
+import { observable } from '@formily/reactive'
+import { useObserver } from '@formily/reactive-vue'
+import { useField } from '@formily/vue'
+import { CHANGE_EVENT, ElBadge, useLocale, useNamespace } from 'element-plus'
 import { computed, ref, watchEffect } from 'vue'
 import { paginationPagerProps } from './pager'
 
@@ -152,75 +156,97 @@ function onPagerClick(event: UIEvent) {
     emit(CHANGE_EVENT, newPage)
   }
 }
+/* formily error count */
+useObserver()
+const fieldRef = useField<ArrayField>()
+const field = fieldRef.value
+const path = field.address.entire
+const errorPageIndexList = observable.computed(() => {
+  const errorPageSet = field.form
+    .queryFeedbacks({
+      type: 'error',
+      address: `${path}.**`,
+    })
+    .map(feedback => Number(feedback.path.split(`${path}.`)[1].split('.')[0]))
+    .reduce((acc, cur) => {
+      const pageIndex = Math.floor(cur / props.pageSize)
+      acc.add(pageIndex)
+      return acc
+    }, new Set<number>())
+
+  const errorPageList = Array.from(errorPageSet).sort((a, b) => a - b)
+  return errorPageList
+})
+
+const isPrevMoreError = observable.computed(() => {
+  return errorPageIndexList.value.some(pageIdx => (pageIdx < pagers.value[0] - 1) && pageIdx !== 0)
+})
+const isNextMoreError = observable.computed(() => {
+  return errorPageIndexList.value.some(pageIdx => (pageIdx > pagers.value.at(-1) - 1) && pageIdx !== errorPageIndexList.value.length - 1)
+})
 </script>
 
 <template>
   <ul :class="nsPager.b()" @click="onPagerClick" @keyup.enter="onEnter">
-    <li
-      v-if="pageCount > 0"
-      :class="[
-        nsPager.is('active', currentPage === 1),
-        nsPager.is('disabled', disabled),
-      ]"
-      class="number"
-      :aria-current="currentPage === 1"
-      :aria-label="t('el.pagination.currentPage', { pager: 1 })"
-      :tabindex="tabindex"
+    <ElBadge v-if="pageCount > 1" is-dot :value="1" :hidden="errorPageIndexList.value[0] !== 0">
+      <li
+        :class="[
+          nsPager.is('active', currentPage === 1),
+          nsPager.is('disabled', disabled),
+        ]" class="number" :aria-current="currentPage === 1" :aria-label="t('el.pagination.currentPage', { pager: 1 })"
+        :tabindex="tabindex"
+      >
+        1
+      </li>
+    </ElBadge>
+    <ElBadge v-if="showPrevMore" is-dot :value="1" :hidden="!isPrevMoreError.value">
+      <li
+        :class="prevMoreKls" :tabindex="tabindex"
+        :aria-label="t('el.pagination.prevPages', { pager: pagerCount - 2 })" @mouseenter="onMouseEnter(true)"
+        @mouseleave="quickPrevHover = false" @focus="onFocus(true)" @blur="quickPrevFocus = false"
+      >
+        <DArrowLeft v-if="(quickPrevHover || quickPrevFocus) && !disabled" />
+        <MoreFilled v-else />
+      </li>
+    </ElBadge>
+    <ElBadge
+      v-for="pager in pagers" :key="pager" is-dot :value="1"
+      :hidden="!errorPageIndexList.value.includes(pager - 1)"
     >
-      1
-    </li>
-    <li
-      v-if="showPrevMore"
-      :class="prevMoreKls"
-      :tabindex="tabindex"
-      :aria-label="t('el.pagination.prevPages', { pager: pagerCount - 2 })"
-      @mouseenter="onMouseEnter(true)"
-      @mouseleave="quickPrevHover = false"
-      @focus="onFocus(true)"
-      @blur="quickPrevFocus = false"
+      <li
+        :class="[
+          nsPager.is('active', currentPage === pager),
+          nsPager.is('disabled', disabled),
+        ]" class="number" :aria-current="currentPage === pager" :aria-label="t('el.pagination.currentPage', { pager })"
+        :tabindex="tabindex"
+      >
+        {{ pager }}
+      </li>
+    </ElBadge>
+    <ElBadge v-if="showNextMore" is-dot :value="1" :hidden="!isNextMoreError.value">
+      <li
+        :class="nextMoreKls" :tabindex="tabindex"
+        :aria-label="t('el.pagination.nextPages', { pager: pagerCount - 2 })" @mouseenter="onMouseEnter()"
+        @mouseleave="quickNextHover = false" @focus="onFocus()" @blur="quickNextFocus = false"
+      >
+        <DArrowRight v-if="(quickNextHover || quickNextFocus) && !disabled" />
+        <MoreFilled v-else />
+      </li>
+    </ElBadge>
+    <ElBadge
+      is-dot
+      :value="1"
+      :hidden="errorPageIndexList.value[errorPageIndexList.value.length - 1] !== pageCount - 1"
     >
-      <DArrowLeft v-if="(quickPrevHover || quickPrevFocus) && !disabled" />
-      <MoreFilled v-else />
-    </li>
-    <li
-      v-for="pager in pagers"
-      :key="pager"
-      :class="[
-        nsPager.is('active', currentPage === pager),
-        nsPager.is('disabled', disabled),
-      ]"
-      class="number"
-      :aria-current="currentPage === pager"
-      :aria-label="t('el.pagination.currentPage', { pager })"
-      :tabindex="tabindex"
-    >
-      {{ pager }}
-    </li>
-    <li
-      v-if="showNextMore"
-      :class="nextMoreKls"
-      :tabindex="tabindex"
-      :aria-label="t('el.pagination.nextPages', { pager: pagerCount - 2 })"
-      @mouseenter="onMouseEnter()"
-      @mouseleave="quickNextHover = false"
-      @focus="onFocus()"
-      @blur="quickNextFocus = false"
-    >
-      <DArrowRight v-if="(quickNextHover || quickNextFocus) && !disabled" />
-      <MoreFilled v-else />
-    </li>
-    <li
-      v-if="pageCount > 1"
-      :class="[
-        nsPager.is('active', currentPage === pageCount),
-        nsPager.is('disabled', disabled),
-      ]"
-      class="number"
-      :aria-current="currentPage === pageCount"
-      :aria-label="t('el.pagination.currentPage', { pager: pageCount })"
-      :tabindex="tabindex"
-    >
-      {{ pageCount }}
-    </li>
+      <li
+        :class="[
+          nsPager.is('active', currentPage === pageCount),
+          nsPager.is('disabled', disabled),
+        ]" class="number" :aria-current="currentPage === pageCount"
+        :aria-label="t('el.pagination.currentPage', { pager: pageCount })" :tabindex="tabindex"
+      >
+        {{ pageCount }}
+      </li>
+    </ElBadge>
   </ul>
 </template>

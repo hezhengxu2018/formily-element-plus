@@ -15,6 +15,9 @@ export const paginationPagerProps = buildProps({
     type: Number,
     default: 7,
   },
+  pageSize: {
+    type: Number,
+  },
   disabled: Boolean,
 } as const)
 

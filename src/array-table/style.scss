@@ -34,4 +34,14 @@ $array-table-prefix-cls: '#{$formily-prefix}-array-table';
       border-color: var(--el-color-primary);
     }
   }
+
+  .el-pagination {
+    margin-top: 16px;
+    text-align: right;
+
+    .el-pagination__total {
+      flex: 1;
+      text-align: left;
+    }
+  }
 }

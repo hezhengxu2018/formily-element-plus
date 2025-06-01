@@ -413,6 +413,7 @@ export default defineComponent({
           pagerCount: props.pagerCount,
           onChange: handleCurrentChange,
           disabled: props.disabled,
+          pageSize: props.pageSize,
         }),
         next: h(Next, {
           disabled: props.disabled,
