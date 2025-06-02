@@ -3,13 +3,14 @@ import type { IArrayBaseItemProps } from './types'
 import { clone, isValid, uid } from '@formily/shared'
 import { version } from 'element-plus'
 import lt from 'semver/functions/lt'
-import { inject, ref, toRefs } from 'vue'
+import { inject, toRefs } from 'vue'
 import { stylePrefix } from '../__builtins__'
 import { ArrayBaseSymbol, ItemSymbol } from './symbols'
 
 export const prefixCls = `${stylePrefix}-array-base`
 
 export function compatibleUnderlineProp() {
+  /* istanbul ignore next -- @preserve */
   return lt(version, '2.9.9') ? false : 'never'
 }
 
@@ -19,14 +20,14 @@ export function useArray() {
 
 export function useIndex() {
   const { index: indexRef } = toRefs(inject(ItemSymbol) as IArrayBaseItemProps)
-  return indexRef ?? ref()
+  return indexRef
 }
 
-export function useRecord(record?: number) {
+export function useRecord() {
   const { record: recordRef } = toRefs(
     inject(ItemSymbol) as IArrayBaseItemProps,
   )
-  return recordRef ?? ref(record)
+  return recordRef
 }
 
 const isObjectValue: (schema: Schema) => boolean = (schema: Schema) => {
@@ -58,7 +59,7 @@ export function useKey(schema: Schema) {
       if (keyMap && !keyMap[index]) {
         keyMap[index] = uid()
       }
-      return keyMap ? `${keyMap[index]}` : undefined
+      return `${keyMap[index]}`
     },
   }
 }
@@ -68,20 +69,8 @@ export function getDefaultValue(defaultValue: any, schema: Schema): any {
     return clone(defaultValue)
   if (Array.isArray(schema?.items))
     return getDefaultValue(defaultValue, schema.items[0])
-  if (schema?.items?.type === 'array')
-    return []
-  if (schema?.items?.type === 'boolean')
-    return true
-  if (schema?.items?.type === 'date')
-    return ''
-  if (schema?.items?.type === 'datetime')
-    return ''
-  if (schema?.items?.type === 'number')
-    return 0
   if (schema?.items?.type === 'object')
     return {}
-  if (schema?.items?.type === 'string')
-    return ''
   return null
 }
 

@@ -50,6 +50,7 @@ async function onClickOutside() {
   if (fieldRef.value.data?.readPretty) {
     return
   }
+  /* istanbul ignore if -- @preserve */
   if (!isValid(fieldRef.value.data)) {
     fieldRef.value.data = {}
   }

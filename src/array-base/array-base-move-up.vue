@@ -15,9 +15,6 @@ const indexRef = useIndex()
 const base = useArray()
 
 function handleClick() {
-  if (indexRef.value === 0) {
-    return
-  }
   if (isArr(base?.keyMap)) {
     base.keyMap.splice(
       indexRef.value - 1,

@@ -8,6 +8,7 @@ export default mergeConfig(viteConfig, defineConfig({
       provider: 'istanbul',
       reporter: ['clover', 'json', 'html'],
       include: ['src'],
+      exclude: ['src/pagination/**'], // fork from element-plus
     },
     browser: {
       provider: 'playwright',
