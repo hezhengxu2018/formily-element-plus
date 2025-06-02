@@ -11,3 +11,8 @@ export function isColumnComponent(schema: Schema) {
 export function isTableComponent(schema: Schema): boolean {
   return isColumnComponent(schema) || isOperationComponent(schema) || isAdditionComponent(schema)
 }
+
+export function hasRequiredProperty(schema: Schema): boolean {
+  return schema.reduceProperties((hasRequired, property) =>
+    hasRequired || !!property.required, false)
+}
