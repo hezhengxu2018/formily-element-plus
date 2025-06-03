@@ -1,4 +1,4 @@
-import { Column } from "element-plus"
+import type { Column } from 'element-plus'
 
 export interface ISelectTableProps {
   columns?: Column<any>[]

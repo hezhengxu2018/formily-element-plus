@@ -5,10 +5,10 @@ import { Close, Edit } from '@element-plus/icons-vue'
 import { isPlainObj, isValid } from '@formily/shared'
 import { useField } from '@formily/vue'
 import { ClickOutside as vClickOutside } from 'element-plus'
+import { omit } from 'lodash-es'
 import { computed, nextTick, ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { FormBaseItem } from '../form-item'
-import { omit } from 'lodash-es'
 
 defineOptions({
   name: 'FEditable',
@@ -33,13 +33,8 @@ const editProps = computed(() => {
 })
 
 function handleEnsureReadPretty() {
-  /* istanbul ignore if -- @preserve */
   if (!isValid(fieldRef.value.data)) {
     fieldRef.value.data = {}
-  }
-  /* istanbul ignore if -- @preserve */
-  if (!fieldRef.value.data.readPretty) {
-    return
   }
 }
 

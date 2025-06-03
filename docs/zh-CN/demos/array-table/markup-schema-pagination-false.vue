@@ -9,7 +9,6 @@ import {
   Space,
   Submit,
 } from '@sliver/formily-element-plus'
-import { ElAlert, ElButton } from 'element-plus'
 
 const form = createForm()
 
@@ -32,10 +31,6 @@ const {
 async function log(...v) {
   console.log(...v)
 }
-
-function range(count) {
-  return Array.from({ length: count }).map(_ => ({ a1: null, a2: null, a3: null }))
-}
 </script>
 
 <template>
@@ -47,7 +42,7 @@ function range(count) {
         x-component="ArrayTable"
         :x-component-props="{
           pagination: false,
-          height: 300
+          height: 300,
         }"
       >
         <SchemaObjectField>

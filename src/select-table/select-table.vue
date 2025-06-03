@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableInstance } from 'element-plus'
+import type { ISelectTableProps } from './types'
 import { isEqual, isValid } from '@formily/shared'
 import {
   ElLink,
@@ -15,7 +16,6 @@ import { differenceWith, remove, uniq, uniqWith, xor } from 'lodash-es'
 import lt from 'semver/functions/lt'
 import { computed, nextTick, ref, watch } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
-import { ISelectTableProps } from "./types";
 
 defineOptions({
   inheritAttrs: false,
@@ -32,9 +32,9 @@ const props = withDefaults(defineProps<ISelectTableProps>(), {
   showAlertToolbar: true,
 })
 
-const elTableProps = useAttrs()
-
 const emit = defineEmits(['change'])
+
+const elTableProps = useAttrs()
 
 function compatibleRadioValue(key: string) {
   return lt(version, '2.6.0') ? { label: key } : { value: key }

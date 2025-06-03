@@ -1,4 +1,4 @@
-import { PaginationProps } from "element-plus";
+import type { PaginationProps } from 'element-plus'
 
 export interface IArrayTableProps {
   value?: any[]

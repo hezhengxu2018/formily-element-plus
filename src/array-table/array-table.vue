@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import type { ArrayField } from '@formily/core'
 import type { Schema } from '@formily/vue'
+import type { TableInstance } from 'element-plus'
+import type { IArrayTableProps } from './types'
 import { autorun, observable, reaction } from '@formily/reactive'
 import { isArr, isEqual } from '@formily/shared'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
-import { ElTable, ElTableColumn, TableInstance, useAttrs, vLoading } from 'element-plus'
+import { ElTable, ElTableColumn, useAttrs, vLoading } from 'element-plus'
+import { omit } from 'lodash-es'
 import { computed, nextTick, ref, watch } from 'vue'
 import { ArrayBase } from '../array-base'
 import { isAdditionComponent } from '../array-base/utils'
 import ElPagination from '../pagination/pagination'
 import { hasRequiredProperty, isColumnComponent, isTableComponent, prefixCls } from './utils'
-import { IArrayTableProps } from './types'
-import { omit } from 'lodash-es'
 
 defineOptions({
   name: 'FArrayTable',
@@ -179,7 +180,6 @@ async function onAddItemClick() {
         :class="`${prefixCls}-pagination`"
         background
         layout="total, sizes, prev, pager, next"
-        :page-sizes="[10, 20, 30, 50]"
         :total="props.value.length"
         v-bind="paginationProps"
       />
