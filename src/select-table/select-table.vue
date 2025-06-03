@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<ISelectTableProps>(), {
 
 const emit = defineEmits(['change'])
 
-export interface ISelectTableProps extends TableProps<any> {
+export interface ISelectTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
   columns?: Column<any>[]
   mode?: 'multiple' | 'single'
   dataSource?: any[]
@@ -43,6 +43,7 @@ export interface ISelectTableProps extends TableProps<any> {
   clickRowToSelect?: boolean
   showAlertToolbar?: boolean
   value?: any
+  data?: Record<string, any>[]
 }
 
 function compatibleRadioValue(key: string) {
