@@ -30,6 +30,14 @@ array-table/markup-schema-pagination-false
 
 :::
 
+## Markup Schema 可拖拽案例
+
+:::demo
+
+array-table/markup-schema-draggable
+
+:::
+
 ## JSON Schema 案例
 
 :::demo

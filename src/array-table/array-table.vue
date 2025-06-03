@@ -9,6 +9,8 @@ import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElTable, ElTableColumn, useAttrs, vLoading } from 'element-plus'
 import { omit } from 'lodash-es'
 import { computed, nextTick, ref, watch } from 'vue'
+import { VueDraggable } from 'vue-draggable-plus'
+import { stylePrefix } from '../__builtins__'
 import { ArrayBase } from '../array-base'
 import { isAdditionComponent } from '../array-base/utils'
 import ElPagination from '../pagination/pagination'
@@ -23,9 +25,9 @@ const props = withDefaults(defineProps<IArrayTableProps>(), {
   value: () => [],
   pagination: true,
 })
-const elTableProps = useAttrs()
+const attrs = useAttrs()
+const elTableProps = computed(() => omit(attrs.value, ['onChange', 'onFocus', 'onBlur', 'disabled', 'readOnly']))
 const paginationProps = computed(() => omit(props.paginationProps, ['pageSize', 'currentPage']))
-
 const fieldRef = useField<ArrayField>()
 const field = fieldRef.value
 const schemaRef = useFieldSchema()
@@ -141,33 +143,47 @@ async function onAddItemClick() {
   }
   currentPage.value = Math.ceil(field.value.length / pageSize.value)
 }
+
+async function handleDragEnd(evt: { oldIndex: number, newIndex: number }) {
+  const { oldIndex, newIndex } = evt
+  await field.move(oldIndex, newIndex)
+  triggerUpdateKey.value++
+}
 </script>
 
 <template>
   <div :class="prefixCls">
     <ArrayBase :key="triggerUpdateKey" :key-map="keyMap" :add="onAddItemClick">
-      <ElTable ref="elTableRef" v-loading="field.loading" :row-key="getKey" :data="dataSource" v-bind="elTableProps">
-        <template v-for="(column, colIndex) of columns.value" :key="column.key">
-          <ElTableColumn v-bind="column.props">
-            <template #default="{ row, $index }">
-              <ArrayBase.Item :key="getKey(row)" :index="$index + baseIndex" :record="row">
-                <RecursionField
-                  :key="`${getKey(row)}`"
-                  :schema="sources.value[colIndex].schema"
-                  :name="$index + baseIndex"
-                  only-render-properties
-                />
-              </ArrayBase.Item>
-            </template>
-            <template v-if="column.asterisk" #header="{ column: col }">
-              <span>
-                <span :class="`${prefixCls}-asterisk`">*</span>
-                {{ col.label }}
-              </span>
-            </template>
-          </ElTableColumn>
-        </template>
-      </ElTable>
+      <VueDraggable
+        :model-value="dataSource"
+        target="tbody"
+        :handle="`.${stylePrefix}-array-base-sort-handle`"
+        :animation="150"
+        @end="handleDragEnd"
+      >
+        <ElTable ref="elTableRef" v-loading="field.loading" :row-key="getKey" :data="dataSource" v-bind="elTableProps">
+          <template v-for="(column, colIndex) of columns.value" :key="column.key">
+            <ElTableColumn v-bind="column.props">
+              <template #default="{ row, $index }">
+                <ArrayBase.Item :key="getKey(row)" :index="$index + baseIndex" :record="row">
+                  <RecursionField
+                    :key="`${getKey(row)}`"
+                    :schema="sources.value[colIndex].schema"
+                    :name="$index + baseIndex"
+                    only-render-properties
+                  />
+                </ArrayBase.Item>
+              </template>
+              <template v-if="column.asterisk" #header="{ column: col }">
+                <span>
+                  <span :class="`${prefixCls}-asterisk`">*</span>
+                  {{ col.label }}
+                </span>
+              </template>
+            </ElTableColumn>
+          </template>
+        </ElTable>
+      </VueDraggable>
 
       <!-- 状态管理器 -->
       <template v-for="(column, key) of stateManagerColumns.value" :key="key">
