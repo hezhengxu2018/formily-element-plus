@@ -2,18 +2,19 @@
 import type { Field } from '@formily/core'
 import type { IFormItemProps } from '../form-item/types'
 import { Close, Edit } from '@element-plus/icons-vue'
-import { isValid } from '@formily/shared'
+import { isPlainObj, isValid } from '@formily/shared'
 import { useField } from '@formily/vue'
 import { ClickOutside as vClickOutside } from 'element-plus'
-import { nextTick, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { FormBaseItem } from '../form-item'
+import { omit } from 'lodash-es'
 
 defineOptions({
   name: 'FEditable',
 })
 
-const props = withDefaults(defineProps<IFormItemProps>(), {
+const props = withDefaults(defineProps<IFormItemProps & { editProps?: IFormItemProps }>(), {
   feedbackLayout: 'popover',
   size: 'default',
 })
@@ -23,22 +24,30 @@ const innerRef = ref<HTMLElement>(null)
 const prefixCls = `${stylePrefix}-editable`
 const formItemRef = ref<InstanceType<typeof FormBaseItem>>(null)
 
-if (isValid(fieldRef.value.data)) {
-  /* istanbul ignore else -- @preserve */
-  if (!isValid(fieldRef.value.data?.readPretty)) {
-    fieldRef.value.data.readPretty = true
+const commonProps = computed(() => omit(props, 'editProps'))
+const editProps = computed(() => {
+  if (isPlainObj(props.editProps)) {
+    return { ...props, ...props.editProps }
   }
-}
-else {
-  fieldRef.value.data = {}
-  fieldRef.value.data.readPretty = true
-}
+  return props
+})
 
-async function onClick() {
+function handleEnsureReadPretty() {
+  /* istanbul ignore if -- @preserve */
+  if (!isValid(fieldRef.value.data)) {
+    fieldRef.value.data = {}
+  }
   /* istanbul ignore if -- @preserve */
   if (!fieldRef.value.data.readPretty) {
     return
   }
+}
+
+handleEnsureReadPretty()
+fieldRef.value.data.readPretty = true
+
+async function onClick() {
+  handleEnsureReadPretty()
   fieldRef.value.data.readPretty = false
   await nextTick()
   formItemRef.value.feedbackTooltipRef.updatePopper()
@@ -46,14 +55,7 @@ async function onClick() {
 }
 
 async function onClickOutside() {
-  /* istanbul ignore if -- @preserve */
-  if (fieldRef.value.data?.readPretty) {
-    return
-  }
-  /* istanbul ignore if -- @preserve */
-  if (!isValid(fieldRef.value.data)) {
-    fieldRef.value.data = {}
-  }
+  handleEnsureReadPretty()
   fieldRef.value.data.readPretty = true
   await nextTick()
   formItemRef.value.feedbackTooltipRef.updatePopper()
@@ -63,7 +65,7 @@ async function onClickOutside() {
 <template>
   <div ref="innerRef" :class="prefixCls">
     <div v-click-outside="onClickOutside" :class="`${prefixCls}-content`">
-      <FormBaseItem ref="formItemRef" v-bind="props" @click="onClick">
+      <FormBaseItem ref="formItemRef" v-bind="fieldRef.data?.readPretty === false ? editProps : commonProps" @click="onClick">
         <div>
           <slot />
         </div>

@@ -185,4 +185,50 @@ describe('Editable', () => {
     expect(errorMessage.textContent).toContain('输入内容不能超过10个字符')
     expect(fn).not.toHaveBeenCalled()
   })
+
+  it('应该正确应用 editProps 配置', async () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        input: {
+          'type': 'string',
+          'title': '输入框',
+          'x-decorator': 'Editable',
+          'x-decorator-props': {
+            editProps: {
+              size: 'small',
+              style: {
+                width: '80px',
+              },
+            },
+          },
+          'x-component': 'Input',
+        },
+      },
+    }
+    const form = createForm()
+    const { SchemaField } = createSchemaField({
+      components: {
+        FormItem,
+        Input,
+        Editable,
+      },
+    })
+
+    const { container } = render(() => (
+      <FormProvider form={form}>
+        <SchemaField schema={schema} />
+      </FormProvider>
+    ))
+
+    const editBtn = container.querySelector('.formily-element-plus-editable-edit-btn')
+    await userEvent.click(editBtn)
+
+    const input = container.querySelector('input')
+    expect(input).not.toBeNull()
+
+    const inputWrapper = input.closest('.formily-element-plus-form-item')
+    expect(inputWrapper).toHaveClass('el-form-item--small')
+    expect(inputWrapper).toHaveStyle({ width: '80px' })
+  })
 })

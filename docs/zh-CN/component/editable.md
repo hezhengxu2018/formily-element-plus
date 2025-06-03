@@ -9,6 +9,10 @@
 :::
 
 ::: tip 提示
+`@formily/core`从[v2.3.3](https://github.com/alibaba/formily/releases/tag/v2.3.3)开始支持配置触发校验的状态。如果使用`2.3.3`以上版本可以通过该属性来使用内置的`mapReadPretty`，同样可以触发校验。
+:::
+
+::: tip 提示
 Editable 组件现在切换状态时不会修改Field的`pattern`属性，而是修改Field字段模型中data对象上的`readPretty`属性，原因见上。
 :::
 
@@ -21,6 +25,7 @@ editable/markup-schema
 :::
 
 ## JSON Schema 案例
+> 使用`editProps`属性控制编辑状态下的尺寸
 
 :::demo
 
@@ -51,6 +56,10 @@ editable/template-validator
 > 内联编辑
 
 参考 [/component/form-item.html#api](./form-item.html#api)
+
+| 参数      | 说明                    | 类型                           | 默认值    |
+| --------- | ----------------------- | ------------------------------ | --------- |
+| editProps | 编辑状态下的额外属性值  | ^[object]`参考form-item属性值` | `null`    |
 
 ### Editable.Popover
 

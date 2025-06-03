@@ -32,6 +32,14 @@ const schema = {
       'type': 'string',
       'title': '输入框',
       'x-decorator': 'Editable',
+      'x-decorator-props': {
+        editProps: {
+          size: 'small',
+          style: {
+            width: '80px',
+          },
+        },
+      },
       'x-component': 'Input',
     },
     void: {
