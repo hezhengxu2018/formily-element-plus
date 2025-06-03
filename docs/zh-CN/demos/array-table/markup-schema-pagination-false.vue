@@ -46,8 +46,8 @@ function range(count) {
         x-decorator="FormItem"
         x-component="ArrayTable"
         :x-component-props="{
-          stripe: true,
-          paginationProps: { pageSize: 10 },
+          pagination: false,
+          height: 300
         }"
       >
         <SchemaObjectField>
@@ -62,36 +62,11 @@ function range(count) {
           </SchemaVoidField>
           <SchemaVoidField
             x-component="ArrayTable.Column"
-            :x-component-props="{ prop: 'a1', title: 'A1', width: 200 }"
+            :x-component-props="{ prop: 'a1', title: 'A1' }"
           >
             <SchemaStringField
               x-decorator="Editable"
               name="a1"
-              x-component="Input"
-            />
-          </SchemaVoidField>
-          <SchemaVoidField
-            x-component="ArrayTable.Column"
-            :x-component-props="{ title: 'A2', width: 200 }"
-          >
-            <SchemaStringField
-              x-decorator="FormItem"
-              :x-decorator-props="{
-                feedbackLayout: 'popover',
-              }"
-              name="a2"
-              :required="true"
-              x-component="Input"
-            />
-          </SchemaVoidField>
-          <SchemaVoidField
-            x-component="ArrayTable.Column"
-            :x-component-props="{ title: 'A3' }"
-          >
-            <SchemaStringField
-              name="a3"
-              :required="true"
-              x-decorator="FormItem"
               x-component="Input"
             />
           </SchemaVoidField>
@@ -119,21 +94,5 @@ function range(count) {
     <Submit @submit="log">
       提交
     </Submit>
-    <ElButton
-      @click="
-        () => {
-          form.setInitialValues({
-            array: range(100000),
-          })
-        }
-      "
-    >
-      加载10W条超大数据
-    </ElButton>
-    <ElAlert
-      :style="{ marginTop: '10px' }"
-      title="注意：开启formily插件的页面，因为后台有数据通信，会占用浏览器算力，最好在无痕模式(无formily插件)下测试"
-      type="warning"
-    />
   </FormProvider>
 </template>

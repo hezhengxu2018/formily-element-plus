@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Column, TableInstance, TableProps } from 'element-plus'
+import type { TableInstance } from 'element-plus'
 import { isEqual, isValid } from '@formily/shared'
 import {
   ElLink,
@@ -7,6 +7,7 @@ import {
   ElRadioGroup,
   ElTable,
   ElTableColumn,
+  useAttrs,
   version,
   vLoading,
 } from 'element-plus'
@@ -14,6 +15,7 @@ import { differenceWith, remove, uniq, uniqWith, xor } from 'lodash-es'
 import lt from 'semver/functions/lt'
 import { computed, nextTick, ref, watch } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
+import { ISelectTableProps } from "./types";
 
 defineOptions({
   inheritAttrs: false,
@@ -30,21 +32,9 @@ const props = withDefaults(defineProps<ISelectTableProps>(), {
   showAlertToolbar: true,
 })
 
-const emit = defineEmits(['change'])
+const elTableProps = useAttrs()
 
-export interface ISelectTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
-  columns?: Column<any>[]
-  mode?: 'multiple' | 'single'
-  dataSource?: any[]
-  optionAsValue?: boolean
-  valueType?: 'all' | 'parent' | 'child' | 'path'
-  loading?: boolean
-  rowKey?: string
-  clickRowToSelect?: boolean
-  showAlertToolbar?: boolean
-  value?: any
-  data?: Record<string, any>[]
-}
+const emit = defineEmits(['change'])
 
 function compatibleRadioValue(key: string) {
   return lt(version, '2.6.0') ? { label: key } : { value: key }
@@ -256,7 +246,7 @@ function onClearSelectionClick() {
     <ElTable
       ref="elTableRef"
       v-loading="props.loading"
-      v-bind="$attrs"
+      v-bind="elTableProps"
       :row-key="rowKey"
       :row-class-name="props.clickRowToSelect ? `--click-row-select` : ''"
       :data="props.dataSource"
