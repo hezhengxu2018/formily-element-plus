@@ -46,6 +46,7 @@ function extractTableSources(schema: Schema): any[] {
 
 function createTableSource(schema: Schema): any[] {
   const propName = schema['x-component-props']?.prop || schema.name
+  /* istanbul ignore if -- @preserve */
   if (!propName)
     return []
 
@@ -94,10 +95,7 @@ const sources = observable.computed(() => {
   const items = isArr(schema) ? schema : [schema]
   return items.reduce((columns, schema) => {
     const item = extractTableSources(schema)
-    if (item) {
-      return columns.concat(item)
-    }
-    return columns
+    return columns.concat(item)
   }, []).filter(item => item.display !== 'none')
 })
 
