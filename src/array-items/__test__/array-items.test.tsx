@@ -79,6 +79,99 @@ export function ArrayItemsStringTestFactory(form = createForm()) {
   })
 }
 
+function ArrayItemsWithArrayItemsTestFactory(form = createForm()) {
+  return defineComponent({
+    name: 'ArrayItemsWithArrayItemsTest',
+    setup() {
+      const { SchemaField } = createSchemaField({
+        components: {
+          FormItem,
+          Space,
+          Input,
+          Select,
+          DatePicker,
+          ArrayItems,
+        },
+      })
+
+      const schema = {
+        type: 'object',
+        properties: {
+          string_array: {
+            'type': 'array',
+            'x-component': 'ArrayItems',
+            'x-decorator': 'FormItem',
+            'title': '字符串数组',
+            'items': [
+              {
+                'type': 'void',
+                'x-component': 'Space',
+                'properties': {
+                  sort: {
+                    'type': 'void',
+                    'x-decorator': 'FormItem',
+                    'x-component': 'ArrayItems.SortHandle',
+                  },
+                  input: {
+                    'type': 'string',
+                    'x-decorator': 'FormItem',
+                    'x-component': 'Input',
+                    'x-component-props': {
+                      placeholder: '输入字符串',
+                    },
+                  },
+                  remove: {
+                    'type': 'void',
+                    'x-decorator': 'FormItem',
+                    'x-component': 'ArrayItems.Remove',
+                  },
+                },
+              },
+              {
+                'type': 'void',
+                'x-component': 'Space',
+                'properties': {
+                  sort: {
+                    'type': 'void',
+                    'x-decorator': 'FormItem',
+                    'x-component': 'ArrayItems.SortHandle',
+                  },
+                  input: {
+                    'type': 'string',
+                    'x-decorator': 'FormItem',
+                    'x-component': 'DatePicker',
+                    'x-component-props': {
+                      placeholder: '选择日期',
+                    },
+                  },
+                  remove: {
+                    'type': 'void',
+                    'x-decorator': 'FormItem',
+                    'x-component': 'ArrayItems.Remove',
+                  },
+                },
+              },
+            ],
+            'properties': {
+              add: {
+                'type': 'void',
+                'title': '添加条目',
+                'x-component': 'ArrayItems.Addition',
+              },
+            },
+          },
+        },
+      }
+
+      return () => (
+        <FormProvider form={form}>
+          <SchemaField schema={schema} />
+        </FormProvider>
+      )
+    },
+  })
+}
+
 // 对象数组测试组件
 export const ArrayItemsObjectTest = defineComponent({
   name: 'ArrayItemsObjectTest',
@@ -252,6 +345,21 @@ describe('ArrayItems', async () => {
     const screen = render(ArrayItemsWithItemTest)
     await expect.element(screen.getByText('对象数组')).toBeInTheDocument()
     await expect.element(screen.getByText('添加条目')).toBeInTheDocument()
+  })
+
+  // 新增：测试items为数组时按顺序渲染不同控件
+  it('items为数组时按顺序渲染不同控件', async () => {
+    const form = createForm({
+      initialValues: {
+        string_array: ['', ''],
+      },
+    })
+    const screen = render(ArrayItemsWithArrayItemsTestFactory(form))
+
+    await expect.element(screen.getByPlaceholder('输入字符串')).toBeInTheDocument()
+    await expect.element(screen.getByPlaceholder('选择日期')).toBeInTheDocument()
+    await screen.getByText('添加条目').click()
+    expect(screen.getByPlaceholder('输入字符串').elements()).toHaveLength(2)
   })
 
   // 测试添加条目功能

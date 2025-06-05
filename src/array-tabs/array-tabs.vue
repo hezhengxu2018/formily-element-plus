@@ -2,11 +2,12 @@
 import type { ArrayField } from '@formily/core'
 import type { TabPaneName } from 'element-plus'
 import { observable } from '@formily/reactive'
-import { isArr, isFn } from '@formily/shared'
+import { isFn } from '@formily/shared'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElBadge, ElTabPane, ElTabs } from 'element-plus'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
+import { getArrayItemSchema } from '../array-base/utils'
 
 defineOptions({
   name: 'FArrayTabs',
@@ -24,7 +25,7 @@ const field = fieldRef.value
 if (field.value.length === 0) {
   field.value.push(null)
 }
-const schema = computed(() => schemaRef.value)
+const schema = schemaRef.value
 function getTabTitle(index: number) {
   return `${field.title || 'Untitled'} ${index + 1}`
 }
@@ -76,7 +77,7 @@ const errorList = observable.computed(() => {
     >
       <template #default>
         <RecursionField
-          :schema="isArr(schema.items) ? schema.items[index] : schema.items"
+          :schema="getArrayItemSchema(schema, index)"
           :name="index"
         />
       </template>

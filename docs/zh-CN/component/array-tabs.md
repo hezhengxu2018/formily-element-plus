@@ -20,6 +20,14 @@ array-tabs/json-schema
 
 :::
 
+## JSON Schema 数组items案例
+
+:::demo
+
+array-tabs/json-schema-array-items
+
+:::
+
 ## API
 
 ### ArrayTabs

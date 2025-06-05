@@ -3,7 +3,7 @@ import { createSchemaField, FormProvider } from '@formily/vue'
 import { describe, expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { defineComponent } from 'vue'
-import { ArrayCards, FormItem, Input } from '../../index'
+import { ArrayCards, DatePicker, FormItem, Input } from '../../index'
 import 'element-plus/theme-chalk/index.css'
 
 // 字符串数组测试组件
@@ -147,6 +147,106 @@ export const ArrayCardsObjectTest = defineComponent({
   },
 })
 
+// 添加新的测试工厂函数
+function ArrayCardsWithArrayItemsTestFactory(form = createForm()) {
+  return defineComponent({
+    name: 'ArrayCardsWithArrayItemsTest',
+    setup() {
+      const { SchemaField } = createSchemaField({
+        components: {
+          FormItem,
+          Input,
+          DatePicker,
+          ArrayCards,
+        },
+      })
+
+      const schema = {
+        type: 'object',
+        properties: {
+          string_array: {
+            'type': 'array',
+            'x-component': 'ArrayCards',
+            'x-decorator': 'FormItem',
+            'x-component-props': {
+              title: '字符串数组',
+            },
+            'items': [
+              {
+                type: 'void',
+                title: '11111',
+                properties: {
+                  index: {
+                    'type': 'void',
+                    'x-component': 'ArrayCards.Index',
+                  },
+                  input: {
+                    'type': 'string',
+                    'x-decorator': 'FormItem',
+                    'title': 'Input',
+                    'x-component': 'Input',
+                    'x-component-props': {
+                      placeholder: '输入字符串',
+                    },
+                  },
+                  remove: {
+                    'type': 'void',
+                    'x-component': 'ArrayCards.Remove',
+                  },
+                  moveUp: {
+                    'type': 'void',
+                    'x-component': 'ArrayCards.MoveUp',
+                  },
+                  moveDown: {
+                    'type': 'void',
+                    'x-component': 'ArrayCards.MoveDown',
+                  },
+                },
+              },
+              {
+                type: 'void',
+                title: '22222',
+                properties: {
+                  index: {
+                    'type': 'void',
+                    'x-component': 'ArrayCards.Index',
+                  },
+                  input: {
+                    'type': 'string',
+                    'x-decorator': 'FormItem',
+                    'title': 'DatePicker',
+                    'x-component': 'DatePicker',
+                    'x-component-props': {
+                      placeholder: '选择日期',
+                    },
+                  },
+                  remove: {
+                    'type': 'void',
+                    'x-component': 'ArrayCards.Remove',
+                  },
+                },
+              },
+            ],
+            'properties': {
+              addition: {
+                'type': 'void',
+                'title': '添加条目',
+                'x-component': 'ArrayCards.Addition',
+              },
+            },
+          },
+        },
+      }
+
+      return () => (
+        <FormProvider form={form}>
+          <SchemaField schema={schema} />
+        </FormProvider>
+      )
+    },
+  })
+}
+
 describe('ArrayCards', async () => {
   // 测试字符串数组渲染
   it('字符串数组渲染', async () => {
@@ -272,5 +372,44 @@ describe('ArrayCards', async () => {
 
     // 验证表单数据已清空
     expect(form.values.string_array).toHaveLength(0)
+  })
+
+  // 在现有测试用例后添加新的测试用例
+  it('items为数组时按顺序渲染不同控件', async () => {
+    const form = createForm({
+      initialValues: {
+        string_array: ['', ''],
+      },
+    })
+    const screen = render(ArrayCardsWithArrayItemsTestFactory(form))
+
+    // 验证第一个卡片包含输入框
+    await expect.element(screen.getByPlaceholder('输入字符串')).toBeInTheDocument()
+    // 验证第二个卡片包含日期选择器
+    await expect.element(screen.getByPlaceholder('选择日期')).toBeInTheDocument()
+
+    // 添加新条目，应该循环使用第一个模板
+    await screen.getByText('添加条目').click()
+    expect(screen.getByPlaceholder('输入字符串').elements()).toHaveLength(2)
+  })
+
+  it('items数组循环渲染测试', async () => {
+    const screen = render(ArrayCardsWithArrayItemsTestFactory())
+
+    // 添加第一个条目（使用第一个模板）
+    await screen.getByText('添加条目').click()
+    await expect.element(screen.getByPlaceholder('输入字符串')).toBeInTheDocument()
+
+    // 添加第二个条目（使用第二个模板）
+    await screen.getByText('添加条目').click()
+    await expect.element(screen.getByPlaceholder('选择日期')).toBeInTheDocument()
+
+    // 添加第三个条目（循环回第一个模板）
+    await screen.getByText('添加条目').click()
+    expect(screen.getByPlaceholder('输入字符串').elements()).toHaveLength(2)
+
+    // 验证卡片数量
+    const cards = screen.container.querySelectorAll('.el-card')
+    expect(cards.length).toBe(3)
   })
 })

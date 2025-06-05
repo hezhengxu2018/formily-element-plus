@@ -8,7 +8,7 @@ import { ref, useAttrs } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { stylePrefix } from '../__builtins__/configs'
 import { ArrayBase } from '../array-base'
-import { isAdditionComponent, useKey } from '../array-base/utils'
+import { getArrayItemSchema, isAdditionComponent, useKey } from '../array-base/utils'
 
 defineOptions({
   name: 'FArrayItems',
@@ -59,7 +59,7 @@ const _attrs = omit(attrs, ['onBlur', 'onFocus', 'onChange', 'value'])
           :record="element"
         >
           <div :key="getKey(element, index)" :class="[`${prefixCls}-item-inner`]" :index="index">
-            <RecursionField :schema="schema.items" :name="index" />
+            <RecursionField :schema="getArrayItemSchema(schema, index)" :name="index" />
           </div>
         </ArrayBase.Item>
       </VueDraggable>

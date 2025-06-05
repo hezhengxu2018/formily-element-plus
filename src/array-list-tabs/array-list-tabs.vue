@@ -6,7 +6,7 @@ import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElBadge, ElEmpty, ElScrollbar } from 'element-plus'
 import { ref } from 'vue'
 import { ArrayBase } from '../array-base'
-import { isAdditionComponent, isRemoveComponent } from '../array-base/utils'
+import { getArrayItemSchema, isAdditionComponent, isRemoveComponent } from '../array-base/utils'
 import { prefixCls } from './utils'
 import './style.scss'
 
@@ -138,7 +138,7 @@ function getTabTitle(item) {
           :aria-labelledby="`${field.props.name}-tab-${index}`"
         >
           <RecursionField
-            :schema="schema.items"
+            :schema="getArrayItemSchema(schema, index)"
             :name="index"
             :filter-properties="(schema: ISchema) => !isRemoveComponent(schema)"
             only-render-properties

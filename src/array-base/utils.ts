@@ -1,6 +1,6 @@
 import type { ISchema, Schema } from '@formily/json-schema'
 import type { IArrayBaseItemProps } from './types'
-import { clone, isValid, uid } from '@formily/shared'
+import { clone, isArr, isValid, uid } from '@formily/shared'
 import { version } from 'element-plus'
 import lt from 'semver/functions/lt'
 import { inject, toRefs } from 'vue'
@@ -23,6 +23,7 @@ export function useIndex() {
   return indexRef
 }
 
+/* istanbul ignore next -- @preserve */
 export function useRecord() {
   const { record: recordRef } = toRefs(
     inject(ItemSymbol) as IArrayBaseItemProps,
@@ -72,6 +73,10 @@ export function getDefaultValue(defaultValue: any, schema: Schema): any {
   if (schema?.items?.type === 'object')
     return {}
   return null
+}
+
+export function getArrayItemSchema(schema: ISchema, index: number): ISchema {
+  return isArr(schema.items) ? schema.items[index] ?? schema.items[0] : schema.items
 }
 
 export function isAdditionComponent(schema: ISchema) {

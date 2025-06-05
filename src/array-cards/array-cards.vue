@@ -8,7 +8,7 @@ import { ElCard, ElEmpty, ElRow } from 'element-plus'
 import { ref } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { ArrayBase } from '../array-base'
-import { isAdditionComponent, isIndexComponent, isOperationComponent } from '../array-base/utils'
+import { getArrayItemSchema, isAdditionComponent, isIndexComponent, isOperationComponent } from '../array-base/utils'
 
 defineOptions({
   name: 'FArrayCards',
@@ -68,16 +68,16 @@ autorun(() => {
               <ElRow type="flex" justify="space-between">
                 <span>
                   <RecursionField
-                    :schema="schema.items"
+                    :schema="getArrayItemSchema(schema, index)"
                     :name="index"
                     :filter-properties="(schema: ISchema) => isIndexComponent(schema)"
                     :only-render-properties="true"
                   />
-                  {{ props.title ?? field.title }}
+                  {{ getArrayItemSchema(schema, index).title ?? props.title ?? field.title }}
                 </span>
                 <span :class="`${prefixCls}-extra-container`">
                   <RecursionField
-                    :schema="schema.items"
+                    :schema="getArrayItemSchema(schema, index)"
                     :name="index"
                     :filter-properties="(schema: ISchema) => isOperationComponent(schema)"
                     :only-render-properties="true"
@@ -86,7 +86,7 @@ autorun(() => {
               </ElRow>
             </template>
             <RecursionField
-              :schema="isArr(schema.items) ? schema.items[index] : schema.items"
+              :schema="getArrayItemSchema(schema, index)"
               :name="index"
               :filter-properties="(schema: ISchema) => !isIndexComponent(schema) && !isOperationComponent(schema)"
             />

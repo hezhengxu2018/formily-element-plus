@@ -20,6 +20,14 @@ array-items/json-schema
 
 :::
 
+## JSON Schema 数组item案例
+
+:::demo
+
+array-items/json-schema-array-item
+
+:::
+
 ## API
 
 ### ArrayItems

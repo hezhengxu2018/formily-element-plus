@@ -3,8 +3,58 @@ import { createSchemaField, FormProvider } from '@formily/vue'
 import { userEvent } from '@vitest/browser/context'
 import { describe, expect, it, vi } from 'vitest'
 import { render } from 'vitest-browser-vue'
-import { ArrayTabs, FormItem, Input } from '../../index'
+import { ArrayTabs, DatePicker, FormItem, Input } from '../../index'
 import 'element-plus/theme-chalk/index.css'
+
+// 添加新的测试工厂函数
+function ArrayTabsWithArrayItemsTestFactory(form = createForm()) {
+  return () => {
+    const { SchemaField } = createSchemaField({
+      components: {
+        FormItem,
+        Input,
+        DatePicker,
+        ArrayTabs,
+      },
+    })
+
+    const schema = {
+      type: 'object',
+      properties: {
+        string_array: {
+          'type': 'array',
+          'title': '字符串数组',
+          'x-decorator': 'FormItem',
+          'x-component': 'ArrayTabs',
+          'items': [
+            {
+              'type': 'string',
+              'x-decorator': 'FormItem',
+              'x-component': 'Input',
+              'x-component-props': {
+                placeholder: '输入字符串',
+              },
+            },
+            {
+              'type': 'string',
+              'x-decorator': 'FormItem',
+              'x-component': 'DatePicker',
+              'x-component-props': {
+                placeholder: '选择日期',
+              },
+            },
+          ],
+        },
+      },
+    }
+
+    return (
+      <FormProvider form={form}>
+        <SchemaField schema={schema} />
+      </FormProvider>
+    )
+  }
+}
 
 describe('ArrayTabs', () => {
   describe('基础功能', () => {
@@ -385,6 +435,63 @@ describe('ArrayTabs', () => {
       const closeButtons = container.querySelectorAll('.is-icon-close')
       await userEvent.click(closeButtons[0]) // 点击第二个标签的关闭按钮
       expect(onTabRemove).toHaveBeenCalled()
+    })
+  })
+
+  describe('items数组功能', () => {
+    it('items为数组时按顺序渲染不同控件', async () => {
+      const form = createForm({
+        initialValues: {
+          string_array: ['', ''],
+        },
+      })
+      const { getByPlaceholder } = render(ArrayTabsWithArrayItemsTestFactory(form))
+
+      // 验证第一个标签页包含输入框
+      await expect.element(getByPlaceholder('输入字符串')).toBeInTheDocument()
+      // 验证第二个标签页包含日期选择器
+      await expect.element(getByPlaceholder('选择日期')).toBeInTheDocument()
+    })
+
+    it('items数组循环渲染测试', async () => {
+      const { container, getByPlaceholder } = render(ArrayTabsWithArrayItemsTestFactory())
+
+      // 添加第一个标签页（使用第一个模板）
+      const addButton = container.querySelector('.el-tabs__new-tab')
+      await expect.element(getByPlaceholder('输入字符串')).toBeInTheDocument()
+
+      // 添加第二个标签页（使用第二个模板）
+      await userEvent.click(addButton)
+      await expect.element(getByPlaceholder('选择日期')).toBeInTheDocument()
+
+      // 添加第三个标签页（循环回第一个模板）
+      await userEvent.click(addButton)
+      expect(getByPlaceholder('输入字符串').elements()).toHaveLength(2)
+
+      // 验证标签页数量
+      const tabs = container.querySelectorAll('.el-tabs__item')
+      expect(tabs.length).toBe(3)
+    })
+
+    it('items数组删除标签页功能', async () => {
+      const form = createForm()
+      const { container } = render(ArrayTabsWithArrayItemsTestFactory(form))
+
+      // 添加三个标签页
+      const addButton = container.querySelector('.el-tabs__new-tab')
+      await userEvent.click(addButton)
+      await userEvent.click(addButton)
+
+      // 删除第二个标签页
+      const closeButtons = container.querySelectorAll('.is-icon-close')
+      await userEvent.click(closeButtons[1])
+
+      // 验证剩余标签页数量
+      expect(form.values.string_array.length).toBe(2)
+
+      // 验证剩余的标签页类型正确（第一个是输入框，第三个变成第二个是日期选择器）
+      const tabs = container.querySelectorAll('.el-tabs__item')
+      expect(tabs.length).toBe(2)
     })
   })
 })

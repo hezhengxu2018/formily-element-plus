@@ -20,6 +20,14 @@ array-cards/json-schema
 
 :::
 
+## JSON Schema 数组items案例
+
+:::demo
+
+array-cards/json-schema-array-items
+
+:::
+
 ## Effects 联动案例
 
 :::demo

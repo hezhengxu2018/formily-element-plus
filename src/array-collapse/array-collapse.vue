@@ -12,7 +12,7 @@ import {
 import { omit } from 'lodash-es'
 import { ref, useAttrs, watchEffect } from 'vue'
 import { ArrayBase } from '../array-base'
-import { isAdditionComponent, isIndexComponent, isOperationComponent } from '../array-base/utils'
+import { getArrayItemSchema, isAdditionComponent, isIndexComponent, isOperationComponent } from '../array-base/utils'
 import { prefixCls } from './utils'
 
 defineOptions({
@@ -117,7 +117,7 @@ const _attrs = omit(attrs, ['onBlur', 'onFocus', 'onChange', 'value', 'modelValu
         >
           <ArrayBase.Item v-for="(item, index) of dataSource" :key="getKey(item, index)" :index="index" :record="item">
             <RecursionField
-              :schema="Array.isArray(schema.items) ? schema.items[index] || schema.items[0] : schema.items"
+              :schema="getArrayItemSchema(schema, index)"
               :name="index"
               :filter-properties="(schema: ISchema) => !isIndexComponent(schema) && !isOperationComponent(schema)"
             />
