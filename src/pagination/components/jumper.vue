@@ -43,8 +43,8 @@ function handleChange(val: number | string) {
       @update:model-value="handleInput"
       @change="handleChange"
     />
-    <span :class="[ns.e('classifier')]">{{
-      t('el.pagination.pageClassifier')
-    }}</span>
+    <span :class="[ns.e('classifier')]">
+      {{ t('el.pagination.pageClassifier') }}
+    </span>
   </span>
 </template>

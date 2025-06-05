@@ -55,7 +55,7 @@ async function log(...v) {
         <SchemaObjectField>
           <SchemaVoidField
             x-component="ArrayTable.Column"
-            :x-component-props="{ width: 30 }"
+            :x-component-props="{ width: 60 }"
           >
             <SchemaVoidField
               x-decorator="FormItem"
