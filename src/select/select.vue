@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { ISelectProps } from 'element-plus'
 import { useField } from '@formily/vue'
-import { ElOption, ElOptionGroup, ElSelect } from 'element-plus'
+import { ElOption, ElOptionGroup, ElSelect, useAttrs } from 'element-plus'
 import { omit } from 'lodash-es'
-import { computed, useAttrs } from 'vue'
+import { computed } from 'vue'
 
 defineOptions({
   name: 'FSelect',
@@ -37,7 +37,7 @@ type OptionGroupType = InstanceType<typeof ElOptionGroup>['$props'] & {
 const attrs = useAttrs()
 
 const innerAttrs = computed<Partial<ISelectProps>>(() => {
-  return omit(attrs, ['modelValue', 'onChange'])
+  return omit(attrs.value, ['modelValue', 'onChange', 'attrs', 'on'])
 })
 
 const fieldRef = useField()

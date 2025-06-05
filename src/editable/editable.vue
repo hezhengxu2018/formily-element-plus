@@ -49,11 +49,16 @@ async function onClick() {
   innerRef.value?.querySelector('input')?.focus()
 }
 
-async function onClickOutside() {
+function onClickOutside() {
+  if (fieldRef.value.data?.readPretty === true)
+    return
   handleEnsureReadPretty()
-  fieldRef.value.data.readPretty = true
-  await nextTick()
-  formItemRef.value.feedbackTooltipRef.updatePopper()
+  // 使用下拉菜单等触发的事件完成应有的操作
+  setTimeout(async () => {
+    fieldRef.value.data.readPretty = true
+    await nextTick()
+    formItemRef.value?.feedbackTooltipRef.updatePopper()
+  }, 0)
 }
 </script>
 

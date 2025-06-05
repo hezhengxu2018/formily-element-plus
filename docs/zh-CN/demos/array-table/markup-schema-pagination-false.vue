@@ -6,6 +6,7 @@ import {
   Editable,
   FormItem,
   Input,
+  Select,
   Space,
   Submit,
 } from '@sliver/formily-element-plus'
@@ -23,6 +24,7 @@ const {
     FormItem,
     ArrayTable,
     Input,
+    Select,
     Editable,
     Space,
   },
@@ -63,6 +65,27 @@ async function log(...v) {
               x-decorator="Editable"
               name="a1"
               x-component="Input"
+            />
+          </SchemaVoidField>
+          <SchemaVoidField
+            x-component="ArrayTable.Column"
+            :x-component-props="{ prop: 'a2', title: 'A2' }"
+          >
+            <SchemaStringField
+              x-decorator="Editable"
+              name="a2"
+              x-component="Select"
+              :x-decorator-props="{
+                editProps: {
+                  style: { width: '300px' },
+                },
+              }"
+              :enum="[
+                { label: 'Option 1', value: 'option1' },
+                { label: 'Option 2', value: 'option2' },
+                { label: 'Option 3', value: 'option3' },
+              ]"
+              default="option1"
             />
           </SchemaVoidField>
           <SchemaVoidField
