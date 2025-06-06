@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { DatePickerProps } from 'element-plus'
-import { dayjs, ElSpace, ElTag, ElText } from 'element-plus'
-import { useAttrs } from 'vue'
+import type { ComputedRef } from 'vue'
+import { dayjs, ElSpace, ElTag, ElText, useAttrs } from 'element-plus'
+import { computed } from 'vue'
 import { stylePrefix } from '../__builtins__/configs'
 import { usePreviewConfig } from './utils'
 
@@ -13,12 +14,55 @@ defineOptions({
 const props = defineProps<{
   value?: any
 }>()
-const attrs = useAttrs() as DatePickerProps
+const attrs = useAttrs() as ComputedRef<DatePickerProps>
 const prefixCls = `${stylePrefix}-preview-text`
 const { spaceProps, textProps, tagProps, placeholder } = usePreviewConfig()
 
-const type = attrs.type || 'date'
-const format = attrs.format || 'YYYY-MM-DD'
+function getFormatByType(type: string): string {
+  switch (type) {
+    case 'year': {
+      return 'YYYY'
+    }
+    case 'years': {
+      return 'YYYY'
+    }
+    case 'month': {
+      return 'YYYY-MM'
+    }
+    case 'months': {
+      return 'YYYY-MM'
+    }
+    case 'week': {
+      return '[Week] ww'
+    }
+    case 'date': {
+      return 'YYYY-MM-DD'
+    }
+    case 'dates': {
+      return 'YYYY-MM-DD'
+    }
+    case 'datetime': {
+      return 'YYYY-MM-DD HH:mm:ss'
+    }
+    case 'daterange': {
+      return 'YYYY-MM-DD'
+    }
+    case 'monthrange': {
+      return 'YYYY-MM'
+    }
+    case 'yearrange': {
+      return 'YYYY'
+    }
+    case 'datetimerange': {
+      return 'YYYY-MM-DD HH:mm:ss'
+    }
+    default: {
+      return 'YYYY-MM-DD'
+    }
+  }
+}
+const type = computed(() => attrs.value.type || 'date')
+const format = computed(() => attrs.value.format || getFormatByType(type.value))
 </script>
 
 <template>

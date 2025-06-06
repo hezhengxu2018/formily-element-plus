@@ -60,6 +60,198 @@ describe('previewText.DatePicker', () => {
     expect(container.textContent).toContain('2023-05-15 14:30:00')
   })
 
+  it('datetime 类型默认格式', async () => {
+    const form = createForm()
+    const { container } = render(
+      () => (
+        <FormProvider form={form}>
+          <Field
+            name="datetime"
+            initialValue="2023-05-15T14:30:00"
+            readPretty={true}
+            component={[DatePicker, { type: 'datetime' }]}
+          />
+        </FormProvider>
+      ),
+    )
+    expect(container.textContent).toContain('2023-05-15 14:30:00')
+  })
+
+  // 新增：测试 year 类型
+  it('year 类型显示', async () => {
+    const form = createForm()
+    const { container } = render(
+      () => (
+        <FormProvider form={form}>
+          <Field
+            name="year"
+            initialValue="2023-01-01"
+            readPretty={true}
+            component={[DatePicker, { type: 'year' }]}
+          />
+        </FormProvider>
+      ),
+    )
+    expect(container.textContent).toContain('2023')
+  })
+
+  // 新增：测试 month 类型
+  it('month 类型显示', async () => {
+    const form = createForm()
+    const { container } = render(
+      () => (
+        <FormProvider form={form}>
+          <Field
+            name="month"
+            initialValue="2023-05-01"
+            readPretty={true}
+            component={[DatePicker, { type: 'month' }]}
+          />
+        </FormProvider>
+      ),
+    )
+    expect(container.textContent).toContain('2023-05')
+  })
+
+  // 新增：测试 week 类型
+  it('week 类型显示', async () => {
+    const form = createForm()
+    const { container } = render(
+      () => (
+        <FormProvider form={form}>
+          <Field
+            name="week"
+            initialValue="2023-05-15"
+            readPretty={true}
+            component={[DatePicker, { type: 'week' }]}
+          />
+        </FormProvider>
+      ),
+    )
+    expect(container.textContent).toContain('Week')
+  })
+
+  // 新增：测试 monthrange 类型
+  it('monthrange 类型显示', async () => {
+    const form = createForm()
+    const { container } = render(
+      () => (
+        <FormProvider form={form}>
+          <Field
+            name="monthrange"
+            initialValue={['2023-01-01', '2023-05-01']}
+            readPretty={true}
+            component={[DatePicker, { type: 'monthrange' }]}
+          />
+        </FormProvider>
+      ),
+    )
+    expect(container.textContent).toContain('2023-01')
+    expect(container.textContent).toContain('2023-05')
+  })
+
+  // 新增：测试 yearrange 类型
+  it('yearrange 类型显示', async () => {
+    const form = createForm()
+    const { container } = render(
+      () => (
+        <FormProvider form={form}>
+          <Field
+            name="yearrange"
+            initialValue={['2020-01-01', '2023-01-01']}
+            readPretty={true}
+            component={[DatePicker, { type: 'yearrange' }]}
+          />
+        </FormProvider>
+      ),
+    )
+    expect(container.textContent).toContain('2020')
+    expect(container.textContent).toContain('2023')
+  })
+
+  // 新增：测试 datetimerange 类型
+  it('datetimerange 类型显示', async () => {
+    const form = createForm()
+    const { container } = render(
+      () => (
+        <FormProvider form={form}>
+          <Field
+            name="datetimerange"
+            initialValue={['2023-05-01T09:00:00', '2023-05-15T18:00:00']}
+            readPretty={true}
+            component={[DatePicker, { type: 'datetimerange' }]}
+          />
+        </FormProvider>
+      ),
+    )
+    expect(container.textContent).toContain('2023-05-01 09:00:00')
+    expect(container.textContent).toContain('2023-05-15 18:00:00')
+  })
+
+  // 新增：测试 years 类型（多年选择）
+  it('years 类型显示', async () => {
+    const form = createForm()
+    const { container } = render(
+      () => (
+        <FormProvider form={form}>
+          <Field
+            name="years"
+            initialValue={['2020-01-01', '2021-01-01', '2023-01-01']}
+            readPretty={true}
+            component={[DatePicker, { type: 'years' }]}
+          />
+        </FormProvider>
+      ),
+    )
+
+    const tags = container.querySelectorAll('.el-tag')
+    expect(tags.length).toBe(3)
+    expect(tags[0].textContent).toContain('2020')
+    expect(tags[1].textContent).toContain('2021')
+    expect(tags[2].textContent).toContain('2023')
+  })
+
+  // 新增：测试 months 类型（多月选择）
+  it('months 类型显示', async () => {
+    const form = createForm()
+    const { container } = render(
+      () => (
+        <FormProvider form={form}>
+          <Field
+            name="months"
+            initialValue={['2023-01-01', '2023-05-01', '2023-12-01']}
+            readPretty={true}
+            component={[DatePicker, { type: 'months' }]}
+          />
+        </FormProvider>
+      ),
+    )
+
+    const tags = container.querySelectorAll('.el-tag')
+    expect(tags.length).toBe(3)
+    expect(tags[0].textContent).toContain('2023-01')
+    expect(tags[1].textContent).toContain('2023-05')
+    expect(tags[2].textContent).toContain('2023-12')
+  })
+
+  // 新增：测试未知类型使用默认格式
+  it('未知类型使用默认格式', async () => {
+    const form = createForm()
+    const { container } = render(
+      () => (
+        <FormProvider form={form}>
+          <Field
+            name="unknown"
+            initialValue="2023-05-15"
+            readPretty={true}
+            component={[DatePicker, { type: 'unknown' as any }]}
+          />
+        </FormProvider>
+      ),
+    )
+    expect(container.textContent).toContain('2023-05-15')
+  })
+
   it('日期范围显示', async () => {
     const form = createForm()
     const { container } = render(
