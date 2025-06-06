@@ -33,7 +33,7 @@ const innerAtts = omit(attrs, ['value', 'onChange', 'readOnly'])
 <template>
   <ElCollapseItem :name="index" v-bind="innerAtts">
     <template #title>
-      <div style="flex: 1;">
+      <div style="flex: 1;display: flex;align-items: center;">
         <RecursionField
           :schema="schema.items"
           :name="index"
