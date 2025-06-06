@@ -8,7 +8,6 @@ export default function mdTooltip(md: MarkdownIt): void {
   }
 
   md.inline.ruler.before('emphasis', 'tooltip', (state, silent) => {
-    // eslint-disable-next-line unicorn/better-regex
     const tooltipRegExp = /^\^\[([^\]]*)\](`[^`]*`)?/
     const str = state.src.slice(state.pos, state.posMax)
 

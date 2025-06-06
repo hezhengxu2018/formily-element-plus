@@ -50,7 +50,7 @@ function combineMarkdown(code: string, headers: string[], footers: string[]) {
   const firstHeader = code.search(/\n#{1,6}\s.+/)
   const sliceIndex
     = firstHeader < 0
-      ? (frontmatterEnds < 0
+      ? (frontmatterEnds === -1
           ? 0
           : frontmatterEnds + 4)
       : firstHeader
@@ -64,7 +64,7 @@ function combineMarkdown(code: string, headers: string[], footers: string[]) {
   return `${code}\n`
 }
 
-// eslint-disable-next-line regexp/no-super-linear-backtracking, unicorn/better-regex
+// eslint-disable-next-line regexp/no-super-linear-backtracking
 const vpScriptSetupRE = /<vp-script\s(.*\s)?setup(\s.*)?>([\s\S]*)<\/vp-script>/
 
 function transformVpScriptSetup(code: string, append: Append) {

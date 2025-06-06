@@ -1,5 +1,5 @@
 ;(() => {
-  const supportedLangs = window.supportedLangs
+  const supportedLangs = globalThis.supportedLangs
   const cacheKey = 'preferred_lang'
   const defaultLang = 'zh-CN'
   // docs supported languages

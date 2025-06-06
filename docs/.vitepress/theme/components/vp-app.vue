@@ -41,7 +41,7 @@ useEventListener('keydown', (e) => {
 onMounted(async () => {
   if (!isClient)
     return
-  window.addEventListener(
+  globalThis.addEventListener(
     'click',
     (e) => {
       const link = (e.target as HTMLElement).closest('a')
@@ -49,7 +49,7 @@ onMounted(async () => {
         return
 
       const { protocol, hostname, pathname, target } = link
-      const currentUrl = window.location
+      const currentUrl = globalThis.location
       const extMatch = pathname.match(/\.\w+$/)
       // only intercept inbound links
       if (

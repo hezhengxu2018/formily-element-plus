@@ -34,7 +34,7 @@ function transformAddress(data = {}) {
 
 function useAddress(pattern) {
   onFieldReact(pattern, (field: DataField) => {
-    if (typeof window === 'undefined')
+    if (globalThis.window === undefined)
       return
     field.loading = true
     fetch('/location.json')

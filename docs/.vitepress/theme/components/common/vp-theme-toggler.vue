@@ -21,7 +21,7 @@ function beforeChange() {
   return new Promise<boolean>((resolve) => {
     const isAppearanceTransition
       = document.startViewTransition
-        && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        && !globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (!isAppearanceTransition) {
       resolve(true)
       return

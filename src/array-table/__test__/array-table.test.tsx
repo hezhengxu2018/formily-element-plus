@@ -1,11 +1,11 @@
 import { createForm } from '@formily/core'
 import { createSchemaField, FormProvider } from '@formily/vue'
+import { userEvent } from '@vitest/browser/context'
 import { describe, expect, it, vi } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { defineComponent } from 'vue'
 import { ArrayTable, Editable, FormItem, Input, Space } from '../../index'
 import 'element-plus/theme-chalk/index.css'
-import { userEvent } from '@vitest/browser/context'
 
 // JSON Schema 测试组件
 export function ArrayTableJSONSchemaTestFactory(form = createForm()) {
@@ -464,7 +464,7 @@ describe('ArrayTable', async () => {
 
   it('添加条目功能', async () => {
     const screen = render(ArrayTableJSONSchemaTestFactory())
-    
+
     // 初始状态应该没有数据行
     const initialRows = screen.container.querySelectorAll('.el-table__row')
     expect(initialRows).toHaveLength(0)
@@ -497,7 +497,7 @@ describe('ArrayTable', async () => {
     })
     const dragHandles = screen.container.querySelectorAll('.formily-element-plus-array-base-sort-handle')
     await userEvent.dragAndDrop(dragHandles[0], dragHandles[2])
-    
+
     // // 验证拖拽后数据顺序
     await vi.waitFor(() => {
       expect(form.values.array).toEqual([
@@ -522,17 +522,17 @@ describe('ArrayTable', async () => {
       expect(screen.container.querySelector('.el-pagination')).toBeInTheDocument()
       expect(screen.container.querySelector('.el-pagination__total').innerHTML.includes('15'))
     })
-    
+
     // 检查当前页只显示5条数据（pageSize=5）
     await vi.waitFor(() => {
       const rows = screen.container.querySelectorAll('.el-table__row')
       expect(rows).toHaveLength(5)
     })
-    
+
     // 点击下一页
     const nextButton = screen.container.querySelector('.btn-next')
     await userEvent.click(nextButton)
-    
+
     // 验证页面切换后仍有数据
     await vi.waitFor(() => {
       const rows = screen.container.querySelectorAll('.el-table__row')
@@ -569,7 +569,7 @@ describe('ArrayTable', async () => {
     })
 
     expect(screen.container.querySelector('.el-pagination')).toBeNull()
-    
+
     // 检查所有数据都显示
     await vi.waitFor(() => {
       const rows = screen.container.querySelectorAll('.el-table__row')
@@ -582,16 +582,15 @@ describe('ArrayTable', async () => {
 
   it('表格属性继承', async () => {
     const screen = render(ArrayTableMarkupSchemaTest)
-    
+
     // 添加一些数据
     await userEvent.click(screen.container.querySelector('.formily-element-plus-array-base-addition'))
     await userEvent.click(screen.container.querySelector('.formily-element-plus-array-base-addition'))
-    
+
     // 检查表格是否有条纹样式
     await vi.waitFor(() => {
       const table = screen.container.querySelector('.el-table--striped')
       expect(table).toBeInTheDocument()
     })
   })
-
 })

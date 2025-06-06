@@ -22,7 +22,7 @@ describe('FormButtonGroup', () => {
     const buttonGroup = container.querySelector('.formily-element-plus-form-button-group')
     expect(buttonGroup).not.toBeNull()
 
-    const style = window.getComputedStyle(buttonGroup!)
+    const style = globalThis.getComputedStyle(buttonGroup!)
     expect(style.justifyContent).toBe('flex-start')
 
     const buttons = container.querySelectorAll('.el-button')
@@ -44,7 +44,7 @@ describe('FormButtonGroup', () => {
     const buttonGroup = container.querySelector('.formily-element-plus-form-button-group')
     expect(buttonGroup).not.toBeNull()
 
-    const style = window.getComputedStyle(buttonGroup!)
+    const style = globalThis.getComputedStyle(buttonGroup!)
     expect(style.justifyContent).toBe('flex-end')
   })
 
@@ -61,7 +61,7 @@ describe('FormButtonGroup', () => {
     const buttonGroup = container.querySelector('.formily-element-plus-form-button-group')
     expect(buttonGroup).not.toBeNull()
 
-    const style = window.getComputedStyle(buttonGroup!)
+    const style = globalThis.getComputedStyle(buttonGroup!)
     expect(style.justifyContent).toBe('center')
   })
 
@@ -101,7 +101,7 @@ describe('FormButtonGroup', () => {
     const formItem = container.querySelector(`.${stylePrefix}-form-item-col-6`)
     expect(formItem).not.toBeNull()
 
-    const formItemStyle = window.getComputedStyle(formItem!)
+    const formItemStyle = globalThis.getComputedStyle(formItem!)
     expect(formItemStyle.margin).toBe('0px')
     expect(formItemStyle.paddingTop).toBe('0px')
 

@@ -12,7 +12,7 @@ function easeInOutCubic(value: number): number {
 function scrollToTop() {
   const beginTime = Date.now()
   const beginValue = document.documentElement.scrollTop
-  const rAF = window.requestAnimationFrame
+  const rAF = globalThis.requestAnimationFrame
   const frameFunc = () => {
     const progress = (Date.now() - beginTime) / 500
     if (progress < 1) {

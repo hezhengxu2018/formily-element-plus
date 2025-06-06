@@ -11,7 +11,7 @@ const locale = computed(() => localeData[lang.value])
 function goHome() {
   if (!isClient)
     return
-  window.location.href = `/${lang.value}/`
+  globalThis.location.href = `/${lang.value}/`
 }
 </script>
 

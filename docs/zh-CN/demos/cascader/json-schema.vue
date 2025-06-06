@@ -33,7 +33,7 @@ function transformAddress(data = {}) {
 
 function useAsyncDataSource(url, transform) {
   return (field) => {
-    if (typeof window === 'undefined')
+    if (globalThis.window === undefined)
       return
     field.loading = true
 
