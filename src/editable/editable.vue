@@ -27,9 +27,9 @@ const formItemRef = ref<InstanceType<typeof FormBaseItem>>(null)
 const commonProps = computed(() => omit(props, 'editProps'))
 const editProps = computed(() => {
   if (isPlainObj(props.editProps)) {
-    return { ...props, ...props.editProps }
+    return { ...omit(props, 'editProps'), ...props.editProps }
   }
-  return props
+  return omit(props, 'editProps')
 })
 
 function handleEnsureReadPretty() {

@@ -26,7 +26,16 @@ const schema = {
       'type': 'string',
       'title': '日期',
       'x-decorator': 'Editable',
+      'x-decorator-props': {
+        editProps: {
+          size: 'small',
+          class: 'editable-date-picker__width',
+        },
+      },
       'x-component': 'DatePicker',
+      'x-component-props': {
+        type: 'daterange',
+      },
     },
     input: {
       'type': 'string',
@@ -105,4 +114,8 @@ async function log(values) {
   </FormProvider>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.editable-date-picker__width .el-tooltip__trigger {
+  --el-date-editor-daterange-width: 180px;
+}
+</style>
