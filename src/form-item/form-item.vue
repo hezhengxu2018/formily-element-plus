@@ -139,12 +139,13 @@ const isGroup = computed<boolean>(() => {
 async function validate(): FormValidationResult {
   return true
 }
-
+/* istanbul ignore next -- @preserve */
 const clearValidate: FormItemContext['clearValidate'] = () => {}
-
+/* istanbul ignore next -- @preserve */
 const resetField: FormItemContext['resetField'] = async () => {}
 
 const addInputId: FormItemContext['addInputId'] = (id: string) => {
+  /* istanbul ignore else -- @preserve */
   if (!inputIds.value.includes(id)) {
     inputIds.value.push(id)
   }

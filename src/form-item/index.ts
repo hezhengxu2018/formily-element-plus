@@ -10,7 +10,7 @@ export function fieldFeedbackMapper(props, field) {
     return props
   }
 
-  const feedbackText = getFeedbackMessage(field, props)
+  const feedbackText = getFeedbackMessage(field)
   const feedbackStatus = determineFeedbackStatus(field)
   const asterisk = 'asterisk' in props
     ? props.asterisk

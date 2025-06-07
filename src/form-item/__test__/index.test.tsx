@@ -343,10 +343,6 @@ describe('form-item 组件', () => {
           </FormItem>
         </FormProvider>
       ))
-
-      // const feedbackElement = container.querySelector('.formily-element-plus-form-item-help-text')
-      // await expect.element(feedbackElement).toBeInTheDocument()
-      // await expect(feedbackElement.textContent).toBe('这是一条反馈信息')
     })
 
     it('设置 extra 显示额外信息', async () => {
@@ -467,6 +463,44 @@ describe('form-item 组件', () => {
           </FormItem>
         </FormProvider>
       ))
+    })
+  })
+
+  describe('布局方式', () => {
+    it('设置 layout=vertical 时标签应该在顶部', async () => {
+      const { container } = render(() => (
+        <FormProvider form={createForm()}>
+          <FormLayout layout="vertical">
+            <Field
+              name="test"
+              title="垂直布局"
+              decorator={[FormItem]}
+              component={[Input, { placeholder: '请输入' }]}
+            />
+          </FormLayout>
+        </FormProvider>
+      ))
+
+      const formItemElement = container.querySelector('.formily-element-plus-form-item')
+      expect(formItemElement).toHaveClass('el-form-item--label-top')
+    })
+
+    it('设置 layout 包含 vertical 的数组时标签应该在顶部', async () => {
+      const { container } = render(() => (
+        <FormProvider form={createForm()}>
+          <FormLayout layout={['vertical', 'horizontal']}>
+            <Field
+              name="test"
+              title="垂直布局（数组）"
+              decorator={[FormItem]}
+              component={[Input, { placeholder: '请输入' }]}
+            />
+          </FormLayout>
+        </FormProvider>
+      ))
+
+      const formItemElement = container.querySelector('.formily-element-plus-form-item')
+      expect(formItemElement).toHaveClass('el-form-item--label-top')
     })
   })
 

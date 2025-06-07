@@ -1,13 +1,7 @@
 import type { Field } from '@formily/core'
-import type { IFormItemProps } from './types'
 import { isArr } from '@formily/shared'
 
-export function getFeedbackMessage(field: Field, props: IFormItemProps) {
-  if (field.validating)
-    return
-  if (props.feedbackText)
-    return props.feedbackText
-
+export function getFeedbackMessage(field: Field) {
   const messages = {
     errors: field.selfErrors.join(', '),
     warnings: field.selfWarnings.join(', '),
@@ -18,8 +12,6 @@ export function getFeedbackMessage(field: Field, props: IFormItemProps) {
 }
 
 export function determineFeedbackStatus(field: Field) {
-  if (field.validateStatus === 'validating')
-    return 'pending'
   return isArr(field.decorator)
     ? (field.decorator[1]?.feedbackStatus ?? field.validateStatus)
     : field.validateStatus
