@@ -2,6 +2,40 @@
 
 
 
+## [2.4.2](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.4.1...v2.4.2) (2025-06-07)
+
+
+### Bug Fixes
+
+* **array-collapse:** 修复手风琴模式异常的问题 ([7ae620c](https://github.com/hezhengxu2018/formily-element-plus/commit/7ae620c72322a6bb89bb4363c2409d5fdb2822ea))
+* **array-collapse:** 修复样式异常导致的标题居中的问题 ([c0c3c87](https://github.com/hezhengxu2018/formily-element-plus/commit/c0c3c871d07b503ef021abc5d54adc61f5ffd29d))
+* **array-items,input:** 修复继承属性异常的问题 ([1ca9bbc](https://github.com/hezhengxu2018/formily-element-plus/commit/1ca9bbc5f7978d6811a9bab86b3e8ff6597873df))
+* **array-items:** 修复拖动条目后渲染异常的问题 ([aba51e8](https://github.com/hezhengxu2018/formily-element-plus/commit/aba51e883c9558be51b03163438c49032c73a2ec))
+* **array-items:** 通过hack的方式修复了拖动后失去与vue响应式的bug ([e1b1507](https://github.com/hezhengxu2018/formily-element-plus/commit/e1b15073f855748f7b1d833b177c2e7b7af77950))
+* **array-table:** 修复array-table配置项无法生效的问题 ([d4730e7](https://github.com/hezhengxu2018/formily-element-plus/commit/d4730e7c4b633c2d08ad05cecfb65fe3120f1720))
+* **array-table:** 修复切换column显示无法生效的问题 ([3bc8203](https://github.com/hezhengxu2018/formily-element-plus/commit/3bc82036a0d9235dcd669c7d8f32606cd8fe53ae))
+* **editable:** 修复editable切换过快导致el-select的change事件无法触发的问题 ([1073bd2](https://github.com/hezhengxu2018/formily-element-plus/commit/1073bd2d9a3ff91a62dfaef9cbe3783db9a422b3))
+* **editable:** 修复editable组件无法校验表单的问题 ([91fafce](https://github.com/hezhengxu2018/formily-element-plus/commit/91fafceba0942179cfce2ead1a593fb7014106b0))
+* **editable:** 修复editable组件继承属性异常的问题 ([53e4f5b](https://github.com/hezhengxu2018/formily-element-plus/commit/53e4f5bf46cc01aab66756f60524973926aac0fa))
+* **editable:** 修复popover弹框提前关闭的bug ([84bd6c9](https://github.com/hezhengxu2018/formily-element-plus/commit/84bd6c9e2dc0de2107298eb359da43ffdb5a6eea))
+* **editable:** 修复特殊情况下editable的readpretty属性缺失的问题 ([5057212](https://github.com/hezhengxu2018/formily-element-plus/commit/505721266a601726ebcf8c7df8d86212de2138e7))
+* **form-dialog,form-drawer:** 默认插槽支持通过解构获取form实例 ([1a3f517](https://github.com/hezhengxu2018/formily-element-plus/commit/1a3f517b533f1557d2816104b6590885b83b192e))
+* **form-item:** 修复form-item样式异常的问题 ([a357930](https://github.com/hezhengxu2018/formily-element-plus/commit/a357930d24fe0c22a4dc909c4c50b3f6d92b3e92))
+* **form-item:** 修复样式异常 ([731a5d1](https://github.com/hezhengxu2018/formily-element-plus/commit/731a5d18538392966261eb65ed4643fc351beed0))
+* **select-table:** 修复类型错误引起的不必要的必填参数 ([31f1801](https://github.com/hezhengxu2018/formily-element-plus/commit/31f180114300ed439bc7451ff099b9704b288dbc))
+* 修复部分组件继承属性错误的问题 ([c9bbc34](https://github.com/hezhengxu2018/formily-element-plus/commit/c9bbc3408ad12770e782055200cc849037afdfc4))
+
+
+### Features
+
+* **array-base:** 通过schema渲染的array类型组件支持items渲染 ([77743c1](https://github.com/hezhengxu2018/formily-element-plus/commit/77743c13a929eec3e46efb6f1c1a9088ca47396c))
+* **array-table:** array-table支持拖拽调整顺序 ([6f0324a](https://github.com/hezhengxu2018/formily-element-plus/commit/6f0324a7039c495c69cda50679f6b1888ad96871))
+* **array-table:** array-table组件支持分页显示，分页上支持错误显示 ([6aa3146](https://github.com/hezhengxu2018/formily-element-plus/commit/6aa3146cab8751012826a0595ab24767e264478d))
+* **array-table:** fork pagination from element-plus ([bfe627d](https://github.com/hezhengxu2018/formily-element-plus/commit/bfe627dadc026f6fad566a05535dce9d492f3e0a))
+* **editable:** 支持通过editProps修改编辑状态下的属性值 ([5e36870](https://github.com/hezhengxu2018/formily-element-plus/commit/5e368704d341aef954adf1e743b2e53c4da836a7))
+* **form-step:** 添加组件对插槽的支持 ([4a5bf20](https://github.com/hezhengxu2018/formily-element-plus/commit/4a5bf2030dbd51226231dfebeeb636bdc6cb5d62))
+* **preview:** 日期选择的预览组件提供默认的格式 ([1d57d1b](https://github.com/hezhengxu2018/formily-element-plus/commit/1d57d1bcef0fc2277752d988979ae01184eb4463))
+
 ## [2.4.1](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.4.0...v2.4.1) (2025-04-22)
 
 
