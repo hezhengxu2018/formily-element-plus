@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { CascaderOption } from 'element-plus'
 import { ElCascader } from 'element-plus'
-import { omit } from 'lodash-es'
-import { computed, useAttrs } from 'vue'
+import { useCleanAttrs } from '../__builtins__'
 
 defineOptions({
   name: 'FCascader',
@@ -18,16 +17,12 @@ const emit = defineEmits<{
   (e: 'change', value: any): void
 }>()
 
-const attrs = useAttrs()
-
-const innerAttrs = computed<any>(() => {
-  return omit(attrs, ['modelValue', 'onChange'])
-})
+const { props: cascaderProps } = useCleanAttrs()
 </script>
 
 <template>
   <ElCascader
-    v-bind="innerAttrs"
+    v-bind="cascaderProps"
     :options="props.options"
     :model-value="props.value"
     @update:model-value="value => emit('change', value)"

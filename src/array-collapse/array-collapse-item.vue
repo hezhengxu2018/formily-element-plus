@@ -4,8 +4,7 @@ import type { ISchema } from '@formily/vue'
 import { observable } from '@formily/reactive'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElBadge, ElCollapseItem } from 'element-plus'
-import { omit } from 'lodash-es'
-import { useAttrs } from 'vue'
+import { useCleanAttrs } from '../__builtins__'
 import { isIndexComponent, isOperationComponent, useIndex } from '../array-base/utils'
 import { prefixCls } from './utils'
 
@@ -26,12 +25,12 @@ const errorCount = observable.computed(() => {
     address: `${path}.**`,
   }).length
 })
-const attrs = useAttrs()
-const innerAtts = omit(attrs, ['value', 'onChange', 'readOnly'])
+
+const { props: collapseItemProps } = useCleanAttrs()
 </script>
 
 <template>
-  <ElCollapseItem :name="index" v-bind="innerAtts">
+  <ElCollapseItem :name="index" v-bind="collapseItemProps">
     <template #title>
       <div style="flex: 1;display: flex;align-items: center;">
         <RecursionField

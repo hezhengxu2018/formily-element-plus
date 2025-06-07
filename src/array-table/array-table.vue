@@ -6,11 +6,11 @@ import type { IArrayTableProps } from './types'
 import { autorun, observable, reaction } from '@formily/reactive'
 import { isArr, isEqual } from '@formily/shared'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
-import { ElTable, ElTableColumn, useAttrs, vLoading } from 'element-plus'
+import { ElTable, ElTableColumn, vLoading } from 'element-plus'
 import { omit } from 'lodash-es'
 import { computed, nextTick, ref, watch } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
-import { stylePrefix } from '../__builtins__'
+import { stylePrefix, useCleanAttrs } from '../__builtins__'
 import { ArrayBase } from '../array-base'
 import { isAdditionComponent } from '../array-base/utils'
 import ElPagination from '../pagination/pagination'
@@ -25,8 +25,7 @@ const props = withDefaults(defineProps<IArrayTableProps>(), {
   value: () => [],
   pagination: true,
 })
-const attrs = useAttrs()
-const elTableProps = computed(() => omit(attrs.value, ['onChange', 'onFocus', 'onBlur', 'disabled', 'readOnly']))
+const { props: elTableProps } = useCleanAttrs()
 const paginationProps = computed(() => omit(props.paginationProps, ['pageSize', 'currentPage']))
 const fieldRef = useField<ArrayField>()
 const field = fieldRef.value

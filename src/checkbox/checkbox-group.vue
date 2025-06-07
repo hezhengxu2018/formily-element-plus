@@ -5,9 +5,11 @@ import { isPlainObj } from '@formily/shared'
 import { ElCheckbox, ElCheckboxButton, ElCheckboxGroup, version } from 'element-plus'
 import lt from 'semver/functions/lt'
 import { computed, useSlots } from 'vue'
+import { useCleanAttrs } from '../__builtins__'
 
 defineOptions({
   name: 'FCheckboxGroup',
+  inheritAttrs: false,
 })
 
 const props = defineProps({
@@ -50,10 +52,11 @@ const compatiableProps = computed(() => {
 })
 
 const slots = useSlots()
+const { props: checkboxProps } = useCleanAttrs()
 </script>
 
 <template>
-  <ElCheckboxGroup :model-value="props.value" @update:model-value="(value) => emits('change', value)">
+  <ElCheckboxGroup v-bind="checkboxProps" :model-value="props.value" @update:model-value="(value) => emits('change', value)">
     <template v-if="!slots.option">
       <component :is="OptionType" v-for="(option, index) of compatiableProps" :key="index" v-bind="option">
         {{ isPlainObj(props.options[index]) ? props.options[index]?.label : option.label }}

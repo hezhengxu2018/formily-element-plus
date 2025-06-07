@@ -62,7 +62,7 @@ autorun(() => {
         >
           <ElCard
             v-bind="props"
-            :class="[`${prefixCls}-item`].concat(($attrs as any).class)"
+            :class="`${prefixCls}-item`"
           >
             <template #header>
               <ElRow type="flex" justify="space-between">

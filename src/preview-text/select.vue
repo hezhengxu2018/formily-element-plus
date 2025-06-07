@@ -2,8 +2,7 @@
 import type { Field } from '@formily/core'
 import { isValid } from '@formily/shared'
 import { useField } from '@formily/vue'
-import { ElSpace, ElTag, ElText } from 'element-plus'
-import { useAttrs } from 'vue'
+import { ElSpace, ElTag, ElText, useAttrs } from 'element-plus'
 import { stylePrefix } from '../__builtins__/configs'
 import { usePreviewConfig } from './utils'
 

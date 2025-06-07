@@ -1,5 +1,17 @@
-import type { Component, Slot, VNode } from 'vue'
-import { Fragment } from 'vue'
+import type { Component, ComputedRef, Slot, VNode } from 'vue'
+import { useAttrs } from 'element-plus'
+import { omit } from 'lodash-es'
+import { computed, Fragment } from 'vue'
+
+export function useCleanAttrs(removeAttrsList: string[] = []): {
+  props: ComputedRef<Record<string, any>>
+} {
+  const attrs = useAttrs()
+  const props = computed(() => omit(attrs.value, ['modelValue', 'onChange', 'attrs', 'on', 'readOnly'].concat(removeAttrsList)))
+  return {
+    props,
+  }
+}
 
 export function isVueOptions(options: any): options is Component {
   return (

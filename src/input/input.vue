@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import type { InputProps } from 'element-plus'
 import { ElInput } from 'element-plus'
-import { omit } from 'lodash-es'
-import { computed, useAttrs } from 'vue'
+import { useCleanAttrs } from '../__builtins__/index'
 
 defineOptions({
   name: 'FInput',
@@ -24,16 +22,12 @@ const slots = defineSlots<{
   append?: () => any
 }>()
 
-const attrs = useAttrs()
-
-const innerAttrs = computed<Partial<InputProps>>(() => {
-  return omit(attrs, ['modelValue', 'onChange', 'attrs', 'on', 'readOnly'])
-})
+const { props: inputProps } = useCleanAttrs()
 </script>
 
 <template>
   <ElInput
-    v-bind="innerAttrs"
+    v-bind="inputProps"
     :model-value="props.value"
     @update:model-value="(val) => emit('change', val)"
   >

@@ -3,9 +3,9 @@ import type { ArrayField } from '@formily/core'
 import { autorun } from '@formily/reactive'
 import { isArr } from '@formily/shared'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
-import { omit } from 'lodash-es'
-import { ref, useAttrs } from 'vue'
+import { ref } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
+import { useCleanAttrs } from '../__builtins__'
 import { stylePrefix } from '../__builtins__/configs'
 import { ArrayBase } from '../array-base'
 import { getArrayItemSchema, isAdditionComponent, useKey } from '../array-base/utils'
@@ -37,13 +37,11 @@ async function handleDragEnd(evt: { oldIndex: number, newIndex: number }) {
   await field.move(oldIndex, newIndex)
   triggerUpdateKey.value++
 }
-
-const attrs = useAttrs()
-const _attrs = omit(attrs, ['onBlur', 'onFocus', 'onChange', 'value'])
+const { props: arrayItemsProps } = useCleanAttrs(['value'])
 </script>
 
 <template>
-  <div :class="prefixCls" v-bind="_attrs">
+  <div :class="prefixCls" v-bind="arrayItemsProps">
     <ArrayBase :key-map="keyMap">
       <VueDraggable
         :class="`${prefixCls}-list`"

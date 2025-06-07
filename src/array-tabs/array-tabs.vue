@@ -6,6 +6,7 @@ import { isFn } from '@formily/shared'
 import { RecursionField, useField, useFieldSchema } from '@formily/vue'
 import { ElBadge, ElTabPane, ElTabs } from 'element-plus'
 import { ref } from 'vue'
+import { useCleanAttrs } from '../__builtins__'
 import { stylePrefix } from '../__builtins__/configs'
 import { getArrayItemSchema } from '../array-base/utils'
 
@@ -39,11 +40,13 @@ const errorList = observable.computed(() => {
     })
   })
 })
+
+const { props: elTabProps } = useCleanAttrs(['value'])
 </script>
 
 <template>
   <ElTabs
-    v-bind="$attrs"
+    v-bind="elTabProps"
     :model-value="activeKey"
     :class="prefixCls"
     type="card"

@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { ISelectProps } from 'element-plus'
 import { useField } from '@formily/vue'
-import { ElOption, ElOptionGroup, ElSelect, useAttrs } from 'element-plus'
+import { ElOption, ElOptionGroup, ElSelect } from 'element-plus'
 import { omit } from 'lodash-es'
-import { computed } from 'vue'
+import { useCleanAttrs } from '../__builtins__'
 
 defineOptions({
   name: 'FSelect',
@@ -34,11 +33,8 @@ type OptionType = InstanceType<typeof ElOption>['$props']
 type OptionGroupType = InstanceType<typeof ElOptionGroup>['$props'] & {
   options: OptionType[]
 }
-const attrs = useAttrs()
 
-const innerAttrs = computed<Partial<ISelectProps>>(() => {
-  return omit(attrs.value, ['modelValue', 'onChange', 'attrs', 'on'])
-})
+const { props: selectProps } = useCleanAttrs()
 
 const fieldRef = useField()
 
@@ -48,16 +44,16 @@ function isGroup(option: OptionType | OptionGroupType): option is OptionGroupTyp
 </script>
 
 <template>
-  <ElSelect v-bind="innerAttrs" :model-value="props.value" @update:model-value="(val) => emit('change', val)">
+  <ElSelect v-bind="selectProps" :model-value="props.value" @update:model-value="(val) => emit('change', val)">
     <template v-for="option of props.options">
       <template v-if="isGroup(option)">
         <ElOptionGroup v-bind="omit(option, 'options')" :key="option.label">
-          <ElOption v-for="i of option.options" :key="innerAttrs.valueKey ? i[innerAttrs.valueKey] : i.label" v-bind="i">
+          <ElOption v-for="i of option.options" :key="selectProps.valueKey ? i[selectProps.valueKey] : i.label" v-bind="i">
             <slot v-if="slots.option" name="option" :option="i" />
           </ElOption>
         </ElOptionGroup>
       </template>
-      <ElOption v-else v-bind="option" :key="innerAttrs.valueKey ? option[innerAttrs.valueKey] : option.label">
+      <ElOption v-else v-bind="option" :key="selectProps.valueKey ? option[selectProps.valueKey] : option.label">
         <slot v-if="slots.option" name="option" :option="option" />
       </ElOption>
     </template>

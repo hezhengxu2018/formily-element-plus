@@ -9,8 +9,8 @@ import {
   ElCollapse,
   ElEmpty,
 } from 'element-plus'
-import { omit } from 'lodash-es'
-import { ref, useAttrs, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
+import { useCleanAttrs } from '../__builtins__'
 import { ArrayBase } from '../array-base'
 import { getArrayItemSchema, isAdditionComponent, isIndexComponent, isOperationComponent } from '../array-base/utils'
 import { prefixCls } from './utils'
@@ -28,12 +28,12 @@ const props = defineProps({
   },
 })
 
-const attrs = useAttrs()
 const fieldRef = useField<ArrayField>()
 const schemaRef = useFieldSchema()
 const field = fieldRef.value
 const schema = schemaRef.value
 
+const { props: collapseProps } = useCleanAttrs()
 const activeKeys = ref<number[] | number>([])
 
 const { getKey, keyMap } = ArrayBase.useKey(schemaRef.value)
@@ -78,7 +78,7 @@ watchEffect(() => {
     activeKeys.value = takeDefaultActiveKeys(
       dataSource.value.length,
       props.defaultOpenPanelCount,
-      attrs.accordion as boolean,
+      collapseProps.value.accordion as boolean,
     )
   }
 })
@@ -86,8 +86,6 @@ watchEffect(() => {
 function handleCollapseChange(keys: number[] | number) {
   activeKeys.value = keys
 }
-
-const _attrs = omit(attrs, ['onBlur', 'onFocus', 'onChange', 'value', 'modelValue'])
 </script>
 
 <template>
@@ -99,12 +97,12 @@ const _attrs = omit(attrs, ['onBlur', 'onFocus', 'onChange', 'value', 'modelValu
         activeKeys = insertActiveKeys(
           activeKeys,
           index,
-          attrs.accordion as boolean,
+          collapseProps.accordion as boolean,
         )
       }"
     >
       <template v-if="!Array.isArray(props.value) || props.value.length === 0">
-        <ElCard :class="[`${prefixCls}-item`]" shadow="never" v-bind="attrs" :header="attrs.title || field.title">
+        <ElCard :class="[`${prefixCls}-item`]" shadow="never" v-bind="collapseProps" :header="collapseProps.title || field.title">
           <ElEmpty />
         </ElCard>
       </template>
@@ -112,7 +110,7 @@ const _attrs = omit(attrs, ['onBlur', 'onFocus', 'onChange', 'value', 'modelValu
         <ElCollapse
           :model-value="activeKeys"
           :class="`${prefixCls}-item`"
-          v-bind="_attrs"
+          v-bind="collapseProps"
           @change="handleCollapseChange"
         >
           <ArrayBase.Item v-for="(item, index) of dataSource" :key="getKey(item, index)" :index="index" :record="item">
