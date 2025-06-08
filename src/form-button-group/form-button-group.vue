@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ElSpace } from 'element-plus'
-import { stylePrefix } from '../__builtins__'
 import FormItem from '../form-item/index'
+import { prefixCls } from './utils'
 
 defineOptions({
   name: 'FFormButtonGroup',
@@ -22,8 +22,6 @@ const props = defineProps({
     default: false,
   },
 })
-
-const prefixCls = `${stylePrefix}-form-button-group`
 </script>
 
 <template>
@@ -32,9 +30,8 @@ const prefixCls = `${stylePrefix}-form-button-group`
     :colon="false"
     label=" "
     v-bind="$attrs"
+    :class="prefixCls"
     :style="{
-      margin: 0,
-      padding: 0,
       width: '100%',
     }"
   >

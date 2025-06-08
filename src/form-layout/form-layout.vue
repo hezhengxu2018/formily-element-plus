@@ -2,6 +2,7 @@
 import type { FormContext } from 'element-plus'
 import type { IFormLayoutProps } from './types'
 import { isEmpty, isValid } from '@formily/shared'
+import { useForm } from '@formily/vue'
 import { useThrottleFn } from '@vueuse/core'
 import { formContextKey } from 'element-plus'
 import { provide, ref, watch } from 'vue'
@@ -60,11 +61,14 @@ provide(formContextKey, {
   hideRequiredAsterisk: props.hideRequiredAsterisk,
   requireAsteriskPosition: props.requireAsteriskPosition,
 } as FormContext)
+
+const formRef = useForm()
 </script>
 
 <template>
   <component
     :is="props.tag"
+    :id="formRef.id"
     ref="rootHTMLRef"
     :class="[formPrefixCls]"
     @submit.prevent.stop

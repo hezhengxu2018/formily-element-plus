@@ -28,6 +28,6 @@ const EditablePopover = connect(FEditablePopover, mapProps(
 
 export const Editable = composeExport(EditableInner, {
   Popover: EditablePopover,
-}) as any
+})
 
 export default Editable
