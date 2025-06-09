@@ -52,6 +52,36 @@ export default {
           x-decorator="FormItem"
           x-component="Input"
         />
+        <SchemaStringField
+          required
+          title="输入框"
+          x-decorator="FormItem"
+          x-component="Input"
+        />
+        <SchemaStringField
+          required
+          title="输入框"
+          x-decorator="FormItem"
+          x-component="Input"
+        />
+        <SchemaStringField
+          required
+          title="输入框"
+          x-decorator="FormItem"
+          x-component="Input"
+        />
+        <SchemaStringField
+          required
+          title="输入框"
+          x-decorator="FormItem"
+          x-component="Input"
+        />
+        <SchemaStringField
+          required
+          title="输入框"
+          x-decorator="FormItem"
+          x-component="Input"
+        />
       </SchemaField>
       <FormButtonGroup align-form-item>
         <Submit @submit="log">

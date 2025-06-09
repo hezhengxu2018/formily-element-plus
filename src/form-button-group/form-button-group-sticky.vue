@@ -14,7 +14,7 @@ const formRef = useForm()
     :class="`${prefixCls}__sticky`"
     v-bind="attrs"
     :position="attrs.position ?? 'bottom'"
-    :target="attrs.target ?? `#${formRef.id}`"
+    :target="attrs.target ?? `#formily-${formRef.id}`"
   >
     <slot />
   </ElAffix>

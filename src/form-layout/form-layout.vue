@@ -68,7 +68,7 @@ const formRef = useForm()
 <template>
   <component
     :is="props.tag"
-    :id="formRef.id"
+    :id="`formily-${formRef.id}`"
     ref="rootHTMLRef"
     :class="[formPrefixCls]"
     @submit.prevent.stop
