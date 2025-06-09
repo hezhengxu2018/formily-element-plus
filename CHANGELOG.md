@@ -2,6 +2,13 @@
 
 
 
+## [2.5.1](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.0...v2.5.1) (2025-06-09)
+
+
+### Bug Fixes
+
+* **form-button-group:** 修复form id不存在时的渲染异常 ([bd0724e](https://github.com/hezhengxu2018/formily-element-plus/commit/bd0724e3f05fdd7ab6693f7df453e124bd9b4938))
+
 # [2.5.0](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.4.2...v2.5.0) (2025-06-09)
 
 
