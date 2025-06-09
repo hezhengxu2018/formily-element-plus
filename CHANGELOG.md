@@ -2,6 +2,19 @@
 
 
 
+# [2.5.0](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.4.2...v2.5.0) (2025-06-09)
+
+
+### Bug Fixes
+
+* **form-button-group:** 修复id以数字开头时选择器失效的问题 ([7df0237](https://github.com/hezhengxu2018/formily-element-plus/commit/7df02373c7e835d3ea7906b9c20f12eb72256ea1))
+* **preview-text:** 修复预览组件的异常渲染问题 ([1d0cd9a](https://github.com/hezhengxu2018/formily-element-plus/commit/1d0cd9a1f554cfbe7f7512585102be928cc7e8e4))
+
+
+### Features
+
+* **form-button-group:** 新增黏性布局特性 ([0c9a0d8](https://github.com/hezhengxu2018/formily-element-plus/commit/0c9a0d8c6de07f11147bcb44df4d6c3286090979))
+
 ## [2.4.2](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.4.1...v2.4.2) (2025-06-07)
 
 
