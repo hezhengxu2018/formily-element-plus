@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { stylePrefix } from '../../__builtins__/configs/index'
 import { Form, FormItem, Input } from '../../index'
+import FormButtonGroupSticky from '../form-button-group-sticky.vue'
 import FormButtonGroup from '../form-button-group.vue'
 import 'element-plus/theme-chalk/index.css'
 
@@ -127,5 +128,134 @@ describe('FormButtonGroup', () => {
 
     const formItem = container.querySelector('.custom-form-item-class')
     expect(formItem).not.toBeNull()
+  })
+
+  describe('FormButtonGroupSticky', () => {
+    it('默认渲染粘性按钮组', async () => {
+      const form = createForm()
+      const { container } = render(
+        () => (
+          <Form form={form}>
+            <div id={`formily-${form.id}`} style="height: 200px;">
+              <Field name="test" title="测试" decorator={[FormItem]} component={[Input]} />
+            </div>
+            <FormButtonGroupSticky>
+              <ElButton>提交</ElButton>
+              <ElButton>重置</ElButton>
+            </FormButtonGroupSticky>
+          </Form>
+        ),
+      )
+
+      const stickyGroup = container.querySelector('.formily-element-plus-form-button-group__sticky')
+      expect(stickyGroup).not.toBeNull()
+
+      const affix = container.querySelector('.el-affix')
+      expect(affix).not.toBeNull()
+
+      const buttons = container.querySelectorAll('.el-button')
+      expect(buttons.length).toBe(2)
+      expect(buttons[0].textContent).toContain('提交')
+      expect(buttons[1].textContent).toContain('重置')
+    })
+
+    it('设置默认位置为 bottom', async () => {
+      const form = createForm()
+      const { container } = render(
+        () => (
+          <Form form={form}>
+            <div id={`formily-${form.id}`} style="height: 200px;">
+              <Field name="test" title="测试" decorator={[FormItem]} component={[Input]} />
+            </div>
+            <FormButtonGroupSticky>
+              <ElButton>提交</ElButton>
+            </FormButtonGroupSticky>
+          </Form>
+        ),
+      )
+
+      const affix = container.querySelector('.el-affix')
+      expect(affix).not.toBeNull()
+      // ElAffix 组件会根据 position 属性设置相应的样式
+    })
+
+    it('自定义 position 属性', async () => {
+      const form = createForm()
+      const { container } = render(
+        () => (
+          <Form form={form}>
+            <div id={`formily-${form.id}`} style="height: 200px;">
+              <Field name="test" title="测试" decorator={[FormItem]} component={[Input]} />
+            </div>
+            <FormButtonGroupSticky position="top">
+              <ElButton>提交</ElButton>
+            </FormButtonGroupSticky>
+          </Form>
+        ),
+      )
+
+      const affix = container.querySelector('.el-affix')
+      expect(affix).not.toBeNull()
+    })
+
+    it('自定义 target 属性', async () => {
+      const form = createForm()
+      const { container } = render(
+        () => (
+          <Form form={form}>
+            <div id="custom-target" style="height: 200px;">
+              <Field name="test" title="测试" decorator={[FormItem]} component={[Input]} />
+            </div>
+            <FormButtonGroupSticky target="#custom-target">
+              <ElButton>提交</ElButton>
+            </FormButtonGroupSticky>
+          </Form>
+        ),
+      )
+
+      const affix = container.querySelector('.el-affix')
+      expect(affix).not.toBeNull()
+    })
+
+    it('使用默认 target 为表单 ID', async () => {
+      const form = createForm()
+      const { container } = render(
+        () => (
+          <Form form={form}>
+            <div id={`formily-${form.id}`} style="height: 200px;">
+              <Field name="test" title="测试" decorator={[FormItem]} component={[Input]} />
+            </div>
+            <FormButtonGroupSticky>
+              <ElButton>提交</ElButton>
+            </FormButtonGroupSticky>
+          </Form>
+        ),
+      )
+
+      const affix = container.querySelector('.el-affix')
+      expect(affix).not.toBeNull()
+
+      const stickyGroup = container.querySelector('.formily-element-plus-form-button-group__sticky')
+      expect(stickyGroup).not.toBeNull()
+    })
+
+    it('设置 offset 偏移量', async () => {
+      const form = createForm()
+      const { container } = render(
+        () => (
+          <Form form={form}>
+            <div id={`formily-${form.id}`} style="height: 200px;">
+              <Field name="test" title="测试" decorator={[FormItem]} component={[Input]} />
+            </div>
+            <FormButtonGroupSticky offset={20}>
+              <ElButton>提交</ElButton>
+            </FormButtonGroupSticky>
+          </Form>
+        ),
+      )
+
+      const affix = container.querySelector('.el-affix')
+      expect(affix).not.toBeNull()
+    })
   })
 })
