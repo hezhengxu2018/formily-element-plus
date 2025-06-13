@@ -1,4 +1,5 @@
 import type { Component, ComputedRef, Slot, VNode } from 'vue'
+import { isPlainObj } from '@formily/shared'
 import { useAttrs } from 'element-plus'
 import { omit } from 'lodash-es'
 import { computed, Fragment } from 'vue'
@@ -7,7 +8,13 @@ export function useCleanAttrs(removeAttrsList: string[] = []): {
   props: ComputedRef<Record<string, any>>
 } {
   const attrs = useAttrs()
-  const props = computed(() => omit(attrs.value, ['modelValue', 'onChange', 'attrs', 'on', 'readOnly'].concat(removeAttrsList)))
+  const props = computed(() => {
+    const DEFAULT_REMOVE_ATTRS = ['modelValue', 'value', 'onChange', 'attrs', 'on', 'readOnly']
+    if (isPlainObj(attrs.value.attrs)) {
+      return omit({ ...attrs.value, ...attrs.value.attrs }, DEFAULT_REMOVE_ATTRS.concat(removeAttrsList))
+    }
+    return omit(attrs.value, DEFAULT_REMOVE_ATTRS.concat(removeAttrsList))
+  })
   return {
     props,
   }
