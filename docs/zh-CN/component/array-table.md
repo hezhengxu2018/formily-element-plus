@@ -83,7 +83,7 @@ array-table/effects-json-schema
 | 属性名          | 类型                          | 描述         | 默认值 |
 | ----------------| ----------------------------- | ------------ | ------ |
 | pagination      | boolean                       | 是否启用分页 | `true` |
-| paginationProps | ^[object]`参考Pagination组件` | 分页组件属性 | `{ backgound: true, layout: "total, sizes, prev, pager, next" }` |
+| paginationProps | ^[object]`参考Pagination组件` | 分页组件属性 | `{ backgound: true, hide-on-single-page: tue, layout: "total, sizes, prev, pager, next" }` |
 
 ### ArrayTable.Column
 

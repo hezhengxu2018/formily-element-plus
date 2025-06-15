@@ -192,6 +192,7 @@ async function handleDragEnd(evt: { oldIndex: number, newIndex: number }) {
         v-model:page-size="pageSize"
         :class="`${prefixCls}-pagination`"
         background
+        hide-on-single-page
         layout="total, sizes, prev, pager, next"
         :total="props.value.length"
         v-bind="paginationProps"
