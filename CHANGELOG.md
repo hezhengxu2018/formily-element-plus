@@ -2,6 +2,18 @@
 
 
 
+## [2.5.3](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.2...v2.5.3) (2025-06-16)
+
+
+### Bug Fixes
+
+* **form-item:** 修复form-item报错无法显示的问题 ([568ec46](https://github.com/hezhengxu2018/formily-element-plus/commit/568ec46e608d5944b329c20ae20898d3ecbcd364))
+
+
+### Reverts
+
+* **array-tabs:** 退回style的修改 ([08c44df](https://github.com/hezhengxu2018/formily-element-plus/commit/08c44dfd28794ddee62ad0d98466df99280d5f91))
+
 ## [2.5.2](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.1...v2.5.2) (2025-06-16)
 
 
