@@ -2,6 +2,16 @@
 
 
 
+## [2.5.2](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.1...v2.5.2) (2025-06-16)
+
+
+### Bug Fixes
+
+* **array-table:** 回滚仅有一页时隐藏的配置项 ([cf9fa11](https://github.com/hezhengxu2018/formily-element-plus/commit/cf9fa11002951de15291cc276bd344152ccee04f))
+* **form-dialog,form-drawer:** 修复工具函数引起的驼峰转化不生效的问题 ([13a725d](https://github.com/hezhengxu2018/formily-element-plus/commit/13a725d84e937427570fbd6348b3fa3f80fc9568))
+* **form-item:** 修复样式问题 ([76bea7b](https://github.com/hezhengxu2018/formily-element-plus/commit/76bea7b1493e5c70409d93cb02ba85554d13b4c4))
+* **utils:** 修复无法继承style与class的bug ([7f4072a](https://github.com/hezhengxu2018/formily-element-plus/commit/7f4072a798609016d29a5d6d0edfa676b2341286))
+
 ## [2.5.1](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.0...v2.5.1) (2025-06-09)
 
 
