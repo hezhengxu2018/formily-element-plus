@@ -85,8 +85,7 @@ $form-item-prefix: '#{$formily-prefix}-form-item';
 .#{$form-item-prefix}-content__wrapper {
   display: flex;
   flex: 1;
-  overflow: hidden;
-  
+  // !important: no overflow hidden;
   & .is-fullness > div {
     width: 100%;
   }
