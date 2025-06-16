@@ -4,7 +4,6 @@ $array-table-prefix-cls: '#{$formily-prefix}-array-tabs';
 
 .#{$array-table-prefix-cls} {
   width: 100%;
-  margin-top: 1px; // fix form-item overflow hidden border invisible
 
   .#{$array-table-prefix-cls}-errors-badge {
     line-height: 1;
