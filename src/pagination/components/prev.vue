@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { ElIcon } from 'element-plus'
-import { useLocale } from 'element-plus/es/hooks/index'
+import { ElIcon, useLocale } from 'element-plus'
 import { computed } from 'vue'
 import { paginationPrevEmits, paginationPrevProps } from './prev'
 

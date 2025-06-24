@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import { useLocale, useNamespace } from 'element-plus'
 import { usePagination } from 'element-plus/es/components/pagination/src/usePagination'
-import { useLocale, useNamespace } from 'element-plus/es/hooks/index'
 import { paginationTotalProps } from './total'
 
 defineOptions({

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { ElInput } from 'element-plus'
+import { ElInput, useLocale, useNamespace } from 'element-plus'
 import { usePagination } from 'element-plus/es/components/pagination/src/usePagination'
-import { useLocale, useNamespace } from 'element-plus/es/hooks/index'
 import { computed, ref } from 'vue'
 import { paginationJumperProps } from './jumper'
 

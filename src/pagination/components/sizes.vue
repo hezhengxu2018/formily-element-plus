@@ -1,8 +1,7 @@
 <script lang="ts" setup>
+import { isArr, isEqual } from '@formily/shared'
 import { ElOption, ElSelect, useLocale, useNamespace } from 'element-plus'
 import { usePagination } from 'element-plus/es/components/pagination/src/usePagination'
-import { isArray } from 'element-plus/es/utils/index'
-import { isEqual } from 'lodash-es'
 import { computed, ref, watch } from 'vue'
 import { paginationSizesProps } from './sizes'
 
@@ -22,7 +21,7 @@ watch(
   (newVal, oldVal) => {
     if (isEqual(newVal, oldVal))
       return
-    if (isArray(newVal)) {
+    if (isArr(newVal)) {
       const pageSize = newVal.includes(props.pageSize!)
         ? props.pageSize
         : props.pageSizes[0]
