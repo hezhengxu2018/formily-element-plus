@@ -10,23 +10,6 @@ $array-items-prefix-cls: '#{$formily-prefix}-array-items';
       border-bottom: none;
     }
   }
-
-  .#{$formily-prefix}-array-base-addition {
-    width: 100%;
-    border: 1px dashed var(--el-border-color);
-    border-radius: var(--el-border-radius-small);
-
-    &:hover {
-      background-color: var(--el-button-hover-text-color);
-      border-color: var(--el-primary-color);
-    }
-
-    &:active {
-      background-color: var(--el-button-active-bg-color);
-      border-color: var(--el-color-primary);
-    }
-  }
-
 }
 
 .#{$array-items-prefix-cls}-card {
@@ -34,7 +17,7 @@ $array-items-prefix-cls: '#{$formily-prefix}-array-items';
   border: 1px solid var(--el-border-color);
   margin-bottom: 10px;
   padding: 3px 6px;
-  background: var(--el-color-white);
+  background: var(--el-bg-color-overlay);
   justify-content: space-between;
 }
 

@@ -21,23 +21,6 @@ $array-table-prefix-cls: '#{$formily-prefix}-array-collapse';
     vertical-align: initial;
   }
 
-  .#{$formily-prefix}-array-base-addition {
-    width: 100%;
-    border: 1px dashed var(--el-border-color);
-    border-radius: var(--el-border-radius-small);
-
-    &:hover {
-      background-color: var(--el-color-white);
-      border-color: var(--el-primary-color);
-    }
-
-    &:active,
-    &:focus {
-      background-color: var(--el-color-white);
-      border-color: var(--el-color-primary);
-    }
-  }
-
   .el-collapse-item__title {
     display: flex;
   }

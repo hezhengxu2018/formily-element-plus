@@ -23,19 +23,5 @@ $array-cards-prefix-cls: '#{$formily-prefix}-array-cards';
 
   .#{$formily-prefix}-array-base-addition {
     margin-top: 8px;
-    width: 100%;
-    border: 1px dashed var(--el-border-color);
-    border-radius: var(--el-border-radius-small);
-
-    &:hover {
-      background-color: var(--el-color-white);
-      border-color: var(--el-primary-color);
-    }
-
-    &:active,
-    &:focus {
-      background-color: var(--el-color-white);
-      border-color: var(--el-color-primary);
-    }
   }
 }

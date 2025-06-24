@@ -100,21 +100,7 @@ $array-list-prefix-cls: '#{$formily-prefix}-array-list-tabs';
   }
 
   .#{$formily-prefix}-array-base-addition {
+    width: auto;
     margin: 6px;
-    border: 1px dashed var(--el-border-color);
-    border-radius: var(--el-border-radius-small);
-    user-select: none;
-
-    &:hover {
-      background-color: var(--el-color-white);
-      border-color: var(--el-border-color);
-      border-color: var(--el-primary-color);
-    }
-
-    &:active,
-    &:focus {
-      background-color: var(--el-color-white);
-      border-color: var(--el-color-primary);
-    }
   }
 }
