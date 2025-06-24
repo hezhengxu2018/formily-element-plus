@@ -2,6 +2,15 @@
 
 
 
+## [2.5.4](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.3...v2.5.4) (2025-06-24)
+
+
+### Bug Fixes
+
+* **array-base:** 修复array-base-addition组件样式问题 ([e9a2d3c](https://github.com/hezhengxu2018/formily-element-plus/commit/e9a2d3c25e8d683d485ffcc96d251aecb037161c))
+* **array-base:** 修复不同组件中array-base-addition组件样式不一致的问题 ([97f3818](https://github.com/hezhengxu2018/formily-element-plus/commit/97f38189c3a16564301efcc4e9e4a940c21a817d))
+* **pagination:** 修复分页组件无法正确读取语言的问题 ([7b363e9](https://github.com/hezhengxu2018/formily-element-plus/commit/7b363e971d4b92a3bbdec096e7edfb666ea4d8e6))
+
 ## [2.5.3](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.2...v2.5.3) (2025-06-16)
 
 
