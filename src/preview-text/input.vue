@@ -8,6 +8,7 @@ import { usePreviewConfig } from './utils'
 
 defineOptions({
   name: 'FPreviewTextInput',
+  inheritAttrs: false,
 })
 
 const props = defineProps<{

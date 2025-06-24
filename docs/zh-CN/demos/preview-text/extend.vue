@@ -8,12 +8,13 @@ import {
   FormButtonGroup,
   FormItem,
   Input,
+  PreviewText,
   Select,
   TimePicker,
 } from '@sliver/formily-element-plus'
 import { ElButton } from 'element-plus'
 
-const { SchemaField, SchemaStringField, SchemaArrayField } = createSchemaField({
+const { SchemaField, SchemaVoidField, SchemaStringField, SchemaArrayField } = createSchemaField({
   components: {
     FormItem,
     Input,
@@ -21,6 +22,7 @@ const { SchemaField, SchemaStringField, SchemaArrayField } = createSchemaField({
     DatePicker,
     Cascader,
     TimePicker,
+    PreviewText,
   },
 })
 
@@ -294,6 +296,10 @@ const options = [
     ],
   },
 ]
+
+const warpText = `aaaaa   bbbbbb 
+  adasdb
+  alh`
 </script>
 
 <template>
@@ -324,6 +330,19 @@ const options = [
           parser: (value) => value.replace(/\$\s?|(,*)/g, ''),
         }"
       />
+      <SchemaVoidField
+        x-component="PreviewText"
+        :x-component-props="{
+          textProps: { style: { whiteSpace: 'pre-wrap' } },
+        }"
+      >
+        <SchemaStringField
+          x-decorator="FormItem"
+          title="文本域多行换行预览"
+          x-component="Input.TextArea"
+          :default="warpText"
+        />
+      </SchemaVoidField>
       <SchemaStringField
         x-decorator="FormItem"
         title="选择项预览"
