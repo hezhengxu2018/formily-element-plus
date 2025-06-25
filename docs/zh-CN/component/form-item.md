@@ -17,7 +17,9 @@
 :::
 
 ::: warning 注意
-原来支持VNode的属性现在都无法生效了，如`label` `tooltip`。请通过插槽的方式实现。
+
+由于现在formily的decorator的使用不支持插槽，form-item组件中原有通过插槽支持的功能现在只能通过传入VNode实现。
+
 :::
 
 ## 常用属性案例
@@ -42,12 +44,12 @@ form-item/size
 
 | 属性名           | 类型                                                    | 描述                                        | 默认值      |
 | ---------------- | ------------------------------------------------------- | ------------------------------------------- | ---------   |
-| label            | `string`                                                | 标签                                        | -           |
+| label            | `string` \| `VNode`                                     | 标签                                        | -           |
 | for              | `string`                                                | 关联的表单字段                              | -           |
-| tooltip          | `string`                                                | 问号提示                                    | -           |
-| addonBefore      | `string`                                                | 前缀内容                                    | -           |
-| addonAfter       | `string`                                                | 后缀内容                                    | -           |
-| extra            | `string`                                                | 扩展描述文案                                | -           |
+| tooltip          | `string` \| `VNode`                                     | 问号提示                                    | -           |
+| addonBefore      | `string` \| `VNode`                                     | 前缀内容                                    | -           |
+| addonAfter       | `string` \| `VNode`                                     | 后缀内容                                    | -           |
+| extra            | `string` \| `VNode`                                     | 扩展描述文案                                | -           |
 | feedbackText     | `string`                                                | 反馈文案                                    | -           |
 | feedbackStatus   | ^[enum]`'error' \| 'warning' \| 'success' \| 'pending'` | 反馈状态                                    | -           |
 | asterisk         | `boolean`                                               | 星号提醒                                    | -           |
@@ -65,17 +67,6 @@ form-item/size
 | layout           | ^[enum]`'vertical' \| 'horizontal' \| 'inline' \| ('vertical' \| 'horizontal' \| 'inline')[]` | 布局模式 | -        |
 | feedbackLayout   | ^[enum]`'loose' \| 'terse' \| 'popover'`                | 反馈布局                                    | `'loose'`   |
 | tooltipLayout    | ^[enum]`'icon' \| 'text'`                               | 提示布局                                    | -           |
-
-### FormItem Slot
-
-| 插槽名      | 描述         | 类型 |
-| ----------- | ------------ | ---- |
-| default     | 内容         | -    |
-| label       | 标签         | -    |
-| tooltip     | 问号提示     | -    |
-| addonBefore | 前缀内容     | -    |
-| addonAfter  | 后缀内容     | -    |
-| extra       | 扩展描述文案 | -    |
 
 ### FormItem.BaseItem
 

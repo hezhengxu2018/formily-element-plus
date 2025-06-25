@@ -1,5 +1,7 @@
+import { CircleCheck, InfoFilled, Warning } from '@element-plus/icons-vue'
 import { createForm } from '@formily/core'
 import { Field, FormProvider } from '@formily/vue'
+import { ElIcon } from 'element-plus'
 import { describe, expect, it, vi } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { stylePrefix } from '../../__builtins__'
@@ -130,7 +132,7 @@ describe('form-item 组件', () => {
           <FormLayout>
             <Field
               name="test"
-              title="固定标签宽度换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行"
+              title="固定标签宽度换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行换行"
               decorator={[FormItem, { labelWidth: 300, labelWrap: true }]}
               component={[Input, { placeholder: '请输入' }]}
             />
@@ -525,5 +527,175 @@ describe('form-item 组件', () => {
       await expect.element(labelElement).toBeInTheDocument()
       await expect.element(wrapperElement).toBeInTheDocument()
     })
+  })
+})
+
+describe('VNode 渲染支持', () => {
+  it('label 支持 VNode 渲染', async () => {
+    const CustomLabel = () => (
+      <div class="custom-label">
+        <span>自定义标签</span>
+      </div>
+    )
+
+    const { getByText } = render(() => (
+      <FormProvider form={createForm()}>
+        <FormItem
+          label={<CustomLabel />}
+          labelWidth={200}
+        >
+          <Input placeholder="请输入" />
+        </FormItem>
+      </FormProvider>
+    ))
+    await expect.element(getByText('自定义标签')).toBeInTheDocument()
+  })
+
+  it('addonBefore 支持 VNode 渲染', async () => {
+    const CustomAddonBefore = () => (
+      <div class="custom-addon-before">
+        <span>前缀组件</span>
+      </div>
+    )
+
+    const { getByText } = render(() => (
+      <FormProvider form={createForm()}>
+        <FormItem
+          label="VNode前缀"
+          addonBefore={<CustomAddonBefore />}
+        >
+          <Input placeholder="请输入" />
+        </FormItem>
+      </FormProvider>
+    ))
+
+    await expect.element(getByText('前缀组件')).toBeInTheDocument()
+  })
+
+  it('addonAfter 支持 VNode 渲染', async () => {
+    const CustomAddonAfter = () => (
+      <div class="custom-addon-after">
+        <span>后缀组件</span>
+      </div>
+    )
+
+    const { container } = render(() => (
+      <FormProvider form={createForm()}>
+        <FormItem
+          label="VNode后缀"
+          addonAfter={<CustomAddonAfter />}
+        >
+          <Input placeholder="请输入" />
+        </FormItem>
+      </FormProvider>
+    ))
+
+    const customAddon = container.querySelector('.custom-addon-after')
+    await expect.element(customAddon).toBeInTheDocument()
+    await expect.element(customAddon.querySelector('span')).toHaveTextContent('后缀组件')
+  })
+
+  it('extra 支持 VNode 渲染', async () => {
+    const CustomExtra = () => (
+      <div class="custom-extra">
+        <ElIcon><InfoFilled /></ElIcon>
+        <span>这是自定义额外信息</span>
+        <a href="#">查看详情</a>
+      </div>
+    )
+
+    const { getByText } = render(() => (
+      <FormProvider form={createForm()}>
+        <FormItem
+          label="VNode额外信息"
+          extra={<CustomExtra />}
+        >
+          <Input placeholder="请输入" />
+        </FormItem>
+      </FormProvider>
+    ))
+    await expect.element(getByText('这是自定义额外信息')).toBeInTheDocument()
+  })
+
+  it('多个 VNode 属性同时使用', async () => {
+    const CustomLabel = () => <span class="vnode-label">VNode标签</span>
+    const CustomAddonBefore = () => <span class="vnode-before">VNode前缀</span>
+    const CustomAddonAfter = () => <span class="vnode-after">VNode后缀</span>
+    const CustomExtra = () => <span class="vnode-extra">VNode额外信息</span>
+
+    const { getByText } = render(() => (
+      <FormProvider form={createForm()}>
+        <FormItem
+          label={<CustomLabel />}
+          addonBefore={<CustomAddonBefore />}
+          addonAfter={<CustomAddonAfter />}
+          extra={<CustomExtra />}
+        >
+          <Input placeholder="请输入" />
+        </FormItem>
+      </FormProvider>
+    ))
+
+    await expect.element(getByText('VNode标签')).toBeInTheDocument()
+    await expect.element(getByText('VNode前缀')).toBeInTheDocument()
+    await expect.element(getByText('VNode后缀')).toBeInTheDocument()
+    await expect.element(getByText('VNode额外信息')).toBeInTheDocument()
+  })
+
+  it('VNode 与字符串属性混合使用', async () => {
+    const CustomLabel = () => <span class="mixed-label">混合标签</span>
+
+    const { container, getByText } = render(() => (
+      <FormProvider form={createForm()}>
+        <FormItem
+          label={<CustomLabel />}
+          addonBefore="字符串前缀"
+          addonAfter="字符串后缀"
+          extra="字符串额外信息"
+        >
+          <Input placeholder="请输入" />
+        </FormItem>
+      </FormProvider>
+    ))
+
+    // VNode 标签
+    await expect.element(getByText('混合标签')).toBeInTheDocument()
+
+    // 字符串前缀和后缀
+    const beforeAddon = container.querySelector('.formily-element-plus-form-item-addon-before')
+    const afterAddon = container.querySelector('.formily-element-plus-form-item-addon-after')
+    const extra = container.querySelector('.formily-element-plus-form-item-extra')
+
+    await expect.element(beforeAddon).toHaveTextContent('字符串前缀')
+    await expect.element(afterAddon).toHaveTextContent('字符串后缀')
+    await expect.element(extra).toHaveTextContent('字符串额外信息')
+  })
+
+  it('VNode 渲染复杂组件结构', async () => {
+    const ComplexLabel = () => (
+      <div class="complex-label">
+        <div class="label-main">复杂标签</div>
+        <div class="label-sub">
+          <ElIcon><InfoFilled /></ElIcon>
+          <span>子标题</span>
+        </div>
+      </div>
+    )
+
+    const { container, getByText } = render(() => (
+      <FormProvider form={createForm()}>
+        <FormItem
+          label={<ComplexLabel />}
+          labelWidth={300}
+        >
+          <Input placeholder="请输入" />
+        </FormItem>
+      </FormProvider>
+    ))
+
+    await expect.element(getByText('复杂标签')).toBeInTheDocument()
+    await expect.element(container.querySelector('.complex-label')).toBeInTheDocument()
+    await expect.element(container.querySelector('.label-main')).toHaveTextContent('复杂标签')
+    await expect.element(container.querySelector('.label-sub span')).toHaveTextContent('子标题')
   })
 })

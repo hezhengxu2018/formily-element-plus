@@ -477,7 +477,7 @@ describe('ArrayTable', async () => {
   it('拖拽功能', async () => {
     const form = createForm({
       initialValues: {
-        array: [{ a1: '第一项' }, { a1: '第二项' }, { a1: '第三项' }],
+        array: [{ a1: '一' }, { a1: '二' }, { a1: '三' }],
       },
     })
     const screen = render(ArrayTableNoPaginationTest, {
@@ -501,9 +501,9 @@ describe('ArrayTable', async () => {
     // // 验证拖拽后数据顺序
     await vi.waitFor(() => {
       expect(form.values.array).toEqual([
-        { a1: '第二项' },
-        { a1: '第三项' },
-        { a1: '第一项' },
+        { a1: '二' },
+        { a1: '三' },
+        { a1: '一' },
       ])
     })
   })

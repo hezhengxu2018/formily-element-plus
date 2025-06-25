@@ -16,14 +16,7 @@ import { useResizeObserver } from '@vueuse/core'
 import { ElIcon, ElTooltip, formItemContextKey, useFormSize, useId, useNamespace } from 'element-plus'
 import { addUnit } from 'element-plus/es/utils/index'
 import { pick } from 'lodash-es'
-import {
-  computed,
-  provide,
-  reactive,
-  ref,
-  useSlots,
-  watch,
-} from 'vue'
+import { computed, isVNode, provide, reactive, ref, useSlots, watch } from 'vue'
 import { stylePrefix } from '../__builtins__'
 import { FORM_LAYOUT_PROPS_KEYS, formLayoutShallowContext, useFormLayout } from '../form-layout/utils'
 
@@ -216,40 +209,42 @@ provide(formItemContextKey, context)
       :style="labelStyle"
     >
       <!-- label -->
-      <slot name="label">
-        <div :class="`${prefixCls}-label__wrapper`">
-          <slot name="label" :label="props.label">
-            <ElTooltip :disabled="!isEllipsis && formlayout.tooltipLayout !== 'text'">
-              <span
-                :class="{
-                  [`${prefixCls}-label-content`]: true,
-                  ['is-tooltip']: isEllipsis || (props.tooltip && formlayout.tooltipLayout === 'text'),
-                }"
-              >
-                <span ref="labelRef">{{ props.label }}</span>
-              </span>
-              <template #content>
-                <slot name="tooltip">
-                  <div :style="`width: ${labelRef?.clientWidth ?? 0}px;`">
-                    <template v-if="isEllipsis">
-                      {{ props.label }}
-                    </template>
-                    <template v-if="formlayout.tooltipLayout === 'text'">
-                      {{ props.tooltip }}
-                    </template>
-                  </div>
-                </slot>
+      <template v-if="isVNode(props.label)">
+        <component :is="props.label" />
+      </template>
+      <div v-else :class="`${prefixCls}-label__wrapper`">
+        <slot name="label" :label="props.label">
+          <ElTooltip :disabled="!isEllipsis && formlayout.tooltipLayout !== 'text'">
+            <span
+              :class="{
+                [`${prefixCls}-label-content`]: true,
+                ['is-tooltip']: isEllipsis || (props.tooltip && formlayout.tooltipLayout === 'text'),
+              }"
+            >
+              <span ref="labelRef">{{ props.label }}</span>
+            </span>
+            <template #content>
+              <template v-if="isVNode(props.tooltip)">
+                <component :is="props.tooltip" />
               </template>
-            </ElTooltip>
-          </slot>
-          <ElTooltip v-if="props.tooltip && formlayout.tooltipLayout !== 'text'" :content="props.tooltip">
-            <ElIcon :class="`${prefixCls}-label-tooltip`">
-              <InfoFilled />
-            </ElIcon>
+              <div v-else :style="`width: ${labelRef?.clientWidth ?? 0}px;`">
+                <template v-if="isEllipsis">
+                  {{ props.label }}
+                </template>
+                <template v-if="formlayout.tooltipLayout === 'text'">
+                  {{ props.tooltip }}
+                </template>
+              </div>
+            </template>
           </ElTooltip>
-          <span v-if="props.colon" :class="`${prefixCls}-colon`">:</span>
-        </div>
-      </slot>
+        </slot>
+        <ElTooltip v-if="props.tooltip && formlayout.tooltipLayout !== 'text'" :content="props.tooltip">
+          <ElIcon :class="`${prefixCls}-label-tooltip`">
+            <InfoFilled />
+          </ElIcon>
+        </ElTooltip>
+        <span v-if="props.colon" :class="`${prefixCls}-colon`">:</span>
+      </div>
     </component>
     <!-- content -->
     <div
@@ -258,11 +253,12 @@ provide(formItemContextKey, context)
         isValid(formlayout.wrapperCol) && `${prefixCls}-col-${formlayout.wrapperCol}`,
       ]" :style="contentWrapperStyle"
     >
-      <slot name="addonBefore">
-        <div v-if="props.addonBefore" :class="`${prefixCls}-addon-before`">
-          {{ props.addonBefore }}
-        </div>
-      </slot>
+      <template v-if="isVNode(props.addonBefore)">
+        <component :is="props.addonBefore" />
+      </template>
+      <div v-else :class="`${prefixCls}-addon-before`">
+        {{ props.addonBefore }}
+      </div>
       <div
         :class="[
           ns.e('content'),
@@ -298,18 +294,20 @@ provide(formItemContextKey, context)
               {{ props.feedbackText }}
             </div>
           </slot>
-          <slot name="extra">
-            <div v-if="props.extra" :class="`${prefixCls}-extra`">
-              {{ props.extra }}
-            </div>
-          </slot>
+          <template v-if="isVNode(props.extra)">
+            <component :is="props.extra" />
+          </template>
+          <div v-else :class="`${prefixCls}-extra`">
+            {{ props.extra }}
+          </div>
         </transition-group>
       </div>
-      <slot name="addonAfter">
-        <div v-if="props.addonAfter" :class="`${prefixCls}-addon-after`">
-          {{ props.addonAfter }}
-        </div>
-      </slot>
+      <template v-if="isVNode(props.addonAfter)">
+        <component :is="props.addonAfter" />
+      </template>
+      <div v-else :class="`${prefixCls}-addon-after`">
+        {{ props.addonAfter }}
+      </div>
     </div>
   </div>
 </template>
