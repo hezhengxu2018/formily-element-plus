@@ -1,8 +1,10 @@
 # FormTab
 
 > 选项卡表单
->
-> 注意：该组件只适用于 Schema 场景
+
+::: warning 注意
+该组件只适用于 Schema 场景。
+:::
 
 ## Markup Schema 案例
 

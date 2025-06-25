@@ -1,7 +1,6 @@
-import fs from 'node:fs'
 import path from 'node:path'
 
-export const languages = fs.readdirSync(path.resolve(import.meta.dirname, '../crowdin'))
+export const languages = ['zh-CN']
 
 export const ensureLang = (lang: string) => `/${lang}`
 

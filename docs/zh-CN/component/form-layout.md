@@ -55,6 +55,7 @@ form-layout/template-grid
 
 | 属性名                  | 说明                    | 类型                                                                                   | 默认值       |
 | ----------------------- | ----------------------- | -------------------------------------------------------------------------------------- | ---------- |
+| tag                     | 提供layout的容器标签    | ^[string] \| ^[VueComponent]                                                           | `'form'`     |
 | colon                   | 是否有冒号              | ^[boolean]                                                                             | `true`       |
 | labelAlign              | 标签内容对齐            | ^[enum]`'right' \| 'left' \| ('right' \| 'left')[]`                                    | -            |
 | wrapperAlign            | 组件容器内容对齐        | ^[enum]`'right' \| 'left' \| ('right' \| 'left')[]`                                    | -            |

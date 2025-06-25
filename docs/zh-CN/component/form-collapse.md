@@ -1,8 +1,10 @@
 # FormCollapse
 
 > 折叠面板，通常用在布局空间要求较高的表单场景
->
-> 注意：只能用在 Schema 场景
+
+::: warning 注意
+该组件只适用于 Schema 场景。
+:::
 
 ## Markup Schema 标题使用插槽案例
 

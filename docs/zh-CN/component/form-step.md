@@ -1,8 +1,10 @@
 # FormStep
 
 > 分步表单组件
->
-> 注意：该组件只能用在 Schema 场景
+
+::: warning 注意
+该组件只适用于 Schema 场景。
+:::
 
 ## Markup Schema 案例
 

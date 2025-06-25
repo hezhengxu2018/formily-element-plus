@@ -118,6 +118,10 @@
       "text": "Scenario 场景组件",
       "children": [
         {
+          "link": "/array-base",
+          "text": "ArrayBase Array通用控件"
+        },
+        {
           "link": "/array-cards",
           "text": "ArrayCards 卡片列表"
         },

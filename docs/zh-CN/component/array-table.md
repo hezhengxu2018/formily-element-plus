@@ -102,67 +102,34 @@ array-table/effects-json-schema
 2. AtrrayTableColumn 仅继承属性，不支持插槽。
 :::
 
+### ArrayTable.SortHandle
+
+> 参考ArrayBase.SortHandle
+
 ### ArrayTable.Addition
 
-> 添加按钮
-
-扩展属性
-
-| 属性名 | 类型                  | 描述     | 默认值   |
-| ------ | --------------------- | -------- | -------- |
-| title  | string                | 文案     |          |
-| method | `'push' \| 'unshift'` | 添加方式 | `'push'` |
-
-其余参考 [https://cn.element-plus.org/zh-CN/component/button.html](https://cn.element-plus.org/zh-CN/component/button.html)
-
-注意：title 属性可以接收 Field 模型中的 title 映射，也就是在 Field 上传 title 也是生效的
+> 参考ArrayBase.Addition
 
 ### ArrayTable.Remove
 
-> 删除按钮
-
-| 属性名 | 类型   | 描述 | 默认值 |
-| ------ | ------ | ---- | ------ |
-| title  | string | 文案 |        |
-
-其余参考 [https://cn.element-plus.org/zh-CN/component/button.html](https://cn.element-plus.org/zh-CN/component/button.html)
-
-注意：title 属性可以接收 Field 模型中的 title 映射，也就是在 Field 上传 title 也是生效的
+> 参考[ArrayBase.Remove](./array-base.md#remove)
 
 ### ArrayTable.MoveDown
 
-> 下移按钮
-
-| 属性名 | 类型   | 描述 | 默认值 |
-| ------ | ------ | ---- | ------ |
-| title  | string | 文案 |        |
-
-其余参考 [https://cn.element-plus.org/zh-CN/component/button.html](https://cn.element-plus.org/zh-CN/component/button.html)
-
-注意：title 属性可以接收 Field 模型中的 title 映射，也就是在 Field 上传 title 也是生效的
+> 参考[ArrayBase.MoveDown](./array-base.md#movedown)
 
 ### ArrayTable.MoveUp
 
-> 上移按钮
-
-| 属性名 | 类型   | 描述 | 默认值 |
-| ------ | ------ | ---- | ------ |
-| title  | string | 文案 |        |
-
-其余参考 [https://cn.element-plus.org/zh-CN/component/button.html](https://cn.element-plus.org/zh-CN/component/button.html)
-
-注意：title 属性可以接收 Field 模型中的 title 映射，也就是在 Field 上传 title 也是生效的
+> 参考[ArrayBase.MoveUp](./array-base.md#moveup)
 
 ### ArrayTable.Index
 
-> 索引渲染器
-
-无属性
+> 参考[ArrayBase.Index](./array-base.md#index)
 
 ### ArrayTable.useIndex
 
-> 读取当前渲染行索引的 Hook
+> 参考[ArrayBase.useIndex](./array-base.md#useindex)
 
 ### ArrayTable.useRecord
 
-> 读取当前渲染记录的 Hook
+> 参考[ArrayBase.useRecord](./array-base.md#userecord)
