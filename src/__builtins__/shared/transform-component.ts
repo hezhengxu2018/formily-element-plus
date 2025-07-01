@@ -5,24 +5,24 @@ import { observer } from '@formily/reactive-vue'
 import { each } from '@formily/shared'
 import { useField } from '@formily/vue'
 import { defineComponent, h } from 'vue'
+import { useCleanAttrs } from './utils'
 
 type ListenersTransformRules = Record<string, string>
 
 export function transformComponent<T extends Record<string, any>>(tag: any, transformRules?: ListenersTransformRules): Component<T> | any {
+  const componentName = tag.name.split('El')[1]
   return defineComponent({
+    name: `F${componentName}`,
     setup(props, { attrs, slots }) {
       return () => {
-        const data = {
-          ...attrs,
-        }
+        const { props: data } = useCleanAttrs()
         if (transformRules) {
-          const listeners = transformRules
-          each(listeners, (event, extract) => {
-            data[`on${event[0].toUpperCase()}${event.slice(1)}`]
+          each(transformRules, (event, extract) => {
+            data.value[`on${event[0].toUpperCase()}${event.slice(1)}`]
               = attrs[`on${extract[0].toUpperCase()}${extract.slice(1)}`]
           })
         }
-        return h(tag, data, slots)
+        return h(tag, data.value, slots)
       }
     },
   })
