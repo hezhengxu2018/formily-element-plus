@@ -2,10 +2,10 @@ import { Close } from '@element-plus/icons-vue'
 import { createForm } from '@formily/core'
 import { createSchemaField, FormProvider } from '@formily/vue'
 import { userEvent } from '@vitest/browser/context'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import { defineComponent } from 'vue'
-import { ArrayListTabs, FormItem, Input } from '../../index'
+import { ArrayListTabs, Editable, FormItem, Input, PreviewText, Submit } from '../../index'
 import 'element-plus/theme-chalk/index.css'
 
 export const ArrayListTabsTest = defineComponent({
@@ -28,6 +28,7 @@ export const ArrayListTabsTest = defineComponent({
         FormItem,
         Input,
         ArrayListTabs,
+        Submit
       },
     })
 
@@ -75,6 +76,108 @@ export const ArrayListTabsTest = defineComponent({
             />
           </SchemaArrayField>
         </SchemaField>
+        <Submit>提交</Submit>
+      </FormProvider>
+    )
+  },
+})
+
+// 新增：showTitleFieldInTab 测试组件
+export const ArrayListTabsWithShowTitleFieldTest = defineComponent({
+  name: 'ArrayListTabsWithShowTitleFieldTest',
+  props: {
+    form: {
+      type: Object,
+      default: () => createForm(),
+    },
+    showTitleFieldInTab: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  setup(props) {
+    const {
+      SchemaField,
+      SchemaArrayField,
+      SchemaObjectField,
+      SchemaStringField,
+      SchemaVoidField,
+    } = createSchemaField({
+      components: {
+        FormItem,
+        Input,
+        ArrayListTabs,
+        Editable,
+        PreviewText,
+      },
+    })
+
+    return () => (
+      <FormProvider form={props.form}>
+        <SchemaField>
+          <SchemaArrayField
+            name="array"
+            x-decorator="FormItem"
+            x-component="ArrayListTabs"
+            x-component-props={{
+              tabTitleField: 'input',
+              showTitleFieldInTab: props.showTitleFieldInTab,
+            }}
+          >
+            <SchemaObjectField>
+              <SchemaVoidField
+                x-component="PreviewText"
+                x-component-props={{
+                  placeholder: '未命名条目'
+                }}
+              >
+                <SchemaStringField
+                  name="input"
+                  x-decorator="Editable"
+                  x-decorator-props={{
+                    layout: 'inline',
+                    size: 'small',
+                    editProps: {
+                      style: {
+                        width: '120px',
+                      },
+                    },
+                  }}
+                  title="input"
+                  x-component="Input"
+                  x-component-props={{
+                    placeholder: '请输入Input',
+                  }}
+                  x-validator={[{ required: true }]}
+                />
+              </SchemaVoidField>
+              <SchemaStringField
+                name="input2"
+                x-decorator="FormItem"
+                title="input2"
+                x-component="Input"
+                x-validator={[{ required: true }]}
+              />
+              <SchemaStringField
+                name="input3"
+                x-decorator="FormItem"
+                title="input3"
+                x-component="Input"
+              />
+              <SchemaVoidField
+                x-component="ArrayListTabs.Remove"
+                x-component-props={{
+                  icon: Close,
+                }}
+              />
+            </SchemaObjectField>
+            <SchemaVoidField
+              x-component="ArrayListTabs.Addition"
+              title="添加条目"
+            />
+          </SchemaArrayField>
+        </SchemaField>
+        <Submit onSubmit={() => {}}>提交</Submit>
       </FormProvider>
     )
   },
@@ -157,5 +260,83 @@ describe('arrayListTabs', async () => {
     await expect.element(screen.getByText('Tab 1')).toBeInTheDocument()
     const activeTab = screen.container.querySelector('.is-active')
     expect(activeTab.textContent).toContain('Tab 1')
+  })
+
+  // 新增：showTitleFieldInTab 相关测试
+  describe('showTitleFieldInTab 配置项测试', () => {
+
+    it('showTitleFieldInTab 为 true 时，tab 标题渲染为可编辑组件', async () => {
+      const form = createForm()
+      const screen = render(ArrayListTabsWithShowTitleFieldTest, { 
+        props: { 
+          form,
+          showTitleFieldInTab: true 
+        } 
+      })
+      
+      // 添加一个条目
+      await screen.getByText('添加条目').click()
+      
+      // 验证 tab 标题区域包含可编辑组件
+      const tabContent = screen.container.querySelector('.formily-element-plus-array-list-tabs_list-item--content')
+      expect(tabContent).toBeTruthy()
+      
+      // 验证存在 PreviewText 组件（显示"未命名条目"占位符）
+      await expect.element(screen.getByText('未命名条目')).toBeInTheDocument()
+      
+      // 点击进入编辑模式
+      await screen.getByText('未命名条目').click()
+      
+      // 验证出现输入框
+      const editInput = screen.container.querySelector('.el-input__inner')
+      expect(editInput).toBeTruthy()
+
+      await userEvent.type(editInput, '可编辑标题')
+      await userEvent.click(screen.container) 
+      await expect.element(screen.getByText('可编辑标题')).toBeInTheDocument()
+    })
+
+    it('showTitleFieldInTab 为 true 时，tab 内容区域不显示标题字段', async () => {
+      const form = createForm()
+      const screen = render(ArrayListTabsWithShowTitleFieldTest, { 
+        props: { 
+          form,
+          showTitleFieldInTab: true 
+        } 
+      })
+      
+      // 添加一个条目
+      await screen.getByText('添加条目').click()
+      
+      // 验证 tab 内容区域不包含标题字段的 FormItem
+      const tabPanel = screen.container.querySelector('.formily-element-plus-array-list-tabs-tabpane')
+      expect(tabPanel).toBeTruthy()
+      
+      // 验证只显示 input2 和 input3 字段
+      await expect.element(screen.getByLabelText('input2')).toBeInTheDocument()
+      await expect.element(screen.getByLabelText('input3')).toBeInTheDocument()
+      
+      // 验证不显示 input 字段的 FormItem（因为它在 tab 标题中渲染）
+      const inputFormItems = screen.container.querySelectorAll('.el-form-item')
+      const inputLabels = Array.from(inputFormItems).map(item => item.querySelector('.el-form-item__label')?.textContent)
+      expect(inputLabels.filter(label => label === 'input')).toHaveLength(0)
+    })
+
+    it('错误统计在不同 showTitleFieldInTab 配置下的行为', async () => {
+      // 测试 showTitleFieldInTab 为 true 时的错误统计
+      const form1 = createForm()
+      const screen1 = render(ArrayListTabsWithShowTitleFieldTest, { 
+        props: { 
+          form: form1,
+          showTitleFieldInTab: true 
+        } 
+      })
+      
+      await screen1.getByText('添加条目').click()
+      await screen1.getByText('提交').click()
+      const errorBadge1 = screen1.container.querySelector('.el-badge__content')
+      expect(errorBadge1).toBeTruthy()
+      expect(errorBadge1.textContent).toBe('1')
+   })
   })
 })
