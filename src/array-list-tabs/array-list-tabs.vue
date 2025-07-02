@@ -7,7 +7,7 @@ import { ElBadge, ElEmpty, ElScrollbar } from 'element-plus'
 import { ref } from 'vue'
 import { ArrayBase } from '../array-base'
 import { getArrayItemSchema, isAdditionComponent, isRemoveComponent } from '../array-base/utils'
-import { prefixCls } from './utils'
+import { isTabTitleComponent, prefixCls } from './utils'
 import './style.scss'
 
 defineOptions({
@@ -16,7 +16,12 @@ defineOptions({
 
 const props = defineProps({
   tabTitleField: {
+    required: true,
     type: String,
+  },
+  showTitleFieldInTab: {
+    type: Boolean,
+    default: false,
   },
   value: {
     type: Array,
@@ -33,29 +38,48 @@ const activeIndex = ref(0)
 const { getKey, keyMap } = ArrayBase.useKey(schemaRef.value)
 
 const errorCountList = observable.computed(() => {
-  const errorList = field.value.map((item, index) => {
-    const path = field.address.concat(index)
+  if (props.showTitleFieldInTab) {
+    return field.value.map((item, index) => {
+      const path = field.path.concat(index)
+      return field.form.queryFeedbacks({
+        type: 'error',
+        path: `${path}.*(!${props.tabTitleField})`,
+      }).length
+    })
+  }
+  return field.value.map((item, index) => {
+    const path = field.path.concat(index)
     return field.form.queryFeedbacks({
       type: 'error',
-      address: `${path}.**`,
+      path: `${path}.**`
     }).length
   })
-  return errorList
 })
 
 // 保证arrayBase在必要时重新渲染
 const arrayBaseKey = ref()
 
 autorun(() => {
-  const key = field.value.map((item, index) => {
-    const keyParts = [
-      index,
-      item?.[props.tabTitleField],
-      errorCountList.value[index],
-    ]
-    return keyParts.join('|')
-  }).join(',')
-  arrayBaseKey.value = key
+  if (!props.showTitleFieldInTab) {
+    const key = field.value.map((item, index) => {
+      const keyParts = [
+        index,
+        item?.[props.tabTitleField],
+        errorCountList.value[index],
+      ]
+      return keyParts.join('|')
+    }).join(',')
+    arrayBaseKey.value = key
+  } else {
+    const key = field.value.map((item, index) => {
+      const keyParts = [
+        index,
+        errorCountList.value[index],
+      ]
+      return keyParts.join('|')
+    }).join(',')
+    arrayBaseKey.value = key
+  }
 })
 
 autorun(() => {
@@ -95,10 +119,20 @@ function getTabTitle(item) {
                 <ElBadge
                   :class="[`${prefixCls}-errors-badge`]"
                   :value="errorCountList.value[index]"
-                  :offset="[5, -2]"
+                  :offset="[5, 0]"
                   :hidden="errorCountList.value[index] === 0"
                 >
-                  <span :class="`${prefixCls}_list-item--title`">{{ getTabTitle(item) }}</span>
+                  <template v-if="!props.showTitleFieldInTab">
+                    <span :class="`${prefixCls}_list-item--title`">{{ getTabTitle(item) }}</span>
+                  </template>
+                  <template v-else>
+                    <RecursionField
+                      :schema="schema.items"
+                      :name="index"
+                      :filter-properties="(schema: ISchema) => isTabTitleComponent(schema, props.tabTitleField)"
+                      only-render-properties
+                    />
+                  </template>
                 </ElBadge>
               </div>
               <!-- remove icon -->
@@ -140,7 +174,15 @@ function getTabTitle(item) {
           <RecursionField
             :schema="getArrayItemSchema(schema, index)"
             :name="index"
-            :filter-properties="(schema: ISchema) => !isRemoveComponent(schema)"
+            :filter-properties="(schema: ISchema) => {
+              if (isRemoveComponent(schema)) {
+                return false
+              }
+              if (props.showTitleFieldInTab) {
+                return !isTabTitleComponent(schema, props.tabTitleField)
+              }
+              return true
+            }"
             only-render-properties
           />
         </div>

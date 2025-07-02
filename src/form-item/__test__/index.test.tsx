@@ -1,4 +1,4 @@
-import { CircleCheck, InfoFilled, Warning } from '@element-plus/icons-vue'
+import { InfoFilled } from '@element-plus/icons-vue'
 import { createForm } from '@formily/core'
 import { Field, FormProvider } from '@formily/vue'
 import { ElIcon } from 'element-plus'

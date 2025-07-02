@@ -116,6 +116,6 @@ async function log(values) {
 
 <style lang="scss">
 .editable-date-picker__width .el-tooltip__trigger {
-  --el-date-editor-daterange-width: 180px;
+  --el-date-editor-daterange-width: 200px;
 }
 </style>

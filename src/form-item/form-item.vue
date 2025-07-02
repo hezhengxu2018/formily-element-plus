@@ -213,31 +213,29 @@ provide(formItemContextKey, context)
         <component :is="props.label" />
       </template>
       <div v-else :class="`${prefixCls}-label__wrapper`">
-        <slot name="label" :label="props.label">
-          <ElTooltip :disabled="!isEllipsis && formlayout.tooltipLayout !== 'text'">
-            <span
-              :class="{
-                [`${prefixCls}-label-content`]: true,
-                ['is-tooltip']: isEllipsis || (props.tooltip && formlayout.tooltipLayout === 'text'),
-              }"
-            >
-              <span ref="labelRef">{{ props.label }}</span>
-            </span>
-            <template #content>
-              <template v-if="isVNode(props.tooltip)">
-                <component :is="props.tooltip" />
-              </template>
-              <div v-else :style="`width: ${labelRef?.clientWidth ?? 0}px;`">
-                <template v-if="isEllipsis">
-                  {{ props.label }}
-                </template>
-                <template v-if="formlayout.tooltipLayout === 'text'">
-                  {{ props.tooltip }}
-                </template>
-              </div>
+        <ElTooltip :disabled="!isEllipsis && formlayout.tooltipLayout !== 'text'">
+          <span
+            :class="{
+              [`${prefixCls}-label-content`]: true,
+              ['is-tooltip']: isEllipsis || (props.tooltip && formlayout.tooltipLayout === 'text'),
+            }"
+          >
+            <span ref="labelRef">{{ props.label }}</span>
+          </span>
+          <template #content>
+            <template v-if="isVNode(props.tooltip)">
+              <component :is="props.tooltip" />
             </template>
-          </ElTooltip>
-        </slot>
+            <div v-else :style="`width: ${labelRef?.clientWidth ?? 0}px;`">
+              <template v-if="isEllipsis">
+                {{ props.label }}
+              </template>
+              <template v-if="formlayout.tooltipLayout === 'text'">
+                {{ props.tooltip }}
+              </template>
+            </div>
+          </template>
+        </ElTooltip>
         <ElTooltip v-if="props.tooltip && formlayout.tooltipLayout !== 'text'" :content="props.tooltip">
           <ElIcon :class="`${prefixCls}-label-tooltip`">
             <InfoFilled />
@@ -251,14 +249,17 @@ provide(formItemContextKey, context)
       :class="[
         `${prefixCls}-content__wrapper`,
         isValid(formlayout.wrapperCol) && `${prefixCls}-col-${formlayout.wrapperCol}`,
-      ]" :style="contentWrapperStyle"
+      ]"
+      :style="contentWrapperStyle"
     >
-      <template v-if="isVNode(props.addonBefore)">
-        <component :is="props.addonBefore" />
+      <template v-if="isValid(props.addonBefore)">
+        <template v-if="isVNode(props.addonBefore)">
+          <component :is="props.addonBefore" />
+        </template>
+        <div v-else :class="`${prefixCls}-addon-before`">
+          {{ props.addonBefore }}
+        </div>
       </template>
-      <div v-else :class="`${prefixCls}-addon-before`">
-        {{ props.addonBefore }}
-      </div>
       <div
         :class="[
           ns.e('content'),
@@ -288,26 +289,28 @@ provide(formItemContextKey, context)
           </template>
         </ElTooltip>
         <slot v-else />
-        <transition-group :name="`${ns.namespace.value}-zoom-in-top`">
-          <slot name="error">
-            <div v-if="props.feedbackText && props.feedbackLayout !== 'popover'" :class="validateClasses">
-              {{ props.feedbackText }}
-            </div>
-          </slot>
-          <template v-if="isVNode(props.extra)">
-            <component :is="props.extra" />
-          </template>
-          <div v-else :class="`${prefixCls}-extra`">
-            {{ props.extra }}
+        <TransitionGroup :name="`${ns.namespace.value}-zoom-in-top`">
+          <div v-if="props.feedbackText && props.feedbackLayout !== 'popover'" :class="validateClasses">
+            {{ props.feedbackText }}
           </div>
-        </transition-group>
+          <template v-if="isValid(props.extra)">
+            <template v-if="isVNode(props.extra)">
+              <component :is="props.extra" />
+            </template>
+            <div v-else :class="`${prefixCls}-extra`">
+              {{ props.extra }}
+            </div>
+          </template>
+        </TransitionGroup>
       </div>
-      <template v-if="isVNode(props.addonAfter)">
-        <component :is="props.addonAfter" />
+      <template v-if="isValid(props.addonAfter)">
+        <template v-if="isVNode(props.addonAfter)">
+          <component :is="props.addonAfter" />
+        </template>
+        <div v-else :class="`${prefixCls}-addon-after`">
+          {{ props.addonAfter }}
+        </div>
       </template>
-      <div v-else :class="`${prefixCls}-addon-after`">
-        {{ props.addonAfter }}
-      </div>
     </div>
   </div>
 </template>

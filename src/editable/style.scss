@@ -24,7 +24,7 @@ $editable-prefix-cls: '#{$formily-prefix}-editable';
     width: 14px;
     height: 14px;
     display: inline;
-    vertical-align: text-bottom;
+    vertical-align: sub;
 
     &:hover {
       color: var(--el-color-primary);
