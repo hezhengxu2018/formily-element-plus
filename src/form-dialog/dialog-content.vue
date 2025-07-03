@@ -5,7 +5,6 @@ import type { FormDialogSlots, IFormDialogProps } from './types'
 import { FormProvider } from '@formily/vue'
 import { ElButton, ElConfigProvider, ElDialog } from 'element-plus'
 import { omit } from 'lodash-es'
-import { computed } from 'vue'
 import { loadElConfigProvider, stylePrefix, useDebonceSubmitting } from '../__builtins__'
 
 defineOptions({
@@ -37,22 +36,24 @@ const props = defineProps({
 const slots = defineSlots<FormDialogSlots>()
 const prefixCls = `${stylePrefix}-form-dialog`
 const elConfig = loadElConfigProvider()
-const innerProps = computed(() => {
-  return omit(props.dialogProps, [
-    'modelValue',
-    'onUpdate:modelValue',
-    'beforeClose',
-  ])
-})
+const _dialogProps = omit(props.dialogProps, [
+  'modelValue',
+  'onUpdate:modelValue',
+  'beforeClose',
+])
 const { internalSubmitting } = useDebonceSubmitting(props.form)
 </script>
 
 <template>
   <ElDialog
-    v-bind="innerProps"
-    :model-value="visible"
     :class="prefixCls"
     :z-index="elConfig.zIndex"
+    v-bind="_dialogProps"
+    :model-value="visible"
+    :before-close="(done) => {
+      reject()
+      done()
+    }"
   >
     <template v-if="slots.header" #header>
       <slot name="header" :resolve :reject :form />
@@ -73,18 +74,18 @@ const { internalSubmitting } = useDebonceSubmitting(props.form)
         </template>
         <template v-else>
           <ElButton
-            v-bind="props.dialogProps.cancelButtonProps"
+            v-bind="_dialogProps.cancelButtonProps"
             @click="props.reject()"
           >
-            {{ props.dialogProps.cancelText || '取消' }}
+            {{ _dialogProps.cancelText || '取消' }}
           </ElButton>
           <ElButton
             type="primary"
-            v-bind="props.dialogProps.okButtonProps"
+            v-bind="_dialogProps.okButtonProps"
             :loading="internalSubmitting"
             @click="props.resolve()"
           >
-            {{ props.dialogProps.okText || '确定' }}
+            {{ _dialogProps.okText || '确定' }}
           </ElButton>
         </template>
       </div>

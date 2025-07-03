@@ -5,7 +5,6 @@ import type { FormDrawerSlots, IFormDrawerProps } from './types'
 import { FormProvider } from '@formily/vue'
 import { ElButton, ElConfigProvider, ElDrawer } from 'element-plus'
 import { omit } from 'lodash-es'
-import { computed } from 'vue'
 import { loadElConfigProvider, stylePrefix, useDebonceSubmitting } from '../__builtins__'
 
 defineOptions({
@@ -38,22 +37,20 @@ const slots = defineSlots<FormDrawerSlots>()
 const prefixCls = `${stylePrefix}-form-drawer`
 const elConfig = loadElConfigProvider()
 
-const innerProps = computed(() => {
-  return omit(props.drawerProps, [
-    'modelValue',
-    'onUpdate:modelValue',
-    'beforeClose',
-  ])
-})
 const { internalSubmitting } = useDebonceSubmitting(props.form)
+const _drawerProps = omit(props.drawerProps, ['modelValue', 'onUpdate:modelValue', 'beforeClose'])
 </script>
 
 <template>
   <ElDrawer
-    v-bind="innerProps"
-    :model-value="visible"
     :class="prefixCls"
     :z-index="elConfig.zIndex"
+    v-bind="_drawerProps"
+    :model-value="visible"
+    :before-close="(done) => {
+      reject()
+      done()
+    }"
   >
     <template v-if="slots.header" #header>
       <slot name="header" :resolve :reject :form />
@@ -74,18 +71,18 @@ const { internalSubmitting } = useDebonceSubmitting(props.form)
         </template>
         <template v-else>
           <ElButton
-            v-bind="drawerProps.cancelButtonProps"
+            v-bind="_drawerProps.cancelButtonProps"
             @click="reject()"
           >
-            {{ drawerProps.cancelText || '取消' }}
+            {{ _drawerProps.cancelText || '取消' }}
           </ElButton>
           <ElButton
             type="primary"
-            v-bind="drawerProps.okButtonProps"
+            v-bind="_drawerProps.okButtonProps"
             :loading="internalSubmitting"
             @click="resolve()"
           >
-            {{ drawerProps.okText || '确定' }}
+            {{ _drawerProps.okText || '确定' }}
           </ElButton>
         </template>
       </div>

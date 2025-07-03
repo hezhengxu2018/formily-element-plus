@@ -8,7 +8,7 @@ import { observer } from '@formily/reactive-vue'
 import { applyMiddleware, isArr, isFn, isStr, isValid, pascalCase } from '@formily/shared'
 import { camelCase } from 'lodash-es'
 import { createApp, h, ref } from 'vue'
-import { isVueOptions, loading } from '../__builtins__'
+import { getTransitionDuration, isVueOptions, loading } from '../__builtins__'
 import DialogContent from './dialog-content.vue'
 
 export function FormDialog(
@@ -37,6 +37,8 @@ export function FormDialog(
     cancelMiddlewares: [],
   }
 
+  const animationDuration = getTransitionDuration()
+
   if (isArr(dynamicMiddlewareNames)) {
     for (const middlewareName of dynamicMiddlewareNames) {
       /* istanbul ignore if -- @preserve */
@@ -54,16 +56,6 @@ export function FormDialog(
   document.body.append(env.root)
 
   const props = (isStr(title) ? ({ title }) : title) as IFormDialogProps
-  const dialogProps = {
-    ...props,
-    onClosed: () => {
-      env.app?.unmount?.()
-      env.app = null
-      env.instance = null
-      env.root?.remove()
-      env.root = undefined
-    },
-  }
 
   function render(visible: boolean, resolve?: (type?: string) => any, reject?: () => any) {
     const _content = isVueOptions(content)
@@ -77,7 +69,7 @@ export function FormDialog(
             visible,
           })
           return () => h(DialogContent, {
-            dialogProps,
+            dialogProps: props,
             form: env.form,
             resolve,
             reject,
@@ -104,15 +96,15 @@ export function FormDialog(
       isFn(middleware) && env.cancelMiddlewares.push(middleware)
       return formDialog
     },
-    open: (props: IFormProps) => {
+    open: (payload: IFormProps) => {
       /* istanbul ignore if -- @preserve */
       if (env.promise)
         return env.promise
 
       env.promise = new Promise((res, rej) => {
-        loading(dialogProps.loadingText, () => applyMiddleware(props, env.openMiddlewares))
-          .then((props) => {
-            env.form = env.form || createForm(props)
+        loading(props.loadingText, () => applyMiddleware(payload, env.openMiddlewares))
+          .then((resPayload) => {
+            env.form = env.form || createForm(resPayload)
             render(true, (type: string) => {
               env.form.submit(async () => {
                 await (isValid(type) ? applyMiddleware(env.form, env[`${type}Middlewares`]) : applyMiddleware(env.form, env.confirmMiddlewares))
@@ -122,9 +114,16 @@ export function FormDialog(
                 console.warn(error)
               })
             }, async () => {
-              await loading(dialogProps.loadingText, () =>
+              await loading(props.loadingText, () =>
                 applyMiddleware(env.form, env.cancelMiddlewares))
               formDialog.close()
+              setTimeout(() => {
+                env.app?.unmount?.()
+                env.app = null
+                env.instance = null
+                env.root?.remove()
+                env.root = undefined
+              }, animationDuration)
               rej(new Error('cancel'))
             })
           })

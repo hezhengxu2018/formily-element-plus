@@ -21,23 +21,50 @@ export async function loading(loadingText = 'Loading...', processor: () => Promi
   }
 }
 
+/**
+ * 获取当前element-plus的过渡时长并转换为毫秒
+ * @param cssVarName CSS 变量名，默认为 '--el-transition-duration'
+ * @param defaultValue 默认值（毫秒），默认为 200
+ * @returns 过渡时长（毫秒）
+ */
+export function getTransitionDuration(cssVarName = '--el-transition-duration', defaultValue = 200): number {
+  const cssVar = getComputedStyle(document.documentElement)
+    .getPropertyValue(cssVarName)
+    .trim()
+  if (!cssVar) {
+    return defaultValue
+  }
+  const durationMatch = cssVar.match(/^([\d.]+)\s*(s|ms)?$/)
+  if (!durationMatch) {
+    return defaultValue
+  }
+
+  const value = Number.parseFloat(durationMatch[1])
+  const unit = durationMatch[2] || 'ms' // 默认单位为毫秒
+
+  if (Number.isNaN(value) || value < 0) {
+    return defaultValue
+  }
+  switch (unit) {
+    case 's': {
+      return value * 1000
+    }
+    case 'ms': {
+      return value
+    }
+    default: {
+      return value
+    }
+  }
+}
+
 export function useDebonceSubmitting(form: Form) {
   const internalSubmitting = ref(false)
-  const transitionDuration = ref(200)
-
-  const cssVar = getComputedStyle(document.documentElement)
-    .getPropertyValue('--el-transition-duration')
-
-  const durationMatch = cssVar.match(/([\d.]+)([ms|]*)/)
-  if (durationMatch) {
-    const value = Number.parseFloat(durationMatch[1])
-    const unit = durationMatch[2]
-    transitionDuration.value = unit === 's' ? value * 1000 : value
-  }
+  const transitionDuration = getTransitionDuration()
 
   const setSubmittingFalse = useDebounceFn(() => {
     internalSubmitting.value = false
-  }, () => transitionDuration.value)
+  }, () => transitionDuration)
 
   reaction(() => form.submitting, (val) => {
     if (val === false) {
