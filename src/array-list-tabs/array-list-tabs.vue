@@ -51,7 +51,7 @@ const errorCountList = observable.computed(() => {
     const path = field.path.concat(index)
     return field.form.queryFeedbacks({
       type: 'error',
-      path: `${path}.**`
+      path: `${path}.**`,
     }).length
   })
 })
@@ -60,20 +60,21 @@ const errorCountList = observable.computed(() => {
 const arrayBaseKey = ref()
 
 autorun(() => {
-  if (!props.showTitleFieldInTab) {
+  if (props.showTitleFieldInTab) {
     const key = field.value.map((item, index) => {
       const keyParts = [
         index,
-        item?.[props.tabTitleField],
         errorCountList.value[index],
       ]
       return keyParts.join('|')
     }).join(',')
     arrayBaseKey.value = key
-  } else {
+  }
+  else {
     const key = field.value.map((item, index) => {
       const keyParts = [
         index,
+        item?.[props.tabTitleField],
         errorCountList.value[index],
       ]
       return keyParts.join('|')

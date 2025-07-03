@@ -52,7 +52,7 @@ async function log(values) {
           <SchemaVoidField
             x-component="PreviewText"
             :x-component-props="{
-              placeholder: '未命名条目'
+              placeholder: '未命名条目',
             }"
           >
             <SchemaStringField

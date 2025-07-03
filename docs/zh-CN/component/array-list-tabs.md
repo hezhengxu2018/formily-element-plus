@@ -35,7 +35,6 @@ array-list-tabs/markup-schema-show-title-field-in-tab
 
 > 参考[ArrayBase.Remove](./array-base.md#remove)
 
-
 ### ArrayListTabs.Addition
 
 > 参考[ArrayBase.Addition](./array-base.md#addition)
