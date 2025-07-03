@@ -2,6 +2,7 @@
 import type { Form } from '@formily/core'
 import type { PropType } from 'vue'
 import type { FormDialogSlots, IFormDialogProps } from './types'
+import { isFn } from '@formily/shared'
 import { FormProvider } from '@formily/vue'
 import { ElButton, ElConfigProvider, ElDialog } from 'element-plus'
 import { omit } from 'lodash-es'
@@ -52,7 +53,12 @@ const { internalSubmitting } = useDebonceSubmitting(props.form)
     :model-value="visible"
     :before-close="(done) => {
       reject()
-      done()
+      if (isFn(props.dialogProps.beforeClose)) {
+        props.dialogProps.beforeClose(done)
+      }
+      else {
+        done()
+      }
     }"
   >
     <template v-if="slots.header" #header>

@@ -52,6 +52,10 @@ form-dialog/template-slot
 | `formDialogSlots`          | 表单弹窗组件的内容，支持组件，VNode和插槽的写法     | `Component` `VNode[]` `()=>VNode[]` `FormDialogSlots`  |
 | `dynamicMiddlewareNames`   | 动态中间件名称列表，使用时会转成Camel Case命名风格。| `string[]`除了`cancel` `confirm` `open`                |
 
+::: warning 注意
+`formDialogProps`是有保留值的。传入`modelValue`、`onUpdate:modelValue`不会生效，已被FormDialog组件内部使用。
+:::
+
 完整函数类型声明（参数的具体类型参见类型声明）：
 ``` ts
 interface FormDialog {
@@ -65,7 +69,7 @@ interface FormDialog {
 
 #### title
 
-函数的第一个参数，传入字符串时会作为标题显示。可以传入`IFormDialogProps`来进行自定义。重构时移除了事件的支持，请优先使用`forOpen`、`forConfirm`、`forCancel`等中间件来控制弹框的生命周期。
+函数的第一个参数，传入字符串时会作为标题显示。可以传入`IFormDialogProps`来进行自定义。请优先使用`forOpen`、`forConfirm`、`forCancel`等中间件来控制弹框的生命周期。
 
 | 参数                  | 说明                                                                             | 类型                | 默认值    |
 | --------------------- | -------------------------------------------------------------------------------- | ------------------- | --------- |
@@ -101,16 +105,20 @@ interface FormDialog {
 ### IFormDialog 函数返回
 函数的返回值，是一个是一个Promise对象，因此可以进行await操作来优化逻辑书写，需要调用`open`方法来打开弹框。可以进行链式调用来处理不同逻辑下的事件处理。现在支持通过`dynamicMiddlewareNames`来传入自定义的事件来处理业务逻辑。
 
-| 方法名          | 说明                                                                             | 类型                |
-| --------------- | -------------------------------------------------------------------------------- | ------------------- |
-| `open`          | 打开弹框                                                                         | `(IMiddleware<IFormProps>)=>IFormDialog`   |
-| `forOpen`       | 打开弹框事件                                                                     | `(IMiddleware<IFormProps>)=>IFormDialog`   |
-| `forConfirm`    | 确认事件                                                                         | `(IMiddleware<IFormProps>)=>IFormDialog`   |
-| `forCancel`     | 取消事件                                                                         | `(IMiddleware<IFormProps>)=>IFormDialog`   |
-| `for${Dynamic}` | 自定义事件，需要传入`dynamicMiddlewareNames`中传入的字符串，通过作用域插槽中的resolve方法来触发对应的事件。  | `(IMiddleware<IFormProps>)=>IFormDialog` |
+| 方法名          | 说明            | 类型                                       |
+| --------------- | --------------- | ------------------------------------------ |
+| `open`          | 打开弹框        | `(IFormProps)=>Promise<IFormProps.values>` |
+| `forOpen`       | 打开弹框事件    | `(IMiddleware<IFormProps>)=>IFormDialog`   |
+| `forConfirm`    | 确认事件        | `(IMiddleware<IFormProps>)=>IFormDialog`   |
+| `forCancel`     | 取消事件        | `(IMiddleware<IFormProps>)=>IFormDialog`   |
+| `for${Dynamic}` | 自定义事件      | `(IMiddleware<IFormProps>)=>IFormDialog`   |
 
 ::: tip 提示
-传入`dynamicMiddlewareNames`中的字符串在调用方法时会被转成Pascal Case命名风格，比如传入`['save-draft']`应该调用`'forSaveDraft'`。
+自定义事件中的`Dynamic`的值为`dynamicMiddlewareNames`中传入的字符串，通过作用域插槽中的resolve方法来触发对应的事件。 传入`dynamicMiddlewareNames`中的字符串在调用方法时会被转成Pascal Case命名风格，比如传入`['save-draft']`应该调用`'forSaveDraft'`。
+:::
+
+::: tip 提示
+现在所有通过非`resolve`调用关闭的弹框都会作为错误抛出，因此在async/await写法中如果await了FormDialog则此之后的逻辑都只在表单成功提交后才会执行。
 :::
 
 ### 类型声明

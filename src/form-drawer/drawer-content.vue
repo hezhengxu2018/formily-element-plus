@@ -2,6 +2,7 @@
 import type { Form } from '@formily/core'
 import type { PropType } from 'vue'
 import type { FormDrawerSlots, IFormDrawerProps } from './types'
+import { isFn } from '@formily/shared'
 import { FormProvider } from '@formily/vue'
 import { ElButton, ElConfigProvider, ElDrawer } from 'element-plus'
 import { omit } from 'lodash-es'
@@ -49,7 +50,12 @@ const _drawerProps = omit(props.drawerProps, ['modelValue', 'onUpdate:modelValue
     :model-value="visible"
     :before-close="(done) => {
       reject()
-      done()
+      if (isFn(props.drawerProps.beforeClose)) {
+        props.drawerProps.beforeClose(done)
+      }
+      else {
+        done()
+      }
     }"
   >
     <template v-if="slots.header" #header>
