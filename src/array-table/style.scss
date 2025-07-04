@@ -8,7 +8,7 @@ $array-table-prefix-cls: '#{$formily-prefix}-array-table';
     margin-bottom: 0 !important;
   }
 
-  .#{$namespace}-table {
+  .el-table {
     .cell {
       overflow: visible;
     }
