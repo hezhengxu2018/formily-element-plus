@@ -2,6 +2,20 @@
 
 
 
+## [2.5.5](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.4...v2.5.5) (2025-07-04)
+
+
+### Bug Fixes
+
+* **form-drawer,form-dialog:** 修复没有通过confirm关闭弹框时没有抛出异常的错误 ([fe3a7fb](https://github.com/hezhengxu2018/formily-element-plus/commit/fe3a7fb1af5def95460de002cd0c72c9673ebba9))
+* **form-item:** 修复文档中form-item错误的使用说明,之前通过插槽实现的功能现在统一使用VNode实现. ([c088d32](https://github.com/hezhengxu2018/formily-element-plus/commit/c088d32156669fe9b0c70c2b17880d04e9ba44db))
+* **utils:** 修复通用转化的高阶组件函数attrs异常问题 ([0f9e5db](https://github.com/hezhengxu2018/formily-element-plus/commit/0f9e5dbdb754e4473659253edace2b2b025ce1c6))
+
+
+### Features
+
+* **array-list-tabs:** 新增将field作为tab标题的配置项 ([c3a52f1](https://github.com/hezhengxu2018/formily-element-plus/commit/c3a52f1e94ba3a80228b76b9b66afe3a8d86c5c6))
+
 ## [2.5.4](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.3...v2.5.4) (2025-06-24)
 
 
