@@ -1,3 +1,4 @@
+export * from './hooks'
 export * from './load-config-provider'
 export * from './loading'
 export * from './simpleVersionCompare'

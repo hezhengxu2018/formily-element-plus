@@ -3,10 +3,9 @@ import type { FormContext } from 'element-plus'
 import type { IFormLayoutProps } from './types'
 import { isEmpty, isValid } from '@formily/shared'
 import { useForm } from '@formily/vue'
-import { useThrottleFn } from '@vueuse/core'
 import { formContextKey } from 'element-plus'
 import { provide, ref, watch } from 'vue'
-import { stylePrefix } from '../__builtins__'
+import { stylePrefix, useThrottleFn } from '../__builtins__'
 import { filterValidFormLayoutProps, formLayoutDeepContext, formLayoutShallowContext, useFormDeepLayout, useResponsiveFormLayout } from './utils'
 
 defineOptions({

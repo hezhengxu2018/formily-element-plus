@@ -62,8 +62,7 @@ export default defineConfig({
           return `vendor${path.sep}${chunkInfo.name}.mjs`
         },
         manualChunks: {
-          '@vueuse': ['@vueuse/core'],
-          'lodash': ['lodash-es'],
+          lodash: ['lodash-es'],
         },
       },
       treeshake: {

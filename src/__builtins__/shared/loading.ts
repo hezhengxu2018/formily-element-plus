@@ -1,8 +1,8 @@
 import type { Form } from '@formily/core'
 import { reaction } from '@formily/reactive'
-import { useDebounceFn } from '@vueuse/core'
 import { ElLoading } from 'element-plus'
 import { ref } from 'vue'
+import { useDebounceFn } from './hooks'
 
 export async function loading(loadingText = 'Loading...', processor: () => Promise<any>) {
   let loadingInstance
@@ -40,7 +40,7 @@ export function getTransitionDuration(cssVarName = '--el-transition-duration', d
   }
 
   const value = Number.parseFloat(durationMatch[1])
-  const unit = durationMatch[2] || 'ms' // 默认单位为毫秒
+  const unit = durationMatch[2] || 'ms'
 
   if (Number.isNaN(value) || value < 0) {
     return defaultValue
