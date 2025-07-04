@@ -3,8 +3,8 @@ import type { RadioProps } from 'element-plus'
 import type { PropType } from 'vue'
 import { isPlainObj } from '@formily/shared'
 import { ElRadio, ElRadioButton, ElRadioGroup, version } from 'element-plus'
-import lt from 'semver/functions/lt'
 import { computed, useSlots } from 'vue'
+import { lt } from '../__builtins__'
 
 defineOptions({
   name: 'FRadioGroup',

@@ -2,9 +2,8 @@ import type { ISchema, Schema } from '@formily/json-schema'
 import type { IArrayBaseItemProps } from './types'
 import { clone, isArr, isValid, uid } from '@formily/shared'
 import { version } from 'element-plus'
-import lt from 'semver/functions/lt'
 import { inject, toRefs } from 'vue'
-import { stylePrefix } from '../__builtins__'
+import { lt, stylePrefix } from '../__builtins__'
 import { ArrayBaseSymbol, ItemSymbol } from './symbols'
 
 export const prefixCls = `${stylePrefix}-array-base`

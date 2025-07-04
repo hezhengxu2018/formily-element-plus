@@ -64,7 +64,6 @@ export default defineConfig({
         manualChunks: {
           '@vueuse': ['@vueuse/core'],
           'lodash': ['lodash-es'],
-          'semver': ['semver'],
         },
       },
       treeshake: {

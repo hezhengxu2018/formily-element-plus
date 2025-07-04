@@ -3,9 +3,8 @@ import type { CheckboxProps } from 'element-plus'
 import type { PropType } from 'vue'
 import { isPlainObj } from '@formily/shared'
 import { ElCheckbox, ElCheckboxButton, ElCheckboxGroup, version } from 'element-plus'
-import lt from 'semver/functions/lt'
 import { computed, useSlots } from 'vue'
-import { useCleanAttrs } from '../__builtins__'
+import { lt, useCleanAttrs } from '../__builtins__'
 
 defineOptions({
   name: 'FCheckboxGroup',

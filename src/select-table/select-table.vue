@@ -13,9 +13,8 @@ import {
   vLoading,
 } from 'element-plus'
 import { differenceWith, remove, uniq, uniqWith, xor } from 'lodash-es'
-import lt from 'semver/functions/lt'
 import { computed, nextTick, ref, watch } from 'vue'
-import { stylePrefix } from '../__builtins__/configs'
+import { lt, stylePrefix } from '../__builtins__'
 
 defineOptions({
   inheritAttrs: false,
