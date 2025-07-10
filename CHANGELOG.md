@@ -2,6 +2,13 @@
 
 
 
+## [2.5.6](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.5...v2.5.6) (2025-07-10)
+
+
+### Bug Fixes
+
+* **editable:** 修复editable在禁用状态下交互异常的问题 ([5c89f16](https://github.com/hezhengxu2018/formily-element-plus/commit/5c89f163bd297c2bc7d1f63b640733e6a9b39a4e))
+
 ## [2.5.5](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.4...v2.5.5) (2025-07-04)
 
 
