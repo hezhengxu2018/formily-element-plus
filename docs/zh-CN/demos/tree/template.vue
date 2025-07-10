@@ -1,13 +1,28 @@
 <script lang="ts" setup>
 import { createForm } from '@formily/core'
+import { autorun, toJS } from '@formily/reactive'
+import { isPlainObj } from '@formily/shared'
 import { Field, FormProvider } from '@formily/vue'
-import { FormItem, Submit, Tree } from '@sliver/formily-element-plus'
+import { FormItem, FormLayout, Select, Switch, Tree } from '@sliver/formily-element-plus'
+import { codeToHtml } from 'shiki'
+import { ref } from 'vue'
 
 const form = createForm()
 
-async function log(value) {
-  console.log(value)
-}
+const shikiTree = ref('')
+autorun(async () => {
+  if (!form.values.tree)
+    return
+  const treeValue = toJS(form.values.tree)
+  const treeStrValue = isPlainObj(treeValue?.[0]) ? JSON.stringify(treeValue, null, 2) : JSON.stringify(treeValue)
+  shikiTree.value = await codeToHtml(treeStrValue, {
+    lang: 'javascript',
+    themes: {
+      light: 'min-light',
+      dark: 'nord',
+    },
+  })
+})
 
 const data = [
   {
@@ -63,19 +78,78 @@ const data = [
 
 <template>
   <FormProvider :form="form">
-    <Field
-      name="tree"
-      title="树形选择"
-      :decorator="[FormItem]"
-      :component="[Tree, {
-        showCheckbox: true,
-        nodeKey: 'id',
-        valueType: 'path',
-      }]"
-      :data-source="data"
-    />
-    <Submit @submit="log">
-      提交
-    </Submit>
+    <FormLayout :label-col="4" :wrapper-col="16">
+      <Field
+        name="valueType"
+        title="Tree的值类型"
+        :decorator="[FormItem]"
+        :component="[Select]"
+        initial-value="all"
+        :data-source="
+          [{
+             label: '全部',
+             value: 'all',
+           },
+           {
+             label: '优先父节点',
+             value: 'parent',
+           },
+           {
+             label: '仅子节点',
+             value: 'child',
+           },
+           {
+             label: '路径',
+             value: 'path',
+           },
+          ]"
+        :reactions="field => {
+          const tree = field.query('tree').take();
+          if (tree) {
+            tree.setComponentProps({ ...tree.componentProps, valueType: field.value })
+          }
+        }"
+      />
+      <Field
+        name="optionAsValue"
+        title="optionAsValue"
+        :decorator="[FormItem]"
+        :component="[Switch]"
+        :initial-value="false"
+        :reactions="field => {
+          const tree = field.query('tree').take();
+          if (tree) {
+            tree.setComponentProps({ ...tree.componentProps, optionAsValue: field.value })
+          }
+        }"
+      />
+      <Field
+        name="includeHalfChecked"
+        title="包括半勾选节点"
+        :decorator="[FormItem]"
+        :component="[Switch]"
+        :initial-value="false"
+        :reactions="field => {
+          const tree = field.query('tree').take();
+          if (tree) {
+            tree.setComponentProps({ ...tree.componentProps, includeHalfChecked: field.value })
+          }
+        }"
+      />
+      <Field
+        name="tree"
+        title="Tree"
+        :decorator="[FormItem]"
+        :component="[Tree, {
+          showCheckbox: true,
+          nodeKey: 'id',
+          valueType: 'all',
+          includeHalfChecked: true,
+        }]"
+        :data-source="data"
+        :initial-value="[9]"
+      />
+    </FormLayout>
   </FormProvider>
+  <div v-html="shikiTree" />
 </template>

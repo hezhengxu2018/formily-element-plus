@@ -1,47 +1,45 @@
 <script setup lang="ts">
 import type { TreeNodeData } from 'element-plus/es/components/tree/src/tree.type'
-import { ElRadio, ElTree } from 'element-plus'
+import { isArr } from '@formily/shared'
+import { ElTree } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
+import { useCleanAttrs } from '../__builtins__'
 
 export interface TreeValueTypeProps {
   data: TreeNodeData[]
-  mode?: 'single' | 'multiple'
+  value?: any
   valueType?: 'all' | 'parent' | 'child' | 'path'
-  nodeKey?: string
-  checkStrictly?: boolean
-  modelValue?: any
-  treeProps?: {
-    children?: string
-    label?: string
-    disabled?: string
-  }
+  includeHalfChecked?: boolean
+  optionAsValue?: boolean
+  props?: any
+  nodeKey: string
 }
 
 const props = withDefaults(defineProps<TreeValueTypeProps>(), {
   valueType: 'all',
-  nodeKey: 'id',
-  checkStrictly: true,
-  treeProps: () => ({
+  optionAsValue: false,
+  includeHalfChecked: false,
+  props: {
     children: 'children',
     label: 'label',
     disabled: 'disabled',
-  }),
+  },
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [value: any]
-  'change': [value: any, nodes: TreeNodeData | TreeNodeData[]]
+  change: [value: any]
 }>()
+
+const { props: attrs } = useCleanAttrs()
 
 const treeRef = ref<InstanceType<typeof ElTree>>()
 const checkedKeys = ref<any[]>([])
 
-// 扁平化树数据
 function flattenTree(nodes: TreeNodeData[], result: TreeNodeData[] = []): TreeNodeData[] {
   for (const node of nodes) {
     result.push(node)
-    if (node[props.treeProps.children!] && node[props.treeProps.children!].length > 0) {
-      flattenTree(node[props.treeProps.children!], result)
+    if (node[props.props.children!] && node[props.props.children!].length > 0) {
+      flattenTree(node[props.props.children!], result)
     }
   }
   return result
@@ -49,26 +47,52 @@ function flattenTree(nodes: TreeNodeData[], result: TreeNodeData[] = []): TreeNo
 
 const flatData = computed(() => flattenTree(props.data))
 
-// 获取节点的所有子节点keys
+function traverseTree(
+  nodes: TreeNodeData[],
+  callback: (node: TreeNodeData) => void,
+  options: {
+    checkDisabled?: boolean
+    leafOnly?: boolean
+  } = {},
+) {
+  const { checkDisabled = false, leafOnly = false } = options
+
+  for (const node of nodes) {
+    if (checkDisabled && node[props.props.disabled!]) {
+      continue
+    }
+
+    const children = node[props.props.children!] || []
+    const isLeaf = children.length === 0
+
+    if (!leafOnly || isLeaf) {
+      callback(node)
+    }
+    if (children.length > 0) {
+      traverseTree(children, callback, options)
+    }
+  }
+}
+
 function getChildrenKeys(node: TreeNodeData): any[] {
-  const children = node[props.treeProps.children!] || []
+  const children = node[props.props.children!] || []
   if (children.length === 0)
     return []
 
   const keys: any[] = []
-  const traverse = (nodes: TreeNodeData[]) => {
-    for (const child of nodes) {
-      if (!child[props.treeProps.disabled!]) {
-        keys.push(child[props.nodeKey])
-        const grandChildren = child[props.treeProps.children!] || []
-        if (grandChildren.length > 0) {
-          traverse(grandChildren)
-        }
-      }
-    }
-  }
+  traverseTree(children, (child) => {
+    keys.push(child[props.nodeKey])
+  }, { checkDisabled: true })
 
-  traverse(children)
+  return keys
+}
+
+function extractKeysFromPath(pathNodes: TreeNodeData[]): any[] {
+  const keys: any[] = []
+  traverseTree(pathNodes, (node) => {
+    keys.push(node[props.nodeKey])
+  }, { leafOnly: true })
+
   return keys
 }
 
@@ -77,7 +101,7 @@ function getSelectedPath(nodes: TreeNodeData[], selectedKeys: any[]): TreeNodeDa
   const result: TreeNodeData[] = []
 
   for (const node of nodes) {
-    const children = node[props.treeProps.children!] || []
+    const children = node[props.props.children!] || []
     const hasSelectedChild = children.length > 0
       ? getSelectedPath(children, selectedKeys).length > 0
       : false
@@ -85,7 +109,7 @@ function getSelectedPath(nodes: TreeNodeData[], selectedKeys: any[]): TreeNodeDa
     if (selectedKeys.includes(node[props.nodeKey]) || hasSelectedChild) {
       const newNode = { ...node }
       if (hasSelectedChild && children.length > 0) {
-        newNode[props.treeProps.children!] = getSelectedPath(children, selectedKeys)
+        newNode[props.props.children!] = getSelectedPath(children, selectedKeys)
       }
       result.push(newNode)
     }
@@ -94,8 +118,7 @@ function getSelectedPath(nodes: TreeNodeData[], selectedKeys: any[]): TreeNodeDa
   return result
 }
 
-// 根据valueType处理输出数据
-function getOutputData(keys: any[]) {
+function getOutputData(keys: any[], halfCheckedKeys: any[] = []) {
   const selectedNodes = flatData.value.filter(node =>
     keys.includes(node[props.nodeKey]),
   )
@@ -105,7 +128,6 @@ function getOutputData(keys: any[]) {
 
   switch (props.valueType) {
     case 'parent': {
-      // 只返回父节点，移除子节点
       const allChildKeys: any[] = []
       for (const node of selectedNodes) {
         allChildKeys.push(...getChildrenKeys(node))
@@ -118,7 +140,6 @@ function getOutputData(keys: any[]) {
     }
 
     case 'child': {
-      // 只返回子节点，移除有子节点被选中的父节点
       for (const node of selectedNodes) {
         const childKeys = getChildrenKeys(node)
         const hasSelectedChild = childKeys.some(key => keys.includes(key))
@@ -133,23 +154,23 @@ function getOutputData(keys: any[]) {
     }
 
     case 'path': {
-      // 返回完整路径结构
+      // path的值不会受到optionAsValue的影响，始终返回完整节点
+      const selectedPath = getSelectedPath(props.data, keys)
       return {
-        value: getSelectedPath(props.data, keys),
-        nodes: selectedNodes,
+        value: selectedPath,
+        nodes: selectedPath,
       }
     }
 
     default: { // 'all'
-      // 返回所有选中的节点
+      if (props.includeHalfChecked && halfCheckedKeys.length > 0) {
+        const halfCheckedNodes = flatData.value.filter(node =>
+          halfCheckedKeys.includes(node[props.nodeKey]),
+        )
+        outputKeys = [...outputKeys, ...halfCheckedKeys]
+        outputNodes = [...outputNodes, ...halfCheckedNodes]
+      }
       break
-    }
-  }
-
-  if (props.mode === 'single') {
-    return {
-      value: outputKeys[0],
-      nodes: outputNodes[0],
     }
   }
 
@@ -159,96 +180,123 @@ function getOutputData(keys: any[]) {
   }
 }
 
-// 处理多选变化
-function handleCheck(data: TreeNodeData, checkState: any) {
-  const keys = checkState.checkedKeys
+async function handleCheck() {
+  await nextTick()
+  const keys = treeRef.value.getCheckedKeys()
+  const halfCheckedKeys = treeRef.value.getHalfCheckedKeys() || []
   checkedKeys.value = keys
 
-  const { value, nodes } = getOutputData(keys)
-  emit('update:modelValue', value)
-  emit('change', value, nodes)
+  const { value, nodes } = getOutputData(keys, halfCheckedKeys)
+  props.optionAsValue ? emit('change', nodes) : emit('change', value)
 }
 
-// 处理单选变化
-function handleRadioChange(node: TreeNodeData) {
-  checkedKeys.value = [node[props.nodeKey]]
+function findParents(nodes: TreeNodeData[], targetKey: any, parents: any[] = []): any[] {
+  for (const node of nodes) {
+    const currentPath = [...parents, node[props.nodeKey]]
 
-  const { value, nodes } = getOutputData(checkedKeys.value)
-  emit('update:modelValue', value)
-  emit('change', value, nodes)
+    if (node[props.nodeKey] === targetKey) {
+      return currentPath
+    }
+
+    const children = node[props.props.children!] || []
+    if (children.length > 0) {
+      const found = findParents(children, targetKey, currentPath)
+      if (found.length > 0) {
+        return found
+      }
+    }
+  }
+  return []
 }
+// 根据valueType将输入值转换为checkedKeys
+function getInputKeys(inputValue: any): any[] {
+  if (!inputValue || !isArr(inputValue))
+    return []
 
-// 处理节点点击（单选模式）
-function handleNodeClick(data: TreeNodeData) {
-  if (props.mode === 'single' && !data[props.treeProps.disabled!]) {
-    handleRadioChange(data)
+  const valueArray = props.optionAsValue ? inputValue.map((item: any) => item[props.nodeKey]) : inputValue
+
+  // 过滤出叶子节点（没有子节点的节点）
+  const filterLeafNodes = (keys: any[]): any[] => {
+    return keys.filter((key) => {
+      const node = flatData.value.find(n => n[props.nodeKey] === key)
+      if (!node)
+        return false
+      const children = node[props.props.children!] || []
+      return children.length === 0 // 只保留叶子节点
+    })
+  }
+
+  switch (props.valueType) {
+    case 'parent': {
+      // 当valueType为parent时，需要展开父节点包含的所有子节点
+      const allKeys = [...valueArray]
+
+      for (const key of valueArray) {
+        const node = flatData.value.find(n => n[props.nodeKey] === key)
+        if (node) {
+          const childKeys = getChildrenKeys(node)
+          allKeys.push(...childKeys)
+        }
+      }
+
+      // 过滤出叶子节点
+      return filterLeafNodes(allKeys)
+    }
+
+    case 'child': {
+      // 当valueType为child时，需要找到这些子节点对应的所有父节点路径
+      const allKeys = [...valueArray]
+
+      for (const key of valueArray) {
+        // 找到该节点的所有父节点
+        const parentPath = findParents(props.data, key)
+        allKeys.push(...parentPath)
+      }
+
+      // 过滤出叶子节点
+      return filterLeafNodes(allKeys)
+    }
+
+    case 'path': {
+      return extractKeysFromPath(valueArray)
+    }
+
+    default: { // 'all'
+      // 过滤出叶子节点
+      return filterLeafNodes(valueArray)
+    }
   }
 }
 
 // 监听外部值变化
-watch(() => props.modelValue, (newValue) => {
+watch(() => props.value, (newValue) => {
   if (newValue !== undefined) {
-    if (props.mode === 'single') {
-      checkedKeys.value = newValue ? [newValue] : []
-    }
-    else {
-      checkedKeys.value = Array.isArray(newValue) ? newValue : []
-    }
-
-    // 更新树的选中状态
+    console.log(newValue)
+    checkedKeys.value = getInputKeys(newValue)
+    console.log(checkedKeys.value)
     nextTick(() => {
-      if (treeRef.value && props.mode === 'multiple') {
+      if (treeRef.value) {
         treeRef.value.setCheckedKeys(checkedKeys.value)
       }
     })
   }
 }, { immediate: true })
 
-// 暴露方法
-defineExpose({
-  setCheckedKeys: (keys: any[]) => {
-    checkedKeys.value = keys
-    treeRef.value?.setCheckedKeys(keys)
-  },
-  getCheckedKeys: () => checkedKeys.value,
-  filter: (value: string) => {
-    treeRef.value?.filter(value)
-  },
-})
+watch(() => [props.valueType, props.optionAsValue, props.includeHalfChecked], () => {
+  handleCheck()
+}, { immediate: false })
 </script>
 
 <template>
   <ElTree
     ref="treeRef"
-    :data="data"
-    :props="treeProps"
-    :node-key="nodeKey"
+    :data="props.data"
+    :props="props.props"
+    :node-key="props.nodeKey"
     :default-checked-keys="checkedKeys"
+    :model-value="props.value"
+    :show-checkbox="true"
+    v-bind="attrs"
     @check="handleCheck"
-    @node-click="handleNodeClick"
-  >
-    <template #default="{ node, data }">
-      <span class="tree-node">
-        <ElRadio
-          v-if="mode === 'single'"
-          :model-value="checkedKeys.includes(data[nodeKey])"
-          :disabled="data.disabled"
-          @change="handleRadioChange(data)"
-        />
-        <span class="node-label">{{ node.label }}</span>
-      </span>
-    </template>
-  </ElTree>
+  />
 </template>
-
-<style scoped>
-.tree-node {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.node-label {
-  flex: 1;
-}
-</style>
