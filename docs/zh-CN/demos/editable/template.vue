@@ -77,7 +77,14 @@ async function log(values) {
         :component="[Input]"
       />
     </ObjectField>
-
+    <Field
+      name="disabled"
+      title="禁用"
+      :decorator="[Editable]"
+      :component="[Input]"
+      initial-value="已经禁用的Editable"
+      :disabled="true"
+    />
     <FormButtonGroup>
       <Submit @submit="log">
         提交

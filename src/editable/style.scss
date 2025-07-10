@@ -6,6 +6,10 @@ $editable-prefix-cls: '#{$formily-prefix}-editable';
   cursor: pointer;
   display: inline-block !important;
 
+  &.is-disabled {
+    cursor: not-allowed;
+  }
+
   &-content {
     display: flex;
     align-items: center;

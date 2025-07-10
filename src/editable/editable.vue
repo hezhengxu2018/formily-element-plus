@@ -42,6 +42,8 @@ handleEnsureReadPretty()
 fieldRef.value.data.readPretty = true
 
 async function onClick() {
+  if (fieldRef.value.disabled)
+    return
   handleEnsureReadPretty()
   fieldRef.value.data.readPretty = false
   await nextTick()
@@ -63,7 +65,7 @@ function onClickOutside() {
 </script>
 
 <template>
-  <div ref="innerRef" :class="prefixCls">
+  <div ref="innerRef" :class="[prefixCls, fieldRef.disabled && 'is-disabled']">
     <div v-click-outside="onClickOutside" :class="`${prefixCls}-content`">
       <FormBaseItem ref="formItemRef" v-bind="fieldRef.data?.readPretty === false ? editProps : commonProps" @click="onClick">
         <div>
