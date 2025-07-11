@@ -59,40 +59,91 @@ const data = [
   },
 ]
 
-const selectedPathValue = [
+const tree1InitialValue = [
+  {
+    id: 9,
+    label: 'Level three 1-1-1',
+  },
   {
     id: 1,
-    label: 'Level one 1 ---- ID：1',
+    label: 'Level one 1',
     children: [
       {
         id: 4,
-        label: 'Level two 1-1 ---- ID：4',
+        label: 'Level two 1-1',
         children: [
           {
             id: 9,
-            label: 'Level three 1-1-1 ---- ID：9',
+            label: 'Level three 1-1-1',
+          },
+          {
+            id: 10,
+            label: 'Level three 1-1-2',
           },
         ],
       },
     ],
   },
   {
-    id: 3,
-    label: 'Level one 3 ---- ID：3',
+    id: 4,
+    label: 'Level two 1-1',
     children: [
       {
-        id: 7,
-        label: 'Level two 3-1 ---- ID：7',
+        id: 9,
+        label: 'Level three 1-1-1',
       },
       {
-        id: 8,
-        label: 'Level two 3-2 ---- ID：8',
+        id: 10,
+        label: 'Level three 1-1-2',
       },
     ],
   },
 ]
-const selectedPathValueCode = ref('')
-codeToHtml(JSON.stringify(selectedPathValue, null, 2), {
+
+const tree2InitialValue = [
+  {
+    id: 9,
+    label: 'Level three 1-1-1',
+  },
+]
+const tree3InitialValue = [
+  {
+    id: 1,
+    label: 'Level one 1',
+    children: [
+      {
+        id: 4,
+        label: 'Level two 1-1',
+        children: [
+          {
+            id: 9,
+            label: 'Level three 1-1-1',
+          },
+          {
+            id: 10,
+            label: 'Level three 1-1-2',
+          },
+        ],
+      },
+    ],
+  },
+]
+const tree4InitialValue = [
+  {
+    id: 9,
+    label: 'Level three 1-1-1',
+  },
+  {
+    id: 6,
+    label: 'Level two 2-2',
+  },
+]
+
+const selectedTree1Code = ref('')
+const selectedTree2Code = ref('')
+const selectedTree3Code = ref('')
+const selectedTree4Code = ref('')
+codeToHtml(JSON.stringify(tree1InitialValue, null, 2), {
   lang: 'javascript',
   themes: {
     light: 'min-light',
@@ -100,14 +151,45 @@ codeToHtml(JSON.stringify(selectedPathValue, null, 2), {
   },
 // eslint-disable-next-line unicorn/prefer-top-level-await
 }).then((html) => {
-  selectedPathValueCode.value = html
+  selectedTree1Code.value = html
+})
+codeToHtml(JSON.stringify(tree2InitialValue, null, 2), {
+  lang: 'javascript',
+  themes: {
+    light: 'min-light',
+    dark: 'nord',
+  },
+// eslint-disable-next-line unicorn/prefer-top-level-await
+}).then((html) => {
+  selectedTree2Code.value = html
+})
+codeToHtml(JSON.stringify(tree3InitialValue, null, 2), {
+  lang: 'javascript',
+  themes: {
+    light: 'min-light',
+    dark: 'nord',
+  },
+// eslint-disable-next-line unicorn/prefer-top-level-await
+}).then((html) => {
+  selectedTree3Code.value = html
+})
+codeToHtml(JSON.stringify(tree4InitialValue, null, 2), {
+  lang: 'javascript',
+  themes: {
+    light: 'min-light',
+    dark: 'nord',
+  },
+// eslint-disable-next-line unicorn/prefer-top-level-await
+}).then((html) => {
+  selectedTree4Code.value = html
 })
 </script>
 
 <template>
   <FormProvider :form="form">
     <FormLayout :label-col="4" :wrapper-col="16">
-      <ElText>all，包括半勾选，初始值：[1, 4, 9, 2, 5]</ElText>
+      <ElText>all，包括半勾选，初始值：</ElText>
+      <div v-html="selectedTree1Code" />
       <Field
         name="tree1"
         title="Tree1"
@@ -115,13 +197,15 @@ codeToHtml(JSON.stringify(selectedPathValue, null, 2), {
         :component="[Tree, {
           nodeKey: 'id',
           valueType: 'all',
+          optionAsValue: true,
           includeHalfChecked: true,
           defaultExpandAll: true,
         }]"
         :data-source="data"
-        :initial-value="[1, 4, 9, 2, 5]"
+        :initial-value="tree1InitialValue"
       />
-      <ElText>all，不包括半勾选，初始值：[9, 5]</ElText>
+      <ElText>all，不包括半勾选，初始值：</ElText>
+      <div v-html="selectedTree2Code" />
       <Field
         name="tree2"
         title="Tree2"
@@ -129,12 +213,15 @@ codeToHtml(JSON.stringify(selectedPathValue, null, 2), {
         :component="[Tree, {
           nodeKey: 'id',
           valueType: 'all',
+          optionAsValue: true,
+          includeHalfChecked: true,
           defaultExpandAll: true,
         }]"
         :data-source="data"
-        :initial-value="[9, 5]"
+        :initial-value="tree2InitialValue"
       />
-      <ElText>parent，初始值：[1]</ElText>
+      <ElText>parent，初始值：</ElText>
+      <div v-html="selectedTree3Code" />
       <Field
         name="tree3"
         title="Tree3"
@@ -142,12 +229,14 @@ codeToHtml(JSON.stringify(selectedPathValue, null, 2), {
         :component="[Tree, {
           nodeKey: 'id',
           valueType: 'parent',
+          optionAsValue: true,
           defaultExpandAll: true,
         }]"
         :data-source="data"
-        :initial-value="[1]"
+        :initial-value="tree3InitialValue"
       />
-      <ElText>child，初始值：[8, 9]</ElText>
+      <ElText>child，初始值：</ElText>
+      <div v-html="selectedTree4Code" />
       <Field
         name="tree4"
         title="Tree4"
@@ -155,24 +244,11 @@ codeToHtml(JSON.stringify(selectedPathValue, null, 2), {
         :component="[Tree, {
           nodeKey: 'id',
           valueType: 'child',
+          optionAsValue: true,
           defaultExpandAll: true,
         }]"
         :data-source="data"
-        :initial-value="[8, 9]"
-      />
-      <ElText>path，初始值：完整的选中路径</ElText>
-      <pre v-html="selectedPathValueCode.toString()" />
-      <Field
-        name="tree5"
-        title="Tree5"
-        :decorator="[FormItem]"
-        :component="[Tree, {
-          nodeKey: 'id',
-          valueType: 'path',
-          defaultExpandAll: true,
-        }]"
-        :data-source="data"
-        :initial-value="selectedPathValue"
+        :initial-value="tree4InitialValue"
       />
     </FormLayout>
   </FormProvider>
