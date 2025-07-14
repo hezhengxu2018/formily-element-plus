@@ -42,14 +42,18 @@ describe('FormDrawer 组件', () => {
       await expect.element(getByText('测试标题')).toBeInTheDocument()
       await expect.element(getByText('取消')).toBeInTheDocument()
       await getByText('取消').click()
-      expect(document.querySelector('.el-drawer__wrapper')).toBeNull()
+      await vi.waitFor(() => {
+        expect(document.querySelector('.el-drawer')).toBeNull()
+      }, { timeout: 2000 })
       await getByText('打开抽屉').click()
       await expect.element(getByRole('button', { name: '确定' })).toBeInTheDocument()
       await getByRole('button', { name: '确定' }).click()
       await getByText('打开抽屉').click()
       await expect.element(getByRole('button', { name: 'Close this dialog' })).toBeInTheDocument()
       await getByRole('button', { name: 'Close this dialog' }).click()
-      expect(document.querySelector('.el-drawer__wrapper')).toBeNull()
+      await vi.waitFor(() => {
+        expect(document.querySelector('.el-drawer')).toBeNull()
+      }, { timeout: 2000 })
     })
 
     it('支持渲染组件', async () => {
@@ -119,7 +123,9 @@ describe('FormDrawer 组件', () => {
       await getByText('打开抽屉').click()
       await expect.element(getByText('输入框4')).toBeInTheDocument()
       await getByText('取消').click()
-      expect(document.querySelector('.el-drawer__wrapper')).toBeNull()
+      await vi.waitFor(() => {
+        expect(document.querySelector('.el-drawer')).toBeNull()
+      }, { timeout: 2000 })
     })
   })
 
@@ -210,7 +216,7 @@ describe('FormDrawer 组件', () => {
       await vi.waitFor(() => {
         expect(forConfirm).toHaveBeenCalled()
         expect(forConfirm).toHaveBeenCalledWith({ input: 'test' })
-        expect(document.querySelector('.el-drawer__wrapper')).toBeNull()
+        expect(document.querySelector('.el-drawer')).toBeNull()
       })
     })
 
@@ -254,8 +260,8 @@ describe('FormDrawer 组件', () => {
 
       await getByText('打开抽屉').click()
       await getByText('取消').click()
-      expect(document.querySelector('.el-drawer__wrapper')).toBeNull()
       await vi.waitFor(() => {
+        expect(document.querySelector('.el-drawer')).toBeNull()
         expect(forCancel).toHaveBeenCalled()
       })
     })
@@ -414,7 +420,7 @@ describe('FormDrawer 组件', () => {
       await vi.waitFor(() => {
         expect(forConfirm).toHaveBeenCalled()
         expect(forConfirm).toHaveBeenCalledWith({ input: 'test' })
-        expect(document.querySelector('.el-drawer__wrapper')).toBeNull()
+        expect(document.querySelector('.el-drawer')).toBeNull()
         expect(fn1).toHaveBeenCalled()
       })
     })
@@ -474,6 +480,199 @@ describe('FormDrawer 组件', () => {
       await vi.waitFor(() => {
         expect(fn1).toHaveBeenCalled()
       })
+    })
+  })
+
+  describe('DOM销毁测试', () => {
+    it('drawer成功提交后应该销毁DOM', async () => {
+      const TestComponent = () => {
+        const handleOpen = () => {
+          FormDrawer('测试标题', () => (
+            <SchemaField>
+              <SchemaStringField
+                name="input"
+                title="输入框"
+                x-decorator="FormItem"
+                x-component="Input"
+                x-component-props={{
+                  placeholder: '请输入',
+                }}
+                required={true}
+              />
+            </SchemaField>
+          )).open().catch(console.log)
+        }
+        return <ElButton onClick={handleOpen}>打开抽屉</ElButton>
+      }
+
+      const { container } = render(() => <TestComponent />, {
+        global: {
+          stubs: {
+            Transition: false,
+          },
+        },
+      })
+
+      // 记录初始DOM状态
+      const initialBodyChildren = document.body.children.length
+
+      // 打开drawer
+      await userEvent.click(container.querySelector('.el-button'))
+
+      // 验证drawer已打开，DOM元素增加
+      await expect.element(document.querySelector('.el-drawer')).toBeInTheDocument()
+      expect(document.body.children.length).toBeGreaterThan(initialBodyChildren)
+
+      // 填写表单并提交
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'test')
+      const confirmButton = document.querySelector('.el-button--primary')
+      await userEvent.click(confirmButton)
+
+      // 等待动画完成和DOM销毁
+      await vi.waitFor(() => {
+        expect(document.querySelector('.el-drawer')).toBeNull()
+      }, { timeout: 2000 })
+
+      // 验证DOM已完全清理，回到初始状态
+      await vi.waitFor(() => {
+        expect(document.body.children.length).toBeLessThanOrEqual(initialBodyChildren + 2) // +1 for test container
+      }, { timeout: 2000 })
+    })
+
+    it('drawer取消后应该销毁DOM', async () => {
+      const TestComponent = () => {
+        const handleOpen = () => {
+          FormDrawer('测试标题', () => (
+            <SchemaField>
+              <SchemaStringField
+                name="input"
+                title="输入框"
+                x-decorator="FormItem"
+                x-component="Input"
+                x-component-props={{
+                  placeholder: '请输入',
+                }}
+                required={true}
+              />
+            </SchemaField>
+          )).open().catch(console.log)
+        }
+        return <ElButton onClick={handleOpen}>打开抽屉</ElButton>
+      }
+
+      const { container, getByText } = render(() => <TestComponent />, {
+        global: {
+          stubs: {
+            Transition: false,
+          },
+        },
+      })
+
+      // 记录初始DOM状态
+      const initialBodyChildren = document.body.children.length
+
+      // 打开drawer
+      await userEvent.click(container.querySelector('.el-button'))
+
+      // 验证drawer已打开，DOM元素增加
+      await expect.element(document.querySelector('.el-drawer')).toBeInTheDocument()
+      expect(document.body.children.length).toBeGreaterThan(initialBodyChildren)
+
+      // 点击取消按钮
+      const cancelButton = getByText('取消')
+      await userEvent.click(cancelButton)
+
+      await vi.waitFor(() => {
+        expect(document.querySelector('.el-drawer')).toBeNull()
+        expect(document.body.children.length).toBeLessThanOrEqual(initialBodyChildren + 2) // +1 for test container
+      }, { timeout: 2000 })
+    })
+
+    it('drawer关闭按钮点击后应该销毁DOM', async () => {
+      const TestComponent = () => {
+        const handleOpen = () => {
+          FormDrawer('测试标题', () => (
+            <div data-testid="drawer-content">抽屉内容</div>
+          )).open().catch(console.log)
+        }
+        return <ElButton onClick={handleOpen}>打开抽屉</ElButton>
+      }
+
+      const { container } = render(() => <TestComponent />, {
+        global: {
+          stubs: {
+            Transition: false,
+          },
+        },
+      })
+
+      // 记录初始DOM状态
+      const initialBodyChildren = document.body.children.length
+
+      // 打开drawer
+      await userEvent.click(container.querySelector('.el-button'))
+
+      // 验证drawer已打开，DOM元素增加
+      await expect.element(document.querySelector('.el-drawer')).toBeInTheDocument()
+      expect(document.body.children.length).toBeGreaterThan(initialBodyChildren)
+
+      // 点击关闭按钮（X按钮）
+      const closeButton = document.querySelector('.el-drawer__close-btn')
+      await userEvent.click(closeButton)
+
+      // 等待动画完成和DOM销毁
+      await vi.waitFor(() => {
+        expect(document.querySelector('.el-drawer')).toBeNull()
+      }, { timeout: 2000 })
+
+      // 验证DOM已完全清理，回到初始状态
+      await vi.waitFor(() => {
+        expect(document.body.children.length).toBeLessThanOrEqual(initialBodyChildren + 2) // +1 for test container
+      }, { timeout: 2000 })
+    })
+
+    it('多次打开和关闭drawer不应该造成DOM泄漏', async () => {
+      const TestComponent = () => {
+        const handleOpen = () => {
+          FormDrawer('测试标题', () => (
+            <div data-testid="drawer-content">抽屉内容</div>
+          )).open().catch(console.log)
+        }
+        return <ElButton onClick={handleOpen}>打开抽屉</ElButton>
+      }
+
+      const { container, getByText } = render(() => <TestComponent />, {
+        global: {
+          stubs: {
+            Transition: false,
+          },
+        },
+      })
+
+      // 记录初始DOM状态
+      const initialBodyChildren = document.body.children.length
+
+      // 多次打开和关闭drawer
+      for (let i = 0; i < 3; i++) {
+        // 打开drawer
+        await userEvent.click(container.querySelector('.el-button'))
+        await expect.element(document.querySelector('.el-drawer')).toBeInTheDocument()
+
+        // 关闭drawer
+        const cancelButton = getByText('取消')
+        await userEvent.click(cancelButton)
+
+        // 等待DOM销毁
+        await vi.waitFor(() => {
+          expect(document.querySelector('.el-drawer')).toBeNull()
+        }, { timeout: 2000 })
+      }
+
+      // 验证最终DOM状态没有泄漏
+      await vi.waitFor(() => {
+        expect(document.body.children.length).toBeLessThanOrEqual(initialBodyChildren + 2) // +1 for test container
+      }, { timeout: 2000 })
     })
   })
 })

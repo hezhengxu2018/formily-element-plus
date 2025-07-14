@@ -37,8 +37,6 @@ export function FormDrawer(
     cancelMiddlewares: [],
   }
 
-  const animationDuration = getTransitionDuration()
-
   if (isArr(dynamicMiddlewareNames)) {
     for (const middlewareName of dynamicMiddlewareNames) {
       /* istanbul ignore if -- @preserve */
@@ -81,6 +79,17 @@ export function FormDrawer(
     env.instance.visible = visible
   }
 
+  function disposeDrawer() {
+    const animationDuration = getTransitionDuration()
+    setTimeout(() => {
+      env.app?.unmount?.()
+      env.app = null
+      env.instance = null
+      env.root?.remove()
+      env.root = undefined
+    }, animationDuration)
+  }
+
   const formDrawer = {
     forOpen: (middleware: IMiddleware<IFormProps>) => {
       isFn(middleware) && env.openMiddlewares.push(middleware)
@@ -108,6 +117,7 @@ export function FormDrawer(
                 await (isValid(type) ? applyMiddleware(env.form, env[`${type}Middlewares`]) : applyMiddleware(env.form, env.confirmMiddlewares))
                 res(toJS(env.form.values))
                 formDrawer.close()
+                disposeDrawer()
               }).catch((error) => {
                 console.warn(error)
               })
@@ -115,13 +125,7 @@ export function FormDrawer(
               await loading(props.loadingText, () =>
                 applyMiddleware(env.form, env.cancelMiddlewares))
               formDrawer.close()
-              setTimeout(() => {
-                env.app?.unmount?.()
-                env.app = null
-                env.instance = null
-                env.root?.remove()
-                env.root = undefined
-              }, animationDuration)
+              disposeDrawer()
               rej(new Error('cancel'))
             })
           })
