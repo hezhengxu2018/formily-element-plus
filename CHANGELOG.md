@@ -2,6 +2,13 @@
 
 
 
+## [2.5.7](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.6...v2.5.7) (2025-07-14)
+
+
+### Bug Fixes
+
+* **form-dialog,form-drawer:** 修复添加抛错后成功提交时没有销毁DOM的错误 ([b9b56a5](https://github.com/hezhengxu2018/formily-element-plus/commit/b9b56a5477f8f748f1cacf2043958645923b0b95))
+
 ## [2.5.6](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.5...v2.5.6) (2025-07-10)
 
 
