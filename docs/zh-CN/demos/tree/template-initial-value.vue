@@ -161,7 +161,10 @@ codeToHtml(JSON.stringify(selectedPathValue, null, 2), {
         :initial-value="[8, 9]"
       />
       <ElText>path，初始值：完整的选中路径</ElText>
-      <pre v-html="selectedPathValueCode.toString()" />
+      <details>
+        <summary>展开</summary>
+        <div v-html="selectedPathValueCode.toString()" />
+      </details>
       <Field
         name="tree5"
         title="Tree5"

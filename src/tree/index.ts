@@ -3,7 +3,7 @@ import InnerTree from './tree.vue'
 
 const Tree = connect(
   InnerTree,
-  mapProps({ dataSource: 'data', loading: 'loading' }),
+  mapProps({ dataSource: 'data', loading: 'loading', disabled: true }),
 )
 
 export { Tree }

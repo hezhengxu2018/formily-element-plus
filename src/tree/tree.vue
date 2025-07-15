@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import type { TreeNodeData } from 'element-plus/es/components/tree/src/tree.type'
-import { isArr } from '@formily/shared'
+import type { TreeValueTypeProps } from './types'
+import { isArr, isFn } from '@formily/shared'
 import { ElTree } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
 import { useCleanAttrs } from '../__builtins__'
 
-export interface TreeValueTypeProps {
-  data: TreeNodeData[]
-  value?: any
-  valueType?: 'all' | 'parent' | 'child' | 'path'
-  includeHalfChecked?: boolean
-  optionAsValue?: boolean
-  props?: any
-  nodeKey: string
-}
+defineOptions({
+  name: 'Tree',
+  inheritAttrs: false,
+})
 
 const props = withDefaults(defineProps<TreeValueTypeProps>(), {
   valueType: 'all',
@@ -31,7 +27,7 @@ const emit = defineEmits<{
 }>()
 
 const { props: attrs } = useCleanAttrs()
-
+console.log(attrs.value)
 const treeRef = ref<InstanceType<typeof ElTree>>()
 const checkedKeys = ref<any[]>([])
 
@@ -45,7 +41,30 @@ function flattenTree(nodes: TreeNodeData[], result: TreeNodeData[] = []): TreeNo
   return result
 }
 
-const flatData = computed(() => flattenTree(props.data))
+// 添加处理禁用状态的函数
+function addDisabledToNodes(nodes: TreeNodeData[]): TreeNodeData[] {
+  if (!attrs.value.disabled) {
+    return nodes
+  }
+
+  return nodes.map((node) => {
+    const newNode = { ...node }
+    newNode[props.props.disabled!] = true
+
+    if (node[props.props.children!] && node[props.props.children!].length > 0) {
+      newNode[props.props.children!] = addDisabledToNodes(node[props.props.children!])
+    }
+
+    return newNode
+  })
+}
+// 添加处理后的数据计算属性
+const processedData = computed(() => {
+  return addDisabledToNodes(props.data ?? [])
+})
+
+// 修改 flatData 计算属性
+const flatData = computed(() => flattenTree(processedData.value ?? []))
 
 function traverseTree(
   nodes: TreeNodeData[],
@@ -126,6 +145,13 @@ function getOutputData(keys: any[], halfCheckedKeys: any[] = []) {
   let outputKeys = [...keys]
   let outputNodes = [...selectedNodes]
 
+  if (attrs.value.checkStrictly) {
+    return {
+      value: outputKeys,
+      nodes: outputNodes,
+    }
+  }
+
   switch (props.valueType) {
     case 'parent': {
       const allChildKeys: any[] = []
@@ -154,7 +180,6 @@ function getOutputData(keys: any[], halfCheckedKeys: any[] = []) {
     }
 
     case 'path': {
-      // path的值不会受到optionAsValue的影响，始终返回完整节点
       const selectedPath = getSelectedPath(props.data, keys)
       return {
         value: selectedPath,
@@ -187,7 +212,16 @@ async function handleCheck() {
   checkedKeys.value = keys
 
   const { value, nodes } = getOutputData(keys, halfCheckedKeys)
-  props.optionAsValue ? emit('change', nodes) : emit('change', value)
+  if (props.optionAsValue) {
+    isFn(props.optionFormatter)
+      ? emit('change', nodes.map((element, index, array) => {
+          return props.optionFormatter(element, index, array)
+        }))
+      : emit('change', nodes)
+  }
+  else {
+    emit('change', value)
+  }
 }
 
 function findParents(nodes: TreeNodeData[], targetKey: any, parents: any[] = []): any[] {
@@ -214,21 +248,22 @@ function getInputKeys(inputValue: any): any[] {
     return []
 
   const valueArray = props.optionAsValue ? inputValue.map((item: any) => item[props.nodeKey]) : inputValue
-
-  // 过滤出叶子节点（没有子节点的节点）
   const filterLeafNodes = (keys: any[]): any[] => {
     return keys.filter((key) => {
       const node = flatData.value.find(n => n[props.nodeKey] === key)
       if (!node)
         return false
       const children = node[props.props.children!] || []
-      return children.length === 0 // 只保留叶子节点
+      return children.length === 0
     })
+  }
+
+  if (attrs.value.checkStrictly) {
+    return valueArray
   }
 
   switch (props.valueType) {
     case 'parent': {
-      // 当valueType为parent时，需要展开父节点包含的所有子节点
       const allKeys = [...valueArray]
 
       for (const key of valueArray) {
@@ -238,22 +273,15 @@ function getInputKeys(inputValue: any): any[] {
           allKeys.push(...childKeys)
         }
       }
-
-      // 过滤出叶子节点
       return filterLeafNodes(allKeys)
     }
 
     case 'child': {
-      // 当valueType为child时，需要找到这些子节点对应的所有父节点路径
       const allKeys = [...valueArray]
-
       for (const key of valueArray) {
-        // 找到该节点的所有父节点
         const parentPath = findParents(props.data, key)
         allKeys.push(...parentPath)
       }
-
-      // 过滤出叶子节点
       return filterLeafNodes(allKeys)
     }
 
@@ -262,18 +290,14 @@ function getInputKeys(inputValue: any): any[] {
     }
 
     default: { // 'all'
-      // 过滤出叶子节点
       return filterLeafNodes(valueArray)
     }
   }
 }
 
-// 监听外部值变化
 watch(() => props.value, (newValue) => {
   if (newValue !== undefined) {
-    console.log(newValue)
     checkedKeys.value = getInputKeys(newValue)
-    console.log(checkedKeys.value)
     nextTick(() => {
       if (treeRef.value) {
         treeRef.value.setCheckedKeys(checkedKeys.value)
@@ -288,15 +312,17 @@ watch(() => [props.valueType, props.optionAsValue, props.includeHalfChecked], ()
 </script>
 
 <template>
-  <ElTree
-    ref="treeRef"
-    :data="props.data"
-    :props="props.props"
-    :node-key="props.nodeKey"
-    :default-checked-keys="checkedKeys"
-    :model-value="props.value"
-    :show-checkbox="true"
-    v-bind="attrs"
-    @check="handleCheck"
-  />
+  <ElScrollbar :height="props.height">
+    <ElTree
+      ref="treeRef"
+      v-loading="attrs.loading"
+      :data="processedData"
+      :props="props.props"
+      :node-key="props.nodeKey"
+      :default-checked-keys="checkedKeys"
+      :show-checkbox="true"
+      v-bind="attrs"
+      @check="handleCheck"
+    />
+  </ElScrollbar>
 </template>

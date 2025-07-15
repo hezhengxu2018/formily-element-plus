@@ -189,7 +189,10 @@ codeToHtml(JSON.stringify(tree4InitialValue, null, 2), {
   <FormProvider :form="form">
     <FormLayout :label-col="4" :wrapper-col="16">
       <ElText>all，包括半勾选，初始值：</ElText>
-      <div v-html="selectedTree1Code" />
+      <details>
+        <summary>展开</summary>
+        <div v-html="selectedTree1Code" />
+      </details>
       <Field
         name="tree1"
         title="Tree1"
@@ -205,7 +208,10 @@ codeToHtml(JSON.stringify(tree4InitialValue, null, 2), {
         :initial-value="tree1InitialValue"
       />
       <ElText>all，不包括半勾选，初始值：</ElText>
-      <div v-html="selectedTree2Code" />
+      <details>
+        <summary>展开</summary>
+        <div v-html="selectedTree2Code" />
+      </details>
       <Field
         name="tree2"
         title="Tree2"
@@ -221,7 +227,10 @@ codeToHtml(JSON.stringify(tree4InitialValue, null, 2), {
         :initial-value="tree2InitialValue"
       />
       <ElText>parent，初始值：</ElText>
-      <div v-html="selectedTree3Code" />
+      <details>
+        <summary>展开</summary>
+        <div v-html="selectedTree3Code" />
+      </details>
       <Field
         name="tree3"
         title="Tree3"
@@ -236,7 +245,10 @@ codeToHtml(JSON.stringify(tree4InitialValue, null, 2), {
         :initial-value="tree3InitialValue"
       />
       <ElText>child，初始值：</ElText>
-      <div v-html="selectedTree4Code" />
+      <details>
+        <summary>展开</summary>
+        <div v-html="selectedTree4Code" />
+      </details>
       <Field
         name="tree4"
         title="Tree4"

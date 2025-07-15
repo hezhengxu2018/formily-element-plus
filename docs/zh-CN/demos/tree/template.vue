@@ -4,18 +4,29 @@ import { autorun, toJS } from '@formily/reactive'
 import { isPlainObj } from '@formily/shared'
 import { Field, FormProvider } from '@formily/vue'
 import { FormItem, FormLayout, Select, Switch, Tree } from '@sliver/formily-element-plus'
+import { omit } from 'lodash-es'
 import { codeToHtml } from 'shiki'
 import { ref } from 'vue'
 
 const form = createForm()
 
 const shikiTree = ref('')
+const shikiTree2 = ref('')
 autorun(async () => {
-  if (!form.values.tree)
+  if (!form.values.tree || !form.values.tree2)
     return
   const treeValue = toJS(form.values.tree)
   const treeStrValue = isPlainObj(treeValue?.[0]) ? JSON.stringify(treeValue, null, 2) : JSON.stringify(treeValue)
   shikiTree.value = await codeToHtml(treeStrValue, {
+    lang: 'javascript',
+    themes: {
+      light: 'min-light',
+      dark: 'nord',
+    },
+  })
+  const tree2Value = toJS(form.values.tree2)
+  const tree2StrValue = isPlainObj(tree2Value?.[0]) ? JSON.stringify(tree2Value, null, 2) : JSON.stringify(tree2Value)
+  shikiTree2.value = await codeToHtml(tree2StrValue, {
     lang: 'javascript',
     themes: {
       light: 'min-light',
@@ -141,7 +152,6 @@ const data = [
         title="Tree"
         :decorator="[FormItem]"
         :component="[Tree, {
-          showCheckbox: true,
           nodeKey: 'id',
           valueType: 'all',
           includeHalfChecked: true,
@@ -149,7 +159,39 @@ const data = [
         :data-source="data"
         :initial-value="[9]"
       />
+      <details>
+        <summary>输出结果</summary>
+        <div v-html="shikiTree" />
+      </details>
+      <Field
+        name="optionAsValue2"
+        title="optionAsValue"
+        :decorator="[FormItem]"
+        :component="[Switch]"
+        :initial-value="false"
+        :reactions="field => {
+          const tree = field.query('tree2').take();
+          if (tree) {
+            tree.setComponentProps({ ...tree.componentProps, optionAsValue: field.value })
+          }
+        }"
+      />
+      <Field
+        name="tree2"
+        title="CheckStrictly"
+        :decorator="[FormItem]"
+        :component="[Tree, {
+          nodeKey: 'id',
+          checkStrictly: true,
+          optionFormatter: (node) => omit(node, 'children'),
+        }]"
+        :data-source="data"
+        :initial-value="[9]"
+      />
+      <details>
+        <summary>筛除children的输出结果</summary>
+        <div v-html="shikiTree2" />
+      </details>
     </FormLayout>
   </FormProvider>
-  <div v-html="shikiTree" />
 </template>
