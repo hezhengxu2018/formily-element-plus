@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import type { Field } from '@formily/core'
 import type { TreeNodeData } from 'element-plus/es/components/tree/src/tree.type'
 import type { TreeValueTypeProps } from './types'
 import { isArr, isFn } from '@formily/shared'
-import { ElTree } from 'element-plus'
+import { useField } from '@formily/vue'
+import { ElScrollbar, ElTree } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
 import { useCleanAttrs } from '../__builtins__'
 
@@ -309,10 +311,17 @@ watch(() => props.value, (newValue) => {
 watch(() => [props.valueType, props.optionAsValue, props.includeHalfChecked], () => {
   handleCheck()
 }, { immediate: false })
+
+const fieldRef = useField<Field>()
+fieldRef.value?.inject({
+  getTreeRef: () => {
+    return treeRef
+  },
+})
 </script>
 
 <template>
-  <ElScrollbar :height="props.height">
+  <ElScrollbar :height="props.height" :max-height="props.maxHeight">
     <ElTree
       ref="treeRef"
       v-loading="attrs.loading"

@@ -10,4 +10,5 @@ export interface TreeValueTypeProps {
   props?: any
   optionFormatter?: (node: TreeNodeData, index: number, array: TreeNodeData[]) => TreeNodeData
   height?: number
+  maxHeight?: number
 }

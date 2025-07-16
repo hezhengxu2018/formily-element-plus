@@ -155,6 +155,7 @@ const data = [
           nodeKey: 'id',
           valueType: 'all',
           includeHalfChecked: true,
+          maxHeight: 150,
         }]"
         :data-source="data"
         :initial-value="[9]"
@@ -168,7 +169,7 @@ const data = [
         title="optionAsValue"
         :decorator="[FormItem]"
         :component="[Switch]"
-        :initial-value="false"
+        :initial-value="true"
         :reactions="field => {
           const tree = field.query('tree2').take();
           if (tree) {
@@ -186,7 +187,12 @@ const data = [
           optionFormatter: (node) => omit(node, 'children'),
         }]"
         :data-source="data"
-        :initial-value="[9]"
+        :initial-value="[
+          {
+            id: 1,
+            label: 'Level one 1',
+          },
+        ]"
       />
       <details>
         <summary>筛除children的输出结果</summary>
