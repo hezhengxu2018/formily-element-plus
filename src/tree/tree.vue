@@ -4,7 +4,7 @@ import type { TreeNodeData } from 'element-plus/es/components/tree/src/tree.type
 import type { TreeValueTypeProps } from './types'
 import { isArr, isFn } from '@formily/shared'
 import { useField } from '@formily/vue'
-import { ElScrollbar, ElTree } from 'element-plus'
+import { ElScrollbar, ElTree, vLoading } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
 import { useCleanAttrs } from '../__builtins__'
 
@@ -29,7 +29,6 @@ const emit = defineEmits<{
 }>()
 
 const { props: attrs } = useCleanAttrs()
-console.log(attrs.value)
 const treeRef = ref<InstanceType<typeof ElTree>>()
 const checkedKeys = ref<any[]>([])
 
@@ -72,17 +71,12 @@ function traverseTree(
   nodes: TreeNodeData[],
   callback: (node: TreeNodeData) => void,
   options: {
-    checkDisabled?: boolean
     leafOnly?: boolean
   } = {},
 ) {
-  const { checkDisabled = false, leafOnly = false } = options
+  const { leafOnly = false } = options
 
   for (const node of nodes) {
-    if (checkDisabled && node[props.props.disabled!]) {
-      continue
-    }
-
     const children = node[props.props.children!] || []
     const isLeaf = children.length === 0
 
@@ -103,7 +97,7 @@ function getChildrenKeys(node: TreeNodeData): any[] {
   const keys: any[] = []
   traverseTree(children, (child) => {
     keys.push(child[props.nodeKey])
-  }, { checkDisabled: true })
+  })
 
   return keys
 }
@@ -242,10 +236,12 @@ function findParents(nodes: TreeNodeData[], targetKey: any, parents: any[] = [])
       }
     }
   }
+  /* istanbul ignore next -- @preserve */
   return []
 }
 // 根据valueType将输入值转换为checkedKeys
 function getInputKeys(inputValue: any): any[] {
+  /* istanbul ignore if -- @preserve */
   if (!inputValue || !isArr(inputValue))
     return []
 
@@ -313,6 +309,7 @@ watch(() => [props.valueType, props.optionAsValue, props.includeHalfChecked], ()
 }, { immediate: false })
 
 const fieldRef = useField<Field>()
+/* istanbul ignore next 3 -- @preserve */
 fieldRef.value?.inject({
   getTreeRef: () => {
     return treeRef

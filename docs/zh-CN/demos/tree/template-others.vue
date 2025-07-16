@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { createForm } from '@formily/core'
 import { Field, FormProvider } from '@formily/vue'
-import { FormItem, FormLayout, Tree, Input } from '@sliver/formily-element-plus'
+import { FormItem, FormLayout, Input, Tree } from '@sliver/formily-element-plus'
 import { omit } from 'lodash-es'
 
 const form = createForm()
@@ -83,7 +83,7 @@ const data = [
           optionFormatter: (node) => omit(node, 'children'),
         }]"
         :data-source="data"
-        :reactions="(field)=> {
+        :reactions="(field) => {
           field.loading = true
         }"
       />
@@ -92,7 +92,7 @@ const data = [
         title="过滤节点"
         :decorator="[FormItem]"
         :component="[Input, {
-          placeholder: '请输入节点名称'
+          placeholder: '请输入节点名称',
         }]"
         :reactions="(field) => {
           const tree3 = field.query('tree3').take()
