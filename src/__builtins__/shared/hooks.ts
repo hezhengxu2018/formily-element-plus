@@ -33,11 +33,13 @@ export function useThrottleFn<T extends (...args: any[]) => any>(
 
   return ((...args: Parameters<T>) => {
     const now = Date.now()
-
     if (lastCallTime === 0 && leading) {
       lastCallTime = now
       fn(...args)
       return
+    }
+    if (lastCallTime === 0 && !leading) {
+      lastCallTime = now
     }
 
     const remainingTime = delay - (now - lastCallTime)
@@ -48,7 +50,7 @@ export function useThrottleFn<T extends (...args: any[]) => any>(
       clearTimeout(timeoutId)
     }
 
-    if (remainingTime <= 0) {
+    if (remainingTime <= 0 && lastCallTime !== now) {
       lastCallTime = now
       fn(...args)
       lastArgs = null
@@ -91,6 +93,7 @@ export function useResizeObserver(
   const start = () => {
     cleanup()
 
+    /* istanbul ignore if @preserve */
     if (!isSupported) {
       return
     }
