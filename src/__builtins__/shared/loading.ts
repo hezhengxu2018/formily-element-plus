@@ -42,17 +42,11 @@ export function getTransitionDuration(cssVarName = '--el-transition-duration', d
   const value = Number.parseFloat(durationMatch[1])
   const unit = durationMatch[2] || 'ms'
 
-  if (Number.isNaN(value) || value < 0) {
-    return defaultValue
-  }
   switch (unit) {
     case 's': {
       return value * 1000
     }
     case 'ms': {
-      return value
-    }
-    default: {
       return value
     }
   }
