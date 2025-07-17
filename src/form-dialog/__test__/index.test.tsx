@@ -663,5 +663,37 @@ describe('FormDialog 组件', () => {
         expect(document.body.children.length).toBeLessThanOrEqual(initialBodyChildren + 2) // +1 for test container
       }, { timeout: 2000 })
     })
+
+    it('当提供 beforeClose 回调时应该正确调用', async () => {
+      const beforeCloseMock = vi.fn()
+      const TestComponent = () => {
+        const handleOpen = () => {
+          FormDialog({ title: '测试标题', beforeClose: beforeCloseMock }, () => (
+            <div data-testid="dialog-content">对话框内容</div>
+          )).open().catch(console.log)
+        }
+        return <ElButton onClick={handleOpen}>打开对话框</ElButton>
+      }
+
+      const { container } = render(() => <TestComponent />, {
+        global: {
+          stubs: {
+            Transition: false,
+          },
+        },
+      })
+
+      // 打开对话框
+      await userEvent.click(container.querySelector('.el-button'))
+      await expect.element(document.querySelector('.el-dialog')).toBeInTheDocument()
+
+      // 点击关闭按钮（X按钮）触发 beforeClose
+      const closeButton = document.querySelector('.el-dialog__headerbtn')
+      await userEvent.click(closeButton)
+
+      // 验证 beforeClose 回调被调用
+      expect(beforeCloseMock).toHaveBeenCalledTimes(1)
+      expect(beforeCloseMock).toHaveBeenCalledWith(expect.any(Function))
+    })
   })
 })

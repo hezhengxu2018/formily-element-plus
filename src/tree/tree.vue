@@ -42,7 +42,6 @@ function flattenTree(nodes: TreeNodeData[], result: TreeNodeData[] = []): TreeNo
   return result
 }
 
-// 添加处理禁用状态的函数
 function addDisabledToNodes(nodes: TreeNodeData[]): TreeNodeData[] {
   if (!attrs.value.disabled) {
     return nodes
@@ -59,12 +58,11 @@ function addDisabledToNodes(nodes: TreeNodeData[]): TreeNodeData[] {
     return newNode
   })
 }
-// 添加处理后的数据计算属性
+
 const processedData = computed(() => {
   return addDisabledToNodes(props.data ?? [])
 })
 
-// 修改 flatData 计算属性
 const flatData = computed(() => flattenTree(processedData.value ?? []))
 
 function traverseTree(
@@ -111,7 +109,6 @@ function extractKeysFromPath(pathNodes: TreeNodeData[]): any[] {
   return keys
 }
 
-// 获取选中路径
 function getSelectedPath(nodes: TreeNodeData[], selectedKeys: any[]): TreeNodeData[] {
   const result: TreeNodeData[] = []
 

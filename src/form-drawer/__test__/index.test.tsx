@@ -674,5 +674,34 @@ describe('FormDrawer 组件', () => {
         expect(document.body.children.length).toBeLessThanOrEqual(initialBodyChildren + 2) // +1 for test container
       }, { timeout: 2000 })
     })
+
+    it('当提供 beforeClose 回调时应该正确调用', async () => {
+      const beforeCloseMock = vi.fn()
+      const TestComponent = () => {
+        const handleOpen = () => {
+          FormDrawer({ title: '测试标题', beforeClose: beforeCloseMock }, () => (
+            <div data-testid="drawer-content">抽屉内容</div>
+          )).open().catch(console.log)
+        }
+        return <ElButton onClick={handleOpen}>打开抽屉</ElButton>
+      }
+
+      const { container } = render(() => <TestComponent />, {
+        global: {
+          stubs: {
+            Transition: false,
+          },
+        },
+      })
+
+      await userEvent.click(container.querySelector('.el-button'))
+      await expect.element(document.querySelector('.el-drawer')).toBeInTheDocument()
+
+      const closeButton = document.querySelector('.el-drawer__close-btn')
+      await userEvent.click(closeButton)
+
+      expect(beforeCloseMock).toHaveBeenCalledTimes(1)
+      expect(beforeCloseMock).toHaveBeenCalledWith(expect.any(Function))
+    })
   })
 })

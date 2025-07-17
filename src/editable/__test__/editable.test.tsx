@@ -231,4 +231,158 @@ describe('Editable', () => {
     expect(inputWrapper).toHaveClass('el-form-item--small')
     expect(inputWrapper).toHaveStyle({ width: '80px' })
   })
+
+  it('当字段被禁用时应该添加 is-disabled 类名', async () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        input: {
+          'type': 'string',
+          'title': '输入框',
+          'x-decorator': 'Editable',
+          'x-component': 'Input',
+          'x-disabled': true,
+        },
+      },
+    }
+
+    const { container } = render(() => (
+      <FormProvider form={form}>
+        <SchemaField schema={schema} />
+      </FormProvider>
+    ))
+
+    const editableElement = container.querySelector('.formily-element-plus-editable')
+    expect(editableElement).toHaveClass('is-disabled')
+  })
+
+  it('当字段被禁用时不应该显示编辑按钮', async () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        input: {
+          'type': 'string',
+          'title': '输入框',
+          'x-decorator': 'Editable',
+          'x-component': 'Input',
+          'x-disabled': true,
+        },
+      },
+    }
+
+    const { container } = render(() => (
+      <FormProvider form={form}>
+        <SchemaField schema={schema} />
+      </FormProvider>
+    ))
+
+    // 禁用状态下不应该显示编辑按钮
+    expect(container.querySelector('.formily-element-plus-editable-edit-btn')).toBeNull()
+    // 也不应该显示关闭按钮
+    expect(container.querySelector('.formily-element-plus-editable-close-btn')).toBeNull()
+  })
+
+  it('当字段被禁用时点击组件不应该进入编辑模式', async () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        input: {
+          'type': 'string',
+          'title': '输入框',
+          'x-decorator': 'Editable',
+          'x-component': 'Input',
+          'x-disabled': true,
+        },
+      },
+    }
+
+    const { container } = render(() => (
+      <FormProvider form={form}>
+        <SchemaField schema={schema} />
+      </FormProvider>
+    ))
+
+    const editableElement = container.querySelector('.formily-element-plus-editable')
+
+    // 点击禁用的组件
+    await userEvent.click(editableElement)
+
+    // 确认没有进入编辑模式（没有关闭按钮出现）
+    expect(container.querySelector('.formily-element-plus-editable-close-btn')).toBeNull()
+    // 确认没有编辑按钮（因为被禁用）
+    expect(container.querySelector('.formily-element-plus-editable-edit-btn')).toBeNull()
+  })
+
+  it('当字段从启用状态变为禁用状态时应该正确更新', async () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        input: {
+          'type': 'string',
+          'title': '输入框',
+          'x-decorator': 'Editable',
+          'x-component': 'Input',
+        },
+      },
+    }
+
+    const { container } = render(() => (
+      <FormProvider form={form}>
+        <SchemaField schema={schema} />
+      </FormProvider>
+    ))
+
+    // 初始状态应该有编辑按钮
+    expect(container.querySelector('.formily-element-plus-editable-edit-btn')).not.toBeNull()
+    expect(container.querySelector('.formily-element-plus-editable')).not.toHaveClass('is-disabled')
+
+    // 禁用字段
+    form.setFieldState('input', (state) => {
+      state.disabled = true
+    })
+
+    await vi.waitFor(() => {
+      // 禁用后应该添加 is-disabled 类名
+      expect(container.querySelector('.formily-element-plus-editable')).toHaveClass('is-disabled')
+      // 编辑按钮应该消失
+      expect(container.querySelector('.formily-element-plus-editable-edit-btn')).toBeNull()
+    })
+  })
+
+  it('当字段从禁用状态变为启用状态时应该正确更新', async () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        input: {
+          'type': 'string',
+          'title': '输入框',
+          'x-decorator': 'Editable',
+          'x-component': 'Input',
+          'x-disabled': true,
+        },
+      },
+    }
+
+    const { container } = render(() => (
+      <FormProvider form={form}>
+        <SchemaField schema={schema} />
+      </FormProvider>
+    ))
+
+    // 初始禁用状态
+    expect(container.querySelector('.formily-element-plus-editable')).toHaveClass('is-disabled')
+    expect(container.querySelector('.formily-element-plus-editable-edit-btn')).toBeNull()
+
+    // 启用字段
+    form.setFieldState('input', (state) => {
+      state.disabled = false
+    })
+
+    await vi.waitFor(() => {
+      // 启用后应该移除 is-disabled 类名
+      expect(container.querySelector('.formily-element-plus-editable')).not.toHaveClass('is-disabled')
+      // 编辑按钮应该出现
+      expect(container.querySelector('.formily-element-plus-editable-edit-btn')).not.toBeNull()
+    })
+  })
 })

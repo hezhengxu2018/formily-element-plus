@@ -13,7 +13,6 @@ const props = defineProps<IArrayBaseOperationProps>()
 
 const indexRef = useIndex()
 const base = useArray()
-// const lastIndex = base?.field.value.value?.length - 1
 
 function handleClick() {
   if (isArr(base?.keyMap)) {

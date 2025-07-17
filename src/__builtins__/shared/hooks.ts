@@ -120,8 +120,6 @@ export function useResizeObserver(
   else {
     start()
   }
-
-  // 组件卸载时清理
   onUnmounted(() => {
     cleanup()
   })
