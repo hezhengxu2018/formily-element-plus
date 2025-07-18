@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { Field } from '@formily/core'
-import type { TreeNodeData } from 'element-plus/es/components/tree/src/tree.type'
 import type { TreeValueTypeProps } from './types'
-import { isArr, isFn } from '@formily/shared'
+import { isFn } from '@formily/shared'
 import { useField } from '@formily/vue'
 import { ElScrollbar, ElTree, vLoading } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
 import { useCleanAttrs } from '../__builtins__'
+import { addDisabledToNodes, flattenTree, getInputKeys, getOutputData } from './utils'
 
 defineOptions({
   name: 'Tree',
@@ -32,171 +32,11 @@ const { props: attrs } = useCleanAttrs()
 const treeRef = ref<InstanceType<typeof ElTree>>()
 const checkedKeys = ref<any[]>([])
 
-function flattenTree(nodes: TreeNodeData[], result: TreeNodeData[] = []): TreeNodeData[] {
-  for (const node of nodes) {
-    result.push(node)
-    if (node[props.props.children!] && node[props.props.children!].length > 0) {
-      flattenTree(node[props.props.children!], result)
-    }
-  }
-  return result
-}
-
-function addDisabledToNodes(nodes: TreeNodeData[]): TreeNodeData[] {
-  if (!attrs.value.disabled) {
-    return nodes
-  }
-
-  return nodes.map((node) => {
-    const newNode = { ...node }
-    newNode[props.props.disabled!] = true
-
-    if (node[props.props.children!] && node[props.props.children!].length > 0) {
-      newNode[props.props.children!] = addDisabledToNodes(node[props.props.children!])
-    }
-
-    return newNode
-  })
-}
-
 const processedData = computed(() => {
-  return addDisabledToNodes(props.data ?? [])
+  return addDisabledToNodes(props.data ?? [], attrs.value.disabled, props.props)
 })
 
-const flatData = computed(() => flattenTree(processedData.value ?? []))
-
-function traverseTree(
-  nodes: TreeNodeData[],
-  callback: (node: TreeNodeData) => void,
-  options: {
-    leafOnly?: boolean
-  } = {},
-) {
-  const { leafOnly = false } = options
-
-  for (const node of nodes) {
-    const children = node[props.props.children!] || []
-    const isLeaf = children.length === 0
-
-    if (!leafOnly || isLeaf) {
-      callback(node)
-    }
-    if (children.length > 0) {
-      traverseTree(children, callback, options)
-    }
-  }
-}
-
-function getChildrenKeys(node: TreeNodeData): any[] {
-  const children = node[props.props.children!] || []
-  if (children.length === 0)
-    return []
-
-  const keys: any[] = []
-  traverseTree(children, (child) => {
-    keys.push(child[props.nodeKey])
-  })
-
-  return keys
-}
-
-function extractKeysFromPath(pathNodes: TreeNodeData[]): any[] {
-  const keys: any[] = []
-  traverseTree(pathNodes, (node) => {
-    keys.push(node[props.nodeKey])
-  }, { leafOnly: true })
-
-  return keys
-}
-
-function getSelectedPath(nodes: TreeNodeData[], selectedKeys: any[]): TreeNodeData[] {
-  const result: TreeNodeData[] = []
-
-  for (const node of nodes) {
-    const children = node[props.props.children!] || []
-    const hasSelectedChild = children.length > 0
-      ? getSelectedPath(children, selectedKeys).length > 0
-      : false
-
-    if (selectedKeys.includes(node[props.nodeKey]) || hasSelectedChild) {
-      const newNode = { ...node }
-      if (hasSelectedChild && children.length > 0) {
-        newNode[props.props.children!] = getSelectedPath(children, selectedKeys)
-      }
-      result.push(newNode)
-    }
-  }
-
-  return result
-}
-
-function getOutputData(keys: any[], halfCheckedKeys: any[] = []) {
-  const selectedNodes = flatData.value.filter(node =>
-    keys.includes(node[props.nodeKey]),
-  )
-
-  let outputKeys = [...keys]
-  let outputNodes = [...selectedNodes]
-
-  if (attrs.value.checkStrictly) {
-    return {
-      value: outputKeys,
-      nodes: outputNodes,
-    }
-  }
-
-  switch (props.valueType) {
-    case 'parent': {
-      const allChildKeys: any[] = []
-      for (const node of selectedNodes) {
-        allChildKeys.push(...getChildrenKeys(node))
-      }
-      outputKeys = keys.filter(key => !allChildKeys.includes(key))
-      outputNodes = selectedNodes.filter(node =>
-        outputKeys.includes(node[props.nodeKey]),
-      )
-      break
-    }
-
-    case 'child': {
-      for (const node of selectedNodes) {
-        const childKeys = getChildrenKeys(node)
-        const hasSelectedChild = childKeys.some(key => keys.includes(key))
-        if (hasSelectedChild) {
-          outputKeys = outputKeys.filter(key => key !== node[props.nodeKey])
-          outputNodes = outputNodes.filter(n =>
-            n[props.nodeKey] !== node[props.nodeKey],
-          )
-        }
-      }
-      break
-    }
-
-    case 'path': {
-      const selectedPath = getSelectedPath(props.data, keys)
-      return {
-        value: selectedPath,
-        nodes: selectedPath,
-      }
-    }
-
-    default: { // 'all'
-      if (props.includeHalfChecked && halfCheckedKeys.length > 0) {
-        const halfCheckedNodes = flatData.value.filter(node =>
-          halfCheckedKeys.includes(node[props.nodeKey]),
-        )
-        outputKeys = [...outputKeys, ...halfCheckedKeys]
-        outputNodes = [...outputNodes, ...halfCheckedNodes]
-      }
-      break
-    }
-  }
-
-  return {
-    value: outputKeys,
-    nodes: outputNodes,
-  }
-}
+const flatData = computed(() => flattenTree(processedData.value ?? [], [], props.props.children))
 
 async function handleCheck() {
   await nextTick()
@@ -204,7 +44,16 @@ async function handleCheck() {
   const halfCheckedKeys = treeRef.value.getHalfCheckedKeys() || []
   checkedKeys.value = keys
 
-  const { value, nodes } = getOutputData(keys, halfCheckedKeys)
+  const { value, nodes } = getOutputData(keys, halfCheckedKeys, {
+    flatData: flatData.value,
+    nodeKey: props.nodeKey,
+    propsConfig: props.props,
+    data: props.data ?? [],
+    valueType: props.valueType,
+    includeHalfChecked: props.includeHalfChecked,
+    checkStrictly: attrs.value.checkStrictly,
+  })
+
   if (props.optionAsValue) {
     isFn(props.optionFormatter)
       ? emit('change', nodes.map((element, index, array) => {
@@ -217,82 +66,17 @@ async function handleCheck() {
   }
 }
 
-function findParents(nodes: TreeNodeData[], targetKey: any, parents: any[] = []): any[] {
-  for (const node of nodes) {
-    const currentPath = [...parents, node[props.nodeKey]]
-
-    if (node[props.nodeKey] === targetKey) {
-      return currentPath
-    }
-
-    const children = node[props.props.children!] || []
-    if (children.length > 0) {
-      const found = findParents(children, targetKey, currentPath)
-      if (found.length > 0) {
-        return found
-      }
-    }
-  }
-  /* istanbul ignore next -- @preserve */
-  return []
-}
-// 根据valueType将输入值转换为checkedKeys
-function getInputKeys(inputValue: any): any[] {
-  /* istanbul ignore if -- @preserve */
-  if (!inputValue || !isArr(inputValue))
-    return []
-
-  const valueArray = props.optionAsValue ? inputValue.map((item: any) => item[props.nodeKey]) : inputValue
-  const filterLeafNodes = (keys: any[]): any[] => {
-    return keys.filter((key) => {
-      const node = flatData.value.find(n => n[props.nodeKey] === key)
-      if (!node)
-        return false
-      const children = node[props.props.children!] || []
-      return children.length === 0
-    })
-  }
-
-  if (attrs.value.checkStrictly) {
-    return valueArray
-  }
-
-  switch (props.valueType) {
-    case 'parent': {
-      const allKeys = [...valueArray]
-
-      for (const key of valueArray) {
-        const node = flatData.value.find(n => n[props.nodeKey] === key)
-        if (node) {
-          const childKeys = getChildrenKeys(node)
-          allKeys.push(...childKeys)
-        }
-      }
-      return filterLeafNodes(allKeys)
-    }
-
-    case 'child': {
-      const allKeys = [...valueArray]
-      for (const key of valueArray) {
-        const parentPath = findParents(props.data, key)
-        allKeys.push(...parentPath)
-      }
-      return filterLeafNodes(allKeys)
-    }
-
-    case 'path': {
-      return extractKeysFromPath(valueArray)
-    }
-
-    default: { // 'all'
-      return filterLeafNodes(valueArray)
-    }
-  }
-}
-
 watch(() => props.value, (newValue) => {
   if (newValue !== undefined) {
-    checkedKeys.value = getInputKeys(newValue)
+    checkedKeys.value = getInputKeys(newValue, {
+      optionAsValue: props.optionAsValue,
+      nodeKey: props.nodeKey,
+      flatData: flatData.value,
+      propsConfig: props.props,
+      data: props.data ?? [],
+      valueType: props.valueType,
+      checkStrictly: attrs.value.checkStrictly,
+    })
     nextTick(() => {
       if (treeRef.value) {
         treeRef.value.setCheckedKeys(checkedKeys.value)

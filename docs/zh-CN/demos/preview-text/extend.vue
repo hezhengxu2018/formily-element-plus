@@ -11,6 +11,7 @@ import {
   PreviewText,
   Select,
   TimePicker,
+  Tree,
 } from '@sliver/formily-element-plus'
 import { ElButton } from 'element-plus'
 
@@ -23,6 +24,7 @@ const { SchemaField, SchemaVoidField, SchemaStringField, SchemaArrayField } = cr
     Cascader,
     TimePicker,
     PreviewText,
+    Tree,
   },
 })
 
@@ -156,10 +158,6 @@ const options = [
           {
             value: 'rate',
             label: 'Rate',
-          },
-          {
-            value: 'form',
-            label: 'Form',
           },
         ],
       },
@@ -460,6 +458,18 @@ const warpText = `aaaaa   bbbbbb
           showAllLevels: false,
         }"
         :default="[['guide', 'disciplines', 'consistency'], ['guide', 'disciplines', 'feedback']]"
+        :enum="options"
+      />
+      <SchemaStringField
+        x-decorator="FormItem"
+        title="Tree预览"
+        x-component="Tree"
+        :x-component-props="{
+          nodeKey: 'value',
+          valueType: 'all',
+          maxHeight: 100,
+        }"
+        :default="['axure']"
         :enum="options"
       />
     </SchemaField>
