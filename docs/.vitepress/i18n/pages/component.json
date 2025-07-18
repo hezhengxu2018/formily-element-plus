@@ -89,7 +89,8 @@
         },
         {
           "link": "/tree",
-          "text": "Tree 树形选择器"
+          "text": "Tree 树形选择器",
+          "promotion": "2.6.0"
         },
         {
           "link": "/transfer",
