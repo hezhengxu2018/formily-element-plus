@@ -2,8 +2,8 @@
 import type { Field } from '@formily/core'
 import { isValid } from '@formily/shared'
 import { useField } from '@formily/vue'
-import { ElSpace, ElTag, ElText, useAttrs } from 'element-plus'
-import { stylePrefix } from '../__builtins__/configs'
+import { ElSpace, ElTag, ElText } from 'element-plus'
+import { stylePrefix, useCleanAttrs } from '../__builtins__'
 import { usePreviewConfig } from './utils'
 
 defineOptions({
@@ -17,7 +17,7 @@ const props = defineProps<{
 const prefixCls = `${stylePrefix}-preview-text`
 
 const fieldRef = useField<Field>()
-const attrs = useAttrs()
+const { props: attrs } = useCleanAttrs()
 const dataSource = fieldRef.value.dataSource ?? []
 const { spaceProps, textProps, tagProps, placeholder } = usePreviewConfig()
 </script>

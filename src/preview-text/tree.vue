@@ -3,7 +3,7 @@ import type { ArrayField } from '@formily/core'
 import { useField } from '@formily/vue'
 import { ElScrollbar, ElText, ElTree } from 'element-plus'
 import { computed } from 'vue'
-import { stylePrefix } from '../__builtins__/configs'
+import { stylePrefix, useCleanAttrs } from '../__builtins__'
 import { getSelectedPath } from '../tree/utils'
 import { usePreviewConfig } from './utils'
 
@@ -35,6 +35,7 @@ const props = withDefaults(defineProps<{
 
 const prefixCls = `${stylePrefix}-preview-tree`
 const fieldRef = useField<ArrayField>()
+const { props: attrs } = useCleanAttrs()
 const { textProps, placeholder } = usePreviewConfig()
 
 const dataSource = computed(() => {
@@ -69,6 +70,7 @@ const previewData = computed(() => {
         :node-key="props.nodeKey"
         :props="props.props"
         :default-expand-all="true"
+        v-bind="attrs"
       />
     </ElScrollbar>
     <ElText v-else v-bind="textProps">

@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import type { InputProps } from 'element-plus'
-import type { ComputedRef } from 'vue'
 import { isFn, isValid } from '@formily/shared'
-import { ElSpace, ElText, useAttrs } from 'element-plus'
-import { stylePrefix } from '../__builtins__/configs'
+import { ElSpace, ElText } from 'element-plus'
+import { stylePrefix, useCleanAttrs } from '../__builtins__'
 import { usePreviewConfig } from './utils'
 
 defineOptions({
@@ -21,7 +19,7 @@ const slots = defineSlots<{
   suffix?: () => any
   append?: () => any
 }>()
-const attrs = useAttrs() as ComputedRef<InputProps>
+const { props: attrs } = useCleanAttrs()
 const prefixCls = `${stylePrefix}-preview-text`
 const { spaceProps, textProps, placeholder } = usePreviewConfig()
 </script>

@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import type { Field } from '@formily/core'
-import type { CascaderInstance } from 'element-plus'
 import { useField } from '@formily/vue'
 import { ElSpace, ElTag, ElText } from 'element-plus'
-import { useAttrs } from 'vue'
-import { stylePrefix } from '../__builtins__/configs'
+import { stylePrefix, useCleanAttrs } from '../__builtins__'
 import { usePreviewConfig } from './utils'
 
 defineOptions({
@@ -18,14 +16,14 @@ const props = defineProps<{
 const prefixCls = `${stylePrefix}-preview-text`
 const fieldRef = useField<Field>()
 const field = fieldRef.value
-const attrs = useAttrs() as CascaderInstance['$props']
-const isMultiple = !!attrs.props?.multiple
-const isShowAllLevels = attrs.showAllLevels ?? true
+const { props: attrs } = useCleanAttrs()
+const isMultiple = !!attrs.value.props?.multiple
+const isShowAllLevels = attrs.value.showAllLevels ?? true
 const dataSource: any[] = field?.dataSource ?? []
 const { spaceProps, textProps, tagProps, placeholder } = usePreviewConfig()
 
-const valueKey = attrs.props?.value || 'value'
-const labelKey = attrs.props?.label || 'label'
+const valueKey = attrs.value.props?.value || 'value'
+const labelKey = attrs.value.props?.label || 'label'
 
 function findLabel(value: any, dataSource: any[]): any {
   const foundItem = dataSource.find(item => item?.[valueKey] === value)
