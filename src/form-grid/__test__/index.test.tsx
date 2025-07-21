@@ -28,9 +28,9 @@ const FormGridTest = defineComponent({
   },
 })
 
-describe('form-grid 组件', () => {
+describe('Formgrid', () => {
   describe('基础功能', () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormGrid>
@@ -43,7 +43,7 @@ describe('form-grid 组件', () => {
       await expect.element(container.querySelector('[data-testid="content"]')).toBeInTheDocument()
     })
 
-    it('支持网格项渲染', async () => {
+    it('应该支持网格项渲染', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormGrid>
@@ -60,7 +60,7 @@ describe('form-grid 组件', () => {
   })
 
   describe('属性传递', () => {
-    it('支持设置 columnGap 和 rowGap', async () => {
+    it('应该支持设置 columnGap 和 rowGap', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormGrid columnGap={16} rowGap={20}>
@@ -73,7 +73,7 @@ describe('form-grid 组件', () => {
       await expect.element(getByTestId('rowGap')).toHaveTextContent('20')
     })
 
-    it('支持设置 minColumns 和 maxColumns', async () => {
+    it('应该支持设置 minColumns 和 maxColumns', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormGrid minColumns={2} maxColumns={4}>
@@ -86,7 +86,7 @@ describe('form-grid 组件', () => {
       await expect.element(getByTestId('maxColumns')).toHaveTextContent('4')
     })
 
-    it('支持设置 minWidth 和 maxWidth', async () => {
+    it('应该支持设置 minWidth 和 maxWidth', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormGrid minWidth={100} maxWidth={300}>
@@ -99,7 +99,7 @@ describe('form-grid 组件', () => {
       await expect.element(getByTestId('maxWidth')).toHaveTextContent('300')
     })
 
-    it('支持设置 colWrap', async () => {
+    it('应该支持设置 colWrap', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormGrid colWrap={false}>
@@ -113,7 +113,7 @@ describe('form-grid 组件', () => {
   })
 
   describe('网格项属性', () => {
-    it('支持设置 span', async () => {
+    it('应该支持设置 span', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormGrid>
@@ -127,11 +127,11 @@ describe('form-grid 组件', () => {
       const gridItem = container.querySelector('[data-testid="grid-item"]')
       await expect.element(gridItem).toBeInTheDocument()
       await vi.waitFor(() => {
-        expect(gridItem).toHaveStyle({ 'grid-column': 'span 2' })
+        expect(gridItem).toHaveStyle({ gridColumn: 'span 2' })
       })
     })
 
-    it('支持设置 offset', async () => {
+    it('应该支持设置 offset', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormGrid>
@@ -144,12 +144,12 @@ describe('form-grid 组件', () => {
 
       const gridItem = container.querySelector('[data-testid="grid-item"]')
       await expect.element(gridItem).toBeInTheDocument()
-      await expect.element(gridItem).toHaveStyle({ 'grid-column-start': 'span 1' })
+      await expect.element(gridItem).toHaveStyle({ gridColumnStart: 'span 1' })
     })
   })
 
   describe('嵌套网格', () => {
-    it('支持嵌套 FormGrid', async () => {
+    it('应该支持嵌套 FormGrid', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormGrid columnGap={16}>

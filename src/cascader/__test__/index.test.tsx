@@ -81,9 +81,9 @@ const options = [
   },
 ]
 
-describe('cascader 组件', () => {
+describe('Cascader', () => {
   describe('基础功能', () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const page = render(() => (
         <FormProvider form={createForm()}>
           <Field name="cascader" component={[Cascader]} dataSource={options} />
@@ -92,7 +92,7 @@ describe('cascader 组件', () => {
       await expect.element(page.getByRole('textbox')).toBeInTheDocument()
     })
 
-    it('点击展开选项', async () => {
+    it('应该点击展开选项', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <Field name="cascader" component={[Cascader]} dataSource={options} />
@@ -115,7 +115,7 @@ describe('cascader 组件', () => {
   })
 
   describe('表单交互', () => {
-    it('选择值更新表单', async () => {
+    it('应该在选择值时更新表单', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -136,7 +136,7 @@ describe('cascader 组件', () => {
       expect(form.values.cascader).toEqual(['zhinan', 'shejiyuanze', 'yizhi'])
     })
 
-    it('支持多选模式', async () => {
+    it('应该支持多选模式', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -154,7 +154,7 @@ describe('cascader 组件', () => {
   })
 
   describe('属性传递', () => {
-    it('支持禁用状态', async () => {
+    it('应该支持禁用状态', async () => {
       const { getByRole } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="cascader" component={[Cascader, { disabled: true }]} dataSource={options} />
@@ -167,7 +167,7 @@ describe('cascader 组件', () => {
   })
 
   describe('插槽支持', () => {
-    it('自定义节点内容', async () => {
+    it('应该自定义节点内容', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <Field name="cascader" component={[Cascader]} dataSource={options}>
@@ -187,7 +187,7 @@ describe('cascader 组件', () => {
       expect(customNode.textContent).toContain('自定义节点:指南')
     })
 
-    it('空数据插槽', async () => {
+    it('应该空数据插槽', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <Field name="cascader" component={[Cascader]} dataSource={[]}>

@@ -8,16 +8,16 @@ import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-input.css'
 
-describe('reset 组件', () => {
+describe('Reset', () => {
   describe('基础功能', async () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const { getByRole } = render(() => (
         <Reset>重置</Reset>
       ))
       await expect.element(getByRole('button', { name: '重置' })).toBeInTheDocument()
     })
 
-    it('支持点击事件', async () => {
+    it('应该支持点击事件', async () => {
       const onClick = vi.fn()
       const { getByRole } = render(() => (
         <Reset onClick={onClick}>重置</Reset>
@@ -26,7 +26,7 @@ describe('reset 组件', () => {
       expect(onClick).toHaveBeenCalled()
     })
 
-    it('支持阻止重置', async () => {
+    it('应该支持阻止重置', async () => {
       const form = createForm()
       const onClick = vi.fn().mockReturnValue(false)
       const resetSpy = vi.spyOn(form, 'reset')
@@ -44,7 +44,7 @@ describe('reset 组件', () => {
   })
 
   describe('表单交互', async () => {
-    it('普通重置', async () => {
+    it('应该支持普通重置', async () => {
       const form = createForm({
         initialValues: {
           input: '初始值',
@@ -69,7 +69,7 @@ describe('reset 组件', () => {
       expect(form.values.input).toBe('初始值')
     })
 
-    it('强制清空重置', async () => {
+    it('应该支持强制清空重置', async () => {
       const form = createForm({
         initialValues: {
           input: '初始值',
@@ -90,7 +90,7 @@ describe('reset 组件', () => {
       expect(form.values.input).toBe(undefined)
     })
 
-    it('强制清空重置并校验', async () => {
+    it('应该支持强制清空重置并校验', async () => {
       const form = createForm()
       const resetSpy = vi.spyOn(form, 'reset')
       const onResetValidateSuccess = vi.fn()
@@ -121,7 +121,7 @@ describe('reset 组件', () => {
       expect(form.invalid).toBe(true)
     })
 
-    it('支持重置校验成功回调', async () => {
+    it('应该支持重置校验成功回调', async () => {
       const form = createForm()
       const onResetValidateSuccess = vi.fn()
 
@@ -141,7 +141,7 @@ describe('reset 组件', () => {
       expect(onResetValidateSuccess).toHaveBeenCalled()
     })
 
-    it('支持重置校验失败回调', async () => {
+    it('应该支持重置校验失败回调', async () => {
       const form = createForm()
       const onResetValidateFailed = vi.fn()
 
@@ -168,7 +168,7 @@ describe('reset 组件', () => {
   })
 
   describe('属性传递', async () => {
-    it('支持自定义按钮类型', async () => {
+    it('应该支持自定义按钮类型', async () => {
       const { getByRole } = render(() => (
         <Reset type="danger">删除</Reset>
       ))
@@ -177,7 +177,7 @@ describe('reset 组件', () => {
       expect(button.selector.includes('el-button--danger'))
     })
 
-    it('支持禁用状态', async () => {
+    it('应该支持禁用状态', async () => {
       const onClick = vi.fn()
       const { getByRole } = render(() => (
         <Reset disabled onClick={onClick}>重置</Reset>

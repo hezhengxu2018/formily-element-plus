@@ -9,9 +9,9 @@ import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-date-picker.css'
 
-describe('date-picker 组件', () => {
+describe('DatePicker', () => {
   describe('基础功能', () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const page = render(() => (
         <FormProvider form={createForm()}>
           <Field name="date" component={[DatePicker]} />
@@ -20,7 +20,7 @@ describe('date-picker 组件', () => {
       await expect.element(page.getByRole('combobox')).toBeInTheDocument()
     })
 
-    it('点击展开日期选择面板', async () => {
+    it('应该点击展开日期选择面板', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <Field name="date" component={[DatePicker]} />
@@ -37,7 +37,7 @@ describe('date-picker 组件', () => {
   })
 
   describe('默认格式测试', () => {
-    it('date 类型默认格式为 YYYY-MM-DD', async () => {
+    it('应该支持date类型默认格式为YYYY-MM-DD', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -55,7 +55,7 @@ describe('date-picker 组件', () => {
       expect(dateValue).toMatch(/^\d{4}-\d{2}-\d{2}$/)
     })
 
-    it('datetime 类型默认格式为 YYYY-MM-DD HH:mm:ss', async () => {
+    it('应该支持datetime类型默认格式为YYYY-MM-DD HH:mm:ss', async () => {
       const form = createForm()
       const page = render(() => (
         <FormProvider form={form}>
@@ -71,7 +71,7 @@ describe('date-picker 组件', () => {
       expect(datetimeValue).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/)
     })
 
-    it('year 类型默认格式为 YYYY', async () => {
+    it('应该支持year类型默认格式为YYYY', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -89,7 +89,7 @@ describe('date-picker 组件', () => {
       expect(yearValue).toMatch(/^\d{4}$/)
     })
 
-    it('month 类型默认格式为 YYYY-MM', async () => {
+    it('应该支持month类型默认格式为YYYY-MM', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -109,7 +109,7 @@ describe('date-picker 组件', () => {
       expect(monthValue).toMatch(/^\d{4}-\d{2}$/)
     })
 
-    it('week 类型默认格式为 YYYY-MM-DD', async () => {
+    it('应该支持week类型默认格式为YYYY-MM-DD', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -129,7 +129,7 @@ describe('date-picker 组件', () => {
       expect(weekValue).not.toBeUndefined()
     })
 
-    it('daterange 类型默认格式为 YYYY-MM-DD', async () => {
+    it('应该支持daterange类型默认格式为YYYY-MM-DD', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -152,7 +152,7 @@ describe('date-picker 组件', () => {
       expect(daterangeValue[1]).toMatch(/^\d{4}-\d{2}-\d{2}$/)
     })
 
-    it('monthrange 类型默认格式为 YYYY-MM', async () => {
+    it('应该支持monthrange类型默认格式为YYYY-MM', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -177,7 +177,7 @@ describe('date-picker 组件', () => {
   })
 
   describe('表单交互', () => {
-    it('选择日期更新表单值', async () => {
+    it('应该在选择日期时更新表单值', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -198,7 +198,7 @@ describe('date-picker 组件', () => {
   })
 
   describe('属性传递', () => {
-    it('支持禁用状态', async () => {
+    it('应该支持禁用状态', async () => {
       const { getByRole } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="date" component={[DatePicker, { disabled: true }]} />
@@ -208,7 +208,7 @@ describe('date-picker 组件', () => {
       await expect.element(getByRole('combobox')).toBeDisabled()
     })
 
-    it('支持只读状态', async () => {
+    it('应该支持只读状态', async () => {
       const { getByRole } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="date" component={[DatePicker, { readonly: true }]} />
@@ -218,7 +218,7 @@ describe('date-picker 组件', () => {
       await expect.element(getByRole('combobox')).toHaveAttribute('readonly')
     })
 
-    it('支持自定义格式', async () => {
+    it('应该支持自定义格式', async () => {
       const form = createForm()
       const { getByRole } = render(() => (
         <FormProvider form={form}>

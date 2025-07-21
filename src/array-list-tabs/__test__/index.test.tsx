@@ -183,13 +183,13 @@ export const ArrayListTabsWithShowTitleFieldTest = defineComponent({
   },
 })
 
-describe('arrayListTabs', async () => {
-  it('组件渲染', async () => {
+describe('ArrayListTabs', async () => {
+  it('应该渲染', async () => {
     const screen = render(ArrayListTabsTest)
     await expect.element(screen.getByText('No Data')).toBeInTheDocument()
   })
 
-  it('基础交互', async () => {
+  it('应该支持基础交互', async () => {
     const screen = render(ArrayListTabsTest)
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
@@ -202,7 +202,7 @@ describe('arrayListTabs', async () => {
       .toBeInTheDocument()
   })
 
-  it('数据输入测试', async () => {
+  it('应该支持数据输入', async () => {
     const form = createForm()
     const screen = render(ArrayListTabsTest, { props: { form } })
     // 添加一个条目
@@ -220,7 +220,7 @@ describe('arrayListTabs', async () => {
     expect(form.values.array[0].input2).toBe('测试内容')
   })
 
-  it('tab页切换测试', async () => {
+  it('应该支持tab页切换', async () => {
     const screen = render(ArrayListTabsTest)
 
     // 添加三个条目
@@ -238,7 +238,7 @@ describe('arrayListTabs', async () => {
     await screen.getByText('Tab 2').click()
   })
 
-  it('关闭tab页测试', async () => {
+  it('应该支持关闭tab页', async () => {
     const screen = render(ArrayListTabsTest)
 
     // 添加两个条目
@@ -262,9 +262,8 @@ describe('arrayListTabs', async () => {
     expect(activeTab.textContent).toContain('Tab 1')
   })
 
-  // 新增：showTitleFieldInTab 相关测试
   describe('showTitleFieldInTab 配置项测试', () => {
-    it('showTitleFieldInTab 为 true 时，tab 标题渲染为可编辑组件', async () => {
+    it('应该为可编辑组件，在showTitleFieldInTab 为 true 时', async () => {
       const form = createForm()
       const screen = render(ArrayListTabsWithShowTitleFieldTest, {
         props: {
@@ -295,7 +294,7 @@ describe('arrayListTabs', async () => {
       await expect.element(screen.getByText('可编辑标题')).toBeInTheDocument()
     })
 
-    it('showTitleFieldInTab 为 true 时，tab 内容区域不显示标题字段', async () => {
+    it('应该不显示标题字段，在showTitleFieldInTab 为 true 时', async () => {
       const form = createForm()
       const screen = render(ArrayListTabsWithShowTitleFieldTest, {
         props: {
@@ -304,10 +303,8 @@ describe('arrayListTabs', async () => {
         },
       })
 
-      // 添加一个条目
       await screen.getByText('添加条目').click()
 
-      // 验证 tab 内容区域不包含标题字段的 FormItem
       const tabPanel = screen.container.querySelector('.formily-element-plus-array-list-tabs-tabpane')
       expect(tabPanel).toBeTruthy()
 
@@ -321,7 +318,7 @@ describe('arrayListTabs', async () => {
       expect(inputLabels.filter(label => label === 'input')).toHaveLength(0)
     })
 
-    it('错误统计在不同 showTitleFieldInTab 配置下的行为', async () => {
+    it('应该有不同的错误统计行为，在不同 showTitleFieldInTab 配置下', async () => {
       // 测试 showTitleFieldInTab 为 true 时的错误统计
       const form1 = createForm()
       const screen1 = render(ArrayListTabsWithShowTitleFieldTest, {

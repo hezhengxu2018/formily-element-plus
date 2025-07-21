@@ -79,7 +79,7 @@ describe('FormTab - JSON Schema', () => {
     },
   })
 
-  it('通过JSON Schema渲染FormTab', async () => {
+  it('应该支持通过JSON Schema渲染FormTab', async () => {
     const formTab = FormTab.createFormTab()
     const { SchemaField } = createSchemaField({
       components: {
@@ -100,7 +100,7 @@ describe('FormTab - JSON Schema', () => {
     await expect.element(getByText('AAA', { exact: true })).toBeVisible()
   })
 
-  it('通过formTab控制默认激活Tab', async () => {
+  it('应该通过formTab控制默认激活Tab', async () => {
     const formTab = FormTab.createFormTab('tab2')
     const { SchemaField } = createSchemaField({
       components: {
@@ -119,7 +119,7 @@ describe('FormTab - JSON Schema', () => {
     await expect.element(getByText('BBB')).toBeVisible()
   })
 
-  it('通过formTab.setActiveKey切换Tab', async () => {
+  it('应该可以通过formTab.setActiveKey切换Tab', async () => {
     const { SchemaField } = createSchemaField({
       components: {
         FormItem,
@@ -143,7 +143,7 @@ describe('FormTab - JSON Schema', () => {
     await expect.element(getByText('BBB')).toBeVisible()
   })
 
-  it('通过form.query控制Tab显示/隐藏', async () => {
+  it('应该可以通过form.query控制Tab显示/隐藏', async () => {
     const { SchemaField } = createSchemaField({
       components: {
         FormItem,
@@ -181,7 +181,7 @@ describe('FormTab - JSON Schema', () => {
     await expect.element(getByText('A3')).toBeVisible()
   })
 
-  it('点击Tab标签切换内容', async () => {
+  it('应该可以通过点击Tab标签切换内容', async () => {
     const { SchemaField } = createSchemaField({
       components: {
         FormItem,

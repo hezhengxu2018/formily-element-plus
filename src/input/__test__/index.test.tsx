@@ -7,9 +7,9 @@ import Input from '../index'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-input.css'
 
-describe('input 组件', () => {
+describe('Input', () => {
   describe('基础功能', () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const page = render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input]} />
@@ -18,7 +18,7 @@ describe('input 组件', () => {
       await expect.element(page.getByRole('textbox')).toBeInTheDocument()
     })
 
-    it('支持输入文本', async () => {
+    it('应该支持输入文本', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -34,7 +34,7 @@ describe('input 组件', () => {
   })
 
   describe('属性传递', () => {
-    it('支持禁用状态', async () => {
+    it('应该支持禁用状态', async () => {
       const { getByRole } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input, { disabled: true }]} />
@@ -45,7 +45,7 @@ describe('input 组件', () => {
       await expect.element(input).toBeDisabled()
     })
 
-    it('支持只读状态', async () => {
+    it('应该支持只读状态', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input, { readonly: true }]} />
@@ -56,7 +56,7 @@ describe('input 组件', () => {
       expect(input).toHaveAttribute('readonly')
     })
 
-    it('支持占位符', async () => {
+    it('应该支持占位符', async () => {
       const { getByPlaceholder } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input, { placeholder: '请输入内容' }]} />
@@ -68,7 +68,7 @@ describe('input 组件', () => {
   })
 
   describe('事件处理', () => {
-    it('支持聚焦事件', async () => {
+    it('应该支持聚焦事件', async () => {
       const onFocus = vi.fn()
       render(() => (
         <FormProvider form={createForm()}>
@@ -82,7 +82,7 @@ describe('input 组件', () => {
       expect(onFocus).toHaveBeenCalled()
     })
 
-    it('支持失焦事件', async () => {
+    it('应该支持失焦事件', async () => {
       const onBlur = vi.fn()
       render(() => (
         <FormProvider form={createForm()}>
@@ -99,7 +99,7 @@ describe('input 组件', () => {
   })
 
   describe('插槽支持', () => {
-    it('支持前缀插槽', async () => {
+    it('应该支持前缀插槽', async () => {
       const { getByText } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input]}>
@@ -114,7 +114,7 @@ describe('input 组件', () => {
       await expect.element(document.querySelector('.custom-prefix')).toBeInTheDocument()
     })
 
-    it('支持后缀插槽', async () => {
+    it('应该支持后缀插槽', async () => {
       const { getByText } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input]}>
@@ -129,7 +129,7 @@ describe('input 组件', () => {
       await expect.element(document.querySelector('.custom-suffix')).toBeInTheDocument()
     })
 
-    it('支持前置插槽', async () => {
+    it('应该支持前置插槽', async () => {
       const { getByText } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input]}>
@@ -144,7 +144,7 @@ describe('input 组件', () => {
       await expect.element(document.querySelector('.custom-prepend')).toBeInTheDocument()
     })
 
-    it('支持后置插槽', async () => {
+    it('应该支持后置插槽', async () => {
       const { getByText } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input]}>
@@ -159,7 +159,7 @@ describe('input 组件', () => {
       await expect.element(document.querySelector('.custom-append')).toBeInTheDocument()
     })
 
-    it('支持多个插槽同时使用', async () => {
+    it('应该支持多个插槽同时使用', async () => {
       const { getByText } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input]}>
@@ -181,9 +181,9 @@ describe('input 组件', () => {
   })
 })
 
-describe('textArea 组件', () => {
+describe('TextArea', () => {
   describe('基础功能', () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const page = render(() => (
         <FormProvider form={createForm()}>
           <Field name="textarea" component={[Input.TextArea]} />
@@ -195,7 +195,7 @@ describe('textArea 组件', () => {
       expect(textarea.element().tagName.toLowerCase()).toBe('textarea')
     })
 
-    it('支持输入多行文本', async () => {
+    it('应该支持输入多行文本', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -211,7 +211,7 @@ describe('textArea 组件', () => {
   })
 
   describe('属性传递', () => {
-    it('支持设置行数', async () => {
+    it('应该支持设置行数', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <Field name="textarea" component={[Input.TextArea, { rows: 5 }]} />
@@ -224,7 +224,7 @@ describe('textArea 组件', () => {
   })
 
   describe('表单交互', () => {
-    it('在表单中正确更新值', async () => {
+    it('应该在表单中正确更新值', async () => {
       const form = createForm()
 
       render(() => (

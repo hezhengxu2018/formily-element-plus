@@ -7,8 +7,8 @@ import Form from '../form.vue'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-form.css'
 
-describe('form 组件测试', () => {
-  it('基础渲染', async () => {
+describe('Form', () => {
+  it('应该支持基础渲染', async () => {
     const form = createForm()
     const { container } = render(() => (
       <Form form={form}>
@@ -21,13 +21,13 @@ describe('form 组件测试', () => {
     expect(formElement).toBeInTheDocument()
   })
 
-  it('未提供任何form实例时无法渲染', async () => {
+  it('应该未提供任何form实例时无法渲染', async () => {
     const { container } = render(() => <Form />)
     const formElement = container.querySelector('form')
     expect(formElement).not.toBeInTheDocument()
   })
 
-  it('表单提交功能', async () => {
+  it('应该表单提交功能', async () => {
     const form = createForm()
     const mockSubmit = vi.fn(() => {
       return new Promise((resolve) => {
@@ -44,12 +44,11 @@ describe('form 组件测试', () => {
     ))
 
     await getByText('提交').click()
-    await getByRole('button', { name: '提交' }).selector.includes('.is-loading')
+    getByRole('button', { name: '提交' }).selector.includes('.is-loading')
     expect(mockSubmit).toHaveBeenCalled()
   })
 
-  // 添加新的测试用例
-  it('表单提交失败处理', async () => {
+  it('应该支持表单提交失败处理', async () => {
     const form = createForm()
     form.createField({
       name: 'name',
@@ -69,12 +68,11 @@ describe('form 组件测试', () => {
 
     await getByText('提交').click()
 
-    // 验证失败回调被调用
     expect(mockSubmitFailed).toHaveBeenCalled()
     expect(mockSubmit).not.toHaveBeenCalled()
   })
 
-  it('在外部有FormProvider时表单提交事件正常触发', async () => {
+  it('应该正常触发表单提交事件，在外部有FormProvider时', async () => {
     const form = createForm()
     const mockSubmit = vi.fn(() => {
       return Promise.resolve(true)
@@ -95,7 +93,7 @@ describe('form 组件测试', () => {
     expect(mockSubmit).toHaveBeenCalled()
   })
 
-  it('表单提交后处理异步结果', async () => {
+  it('应该处理异步结果，在表单提交后', async () => {
     const form = createForm()
     const mockSubmitResult = { success: true, data: { id: 1 } }
     const mockSubmit = vi.fn(() => Promise.resolve(mockSubmitResult))
@@ -119,7 +117,7 @@ describe('form 组件测试', () => {
     expect(mockSubmit).toHaveReturnedWith(Promise.resolve(mockSubmitResult))
   })
 
-  it('支持修改预览占位符', async () => {
+  it('应该支持修改预览占位符', async () => {
     const form = createForm()
     const { getByText } = render(() => (
       <Form form={form} previewTextPlaceholder="--">
@@ -130,7 +128,7 @@ describe('form 组件测试', () => {
     await expect.element(getByText('--')).toBeInTheDocument()
   })
 
-  it('支持传入 form 实例', async () => {
+  it('应该支持传入 form 实例', async () => {
     const form = createForm()
     const { getByRole } = render(() => (
       <Form form={form}>
@@ -144,7 +142,7 @@ describe('form 组件测试', () => {
     expect(form.values.test).toEqual('123')
   })
 
-  it('支持继承外部 form 实例', async () => {
+  it('应该支持继承外部 form 实例', async () => {
     const form = createForm()
     const { getByRole } = render(() => (
       <FormProvider form={form}>

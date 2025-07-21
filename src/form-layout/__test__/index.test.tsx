@@ -38,9 +38,9 @@ const FormLayoutTest = defineComponent({
   },
 })
 
-describe('form-layout 组件', () => {
+describe('FormLayout', () => {
   describe('基础功能', () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout>
@@ -57,7 +57,7 @@ describe('form-layout 组件', () => {
         .toBeInTheDocument()
     })
 
-    it('支持不同布局模式', async () => {
+    it('应该支持不同布局模式', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout layout="vertical">
@@ -71,7 +71,7 @@ describe('form-layout 组件', () => {
   })
 
   describe('属性传递', () => {
-    it('支持设置 colon', async () => {
+    it('应该支持设置 colon', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout colon={false}>
@@ -83,7 +83,7 @@ describe('form-layout 组件', () => {
       await expect.element(getByTestId('colon')).toHaveTextContent('false')
     })
 
-    it('支持设置 labelWidth', async () => {
+    it('应该支持设置 labelWidth', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout labelWidth={120}>
@@ -95,7 +95,7 @@ describe('form-layout 组件', () => {
       await expect.element(getByTestId('labelWidth')).toHaveTextContent('120')
     })
 
-    it('支持设置 size', async () => {
+    it('应该支持设置 size', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout size="small">
@@ -109,7 +109,7 @@ describe('form-layout 组件', () => {
   })
 
   describe('嵌套布局', () => {
-    it('支持嵌套 FormLayout 并使用 shallow', async () => {
+    it('应该支持嵌套 FormLayout 并使用 shallow', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout layout="horizontal" labelWidth={100} shallow={false}>
@@ -124,7 +124,7 @@ describe('form-layout 组件', () => {
       await expect.element(getByTestId('labelWidth')).toHaveTextContent('100')
     })
 
-    it('支持嵌套 FormLayout 并使用 non-shallow', async () => {
+    it('应该支持嵌套 FormLayout 并使用 non-shallow', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout layout="horizontal" labelWidth={100}>
@@ -143,7 +143,7 @@ describe('form-layout 组件', () => {
         .toHaveTextContent('100')
     })
 
-    it('支持嵌套 FormLayout 并会动态修改', async () => {
+    it('应该支持嵌套 FormLayout 并会动态修改', async () => {
       const { getByTestId } = render(
         defineComponent({
           setup() {
@@ -177,7 +177,7 @@ describe('form-layout 组件', () => {
   })
 
   describe('栅格布局', () => {
-    it('支持设置 labelCol 和 wrapperCol', async () => {
+    it('应该支持设置 labelCol 和 wrapperCol', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout labelCol={6} wrapperCol={18}>
@@ -192,7 +192,7 @@ describe('form-layout 组件', () => {
   })
 
   describe('反馈布局', () => {
-    it('支持设置 feedbackLayout', async () => {
+    it('应该支持设置 feedbackLayout', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout feedbackLayout="loose">
@@ -208,7 +208,7 @@ describe('form-layout 组件', () => {
   })
 
   describe('响应式布局', () => {
-    it('支持响应式布局配置', async () => {
+    it('应该支持响应式布局配置', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout
@@ -249,7 +249,7 @@ describe('form-layout 组件', () => {
       await expect.element(getByTestId('wrapperCol')).toHaveTextContent('20')
     })
 
-    it('当宽度变化时应该更新其他布局属性', async () => {
+    it('应该在宽度变化时更新其他布局属性', async () => {
       const { getByTestId } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout
@@ -301,25 +301,25 @@ describe('断点计算工具函数', () => {
       expect(calcBreakpointIndex(breakpoints, 1200)).toBe(2)
     })
 
-    it('当宽度大于所有断点时应该返回-1', () => {
+    it('应该在宽度大于所有断点时返回-1', () => {
       const breakpoints = [480, 720, 1200]
 
       expect(calcBreakpointIndex(breakpoints, 1500)).toBe(-1)
     })
 
-    it('当断点数组为空时应该返回-1', () => {
+    it('应该在断点数组为空时返回-1', () => {
       expect(calcBreakpointIndex([], 800)).toBe(-1)
     })
   })
 
   describe('calcFactor', () => {
-    it('当值不是数组时应该直接返回该值', () => {
+    it('应该在值不是数组时直接返回该值', () => {
       expect(calcFactor('horizontal', 1)).toBe('horizontal')
       expect(calcFactor(10, 2)).toBe(10)
       expect(calcFactor(null, 0)).toBe(null)
     })
 
-    it('当值是数组时应该返回对应断点索引的值', () => {
+    it('应该在值是数组时返回对应断点索引的值', () => {
       const layouts = ['vertical', 'horizontal', 'inline']
 
       expect(calcFactor(layouts, 0)).toBe('vertical')
@@ -327,27 +327,27 @@ describe('断点计算工具函数', () => {
       expect(calcFactor(layouts, 2)).toBe('inline')
     })
 
-    it('当断点索引超出数组范围时应该返回边界值', () => {
+    it('应该在断点索引超出数组范围时返回边界值', () => {
       const layouts = ['vertical', 'horizontal']
       // -1 具有特殊含义，calcFactor仅为内部使用，不编写对应测试
       expect(calcFactor(layouts, 3)).toBe('horizontal')
     })
 
-    it('当数组为空时应该返回数组本身', () => {
+    it('应该在数组为空时返回数组本身', () => {
       const emptyArray = []
       expect(calcFactor(emptyArray, 0)).toBe(emptyArray)
     })
   })
 
   describe('factor', () => {
-    it('当值有效时应该调用calcFactor', () => {
+    it('应该在值有效时调用calcFactor', () => {
       const layouts = ['vertical', 'horizontal', 'inline']
 
       expect(factor(layouts, 1)).toBe('horizontal')
       expect(factor('vertical', 0)).toBe('vertical')
     })
 
-    it('当值无效时应该直接返回该值', () => {
+    it('应该在值无效时直接返回该值', () => {
       expect(factor(undefined, 1)).toBe(undefined)
       expect(factor(null, 2)).toBe(null)
     })
@@ -381,7 +381,7 @@ describe('断点计算工具函数', () => {
       expect(result.size).toBe('default')
     })
 
-    it('当宽度大于所有断点时应该使用最后一个值', () => {
+    it('应该在宽度大于所有断点时使用最后一个值', () => {
       const props: IFormLayoutProps = {
         breakpoints: [480, 720],
         layout: ['vertical', 'horizontal', 'inline'],
@@ -401,7 +401,7 @@ describe('断点计算工具函数', () => {
       expect(result.wrapperCol).toBe(21)
     })
 
-    it('当属性不是数组时应该保持原值', () => {
+    it('应该在属性不是数组时保持原值', () => {
       const props: IFormLayoutProps = {
         breakpoints: [480, 720],
         layout: 'horizontal',

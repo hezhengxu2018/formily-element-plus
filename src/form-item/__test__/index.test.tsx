@@ -8,9 +8,9 @@ import { stylePrefix } from '../../__builtins__'
 import { FormItem, FormLayout, Input } from '../../index'
 import 'element-plus/theme-chalk/index.css'
 
-describe('form-item 组件', () => {
+describe('FormItem', () => {
   describe('基础功能', () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout>
@@ -28,7 +28,7 @@ describe('form-item 组件', () => {
       await expect.element(container.querySelector('.el-form-item__label')).toHaveTextContent('测试标签')
     })
 
-    it('label 为空时的展示', async () => {
+    it('应该支持label 为空时的展示', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout>
@@ -45,7 +45,7 @@ describe('form-item 组件', () => {
       expect(labelElement).toBeNull()
     })
 
-    it('空字符串 label 的展示', async () => {
+    it('应该支持空字符串 label 的展示', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout>
@@ -65,7 +65,7 @@ describe('form-item 组件', () => {
   })
 
   describe('冒号设置', () => {
-    it('默认显示冒号', async () => {
+    it('应该默认显示冒号', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout>
@@ -85,7 +85,7 @@ describe('form-item 组件', () => {
       })
     })
 
-    it('设置 colon=false 不显示冒号', async () => {
+    it('应该不显示冒号，当设置 colon=false', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout>
@@ -107,7 +107,7 @@ describe('form-item 组件', () => {
   })
 
   describe('宽度设置', () => {
-    it('设置 labelWidth 固定标签宽度', async () => {
+    it('应该固定标签宽度，当设置 labelWidth ', async () => {
       const { getByLabelText } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout>
@@ -126,7 +126,7 @@ describe('form-item 组件', () => {
       expect(labelElement).toHaveStyle({ width: '300px' })
     })
 
-    it('设置 labelWrap=true 允许标签换行', async () => {
+    it('应该允许标签换行，当设置 labelWrap=true', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout>
@@ -142,7 +142,7 @@ describe('form-item 组件', () => {
       expect(container.querySelector('.is-warp')).toBeInTheDocument()
     })
 
-    it('设置 wrapperWidth 固定内容区域宽度', async () => {
+    it('应该固定内容区域宽度，当设置 wrapperWidth', async () => {
       const { getByLabelText } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout>
@@ -162,7 +162,7 @@ describe('form-item 组件', () => {
   })
 
   describe('对齐方式', () => {
-    it('设置 labelAlign=left 标签左对齐', async () => {
+    it('应该标签左对齐，当设置 labelAlign=left', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout>
@@ -180,7 +180,7 @@ describe('form-item 组件', () => {
       await expect(labelElement).toHaveStyle({ justifyContent: 'flex-start' })
     })
 
-    it('设置 labelAlign=right 标签右对齐（默认）', async () => {
+    it('应该标签右对齐（默认），当设置 labelAlign=right', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -197,7 +197,7 @@ describe('form-item 组件', () => {
       expect(labelElement).toHaveStyle({ justifyContent: 'flex-end' })
     })
 
-    it('设置 wrapperAlign=left 内容左对齐（默认）', async () => {
+    it('应该内容左对齐（默认），当设置 wrapperAlign=left', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -215,7 +215,7 @@ describe('form-item 组件', () => {
       expect(contentElement).toHaveStyle({ justifyContent: 'normal' })
     })
 
-    it('设置 wrapperAlign=right 内容右对齐', async () => {
+    it('应该内容右对齐，当设置 wrapperAlign=right', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -235,7 +235,7 @@ describe('form-item 组件', () => {
   })
 
   describe('提示信息', () => {
-    it('设置 tooltip 显示提示图标', async () => {
+    it('应该提示图标显示提示信息，当设置 tooltip', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -248,7 +248,7 @@ describe('form-item 组件', () => {
       ))
     })
 
-    it('设置 tooltipLayout=text 显示文本提示', async () => {
+    it('应该显示文本提示，当设置 tooltipLayout=text', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -264,7 +264,7 @@ describe('form-item 组件', () => {
   })
 
   describe('撑满设置', () => {
-    it('设置 fullness=true 使组件撑满容器', async () => {
+    it('应该撑满容器，当设置 fullness=true', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -279,7 +279,7 @@ describe('form-item 组件', () => {
   })
 
   describe('辅助信息', () => {
-    it('设置 asterisk=true 显示必填星号', async () => {
+    it('应该必填项显示必填星号，当设置 asterisk=true', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -294,7 +294,7 @@ describe('form-item 组件', () => {
       ))
     })
 
-    it('设置 addonBefore 显示前缀', async () => {
+    it('应该前缀显示前缀文本，当设置 addonBefore', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -313,7 +313,7 @@ describe('form-item 组件', () => {
       await expect(addonElement.textContent).toBe('前缀文本')
     })
 
-    it('设置 addonAfter 显示后缀', async () => {
+    it('应该后缀显示后缀文本，当设置 addonAfter', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -332,7 +332,7 @@ describe('form-item 组件', () => {
       await expect(addonElement.textContent).toBe('后缀文本')
     })
 
-    it('设置 feedbackText 显示反馈信息', async () => {
+    it('应该反馈信息显示反馈信息，当设置 feedbackText', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -347,7 +347,7 @@ describe('form-item 组件', () => {
       ))
     })
 
-    it('设置 extra 显示额外信息', async () => {
+    it('应该显示额外信息，当设置 extra', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -364,7 +364,7 @@ describe('form-item 组件', () => {
   })
 
   describe('表单状态', () => {
-    it('设置 feedbackStatus=error 显示错误状态', async () => {
+    it('应该显示错误状态，当设置 feedbackStatus=error', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -378,7 +378,7 @@ describe('form-item 组件', () => {
       ))
     })
 
-    it('设置 feedbackStatus=warning 显示警告状态', async () => {
+    it('应该显示警告状态，当设置 feedbackStatus=warning', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -392,7 +392,7 @@ describe('form-item 组件', () => {
       ))
     })
 
-    it('设置 feedbackStatus=success 显示成功状态', async () => {
+    it('应该显示成功状态，当设置 feedbackStatus=success', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -406,7 +406,7 @@ describe('form-item 组件', () => {
       ))
     })
 
-    it('设置 feedbackStatus=pending 显示加载状态', async () => {
+    it('应该显示加载状态，当设置 feedbackStatus=pending', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -422,7 +422,7 @@ describe('form-item 组件', () => {
   })
 
   describe('反馈信息布局', () => {
-    it('设置 feedbackLayout=terse 使用紧凑模式', async () => {
+    it('应该使用紧凑模式，当设置feedbackLayout=terse时', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -437,7 +437,7 @@ describe('form-item 组件', () => {
       ))
     })
 
-    it('设置 feedbackLayout=loose 使用松散模式', async () => {
+    it('应该使用松散模式，当设置feedbackLayout=loose时', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -452,7 +452,7 @@ describe('form-item 组件', () => {
       ))
     })
 
-    it('设置 feedbackLayout=popover 使用弹出模式', async () => {
+    it('应该使用弹出模式，当设置feedbackLayout=popover时', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -469,7 +469,7 @@ describe('form-item 组件', () => {
   })
 
   describe('布局方式', () => {
-    it('设置 layout=vertical 时标签应该在顶部', async () => {
+    it('应该将标签显示在顶部，当在设置 layout=vertical 时', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout layout="vertical">
@@ -487,7 +487,7 @@ describe('form-item 组件', () => {
       expect(formItemElement).toHaveClass('el-form-item--label-top')
     })
 
-    it('设置 layout 包含 vertical 的数组时标签应该在顶部', async () => {
+    it('应该将标签显示在顶部，当在设置 layout 包含 vertical 的数组时', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout layout={['vertical', 'horizontal']}>
@@ -507,7 +507,7 @@ describe('form-item 组件', () => {
   })
 
   describe('栅格布局', () => {
-    it('设置 labelCol 和 wrapperCol 实现栅格布局', async () => {
+    it('应该实现栅格布局，当设置 labelCol 和 wrapperCol 时', async () => {
       const { container, getByText } = render(() => (
         <FormProvider form={createForm()}>
           <FormItem
@@ -617,7 +617,7 @@ describe('VNode 渲染支持', () => {
     await expect.element(getByText('这是自定义额外信息')).toBeInTheDocument()
   })
 
-  it('多个 VNode 属性同时使用', async () => {
+  it('应该支持多个 VNode 属性同时使用', async () => {
     const CustomLabel = () => <span class="vnode-label">VNode标签</span>
     const CustomAddonBefore = () => <span class="vnode-before">VNode前缀</span>
     const CustomAddonAfter = () => <span class="vnode-after">VNode后缀</span>
@@ -642,7 +642,7 @@ describe('VNode 渲染支持', () => {
     await expect.element(getByText('VNode额外信息')).toBeInTheDocument()
   })
 
-  it('VNode 与字符串属性混合使用', async () => {
+  it('应该支持 VNode 与字符串属性混合使用', async () => {
     const CustomLabel = () => <span class="mixed-label">混合标签</span>
 
     const { container, getByText } = render(() => (
@@ -671,7 +671,7 @@ describe('VNode 渲染支持', () => {
     await expect.element(extra).toHaveTextContent('字符串额外信息')
   })
 
-  it('VNode 渲染复杂组件结构', async () => {
+  it('应该支持 VNode 渲染复杂组件结构', async () => {
     const ComplexLabel = () => (
       <div class="complex-label">
         <div class="label-main">复杂标签</div>

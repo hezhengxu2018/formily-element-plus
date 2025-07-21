@@ -6,9 +6,9 @@ import { Submit } from '../index'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-button.css'
 
-describe('submit 组件', () => {
+describe('Submit', () => {
   describe('基础功能', async () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const { getByRole } = render(() => (
         <Submit>提交</Submit>
       ))
@@ -16,7 +16,7 @@ describe('submit 组件', () => {
       await expect.element(getByRole('button')).toHaveTextContent('提交')
     })
 
-    it('支持点击事件', async () => {
+    it('应该支持点击事件', async () => {
       const onClick = vi.fn()
       const { getByRole } = render(() => (
         <Submit onClick={onClick}>提交</Submit>
@@ -25,7 +25,7 @@ describe('submit 组件', () => {
       expect(onClick).toHaveBeenCalled()
     })
 
-    it('支持阻止提交', async () => {
+    it('应该支持阻止提交', async () => {
       const onClick = vi.fn().mockReturnValue(false)
       const onSubmit = vi.fn()
       const { getByRole } = render(() => (
@@ -38,7 +38,7 @@ describe('submit 组件', () => {
   })
 
   describe('表单交互', async () => {
-    it('支持表单提交', async () => {
+    it('应该支持表单提交', async () => {
       const form = createForm()
       const onSubmit = vi.fn().mockResolvedValue('success')
       const onSubmitSuccess = vi.fn()
@@ -59,7 +59,7 @@ describe('submit 组件', () => {
       await expect(onSubmitSuccess).toHaveBeenCalledWith('success')
     })
 
-    it('支持提交失败处理', async () => {
+    it('应该支持提交失败处理', async () => {
       const form = createForm()
       const error = new Error('提交失败')
       const onSubmit = vi.fn().mockRejectedValue(error)
@@ -81,7 +81,7 @@ describe('submit 组件', () => {
       await expect(onSubmitFailed).toHaveBeenCalledWith(error)
     })
 
-    it('显示加载状态', async () => {
+    it('应该显示加载状态', async () => {
       const form = createForm()
       // 模拟长时间运行的提交
       const onSubmit = vi.fn().mockImplementation(() => {
@@ -104,14 +104,14 @@ describe('submit 组件', () => {
   })
 
   describe('属性传递', async () => {
-    it('支持自定义按钮类型', async () => {
+    it('应该支持自定义按钮类型', async () => {
       const { getByRole } = render(() => (
         <Submit type="danger">删除</Submit>
       ))
       expect(getByRole('button', { name: '提交' }).selector.includes('el-button--danger'))
     })
 
-    it('支持禁用状态', async () => {
+    it('应该支持禁用状态', async () => {
       const onClick = vi.fn()
       const { getByRole } = render(() => (
         <Submit disabled onClick={onClick}>提交</Submit>

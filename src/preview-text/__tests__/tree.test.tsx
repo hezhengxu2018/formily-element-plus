@@ -5,7 +5,7 @@ import { render } from 'vitest-browser-vue'
 import Tree from '../../tree'
 import 'element-plus/theme-chalk/index.css'
 
-describe('previewText.Tree', () => {
+describe('PreviewText.Tree', () => {
   // 树形数据
   const treeData = [
     {
@@ -58,7 +58,7 @@ describe('previewText.Tree', () => {
     },
   ]
 
-  it('应该正确显示选中的节点（all 模式）', async () => {
+  it('应该正确显示选中的节点（在all模式下）', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -87,7 +87,7 @@ describe('previewText.Tree', () => {
     expect(container.textContent).toContain('二级 2-1')
   })
 
-  it('应该正确显示路径模式的数据', async () => {
+  it('应该正确显示路径模式下的数据', async () => {
     const pathData = [
       {
         id: 1,
@@ -255,7 +255,7 @@ describe('previewText.Tree', () => {
     expect(scrollbar).toBeTruthy()
   })
 
-  it('应该正确处理 parent 模式', async () => {
+  it('应该正确处理parent模式', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -276,7 +276,7 @@ describe('previewText.Tree', () => {
     expect(container.textContent).toContain('二级 1-1')
   })
 
-  it('应该正确处理 child 模式', async () => {
+  it('应该正确处理child模式', async () => {
     const form = createForm()
     const { container } = render(
       () => (

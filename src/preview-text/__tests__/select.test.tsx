@@ -5,7 +5,7 @@ import { render } from 'vitest-browser-vue'
 import Select from '../../select'
 import 'element-plus/theme-chalk/index.css'
 
-describe('previewText.Select', () => {
+describe('PreviewText.Select', () => {
   // 选择器的选项数据
   const options = [
     { label: '选项1', value: 1 },
@@ -13,7 +13,7 @@ describe('previewText.Select', () => {
     { label: '选项3', value: 3 },
   ]
 
-  it('单选模式下正确显示选中值', async () => {
+  it('应该在单选模式下正确显示选中值', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -31,7 +31,7 @@ describe('previewText.Select', () => {
     expect(container.textContent).toContain('选项2')
   })
 
-  it('单选模式下显示原始值（当找不到对应选项时）', async () => {
+  it('应该在单选模式下显示原始值（当找不到对应选项时）', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -49,7 +49,7 @@ describe('previewText.Select', () => {
     expect(container.textContent).toContain('4')
   })
 
-  it('多选模式下正确显示多个选中值', async () => {
+  it('应该在多选模式下正确显示多个选中值', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -71,7 +71,7 @@ describe('previewText.Select', () => {
     expect(tags[1].textContent).toContain('选项3')
   })
 
-  it('多选模式下显示原始值（当找不到对应选项时）', async () => {
+  it('应该在多选模式下显示原始值（当找不到对应选项时）', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -93,7 +93,7 @@ describe('previewText.Select', () => {
     expect(tags[1].textContent).toContain('5')
   })
 
-  it('空值显示占位符', async () => {
+  it('应该空值显示占位符', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -111,7 +111,7 @@ describe('previewText.Select', () => {
     expect(container.textContent).toContain('N/A')
   })
 
-  it('处理空数组值', async () => {
+  it('应该处理空数组值', async () => {
     const form = createForm()
     const { container } = render(
       () => (

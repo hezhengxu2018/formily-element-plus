@@ -296,74 +296,60 @@ export function ArrayCollapseDefaultOpenTest(form = createForm()) {
 }
 
 describe('ArrayCollapse', async () => {
-  // 测试字符串数组渲染
-  it('字符串数组渲染', async () => {
+  it('应该字符串数组渲染', async () => {
     const screen = render(ArrayCollapseStringTestFactory())
     await expect.element(screen.getByText('添加条目')).toBeInTheDocument()
     await screen.getByText('添加条目').click()
     await expect.element(screen.getByText('字符串数组')).toBeInTheDocument()
   })
 
-  // 测试对象数组渲染
-  it('对象数组渲染', async () => {
+  it('应该对象数组渲染', async () => {
     const screen = render(ArrayCollapseObjectTest)
     await expect.element(screen.getByText('添加条目')).toBeInTheDocument()
     await screen.getByText('添加条目').click()
     await expect.element(screen.getByText('对象数组')).toBeInTheDocument()
   })
 
-  // 测试添加条目功能
-  it('添加条目功能', async () => {
+  it('应该支持添加条目功能', async () => {
     const screen = render(ArrayCollapseStringTestFactory())
     await screen.getByText('添加条目').click()
-    // 添加后应该有一个输入框
     await expect.element(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
-  // 测试添加多个条目
-  it('添加多个条目', async () => {
+  it('应该支持添加多个条目', async () => {
     const screen = render(ArrayCollapseObjectTest)
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
 
-    // 检查是否有3个输入框
     const inputs = screen.getByRole('textbox')
     expect(inputs.elements()).toHaveLength(3)
   })
 
-  // 测试删除条目功能
-  it('删除条目功能', async () => {
+  it('应该支持删除条目功能', async () => {
     const screen = render(ArrayCollapseStringTestFactory())
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
-
-    // 应该有2个输入框
     let inputs = screen.getByRole('textbox')
     expect(inputs.elements()).toHaveLength(2)
 
-    // 点击第一个删除按钮
     const removeButtons = screen.getByRole('button', { name: /移除条目/ })
     await removeButtons.nth(0).click()
 
-    // 应该只剩1个输入框
     inputs = screen.getByRole('textbox')
     expect(inputs.elements()).toHaveLength(1)
   })
 
-  // 测试上移下移功能
-  it('上移下移功能', async () => {
+  it('应该支持上移下移功能', async () => {
     const form = createForm()
     const screen = render(ArrayCollapseStringTestFactory(form))
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
 
-    // 在输入框中输入值
     const inputs = screen.getByRole('textbox')
     await inputs.nth(0).fill('第一项')
     await inputs.nth(1).fill('第二项')
 
-    // 点击下移按钮
     const moveDownButtons = screen.getByRole('button', { name: '下移条目', exact: true })
     await moveDownButtons.nth(0).click()
 
@@ -376,14 +362,12 @@ describe('ArrayCollapse', async () => {
     expect(form.values.string_array[1].input).toEqual('第二项')
   })
 
-  // 测试unshift添加方法
-  it('unshift添加方法', async () => {
+  it('应该unshift添加方法', async () => {
     const form = createForm()
     const screen = render(ArrayCollapseUnshiftTest, { props: { form } })
     await screen.getByText('添加条目(unshift)').click()
     await screen.getByText('添加条目(unshift)').click()
 
-    // 在输入框中输入值
     const inputs = screen.getByRole('textbox')
     await inputs.nth(0).fill('第一项')
     await inputs.nth(1).fill('第二项')
@@ -392,10 +376,8 @@ describe('ArrayCollapse', async () => {
 
     expect(form.values.array_unshift.length).toBe(3)
 
-    // 填写新添加的项
     await screen.getByRole('textbox').nth(0).fill('第三项')
 
-    // 验证顺序是否正确
     await vi.waitFor(() => {
       expect(form.values.array_unshift[0].input).toBe('第三项')
       expect(form.values.array_unshift[1].input).toBe('第一项')
@@ -403,7 +385,7 @@ describe('ArrayCollapse', async () => {
     })
   })
 
-  it('默认展开面板数量', async () => {
+  it('应该支持默认展开面板数量', async () => {
     const form = createForm({
       initialValues: {
         string_array: [
@@ -418,8 +400,7 @@ describe('ArrayCollapse', async () => {
     expect(collapseItems.length).toBe(2)
   })
 
-  // 测试折叠/展开功能
-  it('折叠/展开功能', async () => {
+  it('应该支持折叠/展开功能', async () => {
     const screen = render(ArrayCollapseStringTestFactory())
     await screen.getByText('添加条目').click()
 
@@ -433,8 +414,7 @@ describe('ArrayCollapse', async () => {
     })
   })
 
-  it('非手风琴模式下 defaultOpenPanelCount 与数据源长度的联动', async () => {
-    // 测试数据源长度小于 defaultOpenPanelCount 的情况
+  it('应该在非手风琴模式下 defaultOpenPanelCount 与数据源长度的联动', async () => {
     const formLess = createForm({
       initialValues: {
         string_array: [
@@ -582,7 +562,7 @@ describe('ArrayCollapse', async () => {
 })
 
 // 测试手风琴模式
-it('手风琴模式下的面板展开行为', async () => {
+it('应该在手风琴模式下的面板展开行为', async () => {
   // 创建带有初始值的表单
   const form = createForm({
     initialValues: {

@@ -5,7 +5,7 @@ import { render } from 'vitest-browser-vue'
 import Cascader from '../../cascader'
 import 'element-plus/theme-chalk/index.css'
 
-describe('previewText.Cascader', () => {
+describe('PreviewText.Cascader', () => {
   // 级联选择器的选项数据
   const options = [
     {
@@ -46,7 +46,7 @@ describe('previewText.Cascader', () => {
     },
   ]
 
-  it('单选模式下正确显示级联路径', async () => {
+  it('应该在单选模式下正确显示级联路径', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -58,7 +58,7 @@ describe('previewText.Cascader', () => {
     expect(container.textContent).toContain('Guide / Disciplines / Consistency')
   })
 
-  it('单选模式下不显示完整路径', async () => {
+  it('应该在单选模式下不显示完整路径', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -77,7 +77,7 @@ describe('previewText.Cascader', () => {
     expect(container.textContent).not.toContain('Guide / Disciplines / Consistency')
   })
 
-  it('多选模式下正确显示多个选项', async () => {
+  it('应该在多选模式下正确显示多个选项', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -102,8 +102,7 @@ describe('previewText.Cascader', () => {
     expect(tags[1].textContent).toContain('Guide / Disciplines / Feedback')
   })
 
-  // 添加新的测试用例：测试多选模式下使用非嵌套数组的兼容性
-  it('多选模式下使用非嵌套数组时的兼容性显示', async () => {
+  it('应该支持在多选模式下使用非嵌套数组时的兼容性显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -123,7 +122,7 @@ describe('previewText.Cascader', () => {
     expect(container.textContent).toContain('Guide / Disciplines / Consistency')
   })
 
-  it('多选模式下不显示完整路径', async () => {
+  it('应该支持在多选模式下不显示完整路径', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -152,7 +151,7 @@ describe('previewText.Cascader', () => {
     expect(tags[1].textContent).toContain('Feedback')
   })
 
-  it('自定义分隔符', async () => {
+  it('应该支持自定义分隔符', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -171,7 +170,7 @@ describe('previewText.Cascader', () => {
     expect(container.textContent).toContain('Guide > Disciplines > Consistency')
   })
 
-  it('空值显示占位符', async () => {
+  it('应该支持空值显示占位符', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -190,7 +189,7 @@ describe('previewText.Cascader', () => {
     expect(container.textContent).toContain('N/A')
   })
 
-  it('自定义值和标签字段', async () => {
+  it('应该自定义值和标签字段', async () => {
     const form = createForm()
     const customOptions = [
       {

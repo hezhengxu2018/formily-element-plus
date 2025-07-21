@@ -58,7 +58,7 @@ function ArrayTabsWithArrayItemsTestFactory(form = createForm()) {
 
 describe('ArrayTabs', () => {
   describe('基础功能', () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -97,7 +97,7 @@ describe('ArrayTabs', () => {
       await expect.element(getByText('字符串数组 1')).toBeInTheDocument()
     })
 
-    it('支持字符串数组输入', async () => {
+    it('应该支持字符串数组输入', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -136,7 +136,7 @@ describe('ArrayTabs', () => {
       expect(form.values.string_array).toEqual(['测试文本'])
     })
 
-    it('支持对象数组输入', async () => {
+    it('应该支持对象数组输入', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -198,7 +198,7 @@ describe('ArrayTabs', () => {
   })
 
   describe('交互功能', () => {
-    it('添加新标签页', async () => {
+    it('应该支持添加新标签页', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -241,7 +241,7 @@ describe('ArrayTabs', () => {
       expect(form.values.string_array.length).toBe(2)
     })
 
-    it('删除标签页', async () => {
+    it('应该支持删除标签页', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -286,7 +286,7 @@ describe('ArrayTabs', () => {
       expect(form.values.string_array.length).toBe(1)
     })
 
-    it('切换标签页', async () => {
+    it('应该支持切换标签页', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -338,7 +338,7 @@ describe('ArrayTabs', () => {
   })
 
   describe('错误处理', () => {
-    it('显示错误提示', async () => {
+    it('应该显示错误提示', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -385,7 +385,7 @@ describe('ArrayTabs', () => {
   })
 
   describe('属性传递', () => {
-    it('支持自定义属性', async () => {
+    it('应该支持自定义属性', async () => {
       const onTabAdd = vi.fn()
       const onTabRemove = vi.fn()
 
@@ -439,7 +439,7 @@ describe('ArrayTabs', () => {
   })
 
   describe('items数组功能', () => {
-    it('items为数组时按顺序渲染不同控件', async () => {
+    it('应该支持items为数组时，按顺序渲染不同控件', async () => {
       const form = createForm({
         initialValues: {
           string_array: ['', ''],
@@ -453,7 +453,7 @@ describe('ArrayTabs', () => {
       await expect.element(getByPlaceholder('选择日期')).toBeInTheDocument()
     })
 
-    it('items数组循环渲染测试', async () => {
+    it('应该支持items数组时的循环渲染', async () => {
       const { container, getByPlaceholder } = render(ArrayTabsWithArrayItemsTestFactory())
 
       // 添加第一个标签页（使用第一个模板）
@@ -473,7 +473,7 @@ describe('ArrayTabs', () => {
       expect(tabs.length).toBe(3)
     })
 
-    it('items数组删除标签页功能', async () => {
+    it('应该支持items数组时的删除标签页功能', async () => {
       const form = createForm()
       const { container } = render(ArrayTabsWithArrayItemsTestFactory(form))
 

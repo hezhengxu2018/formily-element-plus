@@ -12,23 +12,23 @@ import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-image-viewer.css'
 
-describe('upload 组件', () => {
+describe('Upload', () => {
   describe('基础功能', async () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const { getByRole } = render(() => (
         <Upload action="#" textContent="上传" />
       ))
       await expect.element(getByRole('button')).toBeInTheDocument()
     })
 
-    it('支持自定义文本内容', async () => {
+    it('应该支持自定义文本内容', async () => {
       const { getByText } = render(() => (
         <Upload action="#" textContent="上传文件" />
       ))
       await expect.element(getByText('上传文件')).toBeInTheDocument()
     })
 
-    it('支持拖拽上传模式', async () => {
+    it('应该支持拖拽上传模式', async () => {
       const { container } = render(() => (
         <Upload action="#" drag textContent="拖拽上传" />
       ))
@@ -36,7 +36,7 @@ describe('upload 组件', () => {
       await expect.element(container.querySelector('.el-upload__text')).toHaveTextContent('拖拽上传')
     })
 
-    it('支持卡片上传模式', async () => {
+    it('应该支持卡片上传模式', async () => {
       const { container } = render(() => (
         <Upload action="#" listType="picture-card" />
       ))
@@ -45,7 +45,7 @@ describe('upload 组件', () => {
   })
 
   describe('表单交互', async () => {
-    it('上传文件后表单的值应该经过formatValue的转化', async () => {
+    it('应该在上传文件后表单的值经过formatValue的转化', async () => {
       const form = createForm()
       const file = new File(['file'], 'file.png', { type: 'image/png' })
       const file2 = new File(['file2'], 'file2.png', { type: 'image/png' })
@@ -77,7 +77,7 @@ describe('upload 组件', () => {
       expect(form.values.upload).toEqual(['http://example.com/file.png', 'http://example.com/file2.png'])
     })
 
-    it('limit = 1时新选择的值应该替换原有文件', async () => {
+    it('应该在limit = 1时新选择的值替换原有文件', async () => {
       const form = createForm()
       const file = new File(['file'], 'file.png', { type: 'image/png' })
       const file2 = new File(['file2'], 'file2.png', { type: 'image/png' })
@@ -109,7 +109,7 @@ describe('upload 组件', () => {
       expect(form.values.upload).toEqual(['http://example.com/file2.png'])
     })
 
-    it('关闭自动上传时表单的值应该经过formatValue的转化', async () => {
+    it('应该在关闭自动上传时表单的值经过formatValue的转化', async () => {
       const form = createForm()
       const file = new File(['file'], 'file.png', { type: 'image/png' })
       const file2 = new File(['file2'], 'file2.png', { type: 'image/png' })
@@ -141,7 +141,7 @@ describe('upload 组件', () => {
   })
 
   describe('事件触发', () => {
-    it('on Error', async () => {
+    it('应该on Error', async () => {
       const form = createForm()
       const file = new File(['file'], 'file.png', { type: 'image/png' })
       const httpRequest = async () => {
@@ -172,7 +172,7 @@ describe('upload 组件', () => {
       expect(mockFormatValue).toHaveBeenCalled()
     })
 
-    it('on Exceed', async () => {
+    it('应该on Exceed', async () => {
       const form = createForm()
       const file = new File(['file'], 'file.png', { type: 'image/png' })
       const file2 = new File(['file2'], 'file2.png', { type: 'image/png' })
@@ -206,7 +206,7 @@ describe('upload 组件', () => {
       expect(mockExceed).toHaveBeenCalledOnce()
     })
 
-    it('on Remove', async () => {
+    it('应该on Remove', async () => {
       const form = createForm()
       const file = new File(['file'], 'file.png', { type: 'image/png' })
       const file2 = new File(['file2'], 'file2.png', { type: 'image/png' })
@@ -243,7 +243,7 @@ describe('upload 组件', () => {
       expect(mockRemove).toHaveBeenCalledOnce()
     })
 
-    it('on Preview', async () => {
+    it('应该支持图片预览', async () => {
       const form = createForm()
       const file = new File(['file'], 'file.text', { type: 'palin/text' })
       const httpRequest = vi.fn().mockImplementation(async (options) => {
@@ -274,7 +274,7 @@ describe('upload 组件', () => {
   })
 
   describe('插槽功能', async () => {
-    it('支持默认插槽', async () => {
+    it('应该支持默认插槽', async () => {
       const { getByText } = render(() => (
         <Upload action="#">
           <div>自定义上传按钮</div>
@@ -284,7 +284,7 @@ describe('upload 组件', () => {
       await expect.element(getByText('自定义上传按钮')).toBeInTheDocument()
     })
 
-    it('支持tip插槽', async () => {
+    it('应该支持tip插槽', async () => {
       const { getByText } = render(() => (
         <Upload action="#">
           {{
@@ -296,7 +296,7 @@ describe('upload 组件', () => {
       await expect.element(getByText('上传提示信息')).toBeInTheDocument()
     })
 
-    it('支持trigger插槽', async () => {
+    it('应该支持trigger插槽', async () => {
       const { getByText } = render(() => (
         <Upload action="#">
           {{
@@ -310,7 +310,7 @@ describe('upload 组件', () => {
       await expect.element(getByText('默认的内容')).toBeInTheDocument()
     })
 
-    it('支持file插槽', async () => {
+    it('应该支持file插槽', async () => {
       const { container, getByText } = render(() => (
         <Upload action="#">
           {{
@@ -330,7 +330,7 @@ describe('upload 组件', () => {
   })
 
   describe('组件封装新增交互', async () => {
-    it('当文件类型是图片时默认支持图片预览', async () => {
+    it('应该在当文件类型是图片时默认支持图片预览时正确处理', async () => {
       const form = createForm()
       const httpRequest = vi.fn().mockImplementation(async (options) => {
         return `http://example.com/${options.file.name}`
@@ -362,7 +362,7 @@ describe('upload 组件', () => {
       expect(document.querySelector('.el-image-viewer__wrapper')).toBeNull()
     })
 
-    it('当文件类型不是图片时关闭图片预览', async () => {
+    it('应该在当文件类型不是图片时关闭图片预览时正确处理', async () => {
       const form = createForm()
       const httpRequest = vi.fn().mockImplementation(async (options) => {
         return `http://example.com/${options.file.name}`
@@ -392,7 +392,7 @@ describe('upload 组件', () => {
       expect(document.querySelector('.el-image-viewer__wrapper')).toBeNull()
     })
 
-    it('支持获取ElUpload实例', async () => {
+    it('应该支持获取ElUpload实例', async () => {
       const form = createForm()
 
       const { getByText } = render(() => (

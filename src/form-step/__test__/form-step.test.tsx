@@ -8,9 +8,9 @@ import { defineComponent } from 'vue'
 import { FormButtonGroup, FormItem, FormLayout, FormStep, Input, Submit } from '../../index'
 import 'element-plus/theme-chalk/index.css'
 
-describe('FormStep 组件', () => {
+describe('FormStep', () => {
   describe('基础功能', () => {
-    it('通过 schema 正常渲染', async () => {
+    it('应该通过 schema 正常渲染', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -83,7 +83,7 @@ describe('FormStep 组件', () => {
       expect(container.querySelectorAll('.el-step').length).toBe(2)
     })
 
-    it('设置默认当前步骤', async () => {
+    it('应该支持设置默认当前步骤', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -153,7 +153,7 @@ describe('FormStep 组件', () => {
       expect(formStep.current).toBe(1)
     })
 
-    it('通过按钮控制步骤导航', async () => {
+    it('应该支持通过按钮控制步骤导航', async () => {
       const submit = vi.fn()
       const { getByRole, getByLabelText } = render(observer(defineComponent({
         setup() {
@@ -280,12 +280,12 @@ describe('FormStep 组件', () => {
         formStep = FormStep.createFormStep()
       })
 
-      it('setCurrent 方法正确设置当前步骤', () => {
+      it('应该setCurrent 方法正确设置当前步骤', () => {
         formStep.setCurrent(1)
         expect(formStep.current).toBe(1)
       })
 
-      it('next 方法正确前进到下一步', async () => {
+      it('应该next 方法正确前进到下一步', async () => {
         vi.spyOn(form, 'validate').mockResolvedValue(null)
 
         // 模拟连接步骤
@@ -301,13 +301,13 @@ describe('FormStep 组件', () => {
         expect(formStep.current).toBe(1)
       })
 
-      it('back 方法正确返回上一步', async () => {
+      it('应该可以通过 back 方法正确返回上一步', async () => {
         formStep.setCurrent(1)
         await formStep.back()
         expect(formStep.current).toBe(0)
       })
 
-      it('submit 方法正确提交表单', async () => {
+      it('应该可以通过 submit 方法正确提交表单', async () => {
         const submitSpy = vi.spyOn(form, 'submit').mockImplementation(() => {
           return Promise.resolve(form.values)
         })
@@ -327,7 +327,7 @@ describe('FormStep 组件', () => {
   })
 
   describe('插槽功能', () => {
-    it('支持自定义 title 插槽', async () => {
+    it('应该支持自定义 title 插槽', async () => {
       const CustomTitle = defineComponent({
         setup() {
           return () => <span class="custom-title">自定义标题</span>
@@ -391,7 +391,7 @@ describe('FormStep 组件', () => {
       await expect.element(container.querySelector('.custom-title')).toHaveTextContent('自定义标题')
     })
 
-    it('支持自定义 icon 插槽', async () => {
+    it('应该支持自定义 icon 插槽', async () => {
       const CustomIcon = defineComponent({
         setup() {
           return () => <span class="custom-icon">图标</span>
@@ -455,7 +455,7 @@ describe('FormStep 组件', () => {
       await expect.element(container.querySelector('.custom-icon')).toHaveTextContent('图标')
     })
 
-    it('支持自定义 description 插槽', async () => {
+    it('应该支持自定义 description 插槽', async () => {
       const CustomDescription = defineComponent({
         setup() {
           return () => <span class="custom-description">自定义描述</span>
@@ -519,7 +519,7 @@ describe('FormStep 组件', () => {
       await expect.element(container.querySelector('.custom-description')).toHaveTextContent('自定义描述')
     })
 
-    it('支持字符串类型的插槽内容', async () => {
+    it('应该支持字符串类型的插槽内容', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -578,7 +578,7 @@ describe('FormStep 组件', () => {
       await expect.element(getByText('自定义字符串描述')).toBeInTheDocument()
     })
 
-    it('支持数字类型的插槽内容', async () => {
+    it('应该支持数字类型的插槽内容', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,

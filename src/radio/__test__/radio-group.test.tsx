@@ -8,7 +8,7 @@ import 'element-plus/theme-chalk/el-radio.css'
 
 describe('radio-group', () => {
   describe('基础数据展示及交互', async () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -29,7 +29,7 @@ describe('radio-group', () => {
       expect(form.values.radio).toEqual('2')
     })
 
-    it('可以正确返显数据', async () => {
+    it('应该正确返显数据', async () => {
       const form = createForm()
       const { getByRole } = render(() => (
         <FormProvider form={form}>
@@ -54,7 +54,7 @@ describe('radio-group', () => {
       await expect.element(getByRole('radio', { name: '标签2' })).toBeChecked()
     })
 
-    it('支持禁用状态', async () => {
+    it('应该支持禁用状态', async () => {
       const form = createForm()
       const { getByRole } = render(() => (
         <FormProvider form={form}>
@@ -74,7 +74,7 @@ describe('radio-group', () => {
       await expect.element(getByRole('radio', { name: '标签2' })).toBeDisabled()
     })
 
-    it('支持字符串数组作为选项', async () => {
+    it('应该支持字符串数组作为选项', async () => {
       const form = createForm()
       const { getByRole, getByText } = render(() => (
         <FormProvider form={form}>
@@ -95,7 +95,7 @@ describe('radio-group', () => {
   })
 
   describe('使用插槽渲染', async () => {
-    it('可以正确渲染', async () => {
+    it('应该正确渲染', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -119,7 +119,7 @@ describe('radio-group', () => {
   })
 
   describe('按钮模式', async () => {
-    it('可以渲染为按钮样式', async () => {
+    it('应该渲染为按钮样式', async () => {
       const form = createForm()
       const { container } = render(() => (
         <FormProvider form={form}>

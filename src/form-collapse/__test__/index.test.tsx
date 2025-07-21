@@ -6,9 +6,9 @@ import { render } from 'vitest-browser-vue'
 import { FormCollapse, FormItem, FormLayout, Input, Submit } from '../../index'
 import 'element-plus/theme-chalk/index.css'
 
-describe('FormCollapse 组件', () => {
+describe('FormCollapse', () => {
   describe('基础功能', () => {
-    it('通过 schema 正常渲染', async () => {
+    it('应该通过 schema 正常渲染', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -82,7 +82,7 @@ describe('FormCollapse 组件', () => {
       await expect.element(container.querySelector('.el-collapse-item')).toBeInTheDocument()
     })
 
-    it('设置默认展开项', async () => {
+    it('应该设置默认展开项', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -156,7 +156,7 @@ describe('FormCollapse 组件', () => {
       await expect.element(activePanel).toHaveTextContent('A1')
     })
 
-    it('通过 activeKey 设置展开项', async () => {
+    it('应该通过 activeKey 设置展开项', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -233,7 +233,7 @@ describe('FormCollapse 组件', () => {
   })
 
   describe('错误状态展示', () => {
-    it('显示错误数量', async () => {
+    it('应该显示错误数量', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -302,34 +302,34 @@ describe('FormCollapse 组件', () => {
   })
 
   describe('FormCollapse API', () => {
-    it('hasActiveKey 方法正确判断', async () => {
+    it('应该可以通过hasActiveKey 方法正确判断', async () => {
       const formCollapse = FormCollapse.createFormCollapse(['tab1'])
       expect(formCollapse.hasActiveKey('tab1')).toBe(true)
       expect(formCollapse.hasActiveKey('tab2')).toBe(false)
     })
 
-    it('setActiveKeys 方法正确设置', async () => {
+    it('应该可以通过setActiveKeys 方法正确设置', async () => {
       const formCollapse = FormCollapse.createFormCollapse(['tab1'])
       formCollapse.setActiveKeys(['tab2'])
       expect(formCollapse.hasActiveKey('tab1')).toBe(false)
       expect(formCollapse.hasActiveKey('tab2')).toBe(true)
     })
 
-    it('addActiveKey 方法正确添加', async () => {
+    it('应该可以通过addActiveKey 方法正确添加', async () => {
       const formCollapse = FormCollapse.createFormCollapse(['tab1'])
       formCollapse.addActiveKey('tab2')
       expect(formCollapse.hasActiveKey('tab1')).toBe(true)
       expect(formCollapse.hasActiveKey('tab2')).toBe(true)
     })
 
-    it('removeActiveKey 方法正确移除', async () => {
+    it('应该可以通过removeActiveKey 方法正确移除', async () => {
       const formCollapse = FormCollapse.createFormCollapse(['tab1', 'tab2'])
       formCollapse.removeActiveKey('tab1')
       expect(formCollapse.hasActiveKey('tab1')).toBe(false)
       expect(formCollapse.hasActiveKey('panel2')).toBe(false)
     })
 
-    it('toggleActiveKey 方法正确切换', async () => {
+    it('应该可以通过toggleActiveKey 方法正确切换', async () => {
       const formCollapse = FormCollapse.createFormCollapse(['tab1'])
       formCollapse.toggleActiveKey('tab1')
       expect(formCollapse.hasActiveKey('tab1')).toBe(false)
@@ -340,7 +340,7 @@ describe('FormCollapse 组件', () => {
   })
 
   describe('自定义标题', () => {
-    it('通过 x-content.title 自定义标题', async () => {
+    it('应该可以通过 x-content.title 自定义标题', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -400,7 +400,7 @@ describe('FormCollapse 组件', () => {
       await expect.element(container.querySelector('.el-collapse-item__header')).toHaveTextContent('自定义标题')
     })
 
-    it('通过 x-content.title 函数自定义标题', async () => {
+    it('应该可以通过 x-content.title 函数自定义标题', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -464,7 +464,7 @@ describe('FormCollapse 组件', () => {
       expect(customTitle).toHaveBeenCalled()
     })
 
-    it('通过 x-content.title 函数显示错误数量', async () => {
+    it('应该可以通过 x-content.title 函数显示错误数量', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -548,7 +548,7 @@ describe('FormCollapse 组件', () => {
   })
 
   describe('配置项测试', () => {
-    it('accordion 模式下只能展开一个面板', async () => {
+    it('应该只能展开一个面板，在accordion模式下', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -626,7 +626,7 @@ describe('FormCollapse 组件', () => {
       // 模拟点击第二个面板
       const secondPanelHeader = container.querySelectorAll('.el-collapse-item__header')[1]
       await userEvent.click(secondPanelHeader)
-      // 点击后，只有第二个面板应该展开，第一个面板应该关闭
+      // 点击后，只有第二个面板展开，第一个面板关闭
       const newActivePanels = container.querySelectorAll('.el-collapse-item.is-active')
       expect(newActivePanels.length).toBe(1)
       await expect.element(newActivePanels[0]).toHaveTextContent('A2')
@@ -636,7 +636,7 @@ describe('FormCollapse 组件', () => {
       expect(formCollapse.hasActiveKey('tab2')).toBe(true)
     })
 
-    it('不提供 formCollapse 时正常渲染', async () => {
+    it('应该正常渲染，在不提供 formCollapse 时', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -710,7 +710,7 @@ describe('FormCollapse 组件', () => {
       expect(activePanels.length).toBe(2)
     })
 
-    it('直接配置 activeKey 属性正常渲染', async () => {
+    it('应该正常渲染，在配置 activeKey 属性时', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -787,7 +787,7 @@ describe('FormCollapse 组件', () => {
       await expect.element(activePanels[0]).toHaveTextContent('A2')
     })
 
-    it('可以通过 visible 属性控制面板的显示和隐藏', async () => {
+    it('应该通过 visible 属性控制面板的显示和隐藏', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,

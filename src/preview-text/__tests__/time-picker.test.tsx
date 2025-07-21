@@ -5,8 +5,8 @@ import { render } from 'vitest-browser-vue'
 import TimePicker from '../../time-picker'
 import 'element-plus/theme-chalk/index.css'
 
-describe('previewText.TimePicker', () => {
-  it('基础时间显示', async () => {
+describe('PreviewText.TimePicker', () => {
+  it('应该支持基础时间显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -25,7 +25,7 @@ describe('previewText.TimePicker', () => {
     expect(container.textContent).toContain('14:30:45')
   })
 
-  it('自定义时间格式', async () => {
+  it('应该支持自定义时间格式', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -42,7 +42,7 @@ describe('previewText.TimePicker', () => {
     expect(container.textContent).toContain('14时30分45秒')
   })
 
-  it('时间范围显示', async () => {
+  it('应该支持时间范围显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -61,7 +61,7 @@ describe('previewText.TimePicker', () => {
     expect(container.textContent).toContain('~')
   })
 
-  it('自定义范围分隔符', async () => {
+  it('应该支持自定义范围分隔符', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -81,7 +81,7 @@ describe('previewText.TimePicker', () => {
     expect(container.textContent).toContain('09:00:00 至 18:00:00')
   })
 
-  it('空值显示占位符', async () => {
+  it('应该支持空值显示占位符', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -98,7 +98,7 @@ describe('previewText.TimePicker', () => {
     expect(container.textContent).toContain('N/A')
   })
 
-  it('时间范围部分值显示', async () => {
+  it('应该时间范围部分值显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -116,7 +116,7 @@ describe('previewText.TimePicker', () => {
     expect(container.textContent).toContain('N/A')
   })
 
-  it('处理日期时间对象', async () => {
+  it('应该默认处理日期时间对象', async () => {
     const form = createForm()
     const date = new Date('2023-05-15T14:30:45')
     const { container } = render(
@@ -134,7 +134,7 @@ describe('previewText.TimePicker', () => {
     expect(container.textContent).toContain('14:30:45')
   })
 
-  it('处理日期时间对象范围', async () => {
+  it('应该支持处理日期时间对象范围', async () => {
     const form = createForm()
     const startDate = new Date('2023-05-15T09:00:00')
     const endDate = new Date('2023-05-15T18:00:00')

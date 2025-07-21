@@ -5,8 +5,8 @@ import { render } from 'vitest-browser-vue'
 import Input from '../../input'
 import 'element-plus/theme-chalk/index.css'
 
-describe('previewText.Input', () => {
-  it('基础输入框显示', async () => {
+describe('PreviewText.Input', () => {
+  it('应该支持基础输入框显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -23,7 +23,7 @@ describe('previewText.Input', () => {
     expect(container.textContent).toContain('测试文本')
   })
 
-  it('空值显示占位符', async () => {
+  it('应该支持空值显示占位符', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -40,7 +40,7 @@ describe('previewText.Input', () => {
     expect(container.textContent).toContain('N/A')
   })
 
-  it('使用格式化函数', async () => {
+  it('应该支持使用格式化函数', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -59,7 +59,7 @@ describe('previewText.Input', () => {
     expect(container.textContent).toContain('¥ 1,000')
   })
 
-  it('渲染前置插槽', async () => {
+  it('应该支持渲染前置插槽', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -82,7 +82,7 @@ describe('previewText.Input', () => {
     expect(container.textContent).toContain('测试文本')
   })
 
-  it('渲染前缀插槽', async () => {
+  it('应该支持渲染前缀插槽', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -105,7 +105,7 @@ describe('previewText.Input', () => {
     expect(container.textContent).toContain('测试文本')
   })
 
-  it('渲染后缀插槽', async () => {
+  it('应该支持渲染后缀插槽', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -128,7 +128,7 @@ describe('previewText.Input', () => {
     expect(container.textContent).toContain('测试文本')
   })
 
-  it('渲染后置插槽', async () => {
+  it('应该支持渲染后置插槽', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -151,7 +151,7 @@ describe('previewText.Input', () => {
     expect(container.textContent).toContain('测试文本')
   })
 
-  it('同时渲染多个插槽', async () => {
+  it('应该支持同时渲染多个插槽', async () => {
     const form = createForm()
     const { container } = render(
       () => (

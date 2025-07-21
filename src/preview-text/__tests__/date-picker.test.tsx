@@ -5,8 +5,8 @@ import { render } from 'vitest-browser-vue'
 import DatePicker from '../../date-picker'
 import 'element-plus/theme-chalk/index.css'
 
-describe('previewText.DatePicker', () => {
-  it('基础日期显示', async () => {
+describe('PreviewText.DatePicker', () => {
+  it('应该支持基础日期显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -23,7 +23,7 @@ describe('previewText.DatePicker', () => {
     expect(container.textContent).toContain('2023-05-15')
   })
 
-  it('自定义日期格式', async () => {
+  it('应该支持自定义日期格式', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -40,7 +40,7 @@ describe('previewText.DatePicker', () => {
     expect(container.textContent).toContain('2023年05月15日')
   })
 
-  it('日期时间类型', async () => {
+  it('应该支持日期时间类型', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -60,7 +60,7 @@ describe('previewText.DatePicker', () => {
     expect(container.textContent).toContain('2023-05-15 14:30:00')
   })
 
-  it('datetime 类型默认格式', async () => {
+  it('应该支持 datetime 类型默认格式', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -78,7 +78,7 @@ describe('previewText.DatePicker', () => {
   })
 
   // 新增：测试 year 类型
-  it('year 类型显示', async () => {
+  it('应该支持 year 类型显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -96,7 +96,7 @@ describe('previewText.DatePicker', () => {
   })
 
   // 新增：测试 month 类型
-  it('month 类型显示', async () => {
+  it('应该支持 month 类型显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -114,7 +114,7 @@ describe('previewText.DatePicker', () => {
   })
 
   // 新增：测试 week 类型
-  it('week 类型显示', async () => {
+  it('应该支持 week 类型显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -132,7 +132,7 @@ describe('previewText.DatePicker', () => {
   })
 
   // 新增：测试 monthrange 类型
-  it('monthrange 类型显示', async () => {
+  it('应该支持 monthrange 类型显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -151,7 +151,7 @@ describe('previewText.DatePicker', () => {
   })
 
   // 新增：测试 yearrange 类型
-  it('yearrange 类型显示', async () => {
+  it('应该支持 yearrange 类型显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -170,7 +170,7 @@ describe('previewText.DatePicker', () => {
   })
 
   // 新增：测试 datetimerange 类型
-  it('datetimerange 类型显示', async () => {
+  it('应该支持 datetimerange 类型显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -189,7 +189,7 @@ describe('previewText.DatePicker', () => {
   })
 
   // 新增：测试 years 类型（多年选择）
-  it('years 类型显示', async () => {
+  it('应该支持 years 类型显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -212,7 +212,7 @@ describe('previewText.DatePicker', () => {
   })
 
   // 新增：测试 months 类型（多月选择）
-  it('months 类型显示', async () => {
+  it('应该支持 months 类型显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -234,8 +234,7 @@ describe('previewText.DatePicker', () => {
     expect(tags[2].textContent).toContain('2023-12')
   })
 
-  // 新增：测试未知类型使用默认格式
-  it('未知类型使用默认格式', async () => {
+  it('应该在未知类型时使用默认格式', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -252,7 +251,7 @@ describe('previewText.DatePicker', () => {
     expect(container.textContent).toContain('2023-05-15')
   })
 
-  it('日期范围显示', async () => {
+  it('应该支持日期范围显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -272,7 +271,7 @@ describe('previewText.DatePicker', () => {
     expect(container.textContent).toContain('2023-05-15')
   })
 
-  it('自定义范围分隔符', async () => {
+  it('应该支持自定义范围分隔符', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -292,7 +291,7 @@ describe('previewText.DatePicker', () => {
     expect(container.textContent).toContain('2023-05-01 至 2023-05-15')
   })
 
-  it('多个日期显示', async () => {
+  it('应该多个日期显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -316,7 +315,7 @@ describe('previewText.DatePicker', () => {
     expect(tags[2].textContent).toContain('2023-05-30')
   })
 
-  it('空值显示占位符', async () => {
+  it('应该空值显示占位符', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -333,7 +332,7 @@ describe('previewText.DatePicker', () => {
     expect(container.textContent).toContain('N/A')
   })
 
-  it('日期范围部分值显示', async () => {
+  it('应该支持日期范围部分值显示', async () => {
     const form = createForm()
     const { container } = render(
       () => (

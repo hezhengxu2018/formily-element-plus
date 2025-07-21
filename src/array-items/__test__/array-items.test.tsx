@@ -326,29 +326,25 @@ export const ArrayItemsWithItemTest = defineComponent({
 })
 
 describe('ArrayItems', async () => {
-  // 测试字符串数组渲染
-  it('字符串数组渲染', async () => {
+  it('应该支持字符串数组渲染', async () => {
     const screen = render(ArrayItemsStringTestFactory())
     await expect.element(screen.getByText('字符串数组')).toBeInTheDocument()
     await expect.element(screen.getByText('添加条目')).toBeInTheDocument()
   })
 
-  // 测试对象数组渲染
-  it('对象数组渲染', async () => {
+  it('应该支持对象数组渲染', async () => {
     const screen = render(ArrayItemsObjectTest)
     await expect.element(screen.getByText('对象数组')).toBeInTheDocument()
     await expect.element(screen.getByText('添加条目')).toBeInTheDocument()
   })
 
-  // 测试使用ArrayItems.Item的渲染
-  it('使用ArrayItems.Item渲染', async () => {
+  it('应该支持使用ArrayItems.Item渲染', async () => {
     const screen = render(ArrayItemsWithItemTest)
     await expect.element(screen.getByText('对象数组')).toBeInTheDocument()
     await expect.element(screen.getByText('添加条目')).toBeInTheDocument()
   })
 
-  // 新增：测试items为数组时按顺序渲染不同控件
-  it('items为数组时按顺序渲染不同控件', async () => {
+  it('应该按顺序渲染不同控件，在items为数组时', async () => {
     const form = createForm({
       initialValues: {
         string_array: ['', ''],
@@ -362,16 +358,14 @@ describe('ArrayItems', async () => {
     expect(screen.getByPlaceholder('输入字符串').elements()).toHaveLength(2)
   })
 
-  // 测试添加条目功能
-  it('添加条目功能', async () => {
+  it('应该支持添加条目功能', async () => {
     const screen = render(ArrayItemsStringTestFactory())
     await screen.getByText('添加条目').click()
     // 添加后应该有一个输入框
     await expect.element(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
-  // 测试添加多个条目
-  it('添加多个条目', async () => {
+  it('应该支持添加多个条目', async () => {
     const screen = render(ArrayItemsObjectTest)
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
@@ -382,7 +376,7 @@ describe('ArrayItems', async () => {
     expect(inputs.elements()).toHaveLength(3)
   })
 
-  it('删除条目功能', async () => {
+  it('应该支持删除条目功能', async () => {
     const screen = render(ArrayItemsStringTestFactory())
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
@@ -400,7 +394,7 @@ describe('ArrayItems', async () => {
     expect(inputs.elements()).toHaveLength(1)
   })
 
-  it('对象的上移下移功能', async () => {
+  it('应该支持对象的上移下移功能', async () => {
     const screen = render(ArrayItemsObjectTest)
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
@@ -428,7 +422,7 @@ describe('ArrayItems', async () => {
     await inputs2.nth(1).fill('第二项')
   })
 
-  it('数组的上移下移功能', async () => {
+  it('应该支持数组的上移下移功能', async () => {
     const screen = render(ArrayItemsStringTestFactory())
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
@@ -456,7 +450,7 @@ describe('ArrayItems', async () => {
     await inputs2.nth(1).fill('第二项')
   })
 
-  it('拖拽功能', async () => {
+  it('应该支持拖拽功能', async () => {
     const form = createForm({
       initialValues: {
         string_array: ['第一项', '第二项', '第三项'],
@@ -479,7 +473,7 @@ describe('ArrayItems', async () => {
     })
   })
 
-  it('不同类型的ArrayItems.Item', async () => {
+  it('应该支持不同类型的ArrayItems.Item渲染', async () => {
     const screen = render(ArrayItemsWithItemTest)
     await screen.getByText('添加条目').click()
     const cardItem = screen.container.querySelector('.formily-element-plus-array-items-card')

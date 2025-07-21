@@ -57,9 +57,9 @@ const mockData = [
   },
 ]
 
-describe('Tree 组件', () => {
+describe('Tree', () => {
   describe('基础功能', () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout>
@@ -82,7 +82,7 @@ describe('Tree 组件', () => {
       await expect.element(container.querySelector('.el-checkbox')).toBeInTheDocument()
     })
 
-    it('点击节点勾选功能', async () => {
+    it('应该支持点击节点勾选功能', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -117,7 +117,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('点击父节点勾选所有子节点', async () => {
+    it('应该支持点击父节点勾选所有子节点', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -157,7 +157,7 @@ describe('Tree 组件', () => {
   })
 
   describe('valueType 功能', () => {
-    it('valueType=all 点击节点返回所有选中节点', async () => {
+    it('应该valueType=all 点击节点返回所有选中节点', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -200,7 +200,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('valueType=parent 点击节点优先返回父节点', async () => {
+    it('应该valueType=parent 点击节点优先返回父节点', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -238,7 +238,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('valueType=child 点击节点仅返回子节点', async () => {
+    it('应该valueType=child 点击节点仅返回子节点', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -277,7 +277,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('optionFormatter 基础功能测试', async () => {
+    it('应该支持optionFormatter 基础功能', async () => {
       const form = createForm()
       const mockFormatter = vi.fn((node, index, array) => ({
         ...node,
@@ -334,7 +334,7 @@ describe('Tree 组件', () => {
   })
 
   describe('checkStrictly 功能', () => {
-    it('checkStrictly=true 父子节点不关联点击测试', async () => {
+    it('应该支持checkStrictly=true 父子节点不关联点击', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -375,7 +375,7 @@ describe('Tree 组件', () => {
   })
 
   describe('禁用状态', () => {
-    it('disabled=true 节点处于禁用状态', async () => {
+    it('应该disabled=true 节点处于禁用状态', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -411,7 +411,7 @@ describe('Tree 组件', () => {
   })
 
   describe('事件处理', () => {
-    it('选中节点时触发 change 事件', async () => {
+    it('应该选中节点时触发 change 事件', async () => {
       const form = createForm()
       const onChange = vi.fn()
 
@@ -451,7 +451,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('多次点击节点测试选中/取消选中', async () => {
+    it('应该多次点击节点测试选中/取消选中', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -494,7 +494,7 @@ describe('Tree 组件', () => {
   })
 
   describe('边界情况', () => {
-    it('空数据源', async () => {
+    it('应该支持空数据源', async () => {
       const { container } = render(() => (
         <FormProvider form={createForm()}>
           <FormLayout>
@@ -515,7 +515,7 @@ describe('Tree 组件', () => {
       await expect.element(container.querySelector('.el-tree')).toBeInTheDocument()
     })
 
-    it('无效的初始值', async () => {
+    it('应该无效的初始值', async () => {
       const form = createForm()
       const { container } = render(() => (
         <FormProvider form={form}>
@@ -538,7 +538,7 @@ describe('Tree 组件', () => {
       await expect.element(container.querySelector('.el-tree')).toBeInTheDocument()
     })
 
-    it('undefined 初始值', async () => {
+    it('应该undefined 初始值', async () => {
       const form = createForm()
       const { container } = render(() => (
         <FormProvider form={form}>
@@ -562,7 +562,7 @@ describe('Tree 组件', () => {
     })
   })
   describe('valueType=path 功能测试', () => {
-    it('valueType=path 设置初始值时正确提取叶子节点', async () => {
+    it('应该valueType=path 设置初始值时正确提取叶子节点', async () => {
       const pathValue = [
         {
           id: 1,
@@ -636,7 +636,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('valueType=path 点击节点后返回完整路径', async () => {
+    it('应该valueType=path 点击节点后返回完整路径', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -681,7 +681,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('valueType=path 空路径数组处理', async () => {
+    it('应该valueType=path 空路径数组处理', async () => {
       const form = createForm()
       const { container } = render(() => (
         <FormProvider form={form}>
@@ -709,7 +709,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('valueType=path 复杂路径结构测试', async () => {
+    it('应该支持valueType=path 复杂路径结构', async () => {
       const complexPathValue = [
         {
           id: 3,
@@ -765,7 +765,7 @@ describe('Tree 组件', () => {
   })
 
   describe('includeHalfChecked 功能', () => {
-    it('includeHalfChecked=true 包含半选节点', async () => {
+    it('应该includeHalfChecked=true 包含半选节点', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -808,7 +808,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('includeHalfChecked=false 不包含半选节点', async () => {
+    it('应该includeHalfChecked=false 不包含半选节点', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -849,7 +849,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('includeHalfChecked=true 多个半选节点测试', async () => {
+    it('应该支持includeHalfChecked=true 多个半选节点', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -896,7 +896,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('includeHalfChecked=true 与 optionAsValue=true 结合使用', async () => {
+    it('应该includeHalfChecked=true 与 optionAsValue=true 结合使用', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -942,7 +942,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('includeHalfChecked=true 全选后取消部分选择产生半选', async () => {
+    it('应该includeHalfChecked=true 全选后取消部分选择产生半选', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>
@@ -990,7 +990,7 @@ describe('Tree 组件', () => {
   })
 
   describe('属性变化时重新处理选中状态', () => {
-    it('valueType 变化时重新处理选中状态', async () => {
+    it('应该valueType 变化时重新处理选中状态', async () => {
       const form = createForm()
 
       const { getByText } = render(() => (
@@ -1049,7 +1049,7 @@ describe('Tree 组件', () => {
       })
     })
 
-    it('多个属性同时变化时重新处理选中状态', async () => {
+    it('应该在多个属性同时变化时重新处理选中状态', async () => {
       const form = createForm()
 
       const { getByText } = render(() => (

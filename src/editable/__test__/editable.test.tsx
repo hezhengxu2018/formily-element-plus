@@ -45,7 +45,7 @@ describe('Editable', () => {
     expect(container.querySelector('.formily-element-plus-editable-edit-btn')).not.toBeNull()
   })
 
-  it('点击 Editable 组件应该进入编辑模式', async () => {
+  it('应该在点击Editable组件时进入编辑模式', async () => {
     const schema = {
       type: 'object',
       properties: {
@@ -68,7 +68,7 @@ describe('Editable', () => {
     expect(container.querySelector('.formily-element-plus-editable-close-btn')).not.toBeNull()
   })
 
-  it('点击 Editable 组件外部应该退出编辑模式', async () => {
+  it('应该在点击Editable组件外部时退出编辑模式', async () => {
     const schema = {
       type: 'object',
       properties: {
@@ -104,7 +104,7 @@ describe('Editable', () => {
     })
   })
 
-  it('点击关闭按钮应该退出编辑模式', async () => {
+  it('应该在点击关闭按钮时退出编辑模式', async () => {
     const schema = {
       type: 'object',
       properties: {
@@ -232,7 +232,7 @@ describe('Editable', () => {
     expect(inputWrapper).toHaveStyle({ width: '80px' })
   })
 
-  it('当字段被禁用时应该添加 is-disabled 类名', async () => {
+  it('应该在字段被禁用时添加is-disabled类名', async () => {
     const schema = {
       type: 'object',
       properties: {
@@ -256,7 +256,7 @@ describe('Editable', () => {
     expect(editableElement).toHaveClass('is-disabled')
   })
 
-  it('当字段被禁用时不应该显示编辑按钮', async () => {
+  it('应该在字段被禁用时不显示编辑按钮', async () => {
     const schema = {
       type: 'object',
       properties: {
@@ -282,7 +282,7 @@ describe('Editable', () => {
     expect(container.querySelector('.formily-element-plus-editable-close-btn')).toBeNull()
   })
 
-  it('当字段被禁用时点击组件不应该进入编辑模式', async () => {
+  it('应该在字段被禁用时点击组件不进入编辑模式', async () => {
     const schema = {
       type: 'object',
       properties: {
@@ -313,7 +313,7 @@ describe('Editable', () => {
     expect(container.querySelector('.formily-element-plus-editable-edit-btn')).toBeNull()
   })
 
-  it('当字段从启用状态变为禁用状态时应该正确更新', async () => {
+  it('应该在字段从启用状态变为禁用状态时正确更新', async () => {
     const schema = {
       type: 'object',
       properties: {
@@ -349,7 +349,7 @@ describe('Editable', () => {
     })
   })
 
-  it('当字段从禁用状态变为启用状态时应该正确更新', async () => {
+  it('应该在字段从禁用状态变为启用状态时正确更新', async () => {
     const schema = {
       type: 'object',
       properties: {

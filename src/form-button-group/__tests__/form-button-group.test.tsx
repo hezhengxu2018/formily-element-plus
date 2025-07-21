@@ -10,7 +10,7 @@ import FormButtonGroup from '../form-button-group.vue'
 import 'element-plus/theme-chalk/index.css'
 
 describe('FormButtonGroup', () => {
-  it('默认渲染左对齐的按钮组', async () => {
+  it('应该默认渲染左对齐的按钮组', async () => {
     const { container } = render(
       () => (
         <FormButtonGroup>
@@ -32,7 +32,7 @@ describe('FormButtonGroup', () => {
     expect(buttons[1].textContent).toContain('重置')
   })
 
-  it('渲染右对齐的按钮组', async () => {
+  it('应该渲染右对齐的按钮组', async () => {
     const { container } = render(
       () => (
         <FormButtonGroup align="right">
@@ -49,7 +49,7 @@ describe('FormButtonGroup', () => {
     expect(style.justifyContent).toBe('flex-end')
   })
 
-  it('渲染居中对齐的按钮组', async () => {
+  it('应该正确渲染居中对齐的按钮组', async () => {
     const { container } = render(
       () => (
         <FormButtonGroup align="center">
@@ -66,7 +66,7 @@ describe('FormButtonGroup', () => {
     expect(style.justifyContent).toBe('center')
   })
 
-  it('自定义按钮间距', async () => {
+  it('应该支持自定义按钮间距', async () => {
     const { container } = render(
       () => (
         <FormButtonGroup gutter={20}>
@@ -81,7 +81,7 @@ describe('FormButtonGroup', () => {
     expect(space!.getAttribute('style')).toContain('gap: 0px 20px;')
   })
 
-  it('作为表单项对齐', async () => {
+  it('应该作为表单项对齐，在开启alignFormItem时', async () => {
     const form = createForm()
     const { container } = render(
       () => (
@@ -113,7 +113,7 @@ describe('FormButtonGroup', () => {
     expect(buttons.length).toBe(2)
   })
 
-  it('传递属性到表单项', async () => {
+  it('应该传递属性到表单项', async () => {
     const { container } = render(
       () => (
         <FormButtonGroup
@@ -131,7 +131,7 @@ describe('FormButtonGroup', () => {
   })
 
   describe('FormButtonGroupSticky', () => {
-    it('默认渲染粘性按钮组', async () => {
+    it('应该默认渲染粘性按钮组', async () => {
       const form = createForm()
       const { container } = render(
         () => (
@@ -159,7 +159,7 @@ describe('FormButtonGroup', () => {
       expect(buttons[1].textContent).toContain('重置')
     })
 
-    it('设置默认位置为 bottom', async () => {
+    it('应该设置默认位置为 bottom', async () => {
       const form = createForm()
       const { container } = render(
         () => (
@@ -179,7 +179,7 @@ describe('FormButtonGroup', () => {
       // ElAffix 组件会根据 position 属性设置相应的样式
     })
 
-    it('自定义 position 属性', async () => {
+    it('应该自定义 position 属性', async () => {
       const form = createForm()
       const { container } = render(
         () => (
@@ -198,7 +198,7 @@ describe('FormButtonGroup', () => {
       expect(affix).not.toBeNull()
     })
 
-    it('自定义 target 属性', async () => {
+    it('应该自定义 target 属性', async () => {
       const form = createForm()
       const { container } = render(
         () => (
@@ -217,7 +217,7 @@ describe('FormButtonGroup', () => {
       expect(affix).not.toBeNull()
     })
 
-    it('使用默认 target 为表单 ID', async () => {
+    it('应该使用默认 target 为表单 ID', async () => {
       const form = createForm()
       const { container } = render(
         () => (
@@ -239,7 +239,7 @@ describe('FormButtonGroup', () => {
       expect(stickyGroup).not.toBeNull()
     })
 
-    it('设置 offset 偏移量', async () => {
+    it('应该设置 offset 偏移量', async () => {
       const form = createForm()
       const { container } = render(
         () => (

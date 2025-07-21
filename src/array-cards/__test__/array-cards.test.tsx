@@ -6,7 +6,6 @@ import { defineComponent } from 'vue'
 import { ArrayCards, DatePicker, FormItem, Input } from '../../index'
 import 'element-plus/theme-chalk/index.css'
 
-// 字符串数组测试组件
 export function ArrayCardsStringTestFactory(form = createForm()) {
   return defineComponent({
     name: 'ArrayCardsStringTest',
@@ -77,7 +76,6 @@ export function ArrayCardsStringTestFactory(form = createForm()) {
   })
 }
 
-// 对象数组测试组件
 export const ArrayCardsObjectTest = defineComponent({
   name: 'ArrayCardsObjectTest',
   setup() {
@@ -147,7 +145,6 @@ export const ArrayCardsObjectTest = defineComponent({
   },
 })
 
-// 添加新的测试工厂函数
 function ArrayCardsWithArrayItemsTestFactory(form = createForm()) {
   return defineComponent({
     name: 'ArrayCardsWithArrayItemsTest',
@@ -248,8 +245,7 @@ function ArrayCardsWithArrayItemsTestFactory(form = createForm()) {
 }
 
 describe('ArrayCards', async () => {
-  // 测试字符串数组渲染
-  it('字符串数组渲染', async () => {
+  it('应该能使用字符串数组渲染', async () => {
     const screen = render(ArrayCardsStringTestFactory())
     await expect.element(screen.getByText('添加条目')).toBeInTheDocument()
     await screen.getByText('添加条目').click()
@@ -258,8 +254,7 @@ describe('ArrayCards', async () => {
     expect(card).toBeInTheDocument()
   })
 
-  // 测试对象数组渲染
-  it('对象数组渲染', async () => {
+  it('应该能使用对象数组渲染', async () => {
     const screen = render(ArrayCardsObjectTest)
     await expect.element(screen.getByText('添加条目')).toBeInTheDocument()
     const empty = screen.container.querySelector('.el-empty')
@@ -268,114 +263,87 @@ describe('ArrayCards', async () => {
     await expect.element(screen.getByText('对象数组')).toBeInTheDocument()
   })
 
-  // 测试添加条目功能
-  it('添加条目功能', async () => {
+  it('应该支持添加条目功能', async () => {
     const screen = render(ArrayCardsStringTestFactory())
     await screen.getByText('添加条目').click()
-    // 添加后应该有一个输入框
-    await expect.element(screen.getByRole('textbox')).toBeInTheDocument()
-    // 验证卡片标题存在
     await expect.element(screen.getByText('字符串数组')).toBeInTheDocument()
   })
 
-  // 测试添加多个条目
-  it('添加多个条目', async () => {
+  it('应该支持添加多个条目', async () => {
     const screen = render(ArrayCardsObjectTest)
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
 
-    // 检查是否有3个输入框
     const inputs = screen.getByRole('textbox')
     expect(inputs.elements()).toHaveLength(3)
 
-    // 验证卡片数量
     const cards = screen.container.querySelectorAll('.el-card')
     expect(cards.length).toBe(3)
   })
 
-  // 测试删除条目功能
-  it('删除条目功能', async () => {
+  it('应该支持删除条目功能', async () => {
     const screen = render(ArrayCardsStringTestFactory())
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
-
-    // 应该有2个输入框
     let inputs = screen.getByRole('textbox')
     expect(inputs.elements()).toHaveLength(2)
 
-    // 点击第一个删除按钮
     const removeButtons = screen.getByRole('button', { name: /移除条目/ })
     await removeButtons.nth(0).click()
 
-    // 应该只剩1个输入框
     inputs = screen.getByRole('textbox')
     expect(inputs.elements()).toHaveLength(1)
 
-    // 验证卡片数量
     const cards = screen.container.querySelectorAll('.el-card')
     expect(cards.length).toBe(1)
   })
 
-  // 测试上移下移功能
-  it('上移下移功能', async () => {
+  it('应该支持上移下移功能', async () => {
     const screen = render(ArrayCardsObjectTest)
     await screen.getByText('添加条目').click()
     await screen.getByText('添加条目').click()
 
-    // 在第一个输入框中输入值
     const inputs = screen.getByRole('textbox')
     await inputs.nth(0).fill('第一项')
     await inputs.nth(1).fill('第二项')
 
-    // 点击下移按钮
     const moveDownButtons = screen.getByRole('button', { name: '下移条目', exact: true })
     await moveDownButtons.nth(0).click()
 
-    // 验证顺序已经改变
     const updatedInputs = screen.getByRole('textbox')
     await expect.element(updatedInputs.nth(0)).toHaveValue('第二项')
     await expect.element(updatedInputs.nth(1)).toHaveValue('第一项')
 
-    // 点击上移按钮
     const moveUpButtons = screen.getByRole('button', { name: /上移/ })
     await moveUpButtons.nth(1).click()
 
-    // 验证顺序已恢复
     const finalInputs = screen.getByRole('textbox')
     await expect.element(finalInputs.nth(0)).toHaveValue('第一项')
     await expect.element(finalInputs.nth(1)).toHaveValue('第二项')
   })
 
-  // 测试表单数据同步
-  it('表单数据同步', async () => {
+  it('应该表单数据同步', async () => {
     const form = createForm()
     const screen = render(ArrayCardsStringTestFactory(form))
 
-    // 初始状态下数组应为空
     expect(form.values.string_array).toHaveLength(0)
 
-    // 添加条目
     await screen.getByText('添加条目').click()
     expect(form.values.string_array).toHaveLength(1)
 
-    // 输入值
     const input = screen.getByRole('textbox')
     await input.fill('测试数据')
 
-    // 验证表单数据已更新
     expect(form.values.string_array[0]).toBe('测试数据')
 
-    // 删除条目
     const removeButton = screen.getByRole('button', { name: /移除条目/ })
     await removeButton.click()
 
-    // 验证表单数据已清空
     expect(form.values.string_array).toHaveLength(0)
   })
 
-  // 在现有测试用例后添加新的测试用例
-  it('items为数组时按顺序渲染不同控件', async () => {
+  it('应该items为数组时按顺序渲染不同控件', async () => {
     const form = createForm({
       initialValues: {
         string_array: ['', ''],
@@ -383,32 +351,25 @@ describe('ArrayCards', async () => {
     })
     const screen = render(ArrayCardsWithArrayItemsTestFactory(form))
 
-    // 验证第一个卡片包含输入框
     await expect.element(screen.getByPlaceholder('输入字符串')).toBeInTheDocument()
-    // 验证第二个卡片包含日期选择器
     await expect.element(screen.getByPlaceholder('选择日期')).toBeInTheDocument()
 
-    // 添加新条目，应该循环使用第一个模板
     await screen.getByText('添加条目').click()
     expect(screen.getByPlaceholder('输入字符串').elements()).toHaveLength(2)
   })
 
-  it('items数组循环渲染测试', async () => {
+  it('应该支持items数组格式的递归渲染', async () => {
     const screen = render(ArrayCardsWithArrayItemsTestFactory())
 
-    // 添加第一个条目（使用第一个模板）
     await screen.getByText('添加条目').click()
     await expect.element(screen.getByPlaceholder('输入字符串')).toBeInTheDocument()
 
-    // 添加第二个条目（使用第二个模板）
     await screen.getByText('添加条目').click()
     await expect.element(screen.getByPlaceholder('选择日期')).toBeInTheDocument()
 
-    // 添加第三个条目（循环回第一个模板）
     await screen.getByText('添加条目').click()
     expect(screen.getByPlaceholder('输入字符串').elements()).toHaveLength(2)
 
-    // 验证卡片数量
     const cards = screen.container.querySelectorAll('.el-card')
     expect(cards.length).toBe(3)
   })

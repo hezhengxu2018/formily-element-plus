@@ -64,7 +64,7 @@ describe('Editable.Popover', () => {
     expect(container.querySelector('.formily-element-plus-editable-edit-btn')).not.toBeNull()
   })
 
-  it('点击 Editable.Popover 触发器应该显示弹出层', async () => {
+  it('应该在点击 Editable.Popover 触发器时显示弹出层', async () => {
     const schema = {
       type: 'object',
       properties: {
@@ -102,7 +102,7 @@ describe('Editable.Popover', () => {
     expect(document.querySelector('.el-popover')).not.toBeNull()
   })
 
-  it('点击弹出层外部应该关闭弹出层', async () => {
+  it('应该在点击弹出层外部时关闭弹出层', async () => {
     const schema = {
       type: 'object',
       properties: {
@@ -147,7 +147,7 @@ describe('Editable.Popover', () => {
     expect(form.getFieldState('object').data.test).toEqual('test')
   })
 
-  it('表单校验失败时popover应该弹出', async () => {
+  it('应该在表单校验失败时popover弹出', async () => {
     const fn = vi.fn()
     const schema = {
       type: 'object',

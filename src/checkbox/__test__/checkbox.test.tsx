@@ -6,7 +6,7 @@ import Checkbox from '../index'
 
 describe('checkbox', () => {
   describe('单选框基础功能', () => {
-    it('可以正确返显数据及正常交互', async () => {
+    it('应该正确返显数据及正常交互', async () => {
       const form = createForm({
         initialValues: {
           checkbox: true,
@@ -28,7 +28,7 @@ describe('checkbox', () => {
       expect(form.values.checkbox).toBe(false)
     })
 
-    it('表单值的改变可以正确显示在控件上', async () => {
+    it('应该可以正确显示在控件上，当表单值的改变时', async () => {
       const form = createForm()
       const { getByRole } = render(() => (
         <FormProvider form={form}>
@@ -49,7 +49,7 @@ describe('checkbox', () => {
       await expect.element(getByRole('checkbox')).not.toBeChecked()
     })
 
-    it('支持自定义标签内容', async () => {
+    it('应该支持自定义标签内容', async () => {
       const form = createForm()
       const { getByText } = render(() => (
         <FormProvider form={form}>

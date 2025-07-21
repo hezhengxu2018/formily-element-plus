@@ -7,9 +7,9 @@ import InputNumber from '../index'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-input-number.css'
 
-describe('inputNumber 组件', () => {
+describe('InputNumber', () => {
   describe('基础功能', () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const page = render(() => (
         <FormProvider form={createForm()}>
           <Field name="number" component={[InputNumber]} />
@@ -18,7 +18,7 @@ describe('inputNumber 组件', () => {
       await expect.element(page.getByRole('spinbutton')).toBeInTheDocument()
     })
 
-    it('支持输入数字', async () => {
+    it('应该支持输入数字', async () => {
       const form = createForm()
       const { getByRole } = render(() => (
         <FormProvider form={form}>
@@ -30,7 +30,7 @@ describe('inputNumber 组件', () => {
       expect(form.values.number).toBe(123)
     })
 
-    it('支持增加按钮', async () => {
+    it('应该支持增加按钮', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -44,7 +44,7 @@ describe('inputNumber 组件', () => {
       expect(form.values.number).toBe(6)
     })
 
-    it('支持减少按钮', async () => {
+    it('应该支持减少按钮', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -60,7 +60,7 @@ describe('inputNumber 组件', () => {
   })
 
   describe('属性传递', () => {
-    it('支持禁用状态', async () => {
+    it('应该支持禁用状态', async () => {
       const { getByRole } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="number" component={[InputNumber, { disabled: true }]} />
@@ -71,7 +71,7 @@ describe('inputNumber 组件', () => {
       await expect.element(input).toBeDisabled()
     })
 
-    it('支持只读状态', async () => {
+    it('应该支持只读状态', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <Field name="number" component={[InputNumber, { readonly: true }]} />
@@ -82,7 +82,7 @@ describe('inputNumber 组件', () => {
       expect(input).toHaveAttribute('readonly')
     })
 
-    it('支持最小值限制', async () => {
+    it('应该支持最小值限制', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -98,7 +98,7 @@ describe('inputNumber 组件', () => {
       expect(form.values.number).toBe(3)
     })
 
-    it('支持最大值限制', async () => {
+    it('应该支持最大值限制', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -114,7 +114,7 @@ describe('inputNumber 组件', () => {
       expect(form.values.number).toBe(10)
     })
 
-    it('支持步长设置', async () => {
+    it('应该支持步长设置', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -128,7 +128,7 @@ describe('inputNumber 组件', () => {
       expect(form.values.number).toBe(7) // 步长为 2，所以 5 + 2 = 7
     })
 
-    it('支持精度设置', async () => {
+    it('应该支持精度设置', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -142,7 +142,7 @@ describe('inputNumber 组件', () => {
       expect(form.values.number).toBe(5.1)
     })
 
-    it('支持控制按钮位置设置', async () => {
+    it('应该支持控制按钮位置设置', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <Field name="number" component={[InputNumber, { controlsPosition: 'right' }]} />
@@ -155,7 +155,7 @@ describe('inputNumber 组件', () => {
   })
 
   describe('事件处理', () => {
-    it('支持聚焦事件', async () => {
+    it('应该支持聚焦事件', async () => {
       const onFocus = vi.fn()
       render(() => (
         <FormProvider form={createForm()}>
@@ -169,7 +169,7 @@ describe('inputNumber 组件', () => {
       expect(onFocus).toHaveBeenCalled()
     })
 
-    it('支持失焦事件', async () => {
+    it('应该支持失焦事件', async () => {
       const onBlur = vi.fn()
       render(() => (
         <FormProvider form={createForm()}>

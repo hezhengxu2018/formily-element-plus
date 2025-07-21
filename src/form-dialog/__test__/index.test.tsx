@@ -9,14 +9,14 @@ import 'element-plus/theme-chalk/index.css'
 
 const { SchemaField, SchemaStringField } = createSchemaField({ components: { Input, FormItem } })
 
-describe('FormDialog 组件', () => {
+describe('FormDialog', () => {
   afterEach(() => {
     vi.clearAllMocks()
     document.body.innerHTML = ''
   })
 
   describe('基础功能', () => {
-    it('支持打开和关闭对话框', async () => {
+    it('应该支持打开和关闭对话框', async () => {
       const TestComponent = () => {
         const handleOpen = () => {
           FormDialog('测试标题', () => (
@@ -47,7 +47,7 @@ describe('FormDialog 组件', () => {
       expect(document.querySelector('.el-dialog__wrapper')).toBeNull()
     })
 
-    it('支持渲染组件', async () => {
+    it('应该支持渲染组件', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -119,7 +119,7 @@ describe('FormDialog 组件', () => {
   })
 
   describe('中间件功能', () => {
-    it('支持 forOpen 中间件', async () => {
+    it('应该支持forOpen中间件', async () => {
       const openMiddleware = vi.fn((props, next) => next({ initialValues: { input: 'test' } }))
       const TestComponent = () => {
         const handleOpen = () => {
@@ -157,7 +157,7 @@ describe('FormDialog 组件', () => {
       await getByText('取消').click()
     })
 
-    it('支持 forConfirm 中间件', async () => {
+    it('应该支持 forConfirm 中间件', async () => {
       const forConfirm = vi.fn()
       const TestComponent = () => {
         const handleOpen = () => {
@@ -209,7 +209,7 @@ describe('FormDialog 组件', () => {
       })
     })
 
-    it('支持 forCancel 中间件', async () => {
+    it('应该支持 forCancel 中间件', async () => {
       const forCancel = vi.fn()
       const TestComponent = () => {
         const handleOpen = () => {
@@ -257,7 +257,7 @@ describe('FormDialog 组件', () => {
   })
 
   describe('自定义内容', () => {
-    it('支持自定义 footer', async () => {
+    it('应该支持自定义 footer', async () => {
       const forExtra = vi.fn()
       const TestComponent = () => {
         const handleOpen = () => {
@@ -312,7 +312,7 @@ describe('FormDialog 组件', () => {
       })
     })
 
-    it('支持自定义标题', async () => {
+    it('应该支持自定义标题', async () => {
       const forCancel = vi.fn()
       const TestComponent = () => {
         const handleOpen = () => {
@@ -359,7 +359,7 @@ describe('FormDialog 组件', () => {
   })
 
   describe('异步执行顺序', () => {
-    it('弹框打开过程中之后的异步操作会等待表单提交后再执行', async () => {
+    it('应该在弹框打开过程中之后的异步操作会等待表单提交后再执行', async () => {
       const forConfirm = vi.fn()
       const fn1 = vi.fn()
       const TestComponent = () => {
@@ -414,7 +414,7 @@ describe('FormDialog 组件', () => {
       })
     })
 
-    it('表单校验失败时弹框不会关闭，表单完成后之后的逻辑会继续执行', async () => {
+    it('应该支持表单校验失败时弹框不会关闭，表单完成后之后的逻辑会继续执行', async () => {
       const forConfirm = vi.fn()
       const fn1 = vi.fn()
       const TestComponent = () => {
@@ -473,7 +473,7 @@ describe('FormDialog 组件', () => {
   })
 
   describe('DOM销毁测试', () => {
-    it('dialog成功提交后应该销毁DOM', async () => {
+    it('应该在dialog成功提交后销毁DOM', async () => {
       const TestComponent = () => {
         const handleOpen = () => {
           FormDialog('测试标题', () => (
@@ -529,7 +529,7 @@ describe('FormDialog 组件', () => {
       }, { timeout: 2000 })
     })
 
-    it('dialog取消后应该销毁DOM', async () => {
+    it('应该在dialog取消后销毁DOM', async () => {
       const TestComponent = () => {
         const handleOpen = () => {
           FormDialog('测试标题', () => (
@@ -561,14 +561,10 @@ describe('FormDialog 组件', () => {
       // 记录初始DOM状态
       const initialBodyChildren = document.body.children.length
 
-      // 打开dialog
       await userEvent.click(container.querySelector('.el-button'))
-
-      // 验证dialog已打开，DOM元素增加
       await expect.element(document.querySelector('.el-dialog')).toBeInTheDocument()
       expect(document.body.children.length).toBeGreaterThan(initialBodyChildren)
 
-      // 点击取消按钮
       const cancelButton = getByText('取消')
       await userEvent.click(cancelButton)
 
@@ -578,7 +574,7 @@ describe('FormDialog 组件', () => {
       }, { timeout: 2000 })
     })
 
-    it('dialog关闭按钮点击后应该销毁DOM', async () => {
+    it('应该在dialog关闭按钮点击后销毁DOM', async () => {
       const TestComponent = () => {
         const handleOpen = () => {
           FormDialog('测试标题', () => (
@@ -621,7 +617,7 @@ describe('FormDialog 组件', () => {
       }, { timeout: 2000 })
     })
 
-    it('多次打开和关闭dialog不应该造成DOM泄漏', async () => {
+    it('应该在多次打开和关闭dialog时不造成DOM泄漏', async () => {
       const TestComponent = () => {
         const handleOpen = () => {
           FormDialog('测试标题', () => (
@@ -664,7 +660,7 @@ describe('FormDialog 组件', () => {
       }, { timeout: 2000 })
     })
 
-    it('当提供 beforeClose 回调时应该正确调用', async () => {
+    it('应该在提供beforeClose回调时正确调用', async () => {
       const beforeCloseMock = vi.fn()
       const TestComponent = () => {
         const handleOpen = () => {

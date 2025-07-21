@@ -251,7 +251,7 @@ describe('基础数据展示', async () => {
       .toBeInTheDocument()
   })
 
-  it('带有插槽的内容应该正常展示', async () => {
+  it('应该正常展示插槽内容', async () => {
     const screen = render(formilyWrapperWithSlotFactory({ rowKey: 'key' }))
     await expect
       .element(screen.getByText('description-1-title-1'))
@@ -261,7 +261,7 @@ describe('基础数据展示', async () => {
       .toBeInTheDocument()
   })
 
-  it('schema模式下应该正常展示', async () => {
+  it('应该在schema模式下正常展示', async () => {
     const screen = render(
       formilyWrapperWithSlotBySchemaFactory({ rowKey: 'key' }),
     )
@@ -273,7 +273,7 @@ describe('基础数据展示', async () => {
       .toBeInTheDocument()
   })
 
-  it('在dataSource改变时显示的内容也应该改变', async () => {
+  it('应该在dataSource改变时同步更新显示内容', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({ rowKey: 'key', dataSource: [] }),
@@ -301,7 +301,7 @@ describe('基础数据展示', async () => {
 })
 
 describe('多选框交互', async () => {
-  it('点击多选框后form表单中的值应该改变', async () => {
+  it('应该在点击多选框后更新form表单值', async () => {
     const form = createForm()
     const screen = render(formilyWrapperFactory({ rowKey: 'key' }), {
       props: {
@@ -320,7 +320,7 @@ describe('多选框交互', async () => {
     expect(form.query('selectTable').get('value')).toEqual([])
   })
 
-  it('开启optionAsValue之后form表单中的值应该是整行数据', async () => {
+  it('应该在开启optionAsValue后form表单值为整行数据', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({ rowKey: 'key', optionAsValue: true }),
@@ -348,7 +348,7 @@ describe('多选框交互', async () => {
     expect(form.query('selectTable').get('value')).toEqual([])
   })
 
-  it('多选框选择两项后数组的长度应该为2，且再次点击应该取消选择', async () => {
+  it('应该支持多选框选择两项且可取消选择', async () => {
     const form = createForm()
     const screen = render(formilyWrapperFactory({ rowKey: 'key' }), {
       props: {
@@ -372,7 +372,7 @@ describe('多选框交互', async () => {
     expect(form.query('selectTable').get('value')).toEqual(['1'])
   })
 
-  it('在dataSource改变后再次显示时应该勾选已经选中的项', async () => {
+  it('应该在dataSource改变后保持已选中项的勾选状态', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({
@@ -433,7 +433,7 @@ describe('多选框交互', async () => {
       .toBeChecked()
   })
 
-  it('在组件有默认值时数值的应该正确勾选', async () => {
+  it('应该在组件有默认值时正确勾选对应项', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({
@@ -458,7 +458,7 @@ describe('多选框交互', async () => {
       .toBeChecked()
   })
 
-  it('点击行触发多选框选中事件', async () => {
+  it('应该点击行触发多选框选中事件', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({ rowKey: 'key', clickRowToSelect: true }),
@@ -473,7 +473,7 @@ describe('多选框交互', async () => {
     expect(form.query('selectTable').get('value')).toEqual([])
   })
 
-  it('关闭配置项后应该无法通过点击行触发多选框选中事件', async () => {
+  it('应该在关闭配置项后无法通过点击行触发多选框选中事件', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({ rowKey: 'key', clickRowToSelect: false }),
@@ -487,7 +487,7 @@ describe('多选框交互', async () => {
     expect(form.query('selectTable').get('value')).toEqual(undefined)
   })
 
-  it('多选时，点击取消选择应该清空选中', async () => {
+  it('应该在多选时点击取消选择清空选中项', async () => {
     const form = createForm()
     const screen = render(formilyWrapperFactory({ rowKey: 'key' }), {
       props: { form },
@@ -500,7 +500,7 @@ describe('多选框交互', async () => {
     expect(form.query('selectTable').get('value')).toEqual([])
   })
 
-  it('在optionAsValue为true时,组件有默认值时数值的应该正确勾选', async () => {
+  it('应该在optionAsValue为true且有默认值时正确勾选', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({
@@ -526,7 +526,7 @@ describe('多选框交互', async () => {
       .toBeChecked()
   })
 
-  it('多选时form表单中的值在改动后应该与选中的项保持一致', async () => {
+  it('应该在多选时form表单值改动后与选中项保持一致', async () => {
     const form = createForm()
     const screen = render(formilyWrapperFactory({ rowKey: 'key' }), {
       props: {
@@ -553,7 +553,7 @@ describe('多选框交互', async () => {
       .toBeChecked()
   })
 
-  it('表单的值置空时原本选中的值也应该取消选择', async () => {
+  it('应该在表单值置空时取消原本选中的项', async () => {
     const form = createForm({
       initialValues: { selectTable: ['1'] },
     })
@@ -596,7 +596,7 @@ describe('多选框交互', async () => {
 })
 
 describe('单选框交互', async () => {
-  it('点击多选框后form表单中的值应该改变', async () => {
+  it('应该在点击单选框后更新form表单值', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({
@@ -622,7 +622,7 @@ describe('单选框交互', async () => {
     expect(form.query('selectTable').get('value')).toEqual('2')
   })
 
-  it('在组件有默认值时数值的应该正确勾选', async () => {
+  it('应该在单选模式下有默认值时正确勾选', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({
@@ -646,7 +646,7 @@ describe('单选框交互', async () => {
       .toBeChecked()
   })
 
-  it('在optionAsValue为true时,组件有默认值时数值的应该正确勾选', async () => {
+  it('应该在单选模式下optionAsValue为true且有默认值时正确勾选', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({
@@ -671,7 +671,7 @@ describe('单选框交互', async () => {
       .toBeChecked()
   })
 
-  it('点击行触发单选框选中事件', async () => {
+  it('应该点击行触发单选框选中事件', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({
@@ -691,7 +691,7 @@ describe('单选框交互', async () => {
     expect(form.query('selectTable').get('value')).toEqual('2')
   })
 
-  it('单选时，点击取消选择应该清空选中', async () => {
+  it('应该在单选时点击取消选择清空选中项', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({ rowKey: 'key', mode: 'single' }),
@@ -707,7 +707,7 @@ describe('单选框交互', async () => {
     expect(form.query('selectTable').get('value')).toEqual(null)
   })
 
-  it('单选时form表单中的值在改动后应该与选中的项保持一致', async () => {
+  it('应该在单选时form表单值改动后与选中项保持一致', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({ rowKey: 'key', mode: 'single' }),
@@ -729,7 +729,7 @@ describe('单选框交互', async () => {
 })
 
 describe.skip('树形选择', async () => {
-  it('点击多选框后form表单中的值应该改变', async () => {
+  it('应该在点击多选框后更新form表单值', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({
@@ -796,7 +796,7 @@ describe.skip('树形选择', async () => {
     expect(form.query('selectTable').get('value')).toEqual([1, 3, 31, 32])
   })
 
-  it('开启checkStrictly后，点击多选框后form表单中的值不应该联动', async () => {
+  it('应该在开启checkStrictly后点击多选框时form表单值不联动', async () => {
     const form = createForm()
     const screen = render(
       formilyWrapperFactory({

@@ -457,12 +457,12 @@ export const ArrayTableNoPaginationTest = defineComponent({
 })
 
 describe('ArrayTable', async () => {
-  it('基本渲染', async () => {
+  it('应该渲染', async () => {
     const screen = render(ArrayTableJSONSchemaTestFactory())
     await expect.element(screen.container.querySelector('.formily-element-plus-array-table')).toBeInTheDocument()
   })
 
-  it('添加条目功能', async () => {
+  it('应该支持添加条目功能', async () => {
     const screen = render(ArrayTableJSONSchemaTestFactory())
 
     // 初始状态应该没有数据行
@@ -474,7 +474,7 @@ describe('ArrayTable', async () => {
     expect(rows).toHaveLength(1)
   })
 
-  it('拖拽功能', async () => {
+  it('应该支持拖拽功能', async () => {
     const form = createForm({
       initialValues: {
         array: [{ a1: '一' }, { a1: '二' }, { a1: '三' }],
@@ -508,8 +508,7 @@ describe('ArrayTable', async () => {
     })
   })
 
-  // 测试分页功能
-  it('分页功能', async () => {
+  it('应该支持分页功能', async () => {
     const screen = render(ArrayTableWithPaginationTest, {
       global: {
         stubs: {
@@ -551,7 +550,7 @@ describe('ArrayTable', async () => {
     })
   })
 
-  it('无分页模式', async () => {
+  it('应该在无分页模式下渲染所有数据', async () => {
     const form = createForm({
       initialValues: {
         array: Array.from({ length: 15 }, (_, i) => ({ a1: `Item ${i + 1}` })),
@@ -580,10 +579,8 @@ describe('ArrayTable', async () => {
     await userEvent.click(addItemButton)
   })
 
-  it('表格属性继承', async () => {
+  it('应该表格属性继承', async () => {
     const screen = render(ArrayTableMarkupSchemaTest)
-
-    // 添加一些数据
     await userEvent.click(screen.container.querySelector('.formily-element-plus-array-base-addition'))
     await userEvent.click(screen.container.querySelector('.formily-element-plus-array-base-addition'))
 

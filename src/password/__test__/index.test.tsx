@@ -7,9 +7,9 @@ import Input from '../index'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-input.css'
 
-describe('Password 组件', () => {
+describe('Password', () => {
   describe('基础功能', () => {
-    it('正常渲染', async () => {
+    it('应该正常渲染', async () => {
       const page = render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input]} />
@@ -18,7 +18,7 @@ describe('Password 组件', () => {
       await expect.element(page.getByRole('textbox')).toBeInTheDocument()
     })
 
-    it('支持输入文本', async () => {
+    it('应该支持输入文本', async () => {
       const form = createForm()
       render(() => (
         <FormProvider form={form}>
@@ -34,7 +34,7 @@ describe('Password 组件', () => {
   })
 
   describe('属性传递', () => {
-    it('支持禁用状态', async () => {
+    it('应该支持禁用状态', async () => {
       const { getByRole } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input, { disabled: true }]} />
@@ -45,7 +45,7 @@ describe('Password 组件', () => {
       await expect.element(input).toBeDisabled()
     })
 
-    it('支持只读状态', async () => {
+    it('应该支持只读状态', async () => {
       render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input, { readonly: true }]} />
@@ -56,7 +56,7 @@ describe('Password 组件', () => {
       expect(input).toHaveAttribute('readonly')
     })
 
-    it('支持占位符', async () => {
+    it('应该支持占位符', async () => {
       const { getByPlaceholder } = render(() => (
         <FormProvider form={createForm()}>
           <Field name="input" component={[Input, { placeholder: '请输入密码' }]} />
