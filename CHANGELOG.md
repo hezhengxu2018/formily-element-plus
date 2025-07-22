@@ -2,6 +2,21 @@
 
 
 
+# [2.6.0](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.7...v2.6.0) (2025-07-22)
+
+
+### Bug Fixes
+
+* **preview:** 修复tree及其他预览组件的attrs继承 ([bc63e56](https://github.com/hezhengxu2018/formily-element-plus/commit/bc63e566c10b75f0160417953ac5921d7407db20))
+
+
+### Features
+
+* **select-table:** 单选时支持高亮选中行 ([37dad1c](https://github.com/hezhengxu2018/formily-element-plus/commit/37dad1c4d37ed24c7206704873f858dfab04f68a))
+* **tree,tree-select:** 添加对插槽的支持 ([2768124](https://github.com/hezhengxu2018/formily-element-plus/commit/276812434e4190bda69dca36b585e5d941c90148))
+* **tree:** 完成tree组件开发及相关测试 ([84c1b80](https://github.com/hezhengxu2018/formily-element-plus/commit/84c1b80cc78ac9aee6071d6cb7d39d32b18c970b))
+* **tree:** 树形组件支持阅读态 ([2382e77](https://github.com/hezhengxu2018/formily-element-plus/commit/2382e772f038835109ed7f30391b88fa49ac2c6d))
+
 ## [2.5.7](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.6...v2.5.7) (2025-07-14)
 
 
