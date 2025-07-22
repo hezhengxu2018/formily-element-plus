@@ -4,7 +4,7 @@ import type { TreeValueTypeProps } from './types'
 import { isFn } from '@formily/shared'
 import { useField } from '@formily/vue'
 import { ElScrollbar, ElTree, vLoading } from 'element-plus'
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, useSlots, watch } from 'vue'
 import { useCleanAttrs } from '../__builtins__'
 import { addDisabledToNodes, flattenTree, getInputKeys, getOutputData } from './utils'
 
@@ -27,6 +27,8 @@ const props = withDefaults(defineProps<TreeValueTypeProps>(), {
 const emit = defineEmits<{
   change: [value: any]
 }>()
+
+const slots = useSlots()
 
 const { props: attrs } = useCleanAttrs()
 const treeRef = ref<InstanceType<typeof ElTree>>()
@@ -90,7 +92,6 @@ watch(() => [props.valueType, props.optionAsValue, props.includeHalfChecked], ()
 }, { immediate: false })
 
 const fieldRef = useField<Field>()
-/* istanbul ignore next 3 -- @preserve */
 fieldRef.value?.inject({
   getTreeRef: () => {
     return treeRef
@@ -110,6 +111,10 @@ fieldRef.value?.inject({
       :show-checkbox="true"
       v-bind="attrs"
       @check="handleCheck"
-    />
+    >
+      <template v-for="(_, name) of slots" #[name]="slotData">
+        <slot :name="name" v-bind="slotData" />
+      </template>
+    </ElTree>
   </ElScrollbar>
 </template>

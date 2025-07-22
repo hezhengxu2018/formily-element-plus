@@ -78,7 +78,7 @@ describe('Select', () => {
 
     it('应该在多选模式下更新表单值', async () => {
       const form = createForm()
-      const { getByRole } = render(() => (
+      render(() => (
         <FormProvider form={form}>
           <Field
             name="select"
@@ -89,7 +89,7 @@ describe('Select', () => {
         </FormProvider>
       ))
 
-      await expect.element(getByRole('combobox')).toBeVisible()
+      await expect.element(document.querySelector('.el-select')).toBeVisible()
       await userEvent.click(document.querySelector('.el-select'))
       const optionsDOM = document.querySelectorAll('.el-select-dropdown__item')
       await userEvent.click(optionsDOM[0])

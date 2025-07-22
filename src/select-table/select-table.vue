@@ -17,6 +17,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { lt, stylePrefix } from '../__builtins__'
 
 defineOptions({
+  name: 'FSelectTable',
   inheritAttrs: false,
 })
 

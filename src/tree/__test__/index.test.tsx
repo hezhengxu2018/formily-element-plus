@@ -154,6 +154,32 @@ describe('Tree', () => {
         expect(values).toContain(6) // 子节点2
       })
     })
+
+    it('获取TreeSelect实例引用', async () => {
+      const form = createForm()
+      render(() => (
+        <FormProvider form={form}>
+          <FormLayout>
+            <Field
+              name="tree"
+              title="树形控件"
+              decorator={[FormItem]}
+              component={[Tree, {
+                nodeKey: 'id',
+                valueType: 'all',
+                defaultExpandAll: true,
+              }]}
+              dataSource={mockData}
+            />
+          </FormLayout>
+        </FormProvider>
+      ))
+
+      const field = form.query('tree').take()
+      const treeRef = field.invoke('getTreeRef')
+
+      expect(treeRef).toBeDefined()
+    })
   })
 
   describe('valueType 功能', () => {
@@ -1111,6 +1137,83 @@ describe('Tree', () => {
         // 验证只包含叶子节点（valueType=child）
         const leafNodeExists = values.some(node => node.id === 9)
         expect(leafNodeExists).toBe(true)
+      })
+    })
+  })
+
+  describe('插槽继承功能', () => {
+    it('自定义节点内容插槽正常传递', async () => {
+      const { container } = render(() => (
+        <FormProvider form={createForm()}>
+          <FormLayout>
+            <Field
+              name="tree"
+              title="树形控件"
+              decorator={[FormItem]}
+              component={[Tree, {
+                nodeKey: 'id',
+                valueType: 'all',
+                defaultExpandAll: true,
+              }]}
+              dataSource={mockData}
+            >
+              {{
+                default: ({ _, data }) => (
+                  <span class="custom-tree-node">
+                    <span class="custom-label">
+                      自定义:
+                      {data.label}
+                    </span>
+                    <span class="custom-id">
+                      ID:
+                      {data.id}
+                    </span>
+                  </span>
+                ),
+              }}
+            </Field>
+          </FormLayout>
+        </FormProvider>
+      ))
+      await expect.element(container.querySelector('.custom-tree-node')).toBeInTheDocument()
+      await expect.element(container.querySelector('.custom-label')).toBeInTheDocument()
+      await expect.element(container.querySelector('.custom-id')).toBeInTheDocument()
+    })
+
+    it('空插槽正常传递', async () => {
+      const { container } = render(() => (
+        <FormProvider form={createForm()}>
+          <FormLayout>
+            <Field
+              name="tree"
+              title="树形控件"
+              decorator={[FormItem]}
+              component={[Tree, {
+                nodeKey: 'id',
+                valueType: 'all',
+                defaultExpandAll: true,
+                emptyText: '暂无数据',
+              }]}
+              dataSource={[]}
+            >
+              {{
+                empty: () => (
+                  <div class="custom-empty">
+                    <span class="empty-icon">📁</span>
+                    <span class="empty-text">自定义空状态提示</span>
+                  </div>
+                ),
+              }}
+            </Field>
+          </FormLayout>
+        </FormProvider>
+      ))
+
+      // 验证自定义空状态插槽被正确渲染
+      await vi.waitFor(() => {
+        expect(container.querySelector('.custom-empty')).toBeInTheDocument()
+        expect(container.querySelector('.empty-icon')).toBeInTheDocument()
+        expect(container.querySelector('.empty-text')).toBeInTheDocument()
       })
     })
   })
