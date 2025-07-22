@@ -82,7 +82,7 @@ describe('FormCollapse', () => {
       await expect.element(container.querySelector('.el-collapse-item')).toBeInTheDocument()
     })
 
-    it('应该设置默认展开项', async () => {
+    it('应该支持设置默认展开项', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -156,7 +156,7 @@ describe('FormCollapse', () => {
       await expect.element(activePanel).toHaveTextContent('A1')
     })
 
-    it('应该通过 activeKey 设置展开项', async () => {
+    it('应该可以通过 activeKey 设置展开项', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,
@@ -233,7 +233,7 @@ describe('FormCollapse', () => {
   })
 
   describe('错误状态展示', () => {
-    it('应该显示错误数量', async () => {
+    it('应该可以显示错误数量', async () => {
       const { SchemaField } = createSchemaField({
         components: {
           FormItem,

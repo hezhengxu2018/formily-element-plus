@@ -36,6 +36,11 @@ const schema = {
           description: 'description-3',
         },
       ],
+      'default': {
+        key: '2',
+        name: 'title-2',
+        description: 'description-2',
+      },
     },
   },
 }

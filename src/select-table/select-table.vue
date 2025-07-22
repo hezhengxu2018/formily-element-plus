@@ -249,6 +249,7 @@ function onClearSelectionClick() {
       :row-key="rowKey"
       :row-class-name="props.clickRowToSelect ? `--click-row-select` : ''"
       :data="props.dataSource"
+      :highlight-current-row="props.mode === 'single'"
       @select="onSelect"
       @select-all="onSelect"
       @row-click="onRowClick"
