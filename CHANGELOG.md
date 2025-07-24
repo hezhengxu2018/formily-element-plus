@@ -2,6 +2,13 @@
 
 
 
+## [2.6.1](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.6.0...v2.6.1) (2025-07-24)
+
+
+### Features
+
+* **tree,tree-select:** 作用域插槽支持获取field ([93dfb5f](https://github.com/hezhengxu2018/formily-element-plus/commit/93dfb5fef9723e757eee70f87b24fae9cd8d9188))
+
 # [2.6.0](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.5.7...v2.6.0) (2025-07-22)
 
 
