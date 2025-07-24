@@ -40,7 +40,7 @@ fieldRef.value?.inject({
     @update:model-value="emit('change', $event)"
   >
     <template v-for="(_, name) of slots" #[name]="slotData">
-      <slot :name="name" v-bind="slotData" />
+      <slot :name="name" v-bind="{ field: fieldRef, ...slotData }" />
     </template>
   </ElTreeSelect>
 </template>

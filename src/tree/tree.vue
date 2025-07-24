@@ -113,7 +113,7 @@ fieldRef.value?.inject({
       @check="handleCheck"
     >
       <template v-for="(_, name) of slots" #[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
+        <slot :name="name" v-bind="{ field: fieldRef, ...slotData }" />
       </template>
     </ElTree>
   </ElScrollbar>
