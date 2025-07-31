@@ -28,22 +28,11 @@ jobs:
           node-version: '20'
           cache: pnpm
           registry-url: 'https://registry.npmjs.org'
-
-      - name: Cache Playwright browsers
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            playwright-${{ runner.os }}-
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-
       - name: Run tests with coverage
         run: pnpm coverage
 
@@ -65,5 +54,4 @@ jobs:
         run: |
           pnpm release-it ${{ github.event.inputs.version }} --ci
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
