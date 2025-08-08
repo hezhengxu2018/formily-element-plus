@@ -21,6 +21,10 @@
           "text": "FormItem 表单项"
         },
         {
+          "link": "/form-query-item",
+          "text": "FormQueryItem 查询表单项"
+        },
+        {
           "link": "/form-layout",
           "text": "FormLayout 区块布局表单"
         },

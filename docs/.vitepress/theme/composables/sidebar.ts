@@ -48,8 +48,8 @@ interface SidebarItem {
 
 type SidebarConfig = SidebarItem[]
 
-type Sidebar =
-  | {
+type Sidebar
+  = | {
     [key: string]: SidebarConfig
   }
   | false
