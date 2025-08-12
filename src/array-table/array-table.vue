@@ -80,6 +80,10 @@ const pageSize = ref(props.paginationProps?.pageSize ?? 10)
 const currentPage = ref(props.paginationProps?.currentPage ?? 1)
 
 function updateDataSource() {
+  if (!isArr(field.value)) {
+    dataSource.value = []
+    return
+  }
   if (props.pagination === false) {
     dataSource.value = [...field.value]
     return
@@ -136,6 +140,10 @@ async function onAddItemClick() {
       top: scrollWarpDOM.scrollHeight,
       behavior: 'smooth',
     })
+    return
+  }
+  if (!isArr(field.value)) {
+    currentPage.value = 1
     return
   }
   currentPage.value = Math.ceil(field.value.length / pageSize.value)
