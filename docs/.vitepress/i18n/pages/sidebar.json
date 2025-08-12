@@ -9,6 +9,11 @@
       "text": "组件",
       "link": "/component/overview",
       "activeMatch": "/component/"
+    },
+    {
+      "text": "@formily/grid 文档",
+      "link": "/formily-grid",
+      "activeMatch": "/formily-grid"
     }
   ]
 }

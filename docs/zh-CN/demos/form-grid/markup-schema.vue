@@ -31,7 +31,7 @@ async function onSubmit(value) {
           name="aaa"
           title="aaa"
           x-decorator="FormItem"
-          :x-decorator-props="{ gridSpan: 'span 2' }"
+          :x-decorator-props="{ 'data-grid-span': '2' }"
           x-component="Input"
         />
         <SchemaStringField
