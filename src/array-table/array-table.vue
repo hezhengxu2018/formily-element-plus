@@ -107,7 +107,7 @@ const columns = observable.computed(() => {
     .map((source, index) => ({ source, index }))
     .filter(({ source }) => source.display === 'visible' && isColumnComponent(source.schema))
     .map(({ source, index: key }) => {
-      const { name, columnProps, required } = source
+      const { name, columnProps, required, field } = source
       const { title, asterisk, ...restProps } = columnProps
       const props = {
         label: title,
@@ -117,6 +117,7 @@ const columns = observable.computed(() => {
       return {
         key,
         props,
+        field,
         asterisk: asterisk ?? required,
       }
     })
@@ -179,8 +180,11 @@ async function handleDragEnd(evt: { oldIndex: number, newIndex: number }) {
                   />
                 </ArrayBase.Item>
               </template>
-              <template v-if="column.asterisk" #header="{ column: col }">
-                <span>
+              <template #header="{ column: col }">
+                <template v-if="column.field.content?.header">
+                  <component :is="column.field.content.header" v-bind="{ ...col, field }" />
+                </template>
+                <span v-else-if="column.asterisk">
                   <span :class="`${prefixCls}-asterisk`">*</span>
                   {{ col.label }}
                 </span>
