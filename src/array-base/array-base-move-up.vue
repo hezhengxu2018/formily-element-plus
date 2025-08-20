@@ -3,7 +3,8 @@ import type { IArrayBaseOperationProps } from './types'
 import { ArrowUp } from '@element-plus/icons-vue'
 import { isArr } from '@formily/shared'
 import { ElLink } from 'element-plus'
-import { compatibleUnderlineProp, prefixCls, useArray, useIndex } from './utils'
+import { compatibleUnderlineFalse } from '../__builtins__'
+import { prefixCls, useArray, useIndex } from './utils'
 
 defineOptions({
   name: 'ArrayBaseMoveUp',
@@ -33,7 +34,7 @@ function handleClick() {
     :class="`${prefixCls}-move-up`"
     size="small"
     :icon="ArrowUp"
-    :underline="compatibleUnderlineProp()"
+    :underline="compatibleUnderlineFalse()"
     role="button"
     aria-label="上移条目"
     @click.stop="handleClick"

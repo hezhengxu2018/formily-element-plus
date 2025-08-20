@@ -3,7 +3,8 @@ import type { IArrayBaseAdditionProps } from './types'
 import { Plus } from '@element-plus/icons-vue'
 import { useField } from '@formily/vue'
 import { ElLink } from 'element-plus'
-import { compatibleUnderlineProp, getDefaultValue, prefixCls, useArray } from './utils'
+import { compatibleUnderlineFalse } from '../__builtins__'
+import { getDefaultValue, prefixCls, useArray } from './utils'
 
 defineOptions({
   name: 'ArrayBaseAddition',
@@ -34,7 +35,7 @@ function onAddItemClick() {
     v-if="base.field.value.pattern === 'editable'"
     :class="`${prefixCls}-addition`"
     :icon="Plus"
-    :underline="compatibleUnderlineProp()"
+    :underline="compatibleUnderlineFalse()"
     role="button"
     aria-label="添加条目"
     @click="onAddItemClick"

@@ -14,7 +14,7 @@ import {
 } from 'element-plus'
 import { differenceWith, remove, uniq, uniqWith, xor } from 'lodash-es'
 import { computed, nextTick, ref, watch } from 'vue'
-import { lt, stylePrefix } from '../__builtins__'
+import { compatibleRadioValue, lt, stylePrefix } from '../__builtins__'
 
 defineOptions({
   name: 'FSelectTable',
@@ -35,10 +35,6 @@ const props = withDefaults(defineProps<ISelectTableProps>(), {
 const emit = defineEmits(['change'])
 
 const elTableProps = useAttrs()
-
-function compatibleRadioValue(key: string) {
-  return lt(version, '2.6.0') ? { label: key } : { value: key }
-}
 
 const elTableRef = ref<TableInstance>()
 const rowKey = props.rowKey
