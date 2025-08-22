@@ -2,6 +2,21 @@
 
 
 
+## [2.6.2](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.6.1...v2.6.2) (2025-08-22)
+
+
+### Bug Fixes
+
+* **array-table:** 修复field值不存在时的异常报错 ([22a7712](https://github.com/hezhengxu2018/formily-element-plus/commit/22a7712fb5b062f376c0528bcabbf98cb62237e0))
+* **array-tabs:** 修复tab数字统计错误的问题 ([0baa160](https://github.com/hezhengxu2018/formily-element-plus/commit/0baa16073115c5204c71f358e40208979bb8d1ad))
+* **form-item:** 修复开发时的类型定义错误 ([ee8a981](https://github.com/hezhengxu2018/formily-element-plus/commit/ee8a981c42fdb252d029befbe5bc5fdebffb8730))
+* **form-layout:** 修复组件异常的attrs ([4458300](https://github.com/hezhengxu2018/formily-element-plus/commit/44583009ef0d1a13268535a7a6f0ef3a73fdd7b6))
+
+
+### Features
+
+* **array-table:** column支持header插槽 ([139ee94](https://github.com/hezhengxu2018/formily-element-plus/commit/139ee94a56c57bfd607ad9ce98da6b03bbe299a8))
+
 ## [2.6.1](https://github.com/hezhengxu2018/formily-element-plus/compare/v2.6.0...v2.6.1) (2025-07-24)
 
 
