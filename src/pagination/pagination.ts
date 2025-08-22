@@ -41,15 +41,15 @@ import Total from './components/total.vue'
  */
 const isAbsent = (v: unknown): v is undefined => typeof v !== 'number'
 
-type LayoutKey =
-  | 'prev'
-  | 'pager'
-  | 'next'
-  | 'jumper'
-  | '->'
-  | 'total'
-  | 'sizes'
-  | 'slot'
+type LayoutKey
+  = | 'prev'
+    | 'pager'
+    | 'next'
+    | 'jumper'
+    | '->'
+    | 'total'
+    | 'sizes'
+    | 'slot'
 
 export const paginationProps = buildProps({
   /**

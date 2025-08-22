@@ -73,9 +73,9 @@ export function useResizeObserver(
   callback: (entries: ResizeObserverEntry[], observer: ResizeObserver) => void,
   options?: ResizeObserverOptions,
 ): {
-    isSupported: boolean
-    stop: () => void
-  } {
+  isSupported: boolean
+  stop: () => void
+} {
   let observer: ResizeObserver | null = null
   const isSupported = globalThis.window !== undefined && 'ResizeObserver' in globalThis
 
